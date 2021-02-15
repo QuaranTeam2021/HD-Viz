@@ -1,8 +1,9 @@
 const express = require("express");
 const expFileUplaod = require('express-fileupload');
-const DR = require('./dr');
+const dr = require('./dr');
 const fs = require('fs');
 const path = require('path');
+const scatterplot = require('./scatterplot');
 
 var app = express();
 const router = express.Router();
@@ -71,7 +72,7 @@ function dimRed(req, res, next) {
     for (let i = 0; i < data.length; i++) {
         data[i] = data[i].split(',').map(x => +x);
     }
-    data = DR.PCA(data, 2);
+    data = dr.PCA(data, 2);
     req.data = data;
 
     next();
@@ -82,5 +83,5 @@ function showData(req, res) {
     let data = req.data;
     // Ritorna la pagina graph.html aggiungendo il grafico
     res.writeHead(200, { "Content-Type": 'text/html' });
-    res.end(data.toString());
+    res.end(scatterplot(data));
 }
