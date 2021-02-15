@@ -8,8 +8,11 @@
 	<p>Questa é una prova per lo sviluppo del PoC</p>
   <form action="/graph" method="post" enctype="multipart/form-data">
     <fieldset>
-      <label for="file">Inserisci un file csv:</label>
+      <label for="data_file">Inserisci un file csv:</label>
       <input type="file" name="data_file" id="inserimentoFile" accept=".csv, .json" />
+      <label for="grafico">Scegli il grafico</label>
+      <input type="radio" name="grafico" id="scp" /> Scatterplot
+      <input type="radio" name="grafico" id="scpm" /> ScP matrix
     </fieldset>
     <input type="submit" value="Carica" />
   </form>
