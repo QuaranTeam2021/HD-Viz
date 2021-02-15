@@ -1,6 +1,7 @@
 const fs = require("fs");
 const d3 = require("d3");
 const DR = require("./dr");
+const { datanull } = require("./preprocessing");
 console.log("START")
 
 /** Lettura file e creazione matrice di dati 
@@ -13,6 +14,8 @@ let data = fs.readFileSync('../data_test/iris_dataset.csv', 'utf-8')
 for (let i = 0; i < data.length; i++) {
     data[i] = data[i].split(',').map(x=>+x);
 }
+
+datanull(data);
 
 /** Calcolo riduzione dimensionale
  *  Possiamo ottente 2 o 3 dimensioni a seconda del grafico scelto
