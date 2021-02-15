@@ -1,6 +1,5 @@
 const pr = require("./preprocessing");
 const math = require("mathjs");
-global.fetch = require("node-fetch");
 
 /** data = matrice di dati N-dimensionali
  *  dim = numero di dimensioni a cui si vuole ridurre i dati

@@ -44,7 +44,7 @@ router.post('/graph', function (req, res, next) {
                 }
                 console.log(`Saved ${data_file.name}`);
             });
-            req.files.data_file = data_file.toString();
+            req.files.data_file = data_file.data.toString('utf8');
             next();
         }
     }
