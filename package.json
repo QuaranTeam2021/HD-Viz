@@ -1,9 +1,10 @@
 {
-  "name": "reduction",
+  "name": "hd-viz",
   "version": "0.0.2",
   "description": "",
   "main": "dReduction.js",
   "scripts": {
+    "start": "node src/index.js",
     "test": "mocha"
   },
   "author": "",
@@ -17,6 +18,8 @@
   },
   "dependencies": {
     "d3": "^6.5.0",
+    "express": "^4.17.1",
+    "express-fileupload": "^1.2.1",
     "mathjs": "^9.2.0",
     "node-fetch": "^2.6.1",
     "node-fetch-polyfill": "^2.0.6",
