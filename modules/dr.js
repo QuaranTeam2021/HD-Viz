@@ -1,4 +1,4 @@
-const pr = require("./preprocessing");
+const pr = require("./linearalgebra");
 const math = require("mathjs");
 global.fetch = require("node-fetch");
 
@@ -7,7 +7,7 @@ global.fetch = require("node-fetch");
  * */
 function PCA(data, dim = 2) {
     // Normalizzare i dati
-    const B = pr.norm(data); // <= DA CAMBIARE
+    const B = pr.norm(data); 
     
     // Calcolo matrice di covarianza
     const cov = pr.cov(B);
