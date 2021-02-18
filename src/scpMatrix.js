@@ -6,7 +6,7 @@ const scpMatrix = function (dataFile, cols) {
 	var size = 180;
 	var padding = 20;
 	dataFile = d3.csvFormatRows(dataFile);
-	var data = d3.csvParseRows(dataFile);
+	var data = d3.csvParse(dataFile, d3.autoType);
 	cols = cols.replace("\r", "").split(',');
 	let columns = cols.filter(d => d !== "species");
 
@@ -57,7 +57,7 @@ const scpMatrix = function (dataFile, cols) {
 	y.select(".domain").remove();
 	y.selectAll(".tick line").attr("stroke", "#ddd");
 
-
+	
 	var colors = d3.scaleOrdinal()
 		.domain(data.map(d => d.species))
 		.range(d3.schemeCategory10);

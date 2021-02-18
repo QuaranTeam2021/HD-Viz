@@ -71,13 +71,21 @@ function dimRed(req, res, next) {
     let data = req.files.data_file;
     // Conversione string => float
     data = data.split("\n");
+    let temp = [];
+    const colNumber = data[0].split(',').length - 1; // solo per iris
     for (let i = 1; i < data.length; i++) {
-        data[i] = data[i].split(',').map(x => +x);
+        data[i] = data[i].split(',');
+        temp[i] = data[i][colNumber]; // solo per iris
+        data[i] = data[i].map(x => +x);
     }
     if(req.body.grafico !== 'scpm')
         data = dr.PCA(data, 2);
+    // solo per iris
+    for(let i = 1; i < data.length; i++) {
+        data[i][colNumber] = temp[i];
+    }
     req.columns = data[0];
-    data = data.slice(1);
+    data[0] = req.columns.split(',');
     req.data = data;
 
     next();
