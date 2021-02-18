@@ -46,7 +46,8 @@ const scatterPlot = function (dataFile) {
     .style("fill", "#69b3a2")
 
   // console.log(document.textContent);
-  return DOM.serialize();
+  // return DOM.serialize();
+  return svg;
 }
 
 module.exports = scatterPlot;
