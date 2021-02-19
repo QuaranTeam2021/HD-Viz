@@ -119,9 +119,10 @@ function showData(req, res) {
     let data = req.data;
     // Ritorna la pagina graph.html aggiungendo il grafico
     res.writeHead(200, { "Content-Type": 'text/html' });
-    res.end(scatterplot(data));
+    res.end(scatterplot(data, false));
 }
 
 function returnPageString(req, res) {
-    return res.json(JSON.stringify({ svg: scatterplot(req.data).toString() }));
+    let svg = scatterplot(req.data, true);
+    return res.json({ svg });
 }

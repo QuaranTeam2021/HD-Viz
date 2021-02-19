@@ -1,10 +1,10 @@
 
-function CompleteImport({ className, onSubmit }) {
+function CompleteImport({ className, onSubmit, onChange }) {
 	return (
 		<form onSubmit={onSubmit} className={className}>
 			<fieldset>
 				<label htmlFor="file">Inserisci un file csv:</label>
-				<input type="file" name="data_file" id="inserimentoFile" accept=".csv, .json" />
+				<input type="file" name="data_file" id="inserimentoFile" accept=".csv, .json" onChange={onChange}/>
 				<label htmlFor="grafico">Scegli il grafico</label>
 				<input type="radio" name="grafico" id="scp" /> Scatterplot
       			<input type="radio" name="grafico" id="scpm" /> ScP matrix
