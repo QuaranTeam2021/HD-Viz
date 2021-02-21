@@ -7,8 +7,9 @@ import axios from 'axios';
 
 function DataInsert() {
 	const [file, setFile] = useState('');
-	const [grafico, setGrafico] = useState('');
+	const [grafici, setGrafici] = useState([]);
 	const [message, setMessage] = useState('')
+	const [addGraph, setAddGraph] = useState(false)
 
 	const onChange = e => {
 		setFile(e.target.files[0]);
@@ -21,7 +22,7 @@ function DataInsert() {
 				headers: { 'Content-Type': 'multipart/form-data' }
 			});
 			let { svg } = res.data;
-			setGrafico(svg);
+			updateGrafici([...grafici, svg]);
 		} catch (err) {
 			if (err.status === 400 || err.status === 500) {
 				setMessage(err.data.msg);
@@ -44,12 +45,20 @@ function DataInsert() {
 		onSubmit(formData);
 	}
 
+	const updateGrafici = graphUpdated => {
+		if (graphUpdated.length >= 1)
+			setAddGraph(true);
+		else
+			setAddGraph(false);
+		setGrafici(graphUpdated);
+	}
+
 	return (
 		<>
 			{message ? <Message msg={message} /> : null}
-			<CompleteImport className="App-import-form" onSubmit={onSubmitComplete} onChange={onChange}/>			
-			<ShortcutImport className="App-import-form" onSubmit={onSubmitBypass} />
-			{grafico ? <Graph svg={grafico}/> : null}
+			<CompleteImport className="App-import-form" onSubmit={onSubmitComplete} onChange={onChange} addGraph={addGraph} />
+			<ShortcutImport className="App-import-form" onSubmit={onSubmitBypass} addGraph={addGraph} />
+			{grafici.map((grafico, i) => <Graph key={i} svg={grafico} />)}
 		</>
 	)
 }
