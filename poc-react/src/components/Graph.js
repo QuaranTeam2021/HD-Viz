@@ -1,11 +1,11 @@
-import React from 'react'
-
-function Graph({ grafico }) {
+function Graph({ svg, onDelete, index }) {
+	const createMarkup = () => {
+		return { __html: svg }
+	}
 	return (
-		<>
-			{grafico}
-		</>
+		<div>
+			<button onClick={() => onDelete(i)}>RIMUOVI</button>
+			<div dangerouslySetInnerHTML={createMarkup()}></div>
+		</div>
 	)
 }
-
-export default Graph;
