@@ -1,4 +1,3 @@
-
 function ShortcutImport({ className, onSubmit, addGraph }) {
 	const aggiungi = addGraph ? "Aggiungi predifinito" : "File predefinito";
 	return (

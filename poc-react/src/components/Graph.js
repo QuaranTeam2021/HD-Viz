@@ -13,5 +13,3 @@ function Graph({ svg, onDelete, index }) {
 		</div>
 	)
 }
-
-export default Graph;
