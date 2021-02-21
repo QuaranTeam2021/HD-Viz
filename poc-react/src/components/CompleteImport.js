@@ -1,5 +1,6 @@
 
-function CompleteImport({ className, onSubmit, onChange }) {
+function CompleteImport({ className, onSubmit, onChange, addGraph }) {
+	const aggiungi = addGraph ? "Aggiungi" : "Carica";
 	return (
 		<form onSubmit={onSubmit} className={className}>
 			<fieldset>
@@ -9,7 +10,7 @@ function CompleteImport({ className, onSubmit, onChange }) {
 				<input type="radio" name="grafico" id="scp" /> Scatterplot
       			<input type="radio" name="grafico" id="scpm" /> ScP matrix
 			</fieldset>
-			<input type="submit" value="Carica" />
+			<input type="submit" value={aggiungi} />
 		</form>
 	)
 }
