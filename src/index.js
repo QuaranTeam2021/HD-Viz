@@ -4,6 +4,7 @@ const dr = require('./dr');
 const fs = require('fs');
 const path = require('path');
 const scatterplot = require('./scatterplot');
+const scpMatrix = require('./scpMatrix')
 
 var app = express();
 const router = express.Router();
@@ -25,10 +26,11 @@ router.get('/graph', (req, res) => {
 router.post('/graph', function (req, res, next) {
     // Permette di caricare un file arbitrario senza dover sceglierlo ogni volta
     if (req.body.bypass == "on") { 
-        fs.readFile(path.join(__dirname, '../data_test', 'iris.csv'), 'utf8', (err, data) => {
+        fs.readFile(path.join(__dirname, '../data_test', 'iris_dataset.csv'), 'utf8', (err, data) => {
             if (err) console.error(err);
             req.files = new Object();
             req.files.data_file = data;
+            req.body.grafico = 'scpm';
             next();
         });
     }
@@ -105,10 +107,21 @@ function dimRed(req, res, next) {
     let data = req.files.data_file;
     // Conversione string => float
     data = data.split("\n");
-    for (let i = 0; i < data.length; i++) {
-        data[i] = data[i].split(',').map(x => +x);
+    let temp = [];
+    const colNumber = data[0].split(',').length - 1; // solo per iris
+    for (let i = 1; i < data.length; i++) {
+        data[i] = data[i].split(',');
+        temp[i] = data[i][colNumber]; // solo per iris
+        data[i] = data[i].map(x => +x);
     }
-    data = dr.PCA(data, 2);
+    if(req.body.grafico !== 'scpm')
+        data = dr.PCA(data, 2);
+    // solo per iris
+    for(let i = 1; i < data.length; i++) {
+        data[i][colNumber] = temp[i];
+    }
+    req.columns = data[0];
+    data[0] = req.columns.split(',');
     req.data = data;
 
     next();
@@ -117,9 +130,14 @@ function dimRed(req, res, next) {
 // Carica pagina
 function showData(req, res) {
     let data = req.data;
+    let columns = req.columns;
+    let graph_type = req.body.grafico;
     // Ritorna la pagina graph.html aggiungendo il grafico
     res.writeHead(200, { "Content-Type": 'text/html' });
-    res.end(scatterplot(data, false));
+    if (graph_type === "scp")
+        res.end(scatterplot(data, false));
+    else
+        res.end(scpMatrix(data, columns));
 }
 
 function returnPageString(req, res) {
