@@ -3,7 +3,7 @@ const jsdom = require('jsdom');
 const fs = require('fs');
 
 // set the dimensions and margins of the graph
-const scatterPlot = function (dataFile) {
+const scatterPlot = function (dataFile, isAPI) {
   var margin = { top: 10, right: 30, bottom: 30, left: 60 },
     width = 600 - margin.left - margin.right,
     height = 500 - margin.top - margin.bottom;
@@ -46,7 +46,10 @@ const scatterPlot = function (dataFile) {
     .style("fill", "#69b3a2")
 
   // console.log(document.textContent);
-  return DOM.serialize();
+  if(isAPI)
+    return document.body.lastChild.outerHTML;
+  else 
+    return DOM.serialize();
 }
 
 module.exports = scatterPlot;
