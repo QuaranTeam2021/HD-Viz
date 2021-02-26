@@ -30,7 +30,8 @@ router.post('/graph', function (req, res, next) {
             if (err) console.error(err);
             req.files = new Object();
             req.files.data_file = data;
-            req.body.grafico = 'scpm';
+            req.body.select_grafico = 'scpm';
+            req.body.riduzione = 'pca';
             next();
         });
     }
@@ -59,10 +60,12 @@ router.post('/graph', function (req, res, next) {
 
 apiRouter.post('/graph', function (req, res, next) {
     if (req.body.bypass == "on") {
-        fs.readFile(path.join(__dirname, '../data_test', 'iris.csv'), 'utf8', (err, data) => {
+        fs.readFile(path.join(__dirname, '../data_test', 'iris_dataset.csv'), 'utf8', (err, data) => {
             if (err) console.error(err);
             req.files = new Object();
             req.files.data_file = data;
+            req.body.select_grafico = 'scp';
+            req.body.riduzione = 'pca';
             next();
         });
     }
@@ -114,8 +117,10 @@ function dimRed(req, res, next) {
         temp[i] = data[i][colNumber]; // solo per iris
         data[i] = data[i].map(x => +x);
     }
-    if(req.body.grafico !== 'scpm')
-        data = dr.PCA(data, 2);
+    /* if(req.body.select_grafico !== 'scpm') {
+        data = reduce(data, req.body.riduzione, 2);
+        if (data === false) return res.status(500).json({ msg: "Algoritmo di riduzione non ancora implementato" });
+    } */
     // solo per iris
     for(let i = 1; i < data.length; i++) {
         data[i][colNumber] = temp[i];
@@ -131,16 +136,49 @@ function dimRed(req, res, next) {
 function showData(req, res) {
     let data = req.data;
     let columns = req.columns;
-    let graph_type = req.body.grafico;
+    let graph_type = req.body.select_grafico;
     // Ritorna la pagina graph.html aggiungendo il grafico
-    res.writeHead(200, { "Content-Type": 'text/html' });
-    if (graph_type === "scp")
-        res.end(scatterplot(data, false));
+    let result = plotData(data, graph_type, columns, false);
+    if (result === false)
+        res.send(400, 'Grafico non supportato')
     else
-        res.end(scpMatrix(data, columns));
+        res.writeHead(200, { "Content-Type": 'text/html' }).end(result);
 }
 
 function returnPageString(req, res) {
-    let svg = scatterplot(req.data, true);
+    let svg = plotData(req.data, req.body.select_grafico, req.columns, true);
+    if (svg === false)
+        return res.status(400).json({ msg: 'Grafico non supportato' });
     return res.json({ svg });
+}
+
+function plotData(data, select_grafico, columns, isAPI) {
+    let result;
+    switch (select_grafico) {
+        case 'scp':
+            try{result = scatterplot(data, isAPI);}
+            catch(err){result = { err };}
+            break;
+        case 'scpm':
+            try{result = scpMatrix(data, columns, isAPI);}
+            catch(err){result = { err };}
+            break;
+        default:
+            result = false;
+            break;
+    }
+    return result;
+}
+
+function reduce(data, red, dim) {
+    let result;
+    switch (red) {
+        case "pca":
+            result = dr.PCA(data, dim);
+            break;
+        default:
+            result = false;
+            break;
+    }
+    return result;
 }

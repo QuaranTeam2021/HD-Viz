@@ -1,27 +1,27 @@
 
-function CompleteImport({ className, onSubmit, onChange, addGraph }) {
+function CompleteImport({ className, onSubmit, onChangeFile, onChangeSelectGrafico, onChangeRiduzione, addGraph }) {
 	const aggiungi = addGraph ? "Aggiungi" : "Visualizza";
 	return (
 		<form onSubmit={onSubmit} className={className}>
 			<fieldset>
 				<legend>Importazione dati</legend>
 				<label htmlFor="file">Seleziona file: </label>
-				<input type="file" name="data_file" id="inserimentoFile" accept=".csv, .json, .tsv" onChange={onChange} />
+				<input type="file" name="data_file" id="inserimentoFile" accept=".csv, .json, .tsv" onChange={onChangeFile} />
 			</fieldset>
 			<fieldset id="visualizzazione">
 				<legend>Impostazione visualizzione</legend>
 				<div>
 					<label htmlFor="grafico">Seleziona grafico </label>
-					<select name="grafico">
-						<option>Scatter plot Matrix</option>
-						<option>Scatter plot</option>
-						<option>Heat Map</option>
+					<select name="grafico" onChange={onChangeSelectGrafico}>
+						<option value="scpm">Scatter plot Matrix</option>
+						<option value="scp">Scatter plot</option>
+						<option value="hm">Heat Map</option>
 					</select>
 				</div>
 				<div>
 					<label htmlFor="riduzione">Seleziona algoritmo di riduzione </label>
-					<select name="riduzione">
-						<option>PCA</option>
+					<select name="riduzione" onChange={onChangeRiduzione}>
+						<option value="pca">PCA</option>
 					</select>
 				</div>
 			</fieldset>

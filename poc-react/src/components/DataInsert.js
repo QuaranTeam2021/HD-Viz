@@ -7,13 +7,21 @@ import axios from 'axios';
 
 function DataInsert() {
 	const [file, setFile] = useState('');
+	const [selectGrafico, setSelectGrafico] = useState('scpm');
+	const [riduzione, setRiduzione] = useState('pca');
 	const [grafici, setGrafici] = useState([]);
-	const [message, setMessage] = useState('')
-	const [addGraph, setAddGraph] = useState(false)
+	const [message, setMessage] = useState('');
+	const [addGraph, setAddGraph] = useState(false);
 
-	const onChange = e => {
+	const onChangeFile = e => {
 		setFile(e.target.files[0]);
 	};
+	const onChangeSelectGrafico = e => {
+		setSelectGrafico(e.target.value);
+	};
+	const onChangeRiduzione = e => {
+		setRiduzione(e.target.value);
+	}
 
 	const onSubmit = async formData => {
 		let res;
@@ -23,6 +31,7 @@ function DataInsert() {
 			});
 			let { svg } = res.data;
 			updateGrafici([...grafici, svg]);
+			setMessage(`Aggiunto ${grafici[grafici.length-1]}`)
 		} catch (err) {
 			if (err.status === 400 || err.status === 500) {
 				setMessage(err.data.msg);
@@ -36,6 +45,8 @@ function DataInsert() {
 		e.preventDefault();
 		const formData = new FormData();
 		formData.append('data_file', file);
+		formData.append('select_grafico', selectGrafico);
+		formData.append('riduzione', riduzione);
 		onSubmit(formData);
 	}
 	const onSubmitBypass = e => {
@@ -60,7 +71,7 @@ function DataInsert() {
 	return (
 		<>
 			{message ? <Message msg={message} /> : null}
-			<CompleteImport className="App-import-form" onSubmit={onSubmitComplete} onChange={onChange} addGraph={addGraph}/>
+			<CompleteImport className="App-import-form" onSubmit={onSubmitComplete} onChangeFile={onChangeFile} onChangeSelectGrafico={onChangeSelectGrafico} onChangeRiduzione={onChangeRiduzione} addGraph={addGraph}/>
 			<ShortcutImport className="App-import-form" onSubmit={onSubmitBypass}  addGraph={addGraph}/>
 			{grafici.map((grafico, i) => <Graph key={i} svg={grafico} onDelete={deleteGrafico} index={i}/>)}
 		</>
