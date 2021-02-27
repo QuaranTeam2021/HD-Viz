@@ -51,6 +51,10 @@
   justify-self: center;
 }
 
+.App-import-form2 {
+  display: none;
+}
+
 .App-import-form select {
   background-color: #ddd;
   padding: 0.5em;

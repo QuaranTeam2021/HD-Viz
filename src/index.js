@@ -111,22 +111,25 @@ function dimRed(req, res, next) {
     // Conversione string => float
     data = data.split("\n");
     let temp = [];
-    const colNumber = data[0].split(',').length - 1; // solo per iris
+    // Estrazione intestazione colonne
+    req.columns = data[0];
+    data[0] = req.columns.split(',');
+    let colNumber = data[0].length - 1; // solo per iris
     for (let i = 1; i < data.length; i++) {
         data[i] = data[i].split(',');
         temp[i] = data[i][colNumber]; // solo per iris
         data[i] = data[i].map(x => +x);
     }
-    /* if(req.body.select_grafico !== 'scpm') {
+    if(req.body.select_grafico !== 'scpm') {
         data = reduce(data, req.body.riduzione, 2);
         if (data === false) return res.status(500).json({ msg: "Algoritmo di riduzione non ancora implementato" });
-    } */
-    // solo per iris
-    for(let i = 1; i < data.length; i++) {
+    }
+
+    colNumber = data[0].length;
+    // reinserimento legenda nei dati per Scatter plot Matrix
+    for(let i = 0; i < data.length; i++) {
         data[i][colNumber] = temp[i];
     }
-    req.columns = data[0];
-    data[0] = req.columns.split(',');
     req.data = data;
 
     next();
@@ -140,7 +143,7 @@ function showData(req, res) {
     // Ritorna la pagina graph.html aggiungendo il grafico
     let result = plotData(data, graph_type, columns, false);
     if (result === false)
-        res.send(400, 'Grafico non supportato')
+        res.send(400, 'Grafico non supportato');
     else
         res.writeHead(200, { "Content-Type": 'text/html' }).end(result);
 }

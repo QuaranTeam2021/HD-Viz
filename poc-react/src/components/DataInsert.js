@@ -72,7 +72,7 @@ function DataInsert() {
 		<>
 			{message ? <Message msg={message} /> : null}
 			<CompleteImport className="App-import-form" onSubmit={onSubmitComplete} onChangeFile={onChangeFile} onChangeSelectGrafico={onChangeSelectGrafico} onChangeRiduzione={onChangeRiduzione} addGraph={addGraph}/>
-			<ShortcutImport className="App-import-form" onSubmit={onSubmitBypass}  addGraph={addGraph}/>
+			<ShortcutImport className="App-import-form2" onSubmit={onSubmitBypass}  addGraph={addGraph}/>
 			{grafici.map((grafico, i) => <Graph key={i} svg={grafico} onDelete={deleteGrafico} index={i}/>)}
 		</>
 	)
