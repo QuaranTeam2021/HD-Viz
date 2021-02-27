@@ -1,4 +1,4 @@
-const DR = require("../modules/dr");
+const DR = require("../src/dr");
 const expect = require("chai").expect;
 const math = require("mathjs");
 

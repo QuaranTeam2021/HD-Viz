@@ -1,4 +1,4 @@
-const pr = require("../modules/preprocessing");
+const pr = require("../src/preprocessing");
 const expect = require("chai").expect;
 const math = require("mathjs");
 
