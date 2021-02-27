@@ -48,6 +48,7 @@ router.post('/graph', function (req, res, next) {
                 }
                 console.log(`Saved ${data_file.name}`);
             });
+            req.filename = data_file.name;
             req.files.data_file = data_file.data.toString('utf8');
             next();
         }
@@ -80,10 +81,11 @@ apiRouter.post('/graph', function (req, res, next) {
                 if (err) {
                     console.error(err);
                     // return res.sendStatus(500);
-                    return res.status(500).json({ msg: "Errore interno" });
+                    return res.status(500).json({ msg: "Errore durante il salvataggio del file" });
                 }
-                console.log(`Saved ${data_file.name}`);
+                // console.log(`Saved ${data_file.name}`);
             });
+            req.filename = data_file.name;
             req.files.data_file = data_file.data.toString('utf8');
             next();
         }
@@ -120,9 +122,12 @@ function dimRed(req, res, next) {
         temp[i] = data[i][colNumber]; // solo per iris
         data[i] = data[i].map(x => +x);
     }
-    if(req.body.select_grafico !== 'scpm') {
+    if (req.body.select_grafico !== 'scpm') {
         data = reduce(data, req.body.riduzione, 2);
-        if (data === false) return res.status(500).json({ msg: "Algoritmo di riduzione non ancora implementato" });
+        if (data === false)
+            return res.status(500).json({ msg: "Algoritmo di riduzione non ancora implementato" });
+        else if (data.err !== undefined)
+            return res.status(500).json({ msg: "Errore nella riduzione dei dati: " + data.err.message });
     }
 
     colNumber = data[0].length;
@@ -152,7 +157,9 @@ function returnPageString(req, res) {
     let svg = plotData(req.data, req.body.select_grafico, req.columns, true);
     if (svg === false)
         return res.status(400).json({ msg: 'Grafico non supportato' });
-    return res.json({ svg });
+    else if (svg.err !== undefined)
+        return res.status(500).json({ msg: "Errore durante la creazione del grafico: "+svg.err.message });
+    return res.json({ svg, msg: `Aggiunto ${req.filename}` });
 }
 
 function plotData(data, select_grafico, columns, isAPI) {
@@ -177,7 +184,8 @@ function reduce(data, red, dim) {
     let result;
     switch (red) {
         case "pca":
-            result = dr.PCA(data, dim);
+            try { result = dr.PCA(data, dim); }
+            catch (err) { result = { err }; }
             break;
         default:
             result = false;

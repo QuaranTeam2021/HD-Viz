@@ -29,12 +29,13 @@ function DataInsert() {
 			res = await axios.post('/api/graph', formData, {
 				headers: { 'Content-Type': 'multipart/form-data' }
 			});
-			let { svg } = res.data;
+			let { svg, msg } = res.data;
 			updateGrafici([...grafici, svg]);
-			setMessage(`Aggiunto ${grafici[grafici.length-1]}`)
+			setMessage(msg);
 		} catch (err) {
-			if (err.status === 400 || err.status === 500) {
-				setMessage(err.data.msg);
+			if (err.response.status === 400 || err.response.status === 500) {
+				setMessage(err.response.data.msg);
+				// setMessage(err.response.data.msg.message);
 			}
 			console.error(err);
 		}
