@@ -10,9 +10,23 @@
     <fieldset>
       <label for="data_file">Inserisci un file csv:</label>
       <input type="file" name="data_file" id="inserimentoFile" accept=".csv, .json" />
-      <label for="grafico">Scegli il grafico</label>
-      <input type="radio" name="grafico" id="scp" /> Scatterplot
-      <input type="radio" name="grafico" id="scpm" /> ScP matrix
+      <fieldset id="visualizzazione">
+        <legend>Impostazione visualizzione</legend>
+        <div>
+          <label htmlFor="grafico">Seleziona grafico </label>
+          <select name="grafico">
+            <option value="scpm">Scatter plot Matrix</option>
+            <option value="scp">Scatter plot</option>
+            <option value="hm">Heat Map</option>
+          </select>
+        </div>
+        <div>
+          <label htmlFor="riduzione">Seleziona algoritmo di riduzione </label>
+          <select name="riduzione">
+            <option value="pca">PCA</option>
+          </select>
+        </div>
+      </fieldset>
     </fieldset>
     <input type="submit" value="Carica" />
   </form>
