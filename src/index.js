@@ -4,7 +4,7 @@ const dr = require('./dr');
 const fs = require('fs');
 const path = require('path');
 const scatterplot = require('./scatterplot');
-const scpMatrix = require('./scpMatrix')
+const scpMatrix = require('./scpMatrix');
 
 var app = express();
 const router = express.Router();
@@ -115,7 +115,8 @@ function dimRed(req, res, next) {
     let temp = [];
     // Estrazione intestazione colonne
     req.columns = data[0];
-    data[0] = req.columns.split(',');
+    req.columns = (req.columns).replace("\r", "").split(',');
+    data[0] = req.columns;
     let colNumber = data[0].length - 1; // solo per iris
     for (let i = 1; i < data.length; i++) {
         data[i] = data[i].split(',');
@@ -130,9 +131,9 @@ function dimRed(req, res, next) {
             return res.status(500).json({ msg: "Errore nella riduzione dei dati: " + data.err.message });
     }
 
-    colNumber = data[0].length;
+    colNumber = req.body.select_grafico !== 'scpm' ? data[0].length : data[0].length - 1;
     // reinserimento legenda nei dati per Scatter plot Matrix
-    for(let i = 0; i < data.length; i++) {
+    for(let i = 1; i < data.length; i++) {
         data[i][colNumber] = temp[i];
     }
     req.data = data;

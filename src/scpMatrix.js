@@ -7,7 +7,6 @@ const scpMatrix = function (dataFile, cols, isAPI) {
 	var padding = 20;
 	dataFile = d3.csvFormatRows(dataFile);
 	var data = d3.csvParse(dataFile, d3.autoType);
-	cols = cols.replace("\r", "").split(',');
 	let columns = cols.filter(d => d !== "species");
 
 	let html_string = readHtmlFile('public/graph.html');
