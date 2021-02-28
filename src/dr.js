@@ -1,37 +1,18 @@
 const pr = require("./preprocessing");
+const alg = require("./linearalgebra");
 const math = require("mathjs");
-
-/** Se presenti intestazioni colonne e/o colonne di stringhe
- * le elimino
- */
-
-function wipeInput(data) {
-  let isData = false;
-  /* Se la prima riga sono tutti NaN la elimino*/
-  for (let i = 1; i < data[0].length; i++) {
-    if(!isNaN(data[0][i])) isData = true;
-    if(!isData) data = data.slice(1);
-  }
-  const colNumber = data[0].length - 1;
-  if (isNaN(data[0][colNumber])) {
-    for (let i = 0; i < data.length; i++) {
-      data[i].pop();
-    }
-}
- return data;
-}
 
 /** data = matrice di dati N-dimensionali
  *  dim = numero di dimensioni a cui si vuole ridurre i dati
  * */
 function PCA(data, dim = 2) {  
-  data = wipeInput(data);
+  data = pr.wipeInput(data);
 
   // Normalizzare i dati
-  const B = pr.norm(data); // <= DA CAMBIARE
+  const B = alg.norm(data); // <= DA CAMBIARE
   
   // Calcolo matrice di covarianza
-  const cov = pr.cov(B);
+  const cov = alg.cov(B);
   
   // Calcolo autovalori e autovettori 
   const ans = math.eigs(cov);

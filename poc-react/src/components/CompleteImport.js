@@ -15,7 +15,6 @@ function CompleteImport({ className, onSubmit, onChangeFile, onChangeSelectGrafi
 					<select name="grafico" onChange={onChangeSelectGrafico}>
 						<option value="scpm">Scatter plot Matrix</option>
 						<option value="scp">Scatter plot</option>
-						<option value="hm">Heat Map</option>
 					</select>
 				</div>
 				<div>
