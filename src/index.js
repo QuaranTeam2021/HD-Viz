@@ -120,7 +120,7 @@ function dimRed(req, res, next) {
     let colNumber = data[0].length - 1; // solo per iris
     for (let i = 1; i < data.length; i++) {
         data[i] = data[i].split(',');
-        temp[i] = data[i][colNumber]; // solo per iris
+        temp[i] = data[i][colNumber].replace("\r", ""); // solo per iris
         data[i] = data[i].map(x => +x);
     }
     if (req.body.select_grafico !== 'scpm') {
@@ -133,6 +133,7 @@ function dimRed(req, res, next) {
 
     colNumber = req.body.select_grafico !== 'scpm' ? data[0].length : data[0].length - 1;
     // reinserimento legenda nei dati per Scatter plot Matrix
+    
     for(let i = 1; i < data.length; i++) {
         data[i][colNumber] = temp[i];
     }

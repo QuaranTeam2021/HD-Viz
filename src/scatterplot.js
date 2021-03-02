@@ -14,25 +14,30 @@ const scatterPlot = function (dataFile, isAPI) {
   let document = svgDOM(DOM.window.document, width, height, margin);
   var svg = d3.select(document.body).select("svg");
 
-  //Read the data
+  // Read the data
   dataFile = d3.csvFormatRows(dataFile);
   var data = d3.csvParseRows(dataFile);
 
-  // Add X axis
-  var x = d3.scaleLinear()
+  // Add scale for each axis 
+  var xScale = d3.scaleLinear()
     .domain(d3.extent(data, d => +d[0]))
-    .range([0, width]);
-  svg.append("g")
-    .attr("transform", "translate(" + margin.left +"," + height + ")")
-    .call(d3.axisBottom(x));
+    .range([50, width]);
 
-  // Add Y axis
-  var y = d3.scaleLinear()
+  var yScale = d3.scaleLinear()
     .domain(d3.extent(data, d => +d[1]))
-    .range([height, 0]);
+    .range([height, 50]);
+
+  var colors = d3.scaleOrdinal()
+    .domain(data.map(d => d[2]))
+    .range(d3.schemeCategory10);
+
+  svg.append("g")
+    .attr("transform", "translate(" + (margin.left - 50) +"," + height + ")")
+    .call(d3.axisBottom(xScale));
+
   svg.append("g")
     .attr("transform", "translate(" + margin.left + ",0)")
-    .call(d3.axisLeft(y));
+    .call(d3.axisLeft(yScale));
 
   // Add dots
   svg.append('g')
@@ -40,10 +45,10 @@ const scatterPlot = function (dataFile, isAPI) {
     .data(data)
     .enter()
     .append("circle")
-    .attr("cx", d => x(d[0]) )
-    .attr("cy", d => y(d[1]) )
-    .attr("r", 10)
-    .style("fill", "#69b3a2")
+    .attr("cx", d => xScale(d[0]))
+    .attr("cy", d => yScale(d[1]))
+    .attr("r", 7)
+    .attr("fill", d => colors(d[2]));
 
   // console.log(document.textContent);
   if(isAPI)
