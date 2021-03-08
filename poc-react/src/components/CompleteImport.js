@@ -1,12 +1,12 @@
 
-function CompleteImport({ className, onSubmit, onChangeFile, onChangeSelectGrafico, onChangeRiduzione, addGraph }) {
+function CompleteImport({ className, onSubmit, onChangeFile, onClickFile, onChangeSelectGrafico, onChangeRiduzione, addGraph }) {
 	const aggiungi = addGraph ? "Aggiungi" : "Visualizza";
 	return (
 		<form onSubmit={onSubmit} className={className}>
 			<fieldset>
 				<legend>Importazione dati</legend>
 				<label htmlFor="file">Seleziona file: </label>
-				<input type="file" name="data_file" id="inserimentoFile" accept=".csv, .json, .tsv" onChange={onChangeFile} />
+				<input type="file" name="data_file" id="inserimentoFile" accept=".csv, .json, .tsv" onChange={onChangeFile} onClick={onClickFile}/>
 			</fieldset>
 			<fieldset id="visualizzazione">
 				<legend>Impostazione visualizzione</legend>

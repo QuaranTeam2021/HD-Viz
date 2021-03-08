@@ -16,6 +16,10 @@ function DataInsert() {
 	const onChangeFile = e => {
 		setFile(e.target.files[0]);
 	};
+	const onClickFile = e => {
+		e.target.value = null;
+		setFile(e.target.value);
+	}
 	const onChangeSelectGrafico = e => {
 		setSelectGrafico(e.target.value);
 	};
@@ -33,7 +37,10 @@ function DataInsert() {
 			updateGrafici([...grafici, svg]);
 			setMessage(msg);
 		} catch (err) {
-			if (err.response.status === 400 || err.response.status === 500) {
+			if (err.response === undefined) {
+				setMessage("Il file é stato modificato su disco. Seleziona nuovamente il file da caricare");
+			}
+			else if (err.response.status === 400 || err.response.status === 500) {
 				setMessage(err.response.data.msg);
 				// setMessage(err.response.data.msg.message);
 			}
@@ -72,7 +79,7 @@ function DataInsert() {
 	return (
 		<>
 			{message ? <Message msg={message} /> : null}
-			<CompleteImport className="App-import-form" onSubmit={onSubmitComplete} onChangeFile={onChangeFile} onChangeSelectGrafico={onChangeSelectGrafico} onChangeRiduzione={onChangeRiduzione} addGraph={addGraph}/>
+			<CompleteImport className="App-import-form" onSubmit={onSubmitComplete} onChangeFile={onChangeFile} onClickFile={onClickFile} onChangeSelectGrafico={onChangeSelectGrafico} onChangeRiduzione={onChangeRiduzione} addGraph={addGraph}/>
 			<ShortcutImport className="App-import-form2" onSubmit={onSubmitBypass}  addGraph={addGraph}/>
 			{grafici.map((grafico, i) => <Graph key={i} svg={grafico} onDelete={deleteGrafico} index={i}/>)}
 		</>
