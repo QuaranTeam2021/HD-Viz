@@ -1,86 +1,24 @@
 const express = require("express");
 const expFileUplaod = require('express-fileupload');
 const dr = require('./dr');
-const fs = require('fs');
 const path = require('path');
 const scatterplot = require('./scatterplot');
 const scpMatrix = require('./scpMatrix');
 
 var app = express();
-const router = express.Router();
 const apiRouter = express.Router();
 const port = 5000;
-const rootPath = path.join(__dirname, '..', 'public');
-
-// Pagina iniziale
-router.get('/', (req, res) => {
-    res.sendFile('index.html', { root: rootPath });
-});
-
-// Cercare di accedere normalmente alla pagina del grafico ritorna alla scelta dei dati
-router.get('/graph', (req, res) => {
-    res.redirect('/');
-});
-
-// Save data from post form
-router.post('/graph', function (req, res, next) {
-    // Permette di caricare un file arbitrario senza dover sceglierlo ogni volta
-    if (req.body.bypass == "on") { 
-        fs.readFile(path.join(__dirname, '../data_test', 'iris_dataset.csv'), 'utf8', (err, data) => {
-            if (err) console.error(err);
-            req.files = new Object();
-            req.files.data_file = data;
-            req.body.select_grafico = 'scpm';
-            req.body.riduzione = 'pca';
-            next();
-        });
-    }
-    else if (req.files === null || req.files === undefined) return res.sendStatus(400);
-        
-    // per ora salva il file in una cartella, possibile anche non salvando il file
-    else if (req.files.data_file) { 
-        let data_file = req.files.data_file;
-        if(req.body.bypass !== "on") {
-            data_file.mv(path.join(__dirname, '../data_test', data_file.name), (err) => {
-                if (err) {
-                    console.error(err);
-                    return res.sendStatus(500);
-                }
-                console.log(`Saved ${data_file.name}`);
-            });
-            req.filename = data_file.name;
-            req.files.data_file = data_file.data.toString('utf8');
-            next();
-        }
-    }
-    else {
-        console.log("data_file undefined");
-        res.send("Ayo bruv something's wrong with the file");
-    }
-}, dimRed, showData);
 
 apiRouter.post('/graph', function (req, res, next) {
-    if (req.body.bypass == "on") {
-        fs.readFile(path.join(__dirname, '../data_test', 'iris_dataset.csv'), 'utf8', (err, data) => {
-            if (err) console.error(err);
-            req.files = new Object();
-            req.files.data_file = data;
-            req.body.select_grafico = 'scp';
-            req.body.riduzione = 'pca';
-            next();
-        });
-    }
-    // else if (req.files === null || req.files === undefined) return res.sendStatus(400);
-    else if (req.files === null || req.files === undefined) return res.status(400).json({ msg: "Nessun file" });
-
-    // per ora salva il file in una cartella, possibile anche non salvando il file
+    if (req.files === null || req.files === undefined)
+        return res.status(400).json({ msg: "Nessun file" });
+    // per ora salva il file in una cartella, va sostituito con il db
     else if (req.files.data_file) {
         let data_file = req.files.data_file;
         if (req.body.bypass !== "on") {
             data_file.mv(path.join(__dirname, '../data_test', data_file.name), (err) => {
                 if (err) {
                     console.error(err);
-                    // return res.sendStatus(500);
                     return res.status(500).json({ msg: "Errore durante il salvataggio del file" });
                 }
                 // console.log(`Saved ${data_file.name}`);
@@ -94,15 +32,14 @@ apiRouter.post('/graph', function (req, res, next) {
         console.log("data_file undefined");
         res.status(400).json({ msg: "Ayo bruv something's wrong with the file" });
     }
-}, dimRed, returnPageString);
+}, dimRed, returnGraphString);
 
 app.use('/', express.json());
 app.use('/', express.urlencoded({ extended: false }));
 app.use(expFileUplaod());
 app.use('/api', apiRouter);
-app.use('/', router);
 
-app.listen(port, () => {
+app.listen(port || process.env.port, () => {
     console.log("App started");
 });
 
@@ -142,21 +79,8 @@ function dimRed(req, res, next) {
     next();
 }
 
-// Carica pagina
-function showData(req, res) {
-    let data = req.data;
-    let columns = req.columns;
-    let graph_type = req.body.select_grafico;
-    // Ritorna la pagina graph.html aggiungendo il grafico
-    let result = plotData(data, graph_type, columns, false);
-    if (result === false)
-        res.send(400, 'Grafico non supportato');
-    else
-        res.writeHead(200, { "Content-Type": 'text/html' }).end(result);
-}
-
-function returnPageString(req, res) {
-    let svg = plotData(req.data, req.body.select_grafico, req.columns, true);
+function returnGraphString(req, res) {
+    let svg = plotData(req.data, req.body.select_grafico, req.columns);
     if (svg === false)
         return res.status(400).json({ msg: 'Grafico non supportato' });
     else if (svg.err !== undefined)
@@ -164,15 +88,15 @@ function returnPageString(req, res) {
     return res.json({ svg, msg: `Aggiunto ${req.filename}` });
 }
 
-function plotData(data, select_grafico, columns, isAPI) {
+function plotData(data, select_grafico, columns) {
     let result;
     switch (select_grafico) {
         case 'scp':
-            try{result = scatterplot(data, isAPI);}
+            try{result = scatterplot(data);}
             catch(err){result = { err };}
             break;
         case 'scpm':
-            try{result = scpMatrix(data, columns, isAPI);}
+            try{result = scpMatrix(data, columns);}
             catch(err){result = { err };}
             break;
         default:

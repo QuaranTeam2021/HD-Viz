@@ -2,7 +2,7 @@ const d3 = require('d3');
 const jsdom = require('jsdom');
 const fs = require('fs');
 
-const scpMatrix = function (dataFile, cols, isAPI) {
+const scpMatrix = function (dataFile, cols) {
 	var size = 180;
 	var padding = 20;
 	dataFile = d3.csvFormatRows(dataFile);
@@ -146,10 +146,7 @@ const scpMatrix = function (dataFile, cols, isAPI) {
 	}); */
 
 
-	if (isAPI)
-		return document.body.lastChild.outerHTML;
-	else
-		return DOM.serialize();
+	return document.body.lastChild.outerHTML;
 }
 
 module.exports = scpMatrix;

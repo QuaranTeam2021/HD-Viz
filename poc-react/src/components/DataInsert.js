@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import CompleteImport from "./CompleteImport";
-import ShortcutImport from "./ShortcutImport";
 import Message from "./Message";
 import Graph from './Graph';
 import axios from 'axios';
@@ -27,7 +26,13 @@ function DataInsert() {
 		setRiduzione(e.target.value);
 	}
 
-	const onSubmit = async formData => {
+	const onSubmit = async e => {
+		e.preventDefault();
+		const formData = new FormData();
+		formData.append('data_file', file);
+		formData.append('select_grafico', selectGrafico);
+		formData.append('riduzione', riduzione);
+
 		let res;
 		try {
 			res = await axios.post('/api/graph', formData, {
@@ -49,21 +54,6 @@ function DataInsert() {
 
 	}
 
-	const onSubmitComplete = e => {
-		e.preventDefault();
-		const formData = new FormData();
-		formData.append('data_file', file);
-		formData.append('select_grafico', selectGrafico);
-		formData.append('riduzione', riduzione);
-		onSubmit(formData);
-	}
-	const onSubmitBypass = e => {
-		e.preventDefault();
-		const formData = new FormData();
-		formData.append('bypass', 'on');
-		onSubmit(formData);
-	}
-
 	const updateGrafici = graphUpdated => {
 		if (graphUpdated.length >= 1)
 			setAddGraph(true);
@@ -79,8 +69,7 @@ function DataInsert() {
 	return (
 		<>
 			{message ? <Message msg={message} /> : null}
-			<CompleteImport className="App-import-form" onSubmit={onSubmitComplete} onChangeFile={onChangeFile} onClickFile={onClickFile} onChangeSelectGrafico={onChangeSelectGrafico} onChangeRiduzione={onChangeRiduzione} addGraph={addGraph}/>
-			<ShortcutImport className="App-import-form2" onSubmit={onSubmitBypass}  addGraph={addGraph}/>
+			<CompleteImport className="App-import-form" onSubmit={onSubmit} onChangeFile={onChangeFile} onClickFile={onClickFile} onChangeSelectGrafico={onChangeSelectGrafico} onChangeRiduzione={onChangeRiduzione} addGraph={addGraph}/>
 			{grafici.map((grafico, i) => <Graph key={i} svg={grafico} onDelete={deleteGrafico} index={i}/>)}
 		</>
 	)
