@@ -1,4 +1,4 @@
-const pr = require("../modules/linearalgebra");
+const pr = require("../src/linearalgebra");
 const expect = require("chai").expect;
 const math = require("mathjs");
 

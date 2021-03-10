@@ -1,5 +1,12 @@
-const pr = require("../modules/preprocessing");
+const pr = require("../src/preprocessing");
 const expect = require("chai").expect;
+const math = require("mathjs");
+
+/** I test verificano il funzionamento atteso di 
+ * - norm();
+ * - wasteMatrix();
+ * - covMatrix();
+ */
 
 describe('funzioni_preprocessing_test', function() {
 
@@ -11,6 +18,5 @@ describe('funzioni_preprocessing_test', function() {
             }).to.throw(TypeError,'la matrice deve contenere dei dati')
         })
     })
-
 })
 
