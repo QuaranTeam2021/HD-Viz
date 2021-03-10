@@ -1,11 +1,4 @@
 {
-<<<<<<< HEAD
-  "name": "reduction",
-  "version": "0.0.2",
-  "description": "",
-  "main": "dReduction.js",
-  "scripts": {
-=======
   "name": "hd-viz",
   "version": "0.2.2-react",
   "description": "",
@@ -13,7 +6,6 @@
   "scripts": {
     "start": "node src/index.js",
     "dev": "nodemon src/index.js",
->>>>>>> poc-react
     "test": "mocha"
   },
   "author": "",
@@ -23,15 +15,6 @@
     "eslint": "^7.19.0",
     "eslint-plugin-mocha": "^8.0.0",
     "eslint-plugin-vue": "^7.5.0",
-<<<<<<< HEAD
-    "mocha": "^8.2.1"
-  },
-  "dependencies": {
-    "d3": "^6.5.0",
-    "mathjs": "^9.2.0",
-    "node-fetch": "^2.6.1",
-    "node-fetch-polyfill": "^2.0.6",
-=======
     "mocha": "^8.2.1",
     "nodemon": "^2.0.7"
   },
@@ -42,7 +25,6 @@
     "jsdom": "^16.4.0",
     "mathjs": "^9.2.0",
     "nodemon": "^2.0.7",
->>>>>>> poc-react
     "numeric": "^1.2.6"
   }
 }
