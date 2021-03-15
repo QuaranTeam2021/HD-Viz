@@ -8,22 +8,30 @@ function DataInsert() {
 	const [file, setFile] = useState('');
 	const [selectGrafico, setSelectGrafico] = useState('scpm');
 	const [riduzione, setRiduzione] = useState('pca');
+	const [metrica, setMetrica] = useState('euclidean');
 	const [grafici, setGrafici] = useState([]);
 	const [message, setMessage] = useState('');
 	const [addGraph, setAddGraph] = useState(false);
 
 	const onChangeFile = e => {
 		setFile(e.target.files[0]);
-	};
+	}
+
 	const onClickFile = e => {
 		e.target.value = null;
 		setFile(e.target.value);
 	}
+
 	const onChangeSelectGrafico = e => {
 		setSelectGrafico(e.target.value);
-	};
+	}
+
 	const onChangeRiduzione = e => {
 		setRiduzione(e.target.value);
+	}
+
+	const onChangeMetrica = e => {
+		setMetrica(e.target.value);
 	}
 
 	const onSubmit = async e => {
@@ -32,6 +40,7 @@ function DataInsert() {
 		formData.append('data_file', file);
 		formData.append('select_grafico', selectGrafico);
 		formData.append('riduzione', riduzione);
+		formData.append('metrica', metrica);
 
 		let res;
 		try {
@@ -69,7 +78,7 @@ function DataInsert() {
 	return (
 		<>
 			{message ? <Message msg={message} /> : null}
-			<CompleteImport className="App-import-form" onSubmit={onSubmit} onChangeFile={onChangeFile} onClickFile={onClickFile} onChangeSelectGrafico={onChangeSelectGrafico} onChangeRiduzione={onChangeRiduzione} addGraph={addGraph}/>
+			<CompleteImport className="App-import-form" onSubmit={onSubmit} onChangeFile={onChangeFile} onClickFile={onClickFile} onChangeSelectGrafico={onChangeSelectGrafico} onChangeRiduzione={onChangeRiduzione} onChangeMetrica={onChangeMetrica} addGraph={addGraph}/>
 			{grafici.map((grafico, i) => <Graph key={i} svg={grafico} onDelete={deleteGrafico} index={i}/>)}
 		</>
 	)
