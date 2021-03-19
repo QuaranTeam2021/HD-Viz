@@ -1,5 +1,5 @@
-let expect = require('chai').expect;
-let dt = require('../../../client/model/data');
+const expect = require('chai').expect;
+const dt = require('../../../client/model/data');
 
 
 describe('Test for data class', function() {
