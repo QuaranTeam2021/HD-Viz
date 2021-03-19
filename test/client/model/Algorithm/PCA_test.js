@@ -3,7 +3,7 @@ const reduction = require('../../../../client/model/Algorithm/PCA');
 
 describe("Testing PCA class", function() {
 
-    context("Testing results...", function() {
+    context("Testing compute function", function() {
         it("Must return reduced matrix of 2 dimensions", function() {
             const data = [
                 [4.7,3.2,1.3,0.2],

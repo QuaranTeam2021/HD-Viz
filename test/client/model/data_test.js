@@ -2,16 +2,16 @@ const expect = require('chai').expect;
 const dt = require('../../../client/model/data');
 
 
-describe('Test for data class', function() {
+describe('Test for Data class', function() {
 
     context('Testing setter function', function() {
 
-        it('Must letruct Data by default', function() {
+        it('Must construct Data by default', function() {
             let d = new dt.Data();
             return d instanceof dt.Data;
         })
 
-        it('Must letruct Data by parameters', function() {
+        it('Must construct Data by parameters', function() {
             let d = new dt.Data([1, 2, 4], [4, 5, 6]);
             return d instanceof dt.Data;
         })
