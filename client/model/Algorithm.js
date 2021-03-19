@@ -2,6 +2,7 @@ const druid = require('@saehrimnir/druidjs');
 
 /**
  * @abstract
+ * Uso il template method patter
  */
 class Algorithm {
 
