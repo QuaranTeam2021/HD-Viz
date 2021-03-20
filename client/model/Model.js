@@ -17,37 +17,49 @@ class Model {
         this.originalData = data;
     }
 
-    pushGraph(graphState) {
-        (this.graphs).push(graphState);
+    pushGraphState(graphState) {
+        this.graphs.push(graphState);
     }
 
     // remove last element
-    popGraph() {
-        (this.graphs).pop();
+    popGraphState() {
+        this.graphs.pop();
     }
 
-    removeGraphAtIndex(index) {
-        (this.graphs)[index] = "toRemove";
-        (this.graphs).filter(x => x !== "toRemove");
+    removeGraphStateAtIndex(index) {
+        this.graphs[index] = "toRemove";
+        this.graphs = this.graphs.filter(x => x != "toRemove");
     }
 
     getOriginalData() {
         return this.originalData;
     }
 
+    getGraphs() {
+        return this.graphs;
+    }
+
+    getGraphState(index = this.graphs.length - 1) {
+        return this.graphs[index];
+    }
+
     getGraphAtIndex(index) {
-        let GraphState = (this.graphs)[index];
+        let GraphState = this.graphs[index];
         return GraphState.getGraph();
     }
 
     getAlgorithmAtIndex(index) {
-        let GraphState = (this.graphs)[index];
+        let GraphState = this.graphs[index];
         return GraphState.getAlgorithm();
     }
 
     getSelectedFeaturesAtIndex(index) {
-        let GraphState = (this.graphs)[index];
+        let GraphState = this.graphs[index];
         return GraphState.getFeatures();
+    }
+
+    getGraphsNumber() {
+        return this.graphs.length;
     }
 
     reset() {
