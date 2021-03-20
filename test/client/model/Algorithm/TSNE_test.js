@@ -1,5 +1,5 @@
 const expect = require('chai').expect;
-const reduction = require('../../../../client/model/Algorithm/TSNE');
+const {TSNE} = require('../../../../client/model/Algorithm/TSNE');
 
 describe("Testing TSNE class", function() {
 
@@ -17,7 +17,7 @@ describe("Testing TSNE class", function() {
                 epsilon: 1,
                 dims: 2
             }
-            const output = new reduction.TSNE().compute(input, param);
+            const output = new TSNE().compute(input, param);
 
             const expected = [
                 [ 7.594857485078024, -3.8857569640866547 ],
@@ -41,7 +41,7 @@ describe("Testing TSNE class", function() {
                 epsilon: 1,
                 dims: 3
             }
-            const res = new reduction.TSNE().compute(input, param);
+            const res = new TSNE().compute(input, param);
 
             const size = [res.length, res[0].length];
             const expected = [3, 3];
@@ -64,7 +64,7 @@ describe("Testing TSNE class", function() {
                 dims: 2,
                 metric: "manhattan"
             }
-            const output = new reduction.TSNE().compute(input, param);
+            const output = new TSNE().compute(input, param);
 
             const  expected = [
                 [ -5.315796658300116, -1.4713808599835434 ],
@@ -93,7 +93,7 @@ describe("Testing TSNE class", function() {
                 dims: 2,
                 metric: "canberra"
             }
-            const output = new reduction.TSNE().compute(input, param);
+            const output = new TSNE().compute(input, param);
 
             const expected = [
                 [ -14.038864467695094, -6.665967982802074 ],
@@ -122,7 +122,7 @@ describe("Testing TSNE class", function() {
                 dims: 2,
                 metric: "cosine"
             }
-            const output = new reduction.TSNE().compute(input, param);
+            const output = new TSNE().compute(input, param);
 
             const expected = [
                 [ -4.736690904389666, -1.1850857480266648 ],
@@ -151,7 +151,7 @@ describe("Testing TSNE class", function() {
                 dims: 2,
                 metric: "euclidean_squared"
             }
-            const output = new reduction.TSNE().compute(input, param);
+            const output = new TSNE().compute(input, param);
 
             const expected = [
                 [ -4.888006745108702, -0.4066783665863901 ],
@@ -180,7 +180,7 @@ describe("Testing TSNE class", function() {
                 dims: 2,
                 metric: "chebyshev"
             }
-            const output = new reduction.TSNE().compute(input, param);
+            const output = new TSNE().compute(input, param);
 
             const expected = [
                 [ -7.211491681571181, -1.5383409531740595 ],

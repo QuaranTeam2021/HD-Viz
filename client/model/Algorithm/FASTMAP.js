@@ -1,7 +1,7 @@
-const Algorithm = require('../Algorithm');
+const {Algorithm} = require('../Algorithm');
 const druid = require('@saehrimnir/druidjs');
 
-class FASTMAP extends Algorithm.Algorithm {
+class FASTMAP extends Algorithm {
 
     constructor() {
         super();

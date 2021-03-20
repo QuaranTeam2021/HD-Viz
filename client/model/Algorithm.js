@@ -11,9 +11,11 @@ class Algorithm {
             throw new Error("Can't instantiate abstract class!");
     }
     
+    // definisco i passi dell'algoritmo
     compute(data, param) {
         let matrix = druid.Matrix.from(data);
-        param.metric = this.getMetric(param.metric);
+        if(param.metric)
+            param.metric = this.getMetric(param.metric);
         let red = this.setAlgorithm(matrix, param);
         let res = red.transform();
         return this.get2dArray(res.to2dArray);

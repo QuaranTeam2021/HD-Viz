@@ -1,5 +1,5 @@
 const expect = require('chai').expect;
-const reduction = require('../../../../client/model/Algorithm/LLE');
+const {LLE} = require('../../../../client/model/Algorithm/LLE');
 
 describe("Testing LLE class", function() {
 
@@ -17,7 +17,7 @@ describe("Testing LLE class", function() {
                 dims: 2,
                 metric: "euclidean"
             }
-            const output = new reduction.LLE().compute(input, param);
+            const output = new LLE().compute(input, param);
 
             const expected = [
                 [ 0.07197743141570735, -0.7493437421596598 ],
@@ -43,7 +43,7 @@ describe("Testing LLE class", function() {
                 dims: 3,
                 metric: "euclidean"
             }
-            const res = new reduction.LLE().compute(input, param);
+            const res = new LLE().compute(input, param);
 
             const size = [res.length, res[0].length];
             const expected = [5, 3];
@@ -65,7 +65,7 @@ describe("Testing LLE class", function() {
                 dims: 2,
                 metric: "manhattan"
             }
-            const output = new reduction.LLE().compute(input, param);
+            const output = new LLE().compute(input, param);
 
             const expected = [
                 [ 0.31040992424674757, -0.0820344470168973 ],
@@ -93,7 +93,7 @@ describe("Testing LLE class", function() {
                 dims: 2,
                 metric: "canberra"
             }
-            const output = new reduction.LLE().compute(input, param);
+            const output = new LLE().compute(input, param);
 
             const expected = [
                 [ 0.3366744427635879, -0.03155882114887092 ],
@@ -121,7 +121,7 @@ describe("Testing LLE class", function() {
                 dims: 2,
                 metric: "cosine"
             }
-            const output = new reduction.LLE().compute(input, param);
+            const output = new LLE().compute(input, param);
 
             const expected = [
                 [ 0.33873968004556576, 0.008986105663348294 ],
@@ -149,7 +149,7 @@ describe("Testing LLE class", function() {
                 dims: 2,
                 metric: "euclidean_squared"
             }
-            const output = new reduction.LLE().compute(input, param);
+            const output = new LLE().compute(input, param);
 
             const expected = [
                 [ 0.31042611573415974, -0.08425011101513767 ],
@@ -177,7 +177,7 @@ describe("Testing LLE class", function() {
                 dims: 2,
                 metric: "chebyshev"
             }
-            const output = new reduction.LLE().compute(input, param);
+            const output = new LLE().compute(input, param);
 
             const expected = [
                 [ 0.32355545811534964, -0.014470133211581722 ],

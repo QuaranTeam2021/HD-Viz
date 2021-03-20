@@ -1,5 +1,5 @@
 const expect = require('chai').expect;
-const reduction = require('../../../../client/model/Algorithm/UMAP');
+const {UMAP} = require('../../../../client/model/Algorithm/UMAP');
 
 describe("Testing UMAP class", function() {
 
@@ -23,7 +23,7 @@ describe("Testing UMAP class", function() {
                 dims: 2
             }
             
-            let output = new reduction.UMAP().compute(input, param);
+            let output = new UMAP().compute(input, param);
 
             let expected = [
                 [ 1.5937288190270302, -0.47419646937305515 ],
@@ -53,7 +53,7 @@ describe("Testing UMAP class", function() {
                 neighbors: 10,
                 dims: 2
             }
-            const res = new reduction.UMAP().compute(input, param);
+            const res = new UMAP().compute(input, param);
             const size = [res.length, res[0].length];
             const expected = [5, 2];
 

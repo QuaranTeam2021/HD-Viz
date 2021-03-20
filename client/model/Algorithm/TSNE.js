@@ -1,7 +1,7 @@
-const Algorithm = require('../Algorithm');
+const {Algorithm} = require('../Algorithm');
 const druid = require('@saehrimnir/druidjs');
 
-class TSNE extends Algorithm.Algorithm {
+class TSNE extends Algorithm {
 
     constructor() {
         super();

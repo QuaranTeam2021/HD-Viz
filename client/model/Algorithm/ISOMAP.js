@@ -1,7 +1,7 @@
-const Algorithm = require('../Algorithm');
+const {Algorithm} = require('../Algorithm');
 const druid = require('@saehrimnir/druidjs');
 
-class ISOMAP extends Algorithm.Algorithm {
+class ISOMAP extends Algorithm {
 
     constructor() {
         super();

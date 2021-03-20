@@ -1,7 +1,7 @@
-const Algorithm = require('../Algorithm');
+const {Algorithm} = require('../Algorithm');
 const druid = require('@saehrimnir/druidjs');
 
-class PCA extends Algorithm.Algorithm {
+class PCA extends Algorithm {
 
     constructor() {
         super();

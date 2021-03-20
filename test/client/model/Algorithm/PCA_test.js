@@ -1,5 +1,5 @@
 const expect = require('chai').expect;
-const reduction = require('../../../../client/model/Algorithm/PCA');
+const {PCA} = require('../../../../client/model/Algorithm/PCA');
 
 describe("Testing PCA class", function() {
 
@@ -14,7 +14,7 @@ describe("Testing PCA class", function() {
                 [5.0,3.4,1.5,0.2]
             ];
             const param = { dims: 2 };
-            let actual = new reduction.PCA().compute(data, param);
+            let actual = new PCA().compute(data, param);
             const expected = [
                 [ -3.458666762269165, 0.027612959089264852 ],
                 [ -3.307398289104195, 0.17005252869688292 ],
@@ -35,7 +35,7 @@ describe("Testing PCA class", function() {
                 [4.6,3.4,1.4,0.3]
             ];
             let param = { dims: 2};
-            let res = new reduction.PCA().compute(input, param);
+            let res = new PCA().compute(input, param);
             let size = [res.length, res[0].length];
             const expected = [5, 2];
 

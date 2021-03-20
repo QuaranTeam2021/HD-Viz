@@ -1,5 +1,5 @@
 const expect = require('chai').expect;
-const reduction = require('../../../../client/model/Algorithm/ISOMAP');
+const {ISOMAP} = require('../../../../client/model/Algorithm/ISOMAP');
 
 describe("Testing ISOMAP class", function() {
 
@@ -16,7 +16,7 @@ describe("Testing ISOMAP class", function() {
                 neighbors: 10,
                 dims: 2
             }
-            const output = new reduction.ISOMAP().compute(input, param);
+            const output = new ISOMAP().compute(input, param);
 
             const expected = [
                 [ -0.36037456072327195, 0.21868654423024914 ],
@@ -40,7 +40,7 @@ describe("Testing ISOMAP class", function() {
                 neighbors: 10,
                 dims: 3
             }
-            const res = new reduction.ISOMAP().compute(input, param);
+            const res = new ISOMAP().compute(input, param);
             const size = [res.length, res[0].length];
             const expected = [4, 3];
 
@@ -61,7 +61,7 @@ describe("Testing ISOMAP class", function() {
                 dims: 2,
                 metric: "manhattan"
             }
-            const output = new reduction.ISOMAP().compute(input, param);
+            const output = new ISOMAP().compute(input, param);
 
             const expected = [
                 [ 0.42237633791655343, 0.146401698309919 ],
@@ -89,7 +89,7 @@ describe("Testing ISOMAP class", function() {
                 dims: 2,
                 metric: "canberra"
             }
-            const output = new reduction.ISOMAP().compute(input, param);
+            const output = new ISOMAP().compute(input, param);
 
             const expected = [
                 [ 0.4654351946324464, 0.11485591606607748 ],
@@ -117,7 +117,7 @@ describe("Testing ISOMAP class", function() {
                 dims: 2,
                 metric: "euclidean_squared"
             }
-            const output = new reduction.ISOMAP().compute(input, param);
+            const output = new ISOMAP().compute(input, param);
 
             const expected = [
                 [ 0.34235668171652733, 0.4206797273969691 ],
@@ -145,7 +145,7 @@ describe("Testing ISOMAP class", function() {
                 dims: 2,
                 metric: "chebyshev"
             }
-            const output = new reduction.ISOMAP().compute(input, param);
+            const output = new ISOMAP().compute(input, param);
 
             const expected = [
                 [ 0.17031408339473908, 0.55085483516782 ],

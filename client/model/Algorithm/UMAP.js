@@ -1,7 +1,7 @@
-const Algorithm = require('../Algorithm');
+const {Algorithm} = require('../Algorithm');
 const druid = require('@saehrimnir/druidjs');
 
-class UMAP extends Algorithm.Algorithm {
+class UMAP extends Algorithm {
 
     constructor() {
         super();

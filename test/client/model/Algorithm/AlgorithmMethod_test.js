@@ -1,4 +1,4 @@
-const reduction = require('../../../../client/model/Algorithm/FASTMAP');
+const {FASTMAP} = require('../../../../client/model/Algorithm/FASTMAP');
 const druid = require('@saehrimnir/druidjs');
 const expect = require('chai').expect;
 
@@ -12,48 +12,42 @@ describe('Testing Algorithm method with abstact class', function() {
 
         it('Must return canberra metric', function() {
             const expected = druid.canberra;
-            const FASTMAP = new reduction.FASTMAP();
-            const actual = FASTMAP.getMetric('canberra');
+            const actual = new FASTMAP().getMetric('canberra');
 
             expect(actual).to.deep.equal(expected);
         })
 
         it('Must return euclidean metric', function() {
             const expected = druid.euclidean;
-            const FASTMAP = new reduction.FASTMAP();
-            const actual = FASTMAP.getMetric('euclidean');
+            const actual = new FASTMAP().getMetric('euclidean');
 
             expect(actual).to.deep.equal(expected);
         })
 
         it('Must return euclidean_squared metric', function() {
             const expected = druid.euclidean_squared;
-            const FASTMAP = new reduction.FASTMAP();
-            const actual = FASTMAP.getMetric('euclidean_squared');
+            const actual = new FASTMAP().getMetric('euclidean_squared');
 
             expect(actual).to.deep.equal(expected);
         })
 
         it('Must return chebyshev metric', function() {
             const expected = druid.chebyshev;
-            const FASTMAP = new reduction.FASTMAP();
-            const actual = FASTMAP.getMetric('chebyshev');
+            const actual = new FASTMAP().getMetric('chebyshev');
 
             expect(actual).to.deep.equal(expected);
         })
 
         it('Must return cosine metric', function() {
             const expected = druid.cosine;
-            const FASTMAP = new reduction.FASTMAP();
-            const actual = FASTMAP.getMetric('cosine');
+            const actual = new FASTMAP().getMetric('cosine');
 
             expect(actual).to.deep.equal(expected);
         })
 
         it('Must return manhattan metric', function() {
             const expected = druid.manhattan;
-            const FASTMAP = new reduction.FASTMAP();
-            const actual = FASTMAP.getMetric('manhattan');
+            const actual = new FASTMAP().getMetric('manhattan');
 
             expect(actual).to.deep.equal(expected);
         })
@@ -64,8 +58,7 @@ describe('Testing Algorithm method with abstact class', function() {
         it('Must return an equal array', function() {
             const expected = [[1, 2, 3], [1, 2, 3], [1, 2, 3]];
             const m = druid.Matrix.from(expected);
-            const FASTMAP = new reduction.FASTMAP();
-            const actual = FASTMAP.get2dArray(m.to2dArray);
+            const actual = new FASTMAP().get2dArray(m.to2dArray);
             expect(actual).to.deep.equal(expected);
         })
     })

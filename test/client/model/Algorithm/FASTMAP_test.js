@@ -1,5 +1,5 @@
 const expect = require('chai').expect;
-const reduction = require('../../../../client/model/Algorithm/FASTMAP');
+const {FASTMAP} = require('../../../../client/model/Algorithm/FASTMAP');
 
 describe("Testing FASTMAP class", function() {
 
@@ -17,7 +17,7 @@ describe("Testing FASTMAP class", function() {
                 dims: 2,
                 metric: "euclidean"
             }
-            const output = new reduction.FASTMAP().compute(input, param);
+            const output = new FASTMAP().compute(input, param);
 
             const expected = [
                 [ 91.49326937559317, 158.94666127930674 ],
@@ -42,7 +42,7 @@ describe("Testing FASTMAP class", function() {
                 dims: 3,
                 metric: "euclidean"
             }
-            const res = new reduction.FASTMAP().compute(input, param);
+            const res = new FASTMAP().compute(input, param);
             const size = [res.length, res[0].length];
             const expected = [5, 3];
 
@@ -62,7 +62,7 @@ describe("Testing FASTMAP class", function() {
                 dims: 2, 
                 metric: "manhattan"
             }
-            const output = new reduction.FASTMAP().compute(input, param);
+            const output = new FASTMAP().compute(input, param);
             
             const expected = [
                 [ 0.040000000000000695, NaN ],
@@ -89,7 +89,7 @@ describe("Testing FASTMAP class", function() {
                 dims: 2, 
                 metric: "canberra"
             }
-            const output = new reduction.FASTMAP().compute(input, param);
+            const output = new FASTMAP().compute(input, param);
             
             const expected = [
                 [ 0, 0.10245677879739995 ],
@@ -116,7 +116,7 @@ describe("Testing FASTMAP class", function() {
                 dims: 2, 
                 metric: "cosine"
             }
-            const output = new reduction.FASTMAP().compute(input, param);
+            const output = new FASTMAP().compute(input, param);
             
             const expected = [
                 [ 0.021998756776749246, 0.0400192341499719 ],
@@ -143,7 +143,7 @@ describe("Testing FASTMAP class", function() {
                 dims: 2, 
                 metric: "euclidean_squared"
             }
-            const output = new reduction.FASTMAP().compute(input, param);
+            const output = new FASTMAP().compute(input, param);
             
             const expected = [
                 [ 0.16941176470588326, 0 ],
@@ -170,7 +170,7 @@ describe("Testing FASTMAP class", function() {
                 dims: 2, 
                 metric: "chebyshev"
             }
-            const output = new reduction.FASTMAP().compute(input, param);
+            const output = new FASTMAP().compute(input, param);
             
             const expected = [
                 [ 0.11875000000000038, 0.13004069843317445 ],
