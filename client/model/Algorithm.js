@@ -6,7 +6,10 @@ const druid = require('@saehrimnir/druidjs');
  */
 class Algorithm {
 
-    constructor() {}
+    constructor() {
+        if(this.constructor === Algorithm) 
+            throw new Error("Can't instantiate abstract class!");
+    }
     
     compute(data, param) {
         let matrix = druid.Matrix.from(data);
