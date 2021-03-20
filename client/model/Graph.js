@@ -27,4 +27,16 @@ class Graph {
     build() {}
 }
 
+class ConcreteGraph extends Graph {
+
+    constructor(data, name) {
+        super();
+        this.name = name;
+        this.data = data;
+    }
+
+    build() {}
+}
+
 exports.Graph = Graph;
+exports.ConcreteGraph = ConcreteGraph;

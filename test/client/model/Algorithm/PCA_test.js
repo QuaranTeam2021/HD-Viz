@@ -1,4 +1,4 @@
-const expect = require('chai').expect;
+const {expect} = require('chai');
 const {PCA} = require('../../../../client/model/Algorithm/PCA');
 
 describe("Testing PCA class", function() {

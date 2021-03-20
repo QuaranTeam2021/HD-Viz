@@ -1,4 +1,4 @@
-const expect = require('chai').expect;
+const {expect} = require('chai');
 const {ISOMAP} = require('../../../../client/model/Algorithm/ISOMAP');
 
 describe("Testing ISOMAP class", function() {

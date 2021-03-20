@@ -1,6 +1,6 @@
 const {FASTMAP} = require('../../../../client/model/Algorithm/FASTMAP');
 const druid = require('@saehrimnir/druidjs');
-const expect = require('chai').expect;
+const {expect} = require('chai');
 
 /**
  * Uso una istanza generica di Algorithm per testare le funzioni della classe astratta

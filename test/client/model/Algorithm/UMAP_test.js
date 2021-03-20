@@ -1,4 +1,4 @@
-const expect = require('chai').expect;
+const {expect} = require('chai');
 const {UMAP} = require('../../../../client/model/Algorithm/UMAP');
 
 describe("Testing UMAP class", function() {

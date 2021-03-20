@@ -36,7 +36,18 @@ class Model {
     }
 
     getGraphAtIndex(index) {
-        return (this.graphs)[index];
+        let GraphState = (this.graphs)[index];
+        return GraphState.getGraph();
+    }
+
+    getAlgorithmAtIndex(index) {
+        let GraphState = (this.graphs)[index];
+        return GraphState.getAlgorithm();
+    }
+
+    getSelectedFeaturesAtIndex(index) {
+        let GraphState = (this.graphs)[index];
+        return GraphState.getFeatures();
     }
 
     reset() {
