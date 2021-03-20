@@ -12,7 +12,7 @@ class GraphState {
      * @param {*} selectedFeatures => array di dimensioni selezionate
      */
     constructor(graph, algorithm, selectedFeatures) {
-        this.graph;
+        this.graph = graph;
         this.algorithm = algorithm;
         this.selectedFeatures = selectedFeatures;
     }
@@ -30,11 +30,11 @@ class GraphState {
     }
 
     getGraph() {
-        return this.Graph;
+        return this.graph;
     }
 
     getAlgorithm() {
-        return this.Algorithm;
+        return this.algorithm;
     }
 
     getSelectedFeatures() {
