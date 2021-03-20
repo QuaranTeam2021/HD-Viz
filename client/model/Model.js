@@ -55,7 +55,7 @@ class Model {
 
     getSelectedFeaturesAtIndex(index) {
         let GraphState = this.graphs[index];
-        return GraphState.getFeatures();
+        return GraphState.getSelectedFeatures();
     }
 
     getGraphsNumber() {
