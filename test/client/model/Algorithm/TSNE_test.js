@@ -1,5 +1,5 @@
 const {expect} = require('chai');
-const {TSNE} = require('../../../../client/model/Algorithm/TSNE');
+const {TSNE} = require('../../../../client/src/model/Algorithm/TSNE');
 
 describe("Testing TSNE class", function() {
 

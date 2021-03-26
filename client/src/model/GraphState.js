@@ -1,44 +1,25 @@
 
-/**
- * Usiamo questa classe per creare istanze che controllano 
- * lo stato di ogni grafico
- */
 class GraphState {
 
-    /**
-     * Constructor injection
-     * @param {*} graph => Oggetto classe Graph
-     * @param {*} algorithm => string
-     * @param {*} selectedFeatures => array di dimensioni selezionate
-     */
-    constructor(graph, algorithm, selectedFeatures) {
-        this.graph = graph;
-        this.algorithm = algorithm;
-        this.selectedFeatures = selectedFeatures;
+    constructor(id, dataset = null) {
+        this._graphId = id;
+        this._dataset = dataset;
     }
 
-    setGraph(graph) {
-        this.graph = graph;
+    set setGraphId(id) {
+        this._graphId = id;
     }
 
-    setAlgorithm(algorithm) {
-        this.algorithm = algorithm;
+    set setDataset(d) {
+        this._dataset = d;
     }
 
-    setSelectedFeatures(selectedFeatures) {
-        this.selectedFeatures = selectedFeatures;
+    get getGraphId() {
+        return this._graphId;
     }
 
-    getGraph() {
-        return this.graph;
-    }
-
-    getAlgorithm() {
-        return this.algorithm;
-    }
-
-    getSelectedFeatures() {
-        return this.selectedFeatures;
+    get getDataset() {
+        return this._dataset;
     }
 }
 

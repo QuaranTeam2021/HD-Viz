@@ -1,70 +1,76 @@
+const {concat} = require('mathjs');
+const { Data } = require('./Data');
 
-/**
- * Classe generale del modello
- */
 class Model {
 
-    /**
-     * @param {*} data : 2dArray => sono i dati originali
-     * @param {*} graphs : array di oggetti GraphState => traccia i grafici visualizzati e le informazioni associate
-     */
-    constructor(data, graphs) {
-        this.originalData = data;
-        this.graphs = graphs;
+    constructor(data = new Data(), graphs = [], selectedFeatures = []) {
+        this._originalData = data;
+        this._graphs = graphs;
+        this._selectedFeatures = selectedFeatures;
+        this.setSelectedData();
     }
 
-    setOriginalData(data) {
-        this.originalData = data;
+    // setters
+    set setOriginalData(data) {
+        this._originalData = data;
     }
 
-    pushGraphState(graphState) {
-        this.graphs.push(graphState);
+    set setGraphs(graphs) {
+        this._graphs = graphs;
     }
 
-    // remove last element
-    popGraphState() {
-        this.graphs.pop();
+    set setSelectedFeatures(sF) {
+        this._selectedFeatures = sF;
+    }
+
+    // getters
+    get getOriginalData() {
+        return this._originalData;
+    }
+
+    get getGraphs() {
+        return this._graphs;
+    }
+
+    get selectedFeatures() {
+        return this._selectedFeatures;
+    }
+
+    async setSelectedData() {
+        let res = [];
+        for (let i = 0; i < this._selectedFeatures.length; ++i) {
+            let feature = this._selectedFeatures[i];
+            let col = this._originalData.getCol(feature);
+            res = concat(res, col);
+        }
+        return res;
+    }
+
+    addGraphState(graphState) {
+        this._graphs.push(graphState);
     }
 
     removeGraphStateAtIndex(index) {
-        this.graphs[index] = "toRemove";
-        this.graphs = this.graphs.filter(x => x != "toRemove");
+        this._graphs[index] = "toRemove";
+        this._graphs = this._graphs.filter(x => x !== "toRemove");
     }
 
-    getOriginalData() {
-        return this.originalData;
+    getGraphStateAtIndex(index) {
+        if (index < this._graphs.length && index >= 0) {
+            let GraphState = this._graphs[index];
+            return GraphState;
+        } else throw new Error ('Out of bounds...')
     }
 
-    getGraphs() {
-        return this.graphs;
-    }
-
-    getGraphState(index = this.graphs.length - 1) {
-        return this.graphs[index];
-    }
-
-    getGraphAtIndex(index) {
-        let GraphState = this.graphs[index];
-        return GraphState.getGraph();
-    }
-
-    getAlgorithmAtIndex(index) {
-        let GraphState = this.graphs[index];
-        return GraphState.getAlgorithm();
-    }
-
-    getSelectedFeaturesAtIndex(index) {
-        let GraphState = this.graphs[index];
-        return GraphState.getSelectedFeatures();
-    }
-
-    getGraphsNumber() {
-        return this.graphs.length;
+    async calculateReduction(algorithm, param, graphId) {
+        // TODO
     }
 
     reset() {
-        this.originalData = [];
-        this.graphs = [];
+        this._originalData = [];
+        this._graphs = [];
+        this._selectedData = [];
+        this._selectedFeatures = [];
     }
 }
 

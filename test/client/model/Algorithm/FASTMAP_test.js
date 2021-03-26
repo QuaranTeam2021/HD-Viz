@@ -1,5 +1,5 @@
 const {expect} = require('chai');
-const {FASTMAP} = require('../../../../client/model/Algorithm/FASTMAP');
+const {FASTMAP} = require('../../../../client/src/model/Algorithm/FASTMAP');
 
 describe("Testing FASTMAP class", function() {
 

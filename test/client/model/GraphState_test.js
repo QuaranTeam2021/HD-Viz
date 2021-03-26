@@ -1,83 +1,46 @@
 const {expect} = require('chai');
-const {GraphState} = require('../../../client/model/GraphState');
-const {ConcreteGraph} = require('../../../client/model/Graph');
+const {GraphState} = require('../../../client/src/model/GraphState');
 
 describe('Testing GraphState class', function() {
 
     context('Testing constructor', function() {
 
-        it('Must construct a GraphState object', function() {
-            const graph = new ConcreteGraph([], 'Prova');
-            const obj = new GraphState(graph, 'FASTMAP', ['feature1', 'feature2', 'feature3']);
-
-            return typeof obj === GraphState;
+        it('Must construct a GraphState', function() {
+            const obj = new GraphState();
+            expect(obj).instanceOf(GraphState);
         })
-    })
 
-    context('Testing setGraph', function() {
-
-        it('Must set the graph object', function() {
-            const graph = new ConcreteGraph([], 'Prova');
-            const obj = new GraphState(graph, 'FASTMAP', ['feature1', 'feature2', 'feature3']);
-            const graph2 = new ConcreteGraph([], 'Nuovo');
-            obj.setGraph(graph2);
-
-            expect(obj.getGraph()).to.deep.equal(graph2);
+        it('Should not be undefined', function() {
+            const obj = new GraphState();
+            expect(obj).to.not.be.undefined;
         })
-    })
+    })  
+    
+    context('Testing setter method', function() {
 
-    context('Testing setAlgorithm', function() {
-
-        it('Must set the algorithm string', function() {
-            const graph = new ConcreteGraph([], 'Prova');
-            const obj = new GraphState(graph, 'FASTMAP', []);
-            obj.setAlgorithm('LLE');
-
-            expect(obj.getAlgorithm()).to.deep.equal('LLE');
+        it('Must set _graphId', function() {
+            const obj = new GraphState();
+            obj.setGraphId = 'id_test';
+            expect(obj._graphId).to.deep.equal('id_test');
         })
-    })
 
-    context('Testing setSelectedFeature', function() {
-
-        it('Must set the selectedFeature array', function() {
-            const graph = new ConcreteGraph([], 'Prova');
-            const obj = new GraphState(graph, 'FASTMAP', ['old', 'old', 'old']);
-            obj.setSelectedFeatures(['new', 'new2', 'new3', 'new4']);
-
-            expect(obj.getSelectedFeatures()).to.deep.equal(['new', 'new2', 'new3', 'new4']);
+        it('Must set _dataset', function() {
+            const obj = new GraphState();
+            obj.setDataset = [[1, 2, 3], [5, 6, 9]];
+            expect(obj._dataset).to.deep.equal([[1, 2, 3], [5, 6, 9]]);
         })
-    })
+    }) 
+    
+    context('Testing getter method', function() {
 
-    context('Testing getGraph', function() {
-
-        it('Must get correct graph' , function() {
-            const graph = new ConcreteGraph([], 'Prova');
-            const obj = new GraphState(graph, 'FASTMAP', ['old', 'old', 'old']);
-            const result = obj.getGraph();
-
-            expect(result).to.deep.equal(graph);
+        it('Must get _graphId', function() {
+            const obj = new GraphState('id_test');
+            expect(obj.getGraphId).to.deep.equal('id_test');
         })
-    })
 
-    context('Testing getAlgorithm', function() {
-
-        it('Must get correct algorithm' , function() {
-            const graph = new ConcreteGraph([], 'Prova');
-            const obj = new GraphState(graph, 'FASTMAP', ['old', 'old', 'old']);
-            const result = obj.getAlgorithm();
-
-            expect(result).to.deep.equal('FASTMAP');
-        })
-    })
-
-    context('Testing getSelectedFeature', function() {
-
-        it('Must get correct selectedFeature' , function() {
-            const graph = new ConcreteGraph([], 'Prova');
-            const obj = new GraphState(graph, 'FASTMAP', ['old', 'old', 'old']);
-            const result = obj.getSelectedFeatures();
-
-            expect(result).to.deep.equal(['old', 'old', 'old']);
+        it('Must get _dataset', function() {
+            const obj = new GraphState('id_test', [[1, 2, 3], [5, 6, 9]]);
+            expect(obj.getDataset).to.deep.equal([[1, 2, 3], [5, 6, 9]]);
         })
     })
 })
