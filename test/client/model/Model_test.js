@@ -9,7 +9,8 @@ describe('Testing model class', function() {
 
         it('Must construct a Model object', function() {
             const d = new Data([1, 2, 3], ['id', 'name', 'surname']);
-            const mod = new Model(d, []);
+            const mod = new Model();
+            mod.setOriginalData = d;
 
             expect(mod).instanceOf(Model);
         })
@@ -25,7 +26,8 @@ describe('Testing model class', function() {
 
         it('Must set originalData', function() {
             const d = new Data([['id1', 'id2', 'id3'], [1, 2, 3]]);
-            const mod = new Model(d, []);
+            const mod = new Model();
+            mod.setOriginalData = d;
             const newData = new Data([[8, 9, 3], ['id', 'id2', 'id8']]);
             mod.setOriginalData = newData;
 
@@ -46,7 +48,7 @@ describe('Testing model class', function() {
     context('Testing addGraph', function() {
 
         it('Must add one GraphState in graphs', function() {
-            const mod = new Model([], []);
+            const mod = new Model();
             const graphState = new GraphState('id', []);
             mod.addGraphState(graphState);
 
@@ -54,7 +56,7 @@ describe('Testing model class', function() {
         })
 
         it('Must add GraphState in graphs', function() {
-            const mod = new Model([], []);
+            const mod = new Model();
             const graphState = new GraphState('id', []);
             mod.addGraphState(graphState);
 
@@ -62,7 +64,7 @@ describe('Testing model class', function() {
         })
 
         it('Must add one GraphState in last position', function() {
-            const mod = new Model([], []);
+            const mod = new Model();
             const graphState = new GraphState('id1');
             const graphState1 = new GraphState('id2');
             const graphState2 = new GraphState('id3');
@@ -77,7 +79,7 @@ describe('Testing model class', function() {
     context('Testing removeGraphStateAtIndex', function() {
 
         it('Must remove the graphs at the correct index', function() {
-            const mod = new Model([], []);
+            const mod = new Model();
             const graphState = new GraphState('id1');
             const graphState1 = new GraphState('id2');
             const graphState2 = new GraphState('id3');
@@ -93,13 +95,32 @@ describe('Testing model class', function() {
     context('Testing getOriginalData', function() {
 
         it('Must return originalData', function() {
-            const mod = new Model([['id', 'name', 'surname'], [1, 2, 3]], []);
-
+            const d = [['id', 'name', 'surname'], [1, 2, 3]];
+            const mod = new Model();
+            mod.setOriginalData = d;
             expect(mod.getOriginalData).to.deep.equal([['id', 'name', 'surname'], [1, 2, 3]]);
         })
 
         it('Must return a Data object', function() {
-            const mod = new Model([['id', 'name', 'surname'], [1, 2, 3]], []);
+            const mod = new Model();
+            const res = mod.getOriginalData;
+            return typeof res === Data;
+        })
+    }) 
+
+    context('Testing getSelectedData', function() {
+
+        it('Must return selected data', function() {
+            const d = new Data([['id', 'name', 'surname', 'city'], [1, 'Matteo', 'Sinigaglia', 'Padova']]);
+            const mod = new Model();
+            mod.setOriginalData = d;
+            mod.setSelectedFeatures = ['id', 'surname'];
+
+            expect(mod.getSelectedData).to.deep.equal([['id', 'surname'], [1, 'Sinigaglia']]);
+        })
+
+        it('Must return a Data object', function() {
+            const mod = new Model();
             const res = mod.getOriginalData;
             return typeof res === Data;
         })
@@ -108,7 +129,7 @@ describe('Testing model class', function() {
     context('Testing getGraphStateAtIndex', function() {
 
         it('Must return the GraphState at index', function() {
-            const mod = new Model([], []);
+            const mod = new Model();
             const graphState = new GraphState('id1');
             const graphState1 = new GraphState('id2');
             const graphState2 = new GraphState('id3');
@@ -122,34 +143,34 @@ describe('Testing model class', function() {
 
         it('Must return error', function() {
             expect(function() {
-                const mod = new Model([], []);
+                const mod = new Model();
                 const graphState = new GraphState('id1');
                 const graphState1 = new GraphState('id2');
                 const graphState2 = new GraphState('id3');
                 mod.addGraphState(graphState);
                 mod.addGraphState(graphState1);
                 mod.addGraphState(graphState2);
-                console.log(mod.getGraphStateAtIndex(4));
+                mod.getGraphStateAtIndex(4);
             }).to.throw(Error,'Out of bounds...');
         })
 
         it('Must return error with negative index', function() {
             expect(function() {
-                const mod = new Model([], []);
+                const mod = new Model();
                 const graphState = new GraphState('id1');
                 const graphState1 = new GraphState('id2');
                 const graphState2 = new GraphState('id3');
                 mod.addGraphState(graphState);
                 mod.addGraphState(graphState1);
                 mod.addGraphState(graphState2);
-                console.log(mod.getGraphStateAtIndex(-1));
+                mod.getGraphStateAtIndex(-1);
             }).to.throw(Error,'Out of bounds...');
         })
 
         it('Must return error with empty array', function() {
             expect(function() {
-                const mod = new Model([], []);
-                console.log(mod.getGraphStateAtIndex(0));
+                const mod = new Model();
+                mod.getGraphStateAtIndex(0);
             }).to.throw(Error,'Out of bounds...');
         })
     })
@@ -158,7 +179,8 @@ describe('Testing model class', function() {
 
         it('Must remove originalData', function() {
             const graphState = new GraphState('id1');
-            const mod = new Model([1, 2, 3], [graphState]);
+            const mod = new Model();
+            mod.addGraphState(graphState);
             mod.reset();
 
             expect(mod.getOriginalData).to.deep.equal([]);
@@ -168,7 +190,10 @@ describe('Testing model class', function() {
             const graphState = new GraphState('id1');
             const graphState1 = new GraphState('id2');
             const graphState2 = new GraphState('id3');
-            const mod = new Model([1, 2, 3], [graphState, graphState1, graphState2]);
+            const mod = new Model();
+            mod.addGraphState(graphState);
+            mod.addGraphState(graphState1);
+            mod.addGraphState(graphState2);
             mod.reset();
 
             return mod.getGraphs.length == 0;
@@ -178,7 +203,10 @@ describe('Testing model class', function() {
             const graphState = new GraphState('id1');
             const graphState1 = new GraphState('id2');
             const graphState2 = new GraphState('id3');
-            const mod = new Model([1, 2, 3], [graphState, graphState1, graphState2]);
+            const mod = new Model();
+            mod.addGraphState(graphState);
+            mod.addGraphState(graphState1);
+            mod.addGraphState(graphState2);
             mod.reset();
 
             expect(mod.getGraphs).to.deep.equal([]);
@@ -191,15 +219,32 @@ describe('Testing model class', function() {
             const graphState = new GraphState('id1');
             const graphState1 = new GraphState('id2');
             const graphState2 = new GraphState('id3');
-            const mod = new Model([1, 2, 3], [graphState, graphState1, graphState2]);
-
+            const mod = new Model();
+            mod.addGraphState(graphState);
+            mod.addGraphState(graphState1);
+            mod.addGraphState(graphState2);
+            
             expect(mod.getGraphs).to.deep.equal([graphState, graphState1, graphState2]);
         })
 
         it('Must return empty array', function() {
-            const mod = new Model([1, 2, 3], []);
+            const mod = new Model();
 
             expect(mod.getGraphs).to.deep.equal([]);
+        })
+    })
+
+    context('Testing setSelectedData', function() {
+
+        it('Must set the selected data', function() {
+            const data = new Data([['matricola', 'nome', 'cognome', 'voto'], [1193412, 'Matteo', 'Sinigaglia', '27'], [1193413, 'Alessio', 'Rossi', '30']]);
+            const features = ['nome', 'voto'];
+            const mod = new Model();
+            mod.setOriginalData = data;
+            mod.setSelectedFeatures = features;
+            mod.setSelectedData();
+
+            expect(mod.getSelectedData).to.deep.equal([['nome', 'voto'], ['Matteo', '27'], ['Alessio', '30']]);
         })
     })
 })

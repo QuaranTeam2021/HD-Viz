@@ -1,13 +1,12 @@
-const {concat} = require('mathjs');
-const { Data } = require('./Data');
+const {transpose} = require('mathjs');
+const {Data} = require('./Data');
 
 class Model {
 
-    constructor(data = new Data(), graphs = [], selectedFeatures = []) {
-        this._originalData = data;
-        this._graphs = graphs;
-        this._selectedFeatures = selectedFeatures;
-        this.setSelectedData();
+    constructor() {
+        this._originalData = new Data();
+        this._graphs = [];
+        this._selectedFeatures = [];
     }
 
     // setters
@@ -21,6 +20,19 @@ class Model {
 
     set setSelectedFeatures(sF) {
         this._selectedFeatures = sF;
+        this.setSelectedData();
+    }
+    
+    setSelectedData() {
+        let res = [];
+        for (let i = 0; i < this._selectedFeatures.length; ++i) {
+            res[i] = [];
+            let feature = this._selectedFeatures[i];
+            let col = this._originalData.getCol(feature);
+            res[i] = col;
+        }
+        res = transpose(res);
+        this._selectedData = res;
     }
 
     // getters
@@ -32,18 +44,12 @@ class Model {
         return this._graphs;
     }
 
-    get selectedFeatures() {
+    get getSelectedFeatures() {
         return this._selectedFeatures;
     }
 
-    async setSelectedData() {
-        let res = [];
-        for (let i = 0; i < this._selectedFeatures.length; ++i) {
-            let feature = this._selectedFeatures[i];
-            let col = this._originalData.getCol(feature);
-            res = concat(res, col);
-        }
-        return res;
+    get getSelectedData() {
+        return this._selectedData;
     }
 
     addGraphState(graphState) {
