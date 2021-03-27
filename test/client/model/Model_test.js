@@ -223,7 +223,7 @@ describe('Testing model class', function() {
             mod.addGraphState(graphState);
             mod.addGraphState(graphState1);
             mod.addGraphState(graphState2);
-            
+
             expect(mod.getGraphs).to.deep.equal([graphState, graphState1, graphState2]);
         })
 
@@ -245,6 +245,132 @@ describe('Testing model class', function() {
             mod.setSelectedData();
 
             expect(mod.getSelectedData).to.deep.equal([['nome', 'voto'], ['Matteo', '27'], ['Alessio', '30']]);
+        })
+    })
+
+    context('Testing getGraphStateIndexById', function() {
+
+        it('Must return index 1', function() {
+            const grSt1 = new GraphState('gr1');
+            const grSt2 = new GraphState('gr2');
+            const grSt3 = new GraphState('gr3');
+            const mod = new Model();
+            mod.addGraphState(grSt1);
+            mod.addGraphState(grSt2);
+            mod.addGraphState(grSt3);
+            const actual = mod.getGraphStateIndexById('gr2');
+
+            expect(actual).to.deep.equal(1);
+        })
+
+        it('Must return index 2', function() {
+            const grSt1 = new GraphState('gr1');
+            const grSt2 = new GraphState('gr2');
+            const grSt3 = new GraphState('gr3');
+            const mod = new Model();
+            mod.addGraphState(grSt1);
+            mod.addGraphState(grSt2);
+            mod.addGraphState(grSt3);
+            const actual = mod.getGraphStateIndexById('gr3');
+
+            expect(actual).to.deep.equal(2);
+        })
+
+        it('Must throw error', function() {
+            expect( function() {
+                const grSt1 = new GraphState('gr1');
+                const grSt2 = new GraphState('gr2');
+                const mod = new Model();
+                mod.addGraphState(grSt1);
+                mod.addGraphState(grSt2);
+                mod.getGraphStateIndexById('gr3');
+            }).to.throw(Error, 'Id grafico non presente');
+        })
+    })
+
+    context('Testing calculateReduction', function() {
+
+        it('Should not be undefined', function() {
+            const mod = new Model();
+            const graphState1 = new GraphState('gr1');
+            const graphState2 = new GraphState('gr2');
+            const graphState3 = new GraphState('gr3');
+            mod.addGraphState(graphState1);
+            mod.addGraphState(graphState2);
+            mod.addGraphState(graphState3);
+            const d = new Data([
+                [4.7,3.2,1.3,0.2],
+                [4.6,3.1,1.5,0.2],
+                [5.0,3.6,1.4,0.2],
+                [5.4,3.9,1.7,0.4],
+                [4.6,3.4,1.4,0.3],
+                [5.0,3.4,1.5,0.2]
+            ]);
+            mod.setOriginalData = d;
+            let param = { dims: 2 };
+            mod.calculateReduction('pca', param, 'gr2');
+            const grRes = mod.getGraphStateAtIndex(1);
+            const res = grRes.getDataset;
+
+            expect(res).to.not.be.undefined;
+        })
+
+        it('Must set an array', function() {
+            const mod = new Model();
+            const graphState1 = new GraphState('gr1');
+            const graphState2 = new GraphState('gr2');
+            const graphState3 = new GraphState('gr3');
+            mod.addGraphState(graphState1);
+            mod.addGraphState(graphState2);
+            mod.addGraphState(graphState3);
+            const d = new Data([
+                [4.7,3.2,1.3,0.2],
+                [4.6,3.1,1.5,0.2],
+                [5.0,3.6,1.4,0.2],
+                [5.4,3.9,1.7,0.4],
+                [4.6,3.4,1.4,0.3],
+                [5.0,3.4,1.5,0.2]
+            ]);
+            mod.setOriginalData = d;
+            let param = { dims: 2 };
+            mod.calculateReduction('pca', param, 'gr2');
+            const grRes = mod.getGraphStateAtIndex(1);
+            const res = grRes.getDataset;
+
+            expect(res).instanceOf(Array);
+        })
+
+        it('Must set the correct reduction array', function() {
+            const mod = new Model();
+            const graphState1 = new GraphState('gr1');
+            const graphState2 = new GraphState('gr2');
+            const graphState3 = new GraphState('gr3');
+            mod.addGraphState(graphState1);
+            mod.addGraphState(graphState2);
+            mod.addGraphState(graphState3);
+            const d = new Data([
+                [4.7,3.2,1.3,0.2],
+                [4.6,3.1,1.5,0.2],
+                [5.0,3.6,1.4,0.2],
+                [5.4,3.9,1.7,0.4],
+                [4.6,3.4,1.4,0.3],
+                [5.0,3.4,1.5,0.2]
+            ]);
+            const expected = [
+                [ -3.458666762269165, 0.027612959089264852 ],
+                [ -3.307398289104195, 0.17005252869688292 ],
+                [ -3.7334681054722885, -0.10589799733019935 ],
+                [ -3.863544525694135, -0.05286586695953013 ],
+                [ -3.3513355087302834, -0.12216594029636542 ],
+                [ -3.652145505056011, 0.09613527534964193 ]
+              ];
+            mod.setOriginalData = d;
+            let param = { dims: 2 };
+            mod.calculateReduction('pca', param, 'gr2');
+            const grRes = mod.getGraphStateAtIndex(1);
+            const res = grRes.getDataset;
+
+            expect(res).to.deep.equal(expected);
         })
     })
 })

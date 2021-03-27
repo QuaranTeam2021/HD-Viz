@@ -1,7 +1,7 @@
 
 class GraphState {
 
-    constructor(id, dataset = null) {
+    constructor(id, dataset = []) {
         this._graphId = id;
         this._dataset = dataset;
     }

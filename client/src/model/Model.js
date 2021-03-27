@@ -1,5 +1,6 @@
 const {transpose} = require('mathjs');
 const {Data} = require('./Data');
+const {PCA, UMAP, FASTMAP, ISOMAP, TSNE, LLE} = require('./AlgorithmUtility');
 
 class Model {
 
@@ -7,11 +8,13 @@ class Model {
         this._originalData = new Data();
         this._graphs = [];
         this._selectedFeatures = [];
+        this._selectedData = this.getOriginalData;
     }
 
     // setters
     set setOriginalData(data) {
         this._originalData = data;
+        this._selectedData = data;
     }
 
     set setGraphs(graphs) {
@@ -68,8 +71,40 @@ class Model {
         } else throw new Error ('Out of bounds...')
     }
 
-    async calculateReduction(algorithm, param, graphId) {
-        // TODO
+    getGraphStateIndexById(id) {
+        let res;
+        for (let i = 0; i < this._graphs.length; ++i) {
+            let g = this._graphs[i].getGraphId;
+            if (g === id) {
+               res = i;
+               break;
+            }
+        }
+        if (res) 
+            return res;
+        else throw new Error('Id grafico non presente');
+    }
+
+    calculateReduction(algorithm, param, graphId) {
+        let res;
+        switch(algorithm) {
+            case 'pca': res = new PCA().compute(this._selectedData.getMatrix, param);
+                break;
+            case 'umap': res = new UMAP().compute(this._selectedData.getMatrix, param);
+                break;
+            case 'fastmap': res = new FASTMAP().compute(this._selectedData.getMatrix, param);
+                break;
+            case 'isomap': res = new ISOMAP().compute(this._selectedData.getMatrix, param);
+                break;
+            case 't-sne': res = new TSNE().compute(this._selectedData.getMatrix, param);
+                break;
+            case 'lle': res = new LLE().compute(this._selectedData.getMatrix, param);
+                break;
+            default:
+                break;
+        }
+        let index = this.getGraphStateIndexById(graphId);
+        this._graphs[index].setDataset = res; 
     }
 
     reset() {
