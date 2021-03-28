@@ -6,13 +6,15 @@
   "scripts": {
     "start": "node src/index.js",
     "dev": "nodemon src/index.js",
+    "lint": "npx eslint src",
+    "lint-client": "npx eslint client",
     "test": "mocha"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "chai": "^4.3.0",
-    "eslint": "^7.19.0",
+    "eslint": "^7.23.0",
     "eslint-plugin-mocha": "^8.0.0",
     "mocha": "^8.2.1",
     "nodemon": "^2.0.7"
