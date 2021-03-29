@@ -1,14 +1,15 @@
-import React, { useState } from 'react'
 
-function Graph({ svg, onDelete, index }) {
-	const [i] = useState(index);
-
+function Graph({svg, tipoGrafico}) {
 	const createMarkup = () => {
 		return { __html: svg }
 	}
+	
 	return (
 		<div>
-			<button onClick={() => onDelete(i)}>RIMUOVI</button>
+			<div className="FeaturesCont">
+
+			</div>
+			<p> {tipoGrafico}</p>
 			<div dangerouslySetInnerHTML={createMarkup()}></div>
 		</div>
 	)

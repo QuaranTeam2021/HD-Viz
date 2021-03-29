@@ -94,3 +94,13 @@
   #columns{
     margin-top: 10rem;
   }
+
+.FeaturesCont {
+  background-color: #eee;
+  margin: 2em 20% 2em 20%;
+  text-align: left;
+}
+
+.MenuBG {
+  text-align: right;
+}
