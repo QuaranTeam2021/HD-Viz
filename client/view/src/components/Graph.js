@@ -6,9 +6,6 @@ function Graph({svg, tipoGrafico}) {
 	
 	return (
 		<div>
-			<div className="FeaturesCont">
-
-			</div>
 			<p> {tipoGrafico}</p>
 			<div dangerouslySetInnerHTML={createMarkup()}></div>
 		</div>
