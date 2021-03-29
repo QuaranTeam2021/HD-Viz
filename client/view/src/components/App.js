@@ -1,6 +1,7 @@
 import '../css/App.css';
-import Header from './Header';
 import GraphOption from './GraphOption'; 
+import Header from './Header';
+import React from 'react';
 
 function App() {
   return (

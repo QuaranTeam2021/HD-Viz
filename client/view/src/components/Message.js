@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import React from 'react';
 
 function Message({ msg }) {
 	return (
@@ -6,7 +7,7 @@ function Message({ msg }) {
 			{msg}
 		</div>
 	)
-};
+}
 
 Message.propTypes = {
 	msg: PropTypes.string.isRequired,

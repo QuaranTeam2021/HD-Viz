@@ -1,4 +1,5 @@
 import logo from '../logoHDVIZ.PNG';
+import React from 'react';
 
 function Header() {
 	return (

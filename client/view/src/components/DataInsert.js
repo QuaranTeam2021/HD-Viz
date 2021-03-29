@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import CompleteImport from "./CompleteImport";
-import Message from "./Message";
-import Graph from './Graph';
 import axios from 'axios';
+import CompleteImport from "./CompleteImport";
+import Graph from './Graph';
+import Message from "./Message";
 
 function DataInsert() {
 	const [file, setFile] = useState('');
@@ -78,8 +78,8 @@ function DataInsert() {
 	return (
 		<>
 			{message ? <Message msg={message} /> : null}
-			<CompleteImport className="App-import-form" onSubmit={onSubmit} onChangeFile={onChangeFile} onClickFile={onClickFile} onChangeSelectGrafico={onChangeSelectGrafico} onChangeRiduzione={onChangeRiduzione} onChangeMetrica={onChangeMetrica} addGraph={addGraph}/>
-			{grafici.map((grafico, i) => <Graph key={i} svg={grafico} onDelete={deleteGrafico} index={i}/>)}
+			<CompleteImport className="App-import-form" onSubmit={onSubmit} onChangeFile={onChangeFile} onClickFile={onClickFile} onChangeSelectGrafico={onChangeSelectGrafico} onChangeRiduzione={onChangeRiduzione} onChangeMetrica={onChangeMetrica} addGraph={addGraph} />
+			{grafici.map((grafico, i) => <Graph key={i} svg={grafico} onDelete={deleteGrafico} index={i} />)}
 		</>
 	)
 }

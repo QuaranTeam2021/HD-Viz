@@ -1,3 +1,4 @@
+import React from 'react';
 
 function CompleteImport({ className, onSubmit, onChangeFile, onClickFile, onChangeSelectGrafico, onChangeRiduzione, onChangeMetrica, addGraph }) {
 	const aggiungi = addGraph ? "Aggiungi" : "Visualizza";
@@ -6,7 +7,7 @@ function CompleteImport({ className, onSubmit, onChangeFile, onClickFile, onChan
 			<fieldset>
 				<legend>Importazione dati</legend>
 				<label htmlFor="file">Seleziona file: </label>
-				<input type="file" name="data_file" id="inserimentoFile" accept=".csv, .json, .tsv" onChange={onChangeFile} onClick={onClickFile}/>
+				<input type="file" name="data_file" id="inserimentoFile" accept=".csv, .json, .tsv" onChange={onChangeFile} onClick={onClickFile} />
 			</fieldset>
 			<fieldset id="visualizzazione">
 				<legend>Impostazione visualizzione</legend>

@@ -1,29 +1,28 @@
-import React from 'react';
+import { makeStyles, withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
-import {purple } from '@material-ui/core/colors';
-import {withStyles, makeStyles} from '@material-ui/core/styles';
-import { lab } from 'd3-color';
+import { purple } from '@material-ui/core/colors';
+import React from 'react';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
+  input: {
+    display: 'none',
+  },
   root: {
     '& > *': {
       margin: theme.spacing(1),
     },
-  },
-  input: {
-    display: 'none',
-  },
+  }
 }));
 
-const ColorButton = withStyles((theme) => ({
-    root: {
-      color: theme.palette.getContrastText(purple[500]),
-      backgroundColor: purple[500],
-      '&:hover': {
-        backgroundColor: purple[700],
-      },
+const ColorButton = withStyles(theme => ({
+  root: {
+    '&:hover': {
+      backgroundColor: purple[700],
     },
-  }))(Button);
+    backgroundColor: purple[500],
+    color: theme.palette.getContrastText(purple[500])
+  },
+}))(Button);
 
 export default function UploadButtons() {
   const classes = useStyles();
@@ -36,7 +35,7 @@ export default function UploadButtons() {
         id="contained-button-file"
         multiple
         type="file"
-      /> 
+      />
 
       <label htmlFor="contained-button-file">
         <ColorButton variant="contained" color="primary" component="span" >
@@ -44,7 +43,7 @@ export default function UploadButtons() {
         </ColorButton>
       </label>
       <input accept="image/*" className={classes.input} id="icon-button-file" type="file" />
-      
+
     </div>
   );
 }
