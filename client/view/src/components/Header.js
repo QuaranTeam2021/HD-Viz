@@ -1,12 +1,10 @@
-import logo from '../logo.svg';
+import logo from '../logoHDVIZ.PNG';
 
 function Header() {
-	const title = "React PoC"
 	return (
 		<>
 			<header className="App-header">
 				<img src={logo} className="App-logo" alt="logo" />
-				<p className="App-title">{title}</p>
 			</header>
 		</>	
 	)

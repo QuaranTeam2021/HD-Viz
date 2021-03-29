@@ -3,18 +3,15 @@
 }
 
 .App-logo {
-  height: 3rem;
+  margin-top: 1rem;
+  height: 5rem;
   pointer-events: none;
+  margin-bottom: 5rem;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
 
 .App-header {
-  background-color: #282c34;
+  background-color: white;
   min-height: 5vh;
   display: flex;
   flex-direction: column;
@@ -75,4 +72,25 @@
   to {
     transform: rotate(360deg);
   }
+} 
+
+#insert{
+  margin-bottom: 5rem;
+} 
+#graph{
+  margin-left:10rem; 
+  float:left;
 }
+ #algorithm {
+  float: left;
+ }
+ #dimensione{
+   float:left; 
+ }
+ #button{
+   float: left;
+   margin-top: 2rem;
+ }
+  #columns{
+    margin-top: 10rem;
+  }
