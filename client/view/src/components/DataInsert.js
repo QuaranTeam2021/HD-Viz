@@ -3,7 +3,7 @@ import axios from 'axios';
 import CompleteImport from "./CompleteImport";
 import Message from "./Message";
 import GraphsContainer from './GraphsContainer';
-import axios from 'axios';
+//import axios from 'axios';
 
 function DataInsert() {
 	const [file, setFile] = useState('');

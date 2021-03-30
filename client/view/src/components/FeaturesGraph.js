@@ -8,6 +8,8 @@ import Select from '@material-ui/core/Select';
 import Checkbox from '@material-ui/core/Checkbox';
 import MenuButtonGraph from './MenuButtonGraph';
 import HeatmapFeat from './HeatmapFeat';
+import PLMAFeat from './PLMAFeat';
+import ForceFieldFeat from './ForceFieldFeat';
 
 const useStyles = makeStyles((theme) => ({
     formControl: {
@@ -42,7 +44,7 @@ export default function FeaturesGraph({algoritmoGrafico, distanzaGrafico, onDele
         <MenuButtonGraph onDelete={onDelete} i={i}/>
         <div>
         <FormControl className={classes.formControl}>
-            <InputLabel id="demo-simple-select-label">Scegli l'algoritmo</InputLabel>
+            <InputLabel id="demo-simple-select-label">Modifica l'algoritmo</InputLabel>
             <Select labelId="demo-simple-select-label" id="demo-simple-select" value={value} onChange={handleChange}>
                 <MenuItem value={'PCA'}>PCA</MenuItem>
                 <MenuItem value={'FASTMAP'}>FASTMAP</MenuItem>
@@ -57,6 +59,11 @@ export default function FeaturesGraph({algoritmoGrafico, distanzaGrafico, onDele
         <FormControlLabel control={
             <Checkbox checked={state.checkedA} onChange={CheckLabel} name="checkedA" color="primary"/>
             } label="Legenda"/>
+        <FormControlLabel control={    
+            <Checkbox checked={state.checkedB} onChange={CheckLabel} name="checkedB" color="primary"/>
+            } label="Hover dati"/>
+        <ForceFieldFeat />
+        <PLMAFeat />
         <HeatmapFeat />
         </div>
     </div>
