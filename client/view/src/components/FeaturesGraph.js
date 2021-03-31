@@ -20,16 +20,18 @@ const useStyles = makeStyles((theme) => ({
   }));
 
 export default function FeaturesGraph({algoritmoGrafico, distanzaGrafico, onDelete, i}) {
-  const [value, setValue] = React.useState(algoritmoGrafico);
+  const [value, setValue] = React.useState('');
  //const [valueDist, setValueDist] = React.useState(distanzaoGrafico);
  const [state, setState] = React.useState({
     checkedA: false,
+    checkedB: false,
   });
 
   const CheckLabel = (event) => {
     setState({ ...state, [event.target.name]: event.target.checked });
   };
  const classes = useStyles();
+
 
   const handleChange = (event) => {
     setValue(event.target.value);

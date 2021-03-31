@@ -99,8 +99,18 @@
   background-color: #eee;
   margin: 2em 20% 2em 20%;
   text-align: left;
+  padding: 1em;
 }
 
 .MenuBG {
   text-align: right;
+}
+
+/* colori slider */
+#slider-2 {
+  color: orange;
+}
+
+#slider-3 {
+  color: rgb(0, 173, 0);
 }

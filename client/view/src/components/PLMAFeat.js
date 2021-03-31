@@ -15,6 +15,7 @@ export default function IconLabelButtons() {
 
   return (
     <div>
+      <p>Opzioni del grafico PLMA</p>
       <Button
         variant="contained"
         className={classes.button}

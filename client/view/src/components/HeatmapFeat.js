@@ -7,6 +7,7 @@ import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 import FormControl from '@material-ui/core/FormControl';
+import ChangeDistance from './ChangeDistance'
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
@@ -35,6 +36,8 @@ export default function CheckboxLabels() {
 
   return (
     <div>
+        <p>Opzioni del grafico HM</p>
+        <ChangeDistance />
         <FormControl className={classes.formControl}>
             <InputLabel id="demo-simple-select-label2">Modifica l'ordinamento</InputLabel>
             <Select labelId="demo-simple-select-label2" id="demo-simple-select2" value={value} onChange={handleClick}>
