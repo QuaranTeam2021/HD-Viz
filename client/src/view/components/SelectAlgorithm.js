@@ -26,7 +26,7 @@ const PurpleRadio = withStyles({
   }
 })(props => <Radio color="default" {...props} />);
 
-export default function FormControlLabelPlacement({ onChange }) {
+export default function SelectAlgorithm({ onChange }) {
   const classes = useStyles();
 
   const insert = event => {

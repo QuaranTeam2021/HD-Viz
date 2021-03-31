@@ -21,7 +21,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 
-export default function CustomizedButtons() {
+export default function ButtonConfirm() {
   const classes = useStyles();
 
   return (
