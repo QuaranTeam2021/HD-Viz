@@ -6,15 +6,16 @@
   "scripts": {
     "start": "node src/index.js",
     "dev": "nodemon src/index.js",
+    "lint": "npx eslint src",
+    "lint-client": "npx eslint client",
     "test": "mocha --recursive"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "chai": "^4.3.0",
-    "eslint": "^7.19.0",
+    "eslint": "^7.23.0",
     "eslint-plugin-mocha": "^8.0.0",
-    "eslint-plugin-vue": "^7.5.0",
     "mocha": "^8.2.1",
     "nodemon": "^2.0.7"
   },
@@ -25,7 +26,6 @@
     "express-fileupload": "^1.2.1",
     "jsdom": "^16.4.0",
     "mathjs": "^9.2.0",
-    "nodemon": "^2.0.7",
     "numeric": "^1.2.6"
   }
 }

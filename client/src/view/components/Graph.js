@@ -2,9 +2,9 @@ import React, { useState } from 'react'
 
 function Graph({ svg, onDelete, index }) {
 	const [i] = useState(index);
-	
+
 	const createMarkup = () => {
-		return {__html: svg}
+		return { __html: svg }
 	}
 	return (
 		<div>
@@ -13,4 +13,4 @@ function Graph({ svg, onDelete, index }) {
 		</div>
 	)
 }
-export default Graph; 
+export default Graph;
