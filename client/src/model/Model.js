@@ -116,5 +116,13 @@ export class Model {
     }
 }
 
+/** 
+ * createContext permette di creare un contesto 
+ * per una istanza modello => un contesto rende il modello fornito GLOBALE per tutta la applicazione
+ * 
+ * useModel serve per ritornare il contesto
+ * 
+ * per la loro applicazione vedi App.js
+ */
 export const ModelContext = createContext(Model);
 export const useModel = () => useContext(ModelContext);

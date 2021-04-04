@@ -21,6 +21,7 @@ function GraphOption() {
     setGraph(e.target.value);
   }
 
+  // chiamata manuale al controller, passato alla componente <Insert /> a fine pagina
   const onChangeInsert = e => {
     cntr.parseCSV(e.target.files[0]);
   }
