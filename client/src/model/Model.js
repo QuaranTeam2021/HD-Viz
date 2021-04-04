@@ -4,7 +4,6 @@ import { createContext, useContext } from 'react';
 import { makeAutoObservable } from 'mobx';
 const { transpose } = require('mathjs');
 const { Data } = require('./Data');
-const {PCA, UMAP, FASTMAP, ISOMAP, TSNE, LLE} = require('./AlgorithmUtility');
 
 export class Model {
 
@@ -100,6 +99,9 @@ export class Model {
         throw new Error('Id grafico non presente');
     }
     
+    /**
+     * @algorithm => oggetto per la riduzione (NO STRINGA)
+     */
     calculateReduction(algorithm, param, graphId) {
         let res = algorithm.compute(this._selectedData, param);
         let index = this.getGraphStateIndexById(graphId);
