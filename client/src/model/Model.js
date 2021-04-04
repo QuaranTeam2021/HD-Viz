@@ -101,23 +101,7 @@ export class Model {
     }
     
     calculateReduction(algorithm, param, graphId) {
-        let res;
-        switch (algorithm) {
-            case 'pca': res = new PCA().compute(this._selectedData.getMatrix, param);
-                break;
-            case 'umap': res = new UMAP().compute(this._selectedData.getMatrix, param);
-                break;
-            case 'fastmap': res = new FASTMAP().compute(this._selectedData.getMatrix, param);
-                break;
-            case 'isomap': res = new ISOMAP().compute(this._selectedData.getMatrix, param);
-                break;
-            case 't-sne': res = new TSNE().compute(this._selectedData.getMatrix, param);
-                break;
-            case 'lle': res = new LLE().compute(this._selectedData.getMatrix, param);
-                break;
-            default:
-                break;
-        }
+        let res = algorithm.compute(this._selectedData, param);
         let index = this.getGraphStateIndexById(graphId);
         this._graphs[index].setDataset = res; 
     }
