@@ -9,6 +9,7 @@ module.exports = {
         "plugin:react/recommended",
         "plugin:react-hooks/recommended"
     ],
+    "parser": "babel-eslint",
     "parserOptions": {
         "ecmaFeatures": {
             "jsx": true

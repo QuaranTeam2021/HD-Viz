@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import { purple } from '@material-ui/core/colors';
@@ -24,7 +25,7 @@ const ColorButton = withStyles(theme => ({
   },
 }))(Button);
 
-export default function Insert({ fileName, onChange, onClick }) {
+const Insert = ({ fileName, onChange, onClick }) => {
   const classes = useStyles();
 
   return (
@@ -44,7 +45,8 @@ export default function Insert({ fileName, onChange, onClick }) {
           {fileName === undefined ? "Inserimento file" : fileName}
         </ColorButton>
       </label>
-
     </div>
   );
-}
+};
+
+export default Insert;

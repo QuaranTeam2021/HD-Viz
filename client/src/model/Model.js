@@ -1,20 +1,34 @@
-const {transpose} = require('mathjs');
-const {Data} = require('./Data');
+/* eslint-disable accessor-pairs */
+/* eslint-disable no-underscore-dangle */
+import { createContext, useContext } from 'react';
+import { makeAutoObservable } from 'mobx';
+const { transpose } = require('mathjs');
+const { Data } = require('./Data');
 const {PCA, UMAP, FASTMAP, ISOMAP, TSNE, LLE} = require('./AlgorithmUtility');
 
-class Model {
+export class Model {
 
+    _originalData = null;
+
+    _graphs = [];
+
+    _features = [];
+    
+    _selectedFeatures = [];
+    
+    _selectedData = null;
+    
     constructor() {
+        makeAutoObservable(this);
         this._originalData = new Data();
-        this._graphs = [];
-        this._selectedFeatures = [];
-        this._selectedData = this.getOriginalData;
+        this._selectedData = new Data();
     }
 
     // setters
     set setOriginalData(data) {
         this._originalData = data;
         this._selectedData = data;
+        this._features = data[0];
     }
 
     set setGraphs(graphs) {
@@ -68,7 +82,8 @@ class Model {
         if (index < this._graphs.length && index >= 0) {
             let GraphState = this._graphs[index];
             return GraphState;
-        } else throw new Error ('Out of bounds...')
+        } 
+        throw new Error('Out of bounds...')
     }
 
     getGraphStateIndexById(id) {
@@ -82,12 +97,12 @@ class Model {
         }
         if (res) 
             return res;
-        else throw new Error('Id grafico non presente');
+        throw new Error('Id grafico non presente');
     }
-
+    
     calculateReduction(algorithm, param, graphId) {
         let res;
-        switch(algorithm) {
+        switch (algorithm) {
             case 'pca': res = new PCA().compute(this._selectedData.getMatrix, param);
                 break;
             case 'umap': res = new UMAP().compute(this._selectedData.getMatrix, param);
@@ -115,4 +130,5 @@ class Model {
     }
 }
 
-exports.Model = Model;
+export const ModelContext = createContext(Model);
+export const useModel = () => useContext(ModelContext);

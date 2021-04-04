@@ -144,7 +144,7 @@ module.exports = {
                 "allowElseIf": true
             }
         ],
-        "no-empty-function": "error",
+        "no-empty-function": "warn",
         "no-eq-null": "error",
         "no-eval": "error",
         "no-extend-native": "error",

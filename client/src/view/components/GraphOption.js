@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import ButtonConfirm from './ButtonConfirm';
 import Insert from './Insert';
+import MainController from '../../controller/MainController';
 import SelectAlgorithm from './SelectAlgorithm';
 import SelectColumns from './SelectColumns';
 import SelectDimensione from './SelectDimensione';
 import SelectGraph from './SelectGraph';
+import {useModel} from '../../model/Model';
 
 function GraphOption() {
   const setGraph = useState('')[1];
@@ -12,24 +14,15 @@ function GraphOption() {
   const [insertReadResult, setInsertReadResult] = useState('');
   const setAlgorithm = useState('')[1];
   const setDimensione = useState('')[1];
+  const model = useModel();
+  const cntr = new MainController(model);
 
   const onChangeGraph = e => {
     setGraph(e.target.value);
   }
 
   const onChangeInsert = e => {
-    let reader = new FileReader();
-    let file = e.target.files[0];
-    if (file) {
-      reader.readAsText(file, "UTF-8");
-      reader.onload = () => {
-        setInsertReadResult(reader.result);
-      };
-      reader.onerror = () => {
-        console.log("file error");
-      };
-      setInsert(file);
-    }
+    cntr.parseCSV(e.target.files[0]);
   }
 
   const onClickInsert = e => {
