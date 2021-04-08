@@ -22,27 +22,29 @@ const PurpleRadio = withStyles({
     '&$checked': {
       color: purple[600],
     },
-    color: purple[400],
+    color: purple[400]
   }
 })(props => <Radio color="default" {...props} />);
 
-export default function FormControlLabelPlacement({ onChange }) {
+export default function SelectDimensione({ onChange }) {
   const classes = useStyles();
+
   const insert = event => {
     event.preventDefault()
 
   }
 
   return (
-    <div className={classes.root} id="graph">
+    <div className={classes.root} id="dimensione">
       <FormControl component="fieldset" className={classes.formControl} onSubmit={insert}>
-        <FormLabel component="legend" >Grafico: </FormLabel>
-        <RadioGroup aria-label="position" name="position" position="left" onChange={onChange}>
-          <FormControlLabel value="Scatterplot Matrix" control={<PurpleRadio color="primary" />} label="Scatterplot Matrix" />
-          <FormControlLabel value="Scatterplot" control={<PurpleRadio color="primary" />} label="Scatterplot" />
-          <FormControlLabel value="HeatMap" control={<PurpleRadio color="primary" />} label="HeatMap" />
-          <FormControlLabel value="Force Field" control={<PurpleRadio color="primary" />} label="Force Field" />
-          <FormControlLabel value="Proiezione Multiassi" control={<PurpleRadio color="primary" />} label="Proiezione Multiassi" />
+        <FormLabel component="legend" >Metrica per la distanza: </FormLabel>
+        <RadioGroup aria-label="position" name="position" onChange={onChange}>
+          <FormControlLabel value="Euclidean" control={<PurpleRadio color="primary" />} label="Euclidean" />
+          <FormControlLabel value="Manhattn" control={<PurpleRadio color="primary" />} label="Manhattan" />
+          <FormControlLabel value="Cosine" control={<PurpleRadio color="primary" />} label="Cosine" />
+          <FormControlLabel value="Euclidean Squared" control={<PurpleRadio color="primary" />} label="Euclidean Squared" />
+          <FormControlLabel value="Canberra" control={<PurpleRadio color="primary" />} label="Canberra" />
+          <FormControlLabel value="Chebyshev" control={<PurpleRadio color="primary" />} label="Chebyshev" />
         </RadioGroup>
       </FormControl>
     </div>

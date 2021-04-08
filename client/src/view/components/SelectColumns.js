@@ -15,7 +15,14 @@ const PurpleCheckbox = withStyles({
   },
 })(props => <Checkbox color="default" {...props} />);
 
-export default function CheckboxLabels() {
+export default function SelectColumns() {
+  const [state, setState] = React.useState({
+    checkedColumn1: false,
+    checkedColumn2: false,
+    checkedColumn3: false,
+    checkedColumn4: false,
+    checkedColumn5: false,
+  });
 
  
 
