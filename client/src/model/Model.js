@@ -27,7 +27,11 @@ export class Model {
     set setOriginalData(data) {
         this._originalData = data;
         this._selectedData = data;
-        this._features = data[0];
+        this.features = data[0];
+    }
+    
+    set features(features) {
+        this._features = features;
     }
 
     set setGraphs(graphs) {

@@ -1,34 +1,32 @@
 import React, { useState } from 'react';
+import { action } from 'mobx'
 import ButtonConfirm from './ButtonConfirm';
 import Insert from './Insert';
-import MainController from '../../controller/MainController';
 import SelectAlgorithm from './SelectAlgorithm';
 import SelectColumns from './SelectColumns';
 import SelectDimensione from './SelectDimensione';
 import SelectGraph from './SelectGraph';
-import {useModel} from '../../model/Model';
+import { useMainController } from '../../controller/MainController';
 
 function GraphOption() {
   const setGraph = useState('')[1];
-  const [insert, setInsert] = React.useState({});
+  const [insert, setInsert] = React.useState([]);
   const [insertReadResult, setInsertReadResult] = useState('');
   const setAlgorithm = useState('')[1];
   const setDimensione = useState('')[1];
-  const model = useModel();
-  const cntr = new MainController(model);
+  const cntr = useMainController();
+  cntr.setInsert(insert);
 
   const onChangeGraph = e => {
     setGraph(e.target.value);
   }
 
-  // chiamata manuale al controller, passato alla componente <Insert /> a fine pagina
-  const onChangeInsert = e => {
-    cntr.parseCSV(e.target.files[0]);
-  }
+  const onChangeInsert = action(e => {
+    setInsert(e.target.files[0]);
+  })
 
   const onClickInsert = e => {
     e.target.value = null;
-    setInsert({});
     setInsertReadResult("");
   }
 
