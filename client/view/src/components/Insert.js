@@ -30,7 +30,7 @@ export default function UploadButtons() {
   return (
     <div className={classes.root} id="insert">
       <input
-        accept="image/*"
+        accept="csv/*"
         className={classes.input}
         id="contained-button-file"
         multiple
@@ -42,7 +42,7 @@ export default function UploadButtons() {
           Inserimento File
         </ColorButton>
       </label>
-      <input accept="image/*" className={classes.input} id="icon-button-file" type="file" />
+      
 
     </div>
   );
