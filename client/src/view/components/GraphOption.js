@@ -12,10 +12,11 @@ function GraphOption() {
   const setGraph = useState('')[1];
   const [insert, setInsert] = React.useState([]);
   const [insertReadResult, setInsertReadResult] = useState('');
+  const [selectedColumns, setSelectedColumns] = useState([]);
   const setAlgorithm = useState('')[1];
   const setDimensione = useState('')[1];
-  const cntr = useMainController();
-  cntr.setInsert(insert);
+  const mainController = useMainController();
+  mainController.setInsert(insert);
 
   const onChangeGraph = e => {
     setGraph(e.target.value);
@@ -38,6 +39,17 @@ function GraphOption() {
     setDimensione(e.target.value);
   }
 
+  const onChangeColumns = e => {
+    let actual = selectedColumns;
+    if (e.target.checked) {
+      actual.push(e.target.value);
+      setSelectedColumns(actual);
+    } else {
+      actual = actual.filter(d => d !== e.target.value);
+      setSelectedColumns(actual);
+    }
+  }
+
   return (
 
     <div className="GraphOption" >
@@ -46,7 +58,7 @@ function GraphOption() {
       <SelectGraph onChange={onChangeGraph} />
       <SelectAlgorithm onChange={onChangeAlgorithm} />
       <SelectDimensione onChange={onChangeDimensione} />
-      <SelectColumns />
+      <SelectColumns onChange={onChangeColumns} />
       <ButtonConfirm />
 
     </div>

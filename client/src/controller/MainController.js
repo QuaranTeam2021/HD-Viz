@@ -12,21 +12,17 @@ export default class MainController {
         autorun(() => this.parse(this.insert));
     }
 
-    setSelectedFeatures(selected) {
-        this.selected = selected;
-    }
-
     parse(file) {
         if (file && file.size > 0) {
             let name = file.name;
             name = name.split('.');
             let ext = name[1];
             switch (ext) {
-                case 'csv': this.parseCsv(file);
+                case 'csv': this.parseWithDelimiter(file, ',');
                     break;
-                case 'json': 
+                case 'json':
                     break;
-                case 'tsv':
+                case 'tsv': this.parseWithDelimiter(file, '\t');
                     break;
                 default:
                     break;
@@ -34,7 +30,7 @@ export default class MainController {
         }
     }
 
-    parseCsv(file) {
+    parseWithDelimiter(file, delimiter) {
         let matrix = [];
         let reader = new FileReader();
         if (file && file.size > 0) {
@@ -43,7 +39,7 @@ export default class MainController {
                 let text = reader.result;
                 matrix = text.split('\n');
                 for (let i = 0; i < matrix.length; ++i) {
-                    matrix[i] = matrix[i].split(',');
+                    matrix[i] = matrix[i].split(delimiter);
                 }
                 this.model.setOriginalData = matrix;
             };
@@ -56,5 +52,3 @@ export default class MainController {
 
 export const MainControllerContext = createContext(MainController);
 export const useMainController = () => useContext(MainControllerContext);
-
- 
