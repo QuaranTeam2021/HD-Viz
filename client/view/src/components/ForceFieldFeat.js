@@ -1,8 +1,8 @@
-import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
-import Slider from '@material-ui/core/Slider';
 import ChangeDistance from './ChangeDistance';
+import { makeStyles } from '@material-ui/core/styles';
+import React from 'react';
+import Slider from '@material-ui/core/Slider';
+import Typography from '@material-ui/core/Typography';
 
 const useStyles = makeStyles({
   root: {
@@ -10,40 +10,40 @@ const useStyles = makeStyles({
   },
 });
 
-/*function valuetext(value) {
+/* function valuetext(value) {
   return `${value}°C`;
 }*/
 
 const marks = [
   {
-    value: 0,
     label: '0',
+    value: 0,
   },
   {
-    value: 10,
     label: '10',
+    value: 10,
   },
 ];
 
 const marks2 = [
   {
-    value: 0,
     label: '0',
+    value: 0,
   },
   {
-    value: 10,
     label: '10',
+    value: 10,
   },
 ];
 
 const marks3 = [
   {
-    value: 0,
     label: '0',
+    value: 0,
   },
   {
-    value: 10,
     label: '10',
+    value: 10,
   },
 ];
 
@@ -57,7 +57,7 @@ export default function DiscreteSlider() {
         <Typography id="discrete-slider" gutterBottom>Distanza minima</Typography>
         <Slider
             defaultValue={5}
-            //getAriaValueText={valuetext}
+            // getAriaValueText={valuetext}
             aria-labelledby="discrete-slider"
             valueLabelDisplay="auto"
             step={1}
@@ -68,7 +68,7 @@ export default function DiscreteSlider() {
         <Typography id="discrete-slider" gutterBottom>Distanza massima</Typography>
         <Slider id="slider-2"
             defaultValue={5}
-            //getAriaValueText={valuetext}
+            // getAriaValueText={valuetext}
             aria-labelledby="discrete-slider"
             valueLabelDisplay="auto"
             step={1}
@@ -79,7 +79,7 @@ export default function DiscreteSlider() {
         <Typography id="discrete-slider" gutterBottom>Forza</Typography>
         <Slider id="slider-3"
             defaultValue={5}
-            //getAriaValueText={valuetext}
+            // getAriaValueText={valuetext}
             aria-labelledby="discrete-slider"
             valueLabelDisplay="auto"
             step={1}

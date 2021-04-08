@@ -1,21 +1,21 @@
-import React from 'react';
 import Button from '@material-ui/core/Button';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
-import Paper from '@material-ui/core/Paper';
-import Popper from '@material-ui/core/Popper';
 import MenuItem from '@material-ui/core/MenuItem';
 import MenuList from '@material-ui/core/MenuList';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
+import Paper from '@material-ui/core/Paper';
+import Popper from '@material-ui/core/Popper';
+import React from 'react';
 
 export default function MenuButtonGraph(onDelete, i) {
   const [open, setOpen] = React.useState(false);
   const anchorRef = React.useRef(null);
 
   const handleToggle = () => {
-    setOpen((prevOpen) => !prevOpen);
+    setOpen(prevOpen => !prevOpen);
   };
 
-  const handleClose = (event) => {
+  const handleClose = event => {
     if (anchorRef.current && anchorRef.current.contains(event.target)) {
       return;
     }
@@ -49,8 +49,7 @@ export default function MenuButtonGraph(onDelete, i) {
         <MoreHorizIcon fontSize="small"/>
         </Button>
         <Popper open={open} anchorEl={anchorRef.current} role={undefined} transition disablePortal>
-          {({ TransitionProps, placement }) => (
-              <Paper>
+           <Paper>
                 <ClickAwayListener onClickAway={handleClose}>
                   <MenuList autoFocusItem={open} id="menu-list-grow" onKeyDown={handleListKeyDown}>
                     <MenuItem onClick={handleClose}>Ancora sotto il grafico</MenuItem>
@@ -59,7 +58,7 @@ export default function MenuButtonGraph(onDelete, i) {
                   </MenuList>
                 </ClickAwayListener>
               </Paper>
-          )}
+          
         </Popper>
       </div>
   );

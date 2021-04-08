@@ -1,17 +1,17 @@
 import React, { useState } from 'react';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import FormControl from '@material-ui/core/FormControl';
-import { makeStyles } from '@material-ui/core/styles';
-import InputLabel from '@material-ui/core/InputLabel';
-import MenuItem from '@material-ui/core/MenuItem';
-import Select from '@material-ui/core/Select';
 import Checkbox from '@material-ui/core/Checkbox';
-import MenuButtonGraph from './MenuButtonGraph';
-import HeatmapFeat from './HeatmapFeat';
-import PLMAFeat from './PLMAFeat';
 import ForceFieldFeat from './ForceFieldFeat';
+import FormControl from '@material-ui/core/FormControl';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import HeatmapFeat from './HeatmapFeat';
+import InputLabel from '@material-ui/core/InputLabel';
+import { makeStyles } from '@material-ui/core/styles';
+import MenuButtonGraph from './MenuButtonGraph';
+import MenuItem from '@material-ui/core/MenuItem';
+import PLMAFeat from './PLMAFeat';
+import Select from '@material-ui/core/Select';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
     formControl: {
       margin: theme.spacing(1),
       minWidth: 160,
@@ -19,21 +19,23 @@ const useStyles = makeStyles((theme) => ({
   
   }));
 
-export default function FeaturesGraph({algoritmoGrafico, distanzaGrafico, onDelete, i}) {
-  const [value, setValue] = React.useState('');
- //const [valueDist, setValueDist] = React.useState(distanzaoGrafico);
- const [state, setState] = React.useState({
+export default function FeaturesGraph({ onDelete, i}) {
+// export default function FeaturesGraph({algoritmoGrafico, distanzaGrafico, onDelete, i}) {
+  const [value, setValue] = useState('');
+ // const [valueDist, setValueDist] = React.useState(distanzaoGrafico);
+ const [state, setState] = useState({
     checkedA: false,
     checkedB: false,
   });
 
-  const CheckLabel = (event) => {
-    setState({ ...state, [event.target.name]: event.target.checked });
+  const CheckLabel = event => {
+    setState({ ...state,
+[event.target.name]: event.target.checked });
   };
  const classes = useStyles();
 
 
-  const handleChange = (event) => {
+  const handleChange = event => {
     setValue(event.target.value);
   };
 
@@ -46,7 +48,7 @@ export default function FeaturesGraph({algoritmoGrafico, distanzaGrafico, onDele
         <MenuButtonGraph onDelete={onDelete} i={i}/>
         <div>
         <FormControl className={classes.formControl}>
-            <InputLabel id="demo-simple-select-label">Modifica l'algoritmo</InputLabel>
+            <InputLabel id="demo-simple-select-label">Modifica l&apos;algoritmo</InputLabel>
             <Select labelId="demo-simple-select-label" id="demo-simple-select" value={value} onChange={handleChange}>
                 <MenuItem value={'PCA'}>PCA</MenuItem>
                 <MenuItem value={'FASTMAP'}>FASTMAP</MenuItem>

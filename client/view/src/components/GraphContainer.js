@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import Graph from './Graph';
 import FeaturesGraph from './FeaturesGraph';
+import Graph from './Graph';
+import React from 'react';
 
 function GraphContainer({algoritmoGrafico, tipoGrafico, distanzaGrafico, onDelete, i, svg}) {
 	
