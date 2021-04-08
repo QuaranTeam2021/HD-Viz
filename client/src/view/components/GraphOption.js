@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import ButtonConfirm from './ButtonConfirm';
 import Insert from './Insert';
 import SelectAlgorithm from './SelectAlgorithm';
-import SelectColumns from './SelectColumns';
+
 import SelectDimensione from './SelectDimensione';
 import SelectGraph from './SelectGraph';
 
@@ -54,7 +54,7 @@ function GraphOption() {
       <SelectGraph onChange={onChangeGraph} />
       <SelectAlgorithm onChange={onChangeAlgorithm} />
       <SelectDimensione onChange={onChangeDimensione} />
-      <SelectColumns />
+    
       <ButtonConfirm />
 
     </div>
