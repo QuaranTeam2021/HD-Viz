@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import ButtonConfirm from './ButtonConfirm';
 import Insert from './Insert';
 import SelectAlgorithm from './SelectAlgorithm';
-
 import SelectDimensione from './SelectDimensione';
 import SelectGraph from './SelectGraph';
 
@@ -15,7 +14,7 @@ function GraphOption() {
 
   const onChangeGraph = e => {
     setGraph(e.target.value);
-  }
+  };
 
   const onChangeInsert = e => {
     let reader = new FileReader();
@@ -30,31 +29,31 @@ function GraphOption() {
       };
       setInsert(file);
     }
-  }
+  };
 
   const onClickInsert = e => {
     e.target.value = null;
     setInsert({});
     setInsertReadResult("");
-  }
+  };
 
   const onChangeAlgorithm = e => {
     setAlgorithm(e.target.value);
-  }
+  };
 
   const onChangeDimensione = e => {
     setDimensione(e.target.value);
-  }
+  };
 
   return (
 
     <div className="GraphOption" >
-      <Insert onChange={onChangeInsert} fileName={insert.name} onClick={onClickInsert}/>
+      <Insert onChange={onChangeInsert} fileName={insert.name} onClick={onClickInsert} />
       {insert && insertReadResult}
       <SelectGraph onChange={onChangeGraph} />
       <SelectAlgorithm onChange={onChangeAlgorithm} />
       <SelectDimensione onChange={onChangeDimensione} />
-    
+
       <ButtonConfirm />
 
     </div>

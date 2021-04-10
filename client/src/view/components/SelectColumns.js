@@ -1,15 +1,14 @@
-const TodoList = observer(({store}) => {
+/* eslint-disable */
+const TodoList = observer(({ store }) => {
     const onNewTodo = () => {
-      store.addTodo(prompt('Enter a new todo:','coffee plz'));
+      store.addTodo(prompt('Enter a new todo:', 'coffee plz'));
     }
   
     return (
       <div>
         { store.report }
         <ul>
-          { store.todos.map(
-            (todo, idx) => <TodoView todo={ todo } key={ idx } />
-          ) }
+          { store.todos.map((todo, idx) => <TodoView todo={ todo } key={ idx } />) }
         </ul>
         { store.pendingRequests > 0 ? <marquee>Loading...</marquee> : null }
         <button onClick={ onNewTodo }>New Todo</button>
@@ -19,13 +18,10 @@ const TodoList = observer(({store}) => {
     );
   })
 
-  
-
-  
-
+/*
   return (
     
-    <div id="columns" /*ref={this.bello}*/>
+    <div id="columns" /*ref={this.bello} finecommento/*>
       
       <FormGroup row>
         <FormControlLabel
@@ -51,4 +47,4 @@ const TodoList = observer(({store}) => {
       </FormGroup>
     </div>
   );
-}
+} */
