@@ -7,7 +7,7 @@ import Paper from '@material-ui/core/Paper';
 import Popper from '@material-ui/core/Popper';
 import React from 'react';
 
-export default function MenuButtonGraph(onDelete, i) {
+export default function MenuButtonGraph({ onDelete, i }) {
   const [open, setOpen] = React.useState(false);
   const anchorRef = React.useRef(null);
 
@@ -20,7 +20,7 @@ export default function MenuButtonGraph(onDelete, i) {
       return;
     }
     setOpen(false);
-  };
+  };  
 
   function handleListKeyDown(event) {
     if (event.key === 'Tab') {
@@ -53,7 +53,6 @@ export default function MenuButtonGraph(onDelete, i) {
                 <ClickAwayListener onClickAway={handleClose}>
                   <MenuList autoFocusItem={open} id="menu-list-grow" onKeyDown={handleListKeyDown}>
                     <MenuItem onClick={handleClose}>Ancora sotto il grafico</MenuItem>
-                    <MenuItem onClick={handleClose}>Nascondi opzioni</MenuItem>
                     <MenuItem onClick={() => onDelete(i)}>Rimuovi grafico</MenuItem>
                   </MenuList>
                 </ClickAwayListener>

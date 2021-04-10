@@ -9,6 +9,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import MenuButtonGraph from './MenuButtonGraph';
 import MenuItem from '@material-ui/core/MenuItem';
 import PLMAFeat from './PLMAFeat';
+import RenameAxis from './RenameAxis';
 import Select from '@material-ui/core/Select';
 
 const useStyles = makeStyles(theme => ({
@@ -22,11 +23,18 @@ const useStyles = makeStyles(theme => ({
 export default function FeaturesGraph({ onDelete, i}) {
 // export default function FeaturesGraph({algoritmoGrafico, distanzaGrafico, onDelete, i}) {
   const [value, setValue] = useState('');
- // const [valueDist, setValueDist] = React.useState(distanzaoGrafico);
+ // const [valueDist, setValueDist] = React.useState(distanzaGrafico);
  const [state, setState] = useState({
     checkedA: false,
     checkedB: false,
+    showing: false,
   });
+
+  let showFeatMode = {}
+  
+  if (state.showing) {
+      showFeatMode.display = "none"
+  }
 
   const CheckLabel = event => {
     setState({ ...state,
@@ -41,34 +49,36 @@ export default function FeaturesGraph({ onDelete, i}) {
 
  /* const handleChangeDist = (event) => {
     setValueDist(event.target.valueDist);
-  };*/
+  }; */
 
   return (
     <div className="FeaturesCont">
-        <MenuButtonGraph onDelete={onDelete} i={i}/>
-        <div>
-        <FormControl className={classes.formControl}>
-            <InputLabel id="demo-simple-select-label">Modifica l&apos;algoritmo</InputLabel>
-            <Select labelId="demo-simple-select-label" id="demo-simple-select" value={value} onChange={handleChange}>
-                <MenuItem value={'PCA'}>PCA</MenuItem>
-                <MenuItem value={'FASTMAP'}>FASTMAP</MenuItem>
-                <MenuItem value={'LLE'}>LLE</MenuItem>
-                <MenuItem value={'ISOMAP'}>ISOMAP</MenuItem>
-                <MenuItem value={'T-SNE'}>T-SNE</MenuItem>
-                <MenuItem value={'UMAP'}>UMAP</MenuItem>
-            </Select>
-        </FormControl>
+        <MenuButtonGraph showing={state.showing} onDelete={onDelete} i={i}/>
+        <div style={showFeatMode}>
+            <FormControl className={classes.formControl}>
+                <InputLabel id="demo-simple-select-label">Modifica l&apos;algoritmo</InputLabel>
+                <Select labelId="demo-simple-select-label" id="demo-simple-select" value={value} onChange={handleChange}>
+                    <MenuItem value={'PCA'}>PCA</MenuItem>
+                    <MenuItem value={'FASTMAP'}>FASTMAP</MenuItem>
+                    <MenuItem value={'LLE'}>LLE</MenuItem>
+                    <MenuItem value={'ISOMAP'}>ISOMAP</MenuItem>
+                    <MenuItem value={'T-SNE'}>T-SNE</MenuItem>
+                    <MenuItem value={'UMAP'}>UMAP</MenuItem>
+                </Select>
+            </FormControl>
         </div>
-        <div>
-        <FormControlLabel control={
-            <Checkbox checked={state.checkedA} onChange={CheckLabel} name="checkedA" color="primary"/>
-            } label="Legenda"/>
-        <FormControlLabel control={    
-            <Checkbox checked={state.checkedB} onChange={CheckLabel} name="checkedB" color="primary"/>
-            } label="Hover dati"/>
-        <ForceFieldFeat />
-        <PLMAFeat />
-        <HeatmapFeat />
+        <div style={showFeatMode}>
+            <FormControlLabel control={
+                <Checkbox checked={state.checkedA} onChange={CheckLabel} name="checkedA" color="primary"/>
+                } label="Legenda"/>
+            <FormControlLabel control={    
+                <Checkbox checked={state.checkedB} onChange={CheckLabel} name="checkedB" color="primary"/>
+                } label="Hover dati"/>
+            <ForceFieldFeat />
+            <PLMAFeat />
+            <HeatmapFeat />
+            <RenameAxis asse="1" color1="primary" color2="secondary" color3="default" />
+            <RenameAxis asse="2" color1="secondary" color2="primary" color3="default" />
         </div>
     </div>
     );

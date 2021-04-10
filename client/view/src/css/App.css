@@ -95,11 +95,30 @@
     margin-top: 10rem;
   }
 
+.FeatContainer {
+  display: inline-block;
+}
+
 .FeaturesCont {
   background-color: #eee;
-  margin: 2em 20% 2em 20%;
   text-align: left;
   padding: 1em;
+}
+
+.titleGraph ul {
+  list-style-type: none;
+}
+
+.MuiFormGroup-row {
+  margin-top: 3em;
+  flex-direction: column;
+}
+
+.textInput {
+  text-align: center;
+  width: 20%;
+  padding: 5px;
+  border: 1px solid black;
 }
 
 .MenuBG {
