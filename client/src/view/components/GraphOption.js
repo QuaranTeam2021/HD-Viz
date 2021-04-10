@@ -20,7 +20,7 @@ export default function GraphOption() {
 
   const onChangeGraph = e => {
     setGraph(e.target.value);
-  }
+  };
 
   const onChangeInsert = action(e => {
     setInsert(e.target.files[0]);
@@ -29,15 +29,15 @@ export default function GraphOption() {
   const onClickInsert = e => {
     e.target.value = null;
     setInsertReadResult("");
-  }
+  };
 
   const onChangeAlgorithm = e => {
     setAlgorithm(e.target.value);
-  }
+  };
 
   const onChangeDimensione = e => {
     setDimensione(e.target.value);
-  }
+  };
 
   const onChangeColumns = e => {
     let actual = selectedColumns;
@@ -53,14 +53,14 @@ export default function GraphOption() {
   return (
 
     <div className="GraphOption" >
-      <Insert onChange={onChangeInsert} fileName={insert.name} onClick={onClickInsert}/>
+      <Insert onChange={onChangeInsert} fileName={insert.name} onClick={onClickInsert} />
       {insert && insertReadResult}
       <SelectGraph onChange={onChangeGraph} />
       <SelectAlgorithm onChange={onChangeAlgorithm} />
       <SelectDimensione onChange={onChangeDimensione} />
       <SelectColumns onChange={onChangeColumns} />
-      <ButtonConfirm />
 
+      <ButtonConfirm />
     </div>
   );
 }
