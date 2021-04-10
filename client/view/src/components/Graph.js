@@ -8,7 +8,7 @@ function Graph({svg, tipoGrafico}) {
 	
 	return (
 		<div>
-			<p> {tipoGrafico}</p>
+			<p> {tipoGrafico} </p>
 			<div dangerouslySetInnerHTML={createMarkup()}></div>
 		</div>
 	)
