@@ -1,6 +1,5 @@
-/* eslint-disable accessor-pairs */
-/* eslint-disable no-underscore-dangle */
 const {column} = require('mathjs');
+
 class Data {
 
     constructor(matrix = []) {

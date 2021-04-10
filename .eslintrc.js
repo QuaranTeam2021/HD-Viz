@@ -16,7 +16,7 @@ module.exports = {
         "/.eslintrc.js"
     ],
     "rules": {
-        "accessor-pairs": "error",
+        "accessor-pairs": "off",
         "array-bracket-newline": "error",
         "array-bracket-spacing": [
             "error",
@@ -83,8 +83,14 @@ module.exports = {
         "eqeqeq": "off",
         "func-call-spacing": "error",
         "func-name-matching": "error",
-        "func-names": "off",
-        "func-style": "off",
+        "func-names": [
+            "error",
+            "as-needed"
+        ],
+        "func-style": [
+            "error",
+            "expression"
+        ],
         "function-call-argument-newline": [
             "error",
             "consistent"
@@ -118,11 +124,11 @@ module.exports = {
         "max-lines": "error",
         "max-lines-per-function": "off",
         "max-nested-callbacks": "error",
-        "max-params": "off",
+        "max-params": [ "warn", 4 ],
         "max-statements": "off",
         "max-statements-per-line": "off",
         "multiline-comment-style": [
-            "error",
+            "warn",
             "bare-block"
         ],
         "new-parens": "error",
@@ -164,7 +170,7 @@ module.exports = {
         "no-loop-func": "error",
         "no-loss-of-precision": "error",
         "no-magic-numbers": "off",
-        "no-mixed-operators": "off",
+        "no-mixed-operators": "warn",
         "no-multi-assign": "error",
         "no-multi-spaces": "error",
         "no-multi-str": "error",
@@ -179,7 +185,7 @@ module.exports = {
         "no-octal-escape": "error",
         "no-param-reassign": "off",
         "no-plusplus": [
-            "error",
+            "warn",
             {
                 "allowForLoopAfterthoughts": true
             }
@@ -209,12 +215,13 @@ module.exports = {
         "no-trailing-spaces": "off",
         "no-undef-init": "error",
         "no-undefined": "off",
-        "no-underscore-dangle": "error",
+        "no-underscore-dangle": "off",
         "no-unmodified-loop-condition": "error",
         "no-unneeded-ternary": "error",
         "no-unreachable-loop": "error",
         "no-unsafe-optional-chaining": "error",
         "no-unused-expressions": "error",
+        "no-unused-vars": "warn",
         "no-use-before-define": "off",
         "no-useless-backreference": "error",
         "no-useless-call": "error",

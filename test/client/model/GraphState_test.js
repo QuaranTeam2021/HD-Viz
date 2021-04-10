@@ -1,5 +1,6 @@
-const {expect} = require('chai');
-const {GraphState} = require('../../../client/src/model/GraphState');
+/* eslint-disable func-names */
+const { expect } = require('chai');
+const { GraphState } = require('../../../client/src/model/GraphState');
 
 describe('Testing GraphState class', function() {
 
@@ -12,6 +13,7 @@ describe('Testing GraphState class', function() {
 
         it('Should not be undefined', function() {
             const obj = new GraphState();
+            // eslint-disable-next-line no-unused-expressions
             expect(obj).to.not.be.undefined;
         })
     })  

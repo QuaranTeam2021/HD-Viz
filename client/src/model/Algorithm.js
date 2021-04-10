@@ -1,3 +1,4 @@
+/* eslint-disable class-methods-use-this */
 const druid = require('@saehrimnir/druidjs');
 
 /**
@@ -7,25 +8,27 @@ const druid = require('@saehrimnir/druidjs');
 class Algorithm {
 
     constructor() {
-        if(this.constructor === Algorithm) 
+        if (this.constructor === Algorithm) 
             throw new Error("Can't instantiate abstract class!");
     }
     
     // definisco i passi dell'algoritmo
     compute(data, param) {
         let matrix = druid.Matrix.from(data);
-        if(param.metric)
+        if (param.metric)
             param.metric = this.getMetric(param.metric);
         let red = this.setAlgorithm(matrix, param);
         let res = red.transform();
         return this.get2dArray(res.to2dArray);
     }
 
-    setAlgorithm() {}
+    setAlgorithm(data, param) { // eslint-disable-line
+        // abstract
+    }
 
     getMetric(metric) {
         let res;
-        switch(metric) {
+        switch (metric) {
             case "euclidean": res = druid.euclidean;
             break;
             case "manhattan": res = druid.manhattan;

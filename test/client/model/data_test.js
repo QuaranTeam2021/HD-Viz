@@ -1,5 +1,6 @@
-const {expect} = require('chai');
-const {Data} = require('../../../client/src/model/data');
+/* eslint-disable func-names */
+const { expect } = require('chai');
+const { Data } = require('../../../client/src/model/data');
 
 
 describe('Test for Data class', function() {
@@ -18,6 +19,7 @@ describe('Test for Data class', function() {
 
         it('Should not be undefined', function() {
             let d = new Data([1, 2, 4], [4, 5, 6]);
+            // eslint-disable-next-line no-unused-expressions
             expect(d).to.not.be.undefined;
         })
 

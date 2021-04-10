@@ -1,5 +1,3 @@
-/* eslint-disable accessor-pairs */
-/* eslint-disable no-underscore-dangle */
 import { createContext, useContext } from 'react';
 import { makeAutoObservable } from 'mobx';
 const { transpose } = require('mathjs');
@@ -104,7 +102,7 @@ export class Model {
     }
     
     /**
-     * @algorithm => oggetto per la riduzione (NO STRINGA)
+     * @param algorithm oggetto per la riduzione (NO STRINGA)
      */
     calculateReduction(algorithm, param, graphId) {
         let res = algorithm.compute(this._selectedData, param);

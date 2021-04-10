@@ -8,7 +8,7 @@ import SelectDimensione from './SelectDimensione';
 import SelectGraph from './SelectGraph';
 import { useMainController } from '../../controller/MainController';
 
-function GraphOption() {
+export default function GraphOption() {
   const setGraph = useState('')[1];
   const [insert, setInsert] = React.useState([]);
   const [insertReadResult, setInsertReadResult] = useState('');
@@ -64,5 +64,3 @@ function GraphOption() {
     </div>
   );
 }
-
-export default GraphOption;

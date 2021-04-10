@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-function Graph({ svg, onDelete, index }) {
+export default function Graph({ svg, onDelete, index }) {
 	const [i] = useState(index);
 
 	const createMarkup = () => {
@@ -13,4 +13,3 @@ function Graph({ svg, onDelete, index }) {
 		</div>
 	)
 }
-export default Graph;

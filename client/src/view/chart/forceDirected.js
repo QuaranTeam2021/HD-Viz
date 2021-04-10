@@ -10,74 +10,74 @@ let forceProperties = {
 		y: 0.5
 	},
 	charge: {
-		enabled: true,
-		strength: -30,
+		distanceMax: 2000,
 		distanceMin: 1,
-		distanceMax: 2000
+		enabled: true,
+		strength: -30
 	},
 	collide: {
 		enabled: true,
-		strength: .7,
-		radius: 5
+		radius: 5,
+		strength: 0.7,
 	},
 	link: {
-		enabled: true,
 		distance: 30,
+		enabled: true,
 		iterations: 1
 	}
 }
 
-function setStrength(value) {
+const setStrength = function(value) {
 	forceProperties.charge.strength = value;
 }
 
-function setDistanceMin(value) {
+const setDistanceMin = function(value) {
 	forceProperties.charge.distanceMin = value;
 }
 
-function setDistanceMax(value) {
+const setDistanceMax = function(value) {
 	forceProperties.charge.distanceMax = value;
 }
 
 
-export function updateStrength(value) {
+export const updateStrength = function(value) {
 	setStrength(value);
 	updateForces();
 }
 
-export function updateDistanceMin(value) {
+export const updateDistanceMin = function(value) {
 	setDistanceMin(value);
 	updateForces();
 }
 
-export function updateDistanceMax(value) {
+export const updateDistanceMax = function(value) {
 	setDistanceMax(value);
 	updateForces();
 }
 
-var link;
-var node;
-export function updateDisplay() {
+let link;
+let node;
+export const updateDisplay = function() {
 	node
 		.attr("r", forceProperties.collide.radius)
 		.attr("stroke", forceProperties.charge.strength > 0 ? "blue" : "red")
-		.attr("stroke-width", forceProperties.charge.enabled == false ? 0 : Math.abs(forceProperties.charge.strength) / 15);
+		.attr("stroke-width", forceProperties.charge.enabled === false ? 0 : Math.abs(forceProperties.charge.strength) / 15);
 
 	link
-		.attr("stroke-width", forceProperties.link.enabled ? 1 : .5)
+		.attr("stroke-width", forceProperties.link.enabled ? 1 : 0.5)
 		.attr("opacity", forceProperties.link.enabled ? 1 : 0);
 }
 
 
-var simulation;
-export function updateForces() {
+let simulation;
+export const updateForces = function() {
 	simulation.force("charge")
 		.strength(forceProperties.charge.strength * forceProperties.charge.enabled)
 		.distanceMin(forceProperties.charge.distanceMin)
 		.distanceMax(forceProperties.charge.distanceMax);
 
-	// updates ignored until this is run
-	// restarts the simulation (important if simulation has already slowed down)
+	/* updates ignored until this is run
+	   restarts the simulation (important if simulation has already slowed down) */
 	simulation.alpha(1).restart();
 }
 
@@ -99,11 +99,11 @@ export const forceDirected = function(data, idBox) {
 		.force("charge", d3.forceManyBody())
 		.force("center", d3.forceCenter(width / 2, height / 2));
 	
-	// const svg = d3.create("svg")
-	// 	.attr("viewBox", [0, 0, width, height]);
-	// alternativa:
-	const svg = d3.select('#'+idBox).append("svg")
-	    .attr("viewBox", [0, 0, width, height]);
+	/* const svg = d3.create("svg")
+	   	.attr("viewBox", [0, 0, width, height]);
+	   alternativa: */
+	const svg = d3.select(`#${idBox}`).append("svg")
+		.attr("viewBox", [0, 0, width, height]);
 
 	link = svg.append("g")
 		.attr("stroke", "#999")
@@ -121,10 +121,8 @@ export const forceDirected = function(data, idBox) {
 		.join("circle")
 		.attr("r", 5)
 		.attr("fill", color)
-		.call(drag(simulation))
-		;
-
-	node.append("title")
+		.call(drag(simulation));
+node.append("title")
 			.text(d => d.id);
 
 	simulation.on("tick", () => {
@@ -141,20 +139,20 @@ export const forceDirected = function(data, idBox) {
 		return svg.node();
 }
 
-const drag = (simulation) => {
+const drag = sim => {
 	
-	function dragstarted(event) {
-		if (!event.active) simulation.alphaTarget(0.3).restart();
+	const dragstarted = function(event) {
+		if (!event.active) sim.alphaTarget(0.3).restart();
 		event.subject.fx = event.subject.x;
 		event.subject.fy = event.subject.y;
 	}
 	
-	function dragged(event) {
+	const dragged = function(event) {
 		event.subject.fx = event.x;
 		event.subject.fy = event.y;
 	}
 	
-	function dragended(event) {
+	const dragended = function(event) {
 		if (!event.active) simulation.alphaTarget(0);
 		event.subject.fx = null;
 		event.subject.fy = null;
@@ -168,4 +166,4 @@ const drag = (simulation) => {
 
 
 const scale = d3.scaleOrdinal(d3.schemeCategory10);
-const color = (d) => scale(d.group);
+const color = d => scale(d.group);

@@ -1,7 +1,9 @@
-const {Model} = require('../../../client/src/model/Model');
-const {expect} = require('chai');
-const {GraphState} = require('../../../client/src/model/GraphState');
-const {Data} = require('../../../client/src/model/Data');
+/* eslint-disable max-lines */
+/* eslint-disable func-names */
+const { Model } = require('../../../client/src/model/Model');
+const { expect } = require('chai');
+const { GraphState } = require('../../../client/src/model/GraphState');
+const { Data } = require('../../../client/src/model/Data');
 
 describe('Testing model class', function() {
 
@@ -18,6 +20,7 @@ describe('Testing model class', function() {
         it('Should not be undefined', function() {
             const mod = new Model();
 
+            // eslint-disable-next-line no-unused-expressions
             expect(mod).to.not.be.undefined;
         })
     }) 
@@ -151,7 +154,7 @@ describe('Testing model class', function() {
                 mod.addGraphState(graphState1);
                 mod.addGraphState(graphState2);
                 mod.getGraphStateAtIndex(4);
-            }).to.throw(Error,'Out of bounds...');
+            }).to.throw(Error, 'Out of bounds...');
         })
 
         it('Must return error with negative index', function() {
@@ -164,14 +167,14 @@ describe('Testing model class', function() {
                 mod.addGraphState(graphState1);
                 mod.addGraphState(graphState2);
                 mod.getGraphStateAtIndex(-1);
-            }).to.throw(Error,'Out of bounds...');
+            }).to.throw(Error, 'Out of bounds...');
         })
 
         it('Must return error with empty array', function() {
             expect(function() {
                 const mod = new Model();
                 mod.getGraphStateAtIndex(0);
-            }).to.throw(Error,'Out of bounds...');
+            }).to.throw(Error, 'Out of bounds...');
         })
     })
 
@@ -277,7 +280,7 @@ describe('Testing model class', function() {
         })
 
         it('Must throw error', function() {
-            expect( function() {
+            expect(function() {
                 const grSt1 = new GraphState('gr1');
                 const grSt2 = new GraphState('gr2');
                 const mod = new Model();
@@ -299,12 +302,12 @@ describe('Testing model class', function() {
             mod.addGraphState(graphState2);
             mod.addGraphState(graphState3);
             const d = new Data([
-                [4.7,3.2,1.3,0.2],
-                [4.6,3.1,1.5,0.2],
-                [5.0,3.6,1.4,0.2],
-                [5.4,3.9,1.7,0.4],
-                [4.6,3.4,1.4,0.3],
-                [5.0,3.4,1.5,0.2]
+                [4.7, 3.2, 1.3, 0.2],
+                [4.6, 3.1, 1.5, 0.2],
+                [5.0, 3.6, 1.4, 0.2],
+                [5.4, 3.9, 1.7, 0.4],
+                [4.6, 3.4, 1.4, 0.3],
+                [5.0, 3.4, 1.5, 0.2]
             ]);
             mod.setOriginalData = d;
             let param = { dims: 2 };
@@ -312,6 +315,7 @@ describe('Testing model class', function() {
             const grRes = mod.getGraphStateAtIndex(1);
             const res = grRes.getDataset;
 
+            // eslint-disable-next-line no-unused-expressions
             expect(res).to.not.be.undefined;
         })
 
@@ -324,12 +328,12 @@ describe('Testing model class', function() {
             mod.addGraphState(graphState2);
             mod.addGraphState(graphState3);
             const d = new Data([
-                [4.7,3.2,1.3,0.2],
-                [4.6,3.1,1.5,0.2],
-                [5.0,3.6,1.4,0.2],
-                [5.4,3.9,1.7,0.4],
-                [4.6,3.4,1.4,0.3],
-                [5.0,3.4,1.5,0.2]
+                [4.7, 3.2, 1.3, 0.2],
+                [4.6, 3.1, 1.5, 0.2],
+                [5.0, 3.6, 1.4, 0.2],
+                [5.4, 3.9, 1.7, 0.4],
+                [4.6, 3.4, 1.4, 0.3],
+                [5.0, 3.4, 1.5, 0.2]
             ]);
             mod.setOriginalData = d;
             let param = { dims: 2 };
@@ -349,20 +353,20 @@ describe('Testing model class', function() {
             mod.addGraphState(graphState2);
             mod.addGraphState(graphState3);
             const d = new Data([
-                [4.7,3.2,1.3,0.2],
-                [4.6,3.1,1.5,0.2],
-                [5.0,3.6,1.4,0.2],
-                [5.4,3.9,1.7,0.4],
-                [4.6,3.4,1.4,0.3],
-                [5.0,3.4,1.5,0.2]
+                [4.7, 3.2, 1.3, 0.2],
+                [4.6, 3.1, 1.5, 0.2],
+                [5.0, 3.6, 1.4, 0.2],
+                [5.4, 3.9, 1.7, 0.4],
+                [4.6, 3.4, 1.4, 0.3],
+                [5.0, 3.4, 1.5, 0.2]
             ]);
             const expected = [
-                [ -3.458666762269165, 0.027612959089264852 ],
-                [ -3.307398289104195, 0.17005252869688292 ],
-                [ -3.7334681054722885, -0.10589799733019935 ],
-                [ -3.863544525694135, -0.05286586695953013 ],
-                [ -3.3513355087302834, -0.12216594029636542 ],
-                [ -3.652145505056011, 0.09613527534964193 ]
+                [-3.458666762269165, 0.027612959089264852],
+                [-3.307398289104195, 0.17005252869688292],
+                [-3.7334681054722885, -0.10589799733019935],
+                [-3.863544525694135, -0.05286586695953013],
+                [-3.3513355087302834, -0.12216594029636542],
+                [-3.652145505056011, 0.09613527534964193]
               ];
             mod.setOriginalData = d;
             let param = { dims: 2 };
