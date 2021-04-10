@@ -1,14 +1,15 @@
 import '../css/App.css';
-// import GraphOption from './GraphOption'; 
-import DataInsert from './DataInsert';
 import Header from './Header';
 import React from 'react';
+import VizContainer from './VizContainer';
 
 function App() {
+  const i = 1;
+
   return (
     <div className="App">
       <Header />
-      <DataInsert />
+      <VizContainer algoritmoGrafico="pca" tipoGrafico="scpm" distanzaGrafico="euclidean" onDelete={idx => console.log(`Eliminato ${idx}`)} key={i} index={i} />
     </div>
   );
 }

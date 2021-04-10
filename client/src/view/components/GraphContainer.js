@@ -1,8 +1,9 @@
 import FeaturesContainer from './FeaturesContainer';
-import Graph from './Graph';
+// import Graph from './Graph';
 import React from 'react';
 import RenameTitleGraph from './RenameTitleGraph';
 
+// eslint-disable-next-line no-unused-vars
 function GraphContainer({algoritmoGrafico, tipoGrafico, distanzaGrafico, onDelete, i, svg}) {
 	
 	const [title, setTitle] = React.useState('Scatterplot');
@@ -11,7 +12,7 @@ function GraphContainer({algoritmoGrafico, tipoGrafico, distanzaGrafico, onDelet
 		<div>
 			<FeaturesContainer algoritmoGrafico={algoritmoGrafico} distanzaGrafico={distanzaGrafico} onDelete={onDelete} i={i}/>
 			<RenameTitleGraph title={title} setTitle={setTitle} />
-			<Graph svg={svg} tipoGrafico={tipoGrafico} />
+			{/* <Graph svg={svg} tipoGrafico={tipoGrafico} /> */}
 		</div>
 	)
 }
