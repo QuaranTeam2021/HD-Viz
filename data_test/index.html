@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>forceDirected Graph - Les Miserables</title>
+<script src="https://d3js.org/d3-dsv.v1.min.js"></script>
+<body>
+    <div id="container" class="container"></div>
+
+<script>
+        // document.getElementById('container').append(forceDirected('.container').outerHTML);
+        const output = d3.csvParse('./iris.csv');
+        console.log(output);
+</script>
+</body>
+</html>
