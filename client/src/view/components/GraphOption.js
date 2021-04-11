@@ -45,16 +45,17 @@ function GraphOption() {
   const onChangeDimensione = e => {
     setDimensione(e.target.value);
   }
-
+  
   return (
 
     <div className="GraphOption" >
       <Insert onChange={onChangeInsert} fileName={insert.name} onClick={onClickInsert}/>
       {insert && insertReadResult}
       <SelectGraph onChange={onChangeGraph} />
-      <SelectAlgorithm onChange={onChangeAlgorithm} />
+      
+      <SelectAlgorithm onChange={onChangeAlgorithm} /> 
       <SelectDimensione onChange={onChangeDimensione} />
-    
+      
       <ButtonConfirm />
 
     </div>
