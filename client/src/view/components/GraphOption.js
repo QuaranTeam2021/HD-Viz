@@ -9,7 +9,7 @@ import SelectGraph from './SelectGraph';
 import { useMainController } from '../../controller/MainController';
 
 export default function GraphOption() {
-  const setGraph = useState('')[1];
+  const [selectedGraph, setGraph] = useState(''); 
   const [insert, setInsert] = React.useState([]);
   const [insertReadResult, setInsertReadResult] = useState('');
   const [selectedColumns, setSelectedColumns] = useState([]);
@@ -48,20 +48,20 @@ export default function GraphOption() {
       actual = actual.filter(d => d !== e.target.value);
       setSelectedColumns(actual);
     }
-  }
+  } 
   
   return (
-
+    
     <div className="GraphOption" >
       <Insert onChange={onChangeInsert} fileName={insert.name} onClick={onClickInsert} />
       {insert && insertReadResult}
       <SelectGraph onChange={onChangeGraph} />
-      
-      <SelectAlgorithm onChange={onChangeAlgorithm} /> 
-      <SelectDimensione onChange={onChangeDimensione} />
+      {["Scatterplot Matrix", "Proiezione Multiassi"].includes(selectedGraph) && <SelectAlgorithm onChange={onChangeAlgorithm} /> }
+      {["HeatMap", "Force Field"].includes(selectedGraph) && <SelectDimensione onChange={onChangeDimensione} /> }
       <SelectColumns onChange={onChangeColumns} />
-
-      <ButtonConfirm />
+      
+      <ButtonConfirm /> 
+      
     </div>
   );
 }
