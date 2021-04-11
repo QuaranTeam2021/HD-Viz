@@ -56,12 +56,12 @@ export default function GraphOption() {
       <Insert onChange={onChangeInsert} fileName={insert.name} onClick={onClickInsert} />
       {insert && insertReadResult}
       <SelectGraph onChange={onChangeGraph} />
-      {["Scatterplot Matrix", "Proiezione Multiassi"].includes(selectedGraph) && <SelectAlgorithm onChange={onChangeAlgorithm} /> }
+      {["Scatterplot Matrix", "Proiezione Multiassi", "Scatterplot"].includes(selectedGraph) && <SelectAlgorithm onChange={onChangeAlgorithm} /> }
       {["HeatMap", "Force Field"].includes(selectedGraph) && <SelectDimensione onChange={onChangeDimensione} /> }
       <SelectColumns onChange={onChangeColumns} />
       
       <ButtonConfirm /> 
-      
+
     </div>
   );
 }
