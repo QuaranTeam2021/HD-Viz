@@ -9,6 +9,7 @@ module.exports = {
         "plugin:react/recommended",
         "plugin:react-hooks/recommended"
     ],
+    "parser": "babel-eslint",
     "parserOptions": {
         "ecmaFeatures": {
             "jsx": true
@@ -29,7 +30,7 @@ module.exports = {
         }
     },
     "rules": {
-        "accessor-pairs": "error",
+        "accessor-pairs": "off",
         "array-bracket-newline": "error",
         "array-bracket-spacing": [
             "error",
@@ -53,10 +54,7 @@ module.exports = {
         "block-spacing": "error",
         "brace-style": "off",
         "camelcase": "error",
-        "capitalized-comments": [
-            "error",
-            "never"
-        ],
+        "capitalized-comments": "off",
         "class-methods-use-this": "error",
         "comma-dangle": "off",
         "comma-spacing": [
@@ -84,13 +82,13 @@ module.exports = {
         "eqeqeq": "error",
         "func-call-spacing": "error",
         "func-name-matching": "error",
-        "func-names": "error",
+        "func-names": [
+            "error",
+            "as-needed"
+        ],
         "func-style": [
             "error",
-            "declaration",
-            {
-                "allowArrowFunctions": true
-            }
+            "expression"
         ],
         "function-call-argument-newline": [
             "error",
@@ -134,7 +132,7 @@ module.exports = {
         "max-lines": "error",
         "max-lines-per-function": "off",
         "max-nested-callbacks": "error",
-        "max-params": "error",
+        "max-params": [ "warn", 4 ],
         "max-statements": "off",
         "max-statements-per-line": "error",
         "multiline-comment-style": "error",
@@ -174,7 +172,7 @@ module.exports = {
         "no-loop-func": "error",
         "no-loss-of-precision": "error",
         "no-magic-numbers": "off",
-        "no-mixed-operators": "error",
+        "no-mixed-operators": "warn",
         "no-multi-assign": "error",
         "no-multi-spaces": "error",
         "no-multi-str": "error",
@@ -188,7 +186,12 @@ module.exports = {
         "no-nonoctal-decimal-escape": "error",
         "no-octal-escape": "error",
         "no-param-reassign": "error",
-        "no-plusplus": "error",
+        "no-plusplus": [
+            "warn",
+            {
+                "allowForLoopAfterthoughts": true
+            }
+        ],
         "no-promise-executor-return": "error",
         "no-proto": "error",
         "no-restricted-exports": "error",
@@ -209,12 +212,13 @@ module.exports = {
         "no-trailing-spaces": "off",
         "no-undef-init": "error",
         "no-undefined": "off",
-        "no-underscore-dangle": "error",
+        "no-underscore-dangle": "off",
         "no-unmodified-loop-condition": "error",
         "no-unneeded-ternary": "error",
         "no-unreachable-loop": "error",
         "no-unsafe-optional-chaining": "error",
         "no-unused-expressions": "error",
+        "no-unused-vars": "warn",
         "no-use-before-define": "off",
         "no-useless-backreference": "error",
         "no-useless-call": "error",
