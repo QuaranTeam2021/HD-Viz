@@ -48,7 +48,7 @@ const scpMatrix = function(data, cols, grouper, idBox) {
 		.data(xScale)
 		.join("g")
 		.attr("transform", (d, i) => `translate(${size * i},0)`)
-		.each(d => d3.select(this).call(xAxis.scale(d)))
+		.each((d, i, nodes) => d3.select(nodes[i]).call(xAxis.scale(d)))
 		.call(g => g.select(".domain").remove())
 		.call(g => g.selectAll(".tick line").attr("stroke", "#ddd"));
 
@@ -62,7 +62,7 @@ const scpMatrix = function(data, cols, grouper, idBox) {
 		.data(yScale)
 		.join("g")
 		.attr("transform", (d, i) => `translate(0,${size * i})`)
-		.each(d => d3.select(this).call(yAxis.scale(d)))
+		.each((d, i, nodes) => d3.select(nodes[i]).call(yAxis.scale(d)))
 		.call(g => g.select(".domain").remove())
 		.call(g => g.selectAll(".tick line").attr("stroke", "#ddd"));
 
@@ -88,8 +88,8 @@ const scpMatrix = function(data, cols, grouper, idBox) {
 		.attr("height", size - padding);
 
 
-	cell.each(([i, j]) => {
-		d3.select(this)
+	cell.each(([i, j], idx, nodes) => {
+		d3.select(nodes[idx])
 			.selectAll("circle")
 			.data(data)
 			.join("circle")

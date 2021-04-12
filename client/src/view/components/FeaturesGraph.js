@@ -53,7 +53,7 @@ export default function FeaturesGraph({ onDelete, i}) {
 
   return (
     <div className="FeaturesCont">
-        <MenuButtonGraph showing={state.showing} onDelete={onDelete} i={i}/>
+         <MenuButtonGraph showing={state.showing} onDelete={onDelete} i={i}/>
         <div style={showFeatMode}>
             <FormControl className={classes.formControl}>
                 <InputLabel id="demo-simple-select-label">Modifica l&apos;algoritmo</InputLabel>
@@ -66,19 +66,19 @@ export default function FeaturesGraph({ onDelete, i}) {
                     <MenuItem value={'UMAP'}>UMAP</MenuItem>
                 </Select>
             </FormControl>
-        </div>
+        </div> 
         <div style={showFeatMode}>
-            <FormControlLabel control={
+             <FormControlLabel control={
                 <Checkbox checked={state.checkedA} onChange={CheckLabel} name="checkedA" color="primary"/>
                 } label="Legenda"/>
             <FormControlLabel control={    
                 <Checkbox checked={state.checkedB} onChange={CheckLabel} name="checkedB" color="primary"/>
-                } label="Hover dati"/>
+                } label="Hover dati"/> 
             <ForceFieldFeat />
-            <PLMAFeat />
+             <PLMAFeat />
             <HeatmapFeat />
             <RenameAxis asse="1" color1="primary" color2="secondary" color3="default" />
-            <RenameAxis asse="2" color1="secondary" color2="primary" color3="default" />
+            <RenameAxis asse="2" color1="secondary" color2="primary" color3="default" /> 
         </div>
     </div>
     );

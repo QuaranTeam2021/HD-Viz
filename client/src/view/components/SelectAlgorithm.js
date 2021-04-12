@@ -29,13 +29,9 @@ const PurpleRadio = withStyles({
 export default function SelectAlgorithm({ onChange }) {
   const classes = useStyles();
 
-  const insert = event => {
-    event.preventDefault();
-  }
-
   return (
     <div className={classes.root} id="algorithm">
-      <FormControl component="fieldset" className={classes.formControl} onSubmit={insert}>
+      <FormControl component="fieldset" className={classes.formControl}>
         <FormLabel component="legend" >Algoritmo: </FormLabel>
         <RadioGroup aria-label="position" name="position" onChange={onChange}>
           <FormControlLabel value="PCA" control={<PurpleRadio color="primary" />} label="PCA" />

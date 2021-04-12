@@ -24,7 +24,9 @@ const App = () => {
               <Route exact path="/" component={GraphOption} />
             </Switch>
           </Router>
+          {/*
           <VizContainer algoritmoGrafico="pca" tipoGrafico="scpm" distanzaGrafico="euclidean" onDelete={idx => console.log(`Eliminato ${idx}`)} key={i} index={i} />
+          */}
         </div>
 
       </MainControllerContext.Provider>
