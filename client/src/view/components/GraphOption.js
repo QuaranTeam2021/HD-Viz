@@ -1,11 +1,16 @@
 import React, { useState } from 'react';
 import { action } from 'mobx'
 import ButtonConfirm from './ButtonConfirm';
+import ContainerFeaturesFF from './ContainerFeaturesFF'; 
+import FASTMAPfeatures from './FASTMAPfeatures';
 import Insert from './Insert';
+import ISOUMAPLLEfeatures from './ISOUMAPLLEfeatures';
+import PCAfeatures from './PCAfeatures';
 import SelectAlgorithm from './SelectAlgorithm';
 import SelectColumns from './SelectColumns';
 import SelectDimensione from './SelectDimensione';
 import SelectGraph from './SelectGraph';
+import TSNEfeatures from './TSNEfeatures';
 import { useMainController } from '../../controller/MainController';
 
 export default function GraphOption() {
@@ -13,7 +18,9 @@ export default function GraphOption() {
   const [insert, setInsert] = React.useState([]);
   const [insertReadResult, setInsertReadResult] = useState('');
   const [selectedColumns, setSelectedColumns] = useState([]);
-  const setAlgorithm = useState('')[1];
+  const [confirm, setConfirm] = useState([]);
+  const setSize = useState('')[1];
+  const [selectedAlgorithm, setAlgorithm] = useState('');
   const setDimensione = useState('')[1];
   const mainController = useMainController();
   mainController.setInsert(insert);
@@ -50,6 +57,16 @@ export default function GraphOption() {
     }
   } 
   
+  const onClickConfirm = action(e => {
+    setConfirm(e.target.files[0]);
+  }) 
+
+  const onChangeConfirm = e => {
+    setConfirm(e.target.value);
+    setGraph("");
+  } 
+
+  
   return (
     
     <div className="GraphOption" >
@@ -58,10 +75,18 @@ export default function GraphOption() {
       <SelectGraph onChange={onChangeGraph} />
       {["Scatterplot Matrix", "Proiezione Multiassi", "Scatterplot"].includes(selectedGraph) && <SelectAlgorithm onChange={onChangeAlgorithm} /> }
       {["HeatMap", "Force Field"].includes(selectedGraph) && <SelectDimensione onChange={onChangeDimensione} /> }
+      
       <SelectColumns onChange={onChangeColumns} />
       
-      <ButtonConfirm /> 
-
+      <ButtonConfirm onChange={onClickConfirm} fileName={confirm.name} />
+      {["Force Field"].includes(setGraph) && <ContainerFeaturesFF />}
+      <ContainerFeaturesFF />
+      {["PCA"].includes(selectedAlgorithm) && <PCAfeatures />}
+      {["UMAP", "ISOMAP", "LLE"].includes(selectedAlgorithm) && <ISOUMAPLLEfeatures />}
+      {["FASTMAP"].includes(selectedAlgorithm) && <FASTMAPfeatures />}
+      {["T-SNE"].includes(selectedAlgorithm) && <TSNEfeatures />}
+      
+      
     </div>
   );
 }
