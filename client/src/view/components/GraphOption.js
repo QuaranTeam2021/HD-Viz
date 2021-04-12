@@ -19,7 +19,6 @@ const needsDistance = g => ["HeatMap", "Force Field"].includes(g);
 export default function GraphOption() {
   const [selectedGraph, setGraph] = useState('');
   const [insert, setInsert] = useState([]);
-  const [insertReadResult, setInsertReadResult] = useState('');
   const [selectedColumns, setSelectedColumns] = useState([]);
   const [confirm, setConfirm] = useState(false);
   const [size, setSize] = useState(5);
@@ -52,12 +51,10 @@ export default function GraphOption() {
 
   const onChangeGraph = e => setGraph(e.target.value);
 
-  const onChangeInsert = action(e => setInsert(e.target.files[0]));
-
-  const onClickInsert = e => {
-    e.target.value = null;
-    setInsertReadResult("");
-  };
+  const onChangeInsert = action(e => setInsert(prev => {
+    let v = e.target.files[0];
+    return v === undefined ? prev : v;
+  }));
 
   const onChangeAlgorithm = (_e, v) => setAlgorithm(v);
 
@@ -103,7 +100,7 @@ export default function GraphOption() {
   return (
 
     <div className="GraphOption" >
-      <Insert onChange={onChangeInsert} fileName={insert.name} onClick={onClickInsert} />
+      <Insert onChange={onChangeInsert} fileName={insert.name} />
       <SelectGraph onChange={onChangeGraph} />
       {["Scatterplot Matrix", "Proiezione Multiassi", "Scatterplot"].includes(selectedGraph) && <SelectAlgorithm onChange={onChangeAlgorithm} />}
       {needsDistance(selectedGraph) && <SelectDistanza onChange={onChangeDistanza} distanza={distanza} />}

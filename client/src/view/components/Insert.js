@@ -25,7 +25,7 @@ const ColorButton = withStyles(theme => ({
   },
 }))(Button);
 
-const Insert = ({ fileName, onChange, onClick }) => {
+const Insert = ({ fileName, onChange }) => {
   const classes = useStyles();
 
   return (
@@ -37,7 +37,6 @@ const Insert = ({ fileName, onChange, onClick }) => {
         multiple
         type="file"
         onChange={onChange}
-        onClick={onClick}
       />
 
       <label htmlFor="contained-button-file">
