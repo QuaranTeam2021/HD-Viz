@@ -13,8 +13,10 @@ import SelectGraph from './SelectGraph';
 import TSNEfeatures from './TSNEfeatures';
 import { useMainController } from '../../controller/MainController';
 
+
 const needsAlgorithm = g => ["Scatterplot Matrix", "Scatterplot", "Proiezione Multiassi"].includes(g);
 const needsDistance = g => ["HeatMap", "Force Field"].includes(g);
+const selectedInsert = i => i.name !== undefined; 
 
 export default function GraphOption() {
   const [selectedGraph, setGraph] = useState('');
@@ -49,7 +51,10 @@ export default function GraphOption() {
     allOptionsSelected();
   }, [allOptionsSelected]);
 
-  const onChangeGraph = e => setGraph(e.target.value);
+
+  const onChangeGraph = e => {
+    setGraph(e.target.value);
+  };
 
   const onChangeInsert = action(e => setInsert(prev => {
     let v = e.target.files[0];
@@ -100,14 +105,16 @@ export default function GraphOption() {
   return (
 
     <div className="GraphOption" >
-      <Insert onChange={onChangeInsert} fileName={insert.name} />
-      <SelectGraph onChange={onChangeGraph} />
+      <div id="intestazione"><h2>Benvenuto in HD-VIZ! La miglior applicazione di grafici dimensionali!</h2></div>
+       <div id="inserimento"> {!selectedInsert(insert) && <p>Inserisci qui i tuoi dati</p>}
+      <Insert onChange={onChangeInsert} fileName={insert.name} /> </div>
+      { selectedInsert(insert) && <SelectGraph onChange={onChangeGraph}/> }
+      
       {["Scatterplot Matrix", "Proiezione Multiassi", "Scatterplot"].includes(selectedGraph) && <SelectAlgorithm onChange={onChangeAlgorithm} />}
       {needsDistance(selectedGraph) && <SelectDistanza onChange={onChangeDistanza} distanza={distanza} />}
 
       <SelectColumns onChange={onChangeColumns} />
-
-      <ButtonConfirm onClick={onClickConfirm} disabled={!confirm} />
+      {selectedInsert(insert) && <ButtonConfirm onClick={onClickConfirm} disabled={!confirm} />}
       {needsAlgorithm(selectedGraph) && ["PCA"].includes(selectedAlgorithm) && <PCAfeatures attributes={{
         onChangeSize,
         size
