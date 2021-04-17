@@ -1,7 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { action } from 'mobx';
-import ButtonConfirm from './ButtonConfirm';
-import ContainerFeaturesFF from './ContainerFeaturesFF';
+import ButtonConfirm from './ButtonConfirm'
 import FASTMAPfeatures from './FASTMAPfeatures';
 import Insert from './Insert';
 import ISOUMAPLLEfeatures from './ISOUMAPLLEfeatures';
@@ -15,10 +14,10 @@ import TooltipColumns from './TooltipColumns'
 import TSNEfeatures from './TSNEfeatures';
 import { useMainController } from '../../controller/MainController';
 
-
 const needsAlgorithm = g => ["Scatterplot Matrix", "Scatterplot", "Proiezione Multiassi"].includes(g);
 const needsDistance = g => ["HeatMap", "Force Field"].includes(g);
 const selectedInsert = i => i.name !== undefined; 
+ 
 
 export default function GraphOption() {
   const [selectedGraph, setGraph] = useState('');
@@ -122,59 +121,69 @@ export default function GraphOption() {
             { needsDistance(selectedGraph) && <TooltipColumns/>}
             { needsAlgorithm(selectedGraph) && <TooltipColonne2/>}
             </div>
+            {["Scatterplot Matrix", "Proiezione Multiassi", "Scatterplot"].includes(selectedGraph) && <SelectAlgorithm onChange={onChangeAlgorithm} />}
+            {needsDistance(selectedGraph) && <SelectDistanza onChange={onChangeDistanza} distanza={distanza} />}
+            <div id="FeaturesAlgorithm">  
+              <div className="dimensione">
+                {needsAlgorithm(selectedGraph) && ["PCA"].includes(selectedAlgorithm) && <PCAfeatures attributes={{
+                onChangeSize,
+                size
+                }} />} 
+              </div> 
+              <div id="FeaturesAlgorithm2">
+              {needsAlgorithm(selectedGraph) && ["UMAP", "ISOMAP", "LLE"].includes(selectedAlgorithm) && <ISOUMAPLLEfeatures attributes={{
+              d: {
+              distanza,
+              onChangeDistanza
+             },
+              n: {
+                neighbours,
+                onChangeNeighbours
+               },
+              s: {
+                 onChangeSize,
+                size
+              }
+            }} />} 
+            </div>
+            <div id="FeaturesAlgorithm3">
+            {needsAlgorithm(selectedGraph) && ["FASTMAP"].includes(selectedAlgorithm) && <FASTMAPfeatures attributes={{
+              d: {
+                distanza,
+                onChangeDistanza
+                },
+              s: {
+              onChangeSize,
+              size
+              }
+               }} />}
+            </div>
+            {needsAlgorithm(selectedGraph) && ["T-SNE"].includes(selectedAlgorithm) && <TSNEfeatures attributes={{
+              d: {
+              distanza,
+              onChangeDistanza
+              },
+              n: {
+              neighbours,
+              onChangeNeighbours
+              },
+              p: {
+              onChangePerplexity,
+              perplexity
+              },
+              s: {
+              onChangeSize,
+              size
+              }
+              }}/>}
+            </div>
           </div>
+        
           
-
-          {["Scatterplot Matrix", "Proiezione Multiassi", "Scatterplot"].includes(selectedGraph) && <SelectAlgorithm onChange={onChangeAlgorithm} />}
-          {needsDistance(selectedGraph) && <SelectDistanza onChange={onChangeDistanza} distanza={distanza} />}
         </div>
+      <div id="ButtonConfirm">
       {selectedInsert(insert) && <ButtonConfirm onClick={onClickConfirm} disabled={!confirm} />}
-      {needsAlgorithm(selectedGraph) && ["PCA"].includes(selectedAlgorithm) && <PCAfeatures attributes={{
-        onChangeSize,
-        size
-      }} />}
-      {needsAlgorithm(selectedGraph) && ["UMAP", "ISOMAP", "LLE"].includes(selectedAlgorithm) && <ISOUMAPLLEfeatures attributes={{
-        d: {
-          distanza,
-          onChangeDistanza
-        },
-        n: {
-          neighbours,
-          onChangeNeighbours
-        },
-        s: {
-          onChangeSize,
-          size
-        }
-      }} />}
-      {needsAlgorithm(selectedGraph) && ["FASTMAP"].includes(selectedAlgorithm) && <FASTMAPfeatures attributes={{
-        d: {
-          distanza,
-          onChangeDistanza
-        },
-        s: {
-          onChangeSize,
-          size
-        }
-      }} />}
-      {needsAlgorithm(selectedGraph) && ["T-SNE"].includes(selectedAlgorithm) && <TSNEfeatures attributes={{
-        d: {
-          distanza,
-          onChangeDistanza
-        },
-        n: {
-          neighbours,
-          onChangeNeighbours
-        },
-        p: {
-          onChangePerplexity,
-          perplexity
-        },
-        s: {
-          onChangeSize,
-          size
-        }
-      }}/>}
+      </div>
     </div>
   );
 }

@@ -12,8 +12,8 @@ export default function ISOUMAPLLE({attributes}) {
 
     return (
         <div>
-            <SliderSize size={size} onChange={onChangeSize} />
             <SelectDistanza distanza={distanza} onChange={onChangeDistanza} />
+            <SliderSize size={size} onChange={onChangeSize} />
             <SliderNeighbors neighbours={neighbours} onChange={onChangeNeighbours} />
         </div>
     );

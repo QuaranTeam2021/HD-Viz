@@ -151,7 +151,7 @@
 #impostazioni {
   display: grid;
   grid-template-rows: 500px;
-  grid-template-columns: 410px 100px 50px;
+  grid-template-columns: 410px 100px 50px 250px 500px;
   grid-gap: 10px;
 }
 
@@ -162,4 +162,25 @@
 
 #question{ 
   margin-top:0.5em;
+} 
+
+/*algoritmi*/ 
+.dimensione{ 
+  margin-top: 5em;
+}  
+
+#FeaturesAlgorithm{
+  margin-top: 0em;
 }
+
+#FeaturesAlgorithm2{
+  margin-top: -4.7em;
+}
+
+/*Bottone conferma*/
+#ButtonConfirm{
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
