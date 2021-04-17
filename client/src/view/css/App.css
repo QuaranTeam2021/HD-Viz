@@ -142,5 +142,24 @@
   flex-direction: row;
   justify-content: center;
   align-items: center;
+  margin-bottom: 2em;
   
+}
+
+/*colonne grid*/ 
+
+#impostazioni {
+  display: grid;
+  grid-template-rows: 500px;
+  grid-template-columns: 410px 100px 50px;
+  grid-gap: 10px;
+}
+
+/*colonne*/
+#colonne { 
+  margin-top: 1.5em;
+}
+
+#question{ 
+  margin-top:0.5em;
 }

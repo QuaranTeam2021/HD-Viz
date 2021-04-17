@@ -10,6 +10,8 @@ import SelectAlgorithm from './SelectAlgorithm';
 import SelectColumns from './SelectColumns';
 import SelectDistanza from './SelectDistanza';
 import SelectGraph from './SelectGraph';
+import TooltipColonne2 from './TooltipColonne2'
+import TooltipColumns from './TooltipColumns'
 import TSNEfeatures from './TSNEfeatures';
 import { useMainController } from '../../controller/MainController';
 
@@ -107,13 +109,25 @@ export default function GraphOption() {
     <div className="GraphOption" >
       <div id="intestazione"><h2>Benvenuto in HD-VIZ! La miglior applicazione di grafici dimensionali!</h2></div>
        <div id="inserimento"> {!selectedInsert(insert) && <p>Inserisci qui i tuoi dati</p>}
-      <Insert onChange={onChangeInsert} fileName={insert.name} /> </div>
-      { selectedInsert(insert) && <SelectGraph onChange={onChangeGraph}/> }
-      
-      {["Scatterplot Matrix", "Proiezione Multiassi", "Scatterplot"].includes(selectedGraph) && <SelectAlgorithm onChange={onChangeAlgorithm} />}
-      {needsDistance(selectedGraph) && <SelectDistanza onChange={onChangeDistanza} distanza={distanza} />}
+          <Insert onChange={onChangeInsert} fileName={insert.name} /> 
+        </div>
+        <div id="selezione">
+          <div id="impostazioni">
+            { selectedInsert(insert) && <SelectGraph onChange={onChangeGraph}/> }
+            <div id="colonne"> 
+              { needsAlgorithm(selectedGraph) && <SelectColumns onChange={onChangeColumns} />} 
+              { needsDistance(selectedGraph) && <SelectColumns onChange={onChangeColumns} />}
+            </div>
+            <div id="question">
+            { needsDistance(selectedGraph) && <TooltipColumns/>}
+            { needsAlgorithm(selectedGraph) && <TooltipColonne2/>}
+            </div>
+          </div>
+          
 
-      <SelectColumns onChange={onChangeColumns} />
+          {["Scatterplot Matrix", "Proiezione Multiassi", "Scatterplot"].includes(selectedGraph) && <SelectAlgorithm onChange={onChangeAlgorithm} />}
+          {needsDistance(selectedGraph) && <SelectDistanza onChange={onChangeDistanza} distanza={distanza} />}
+        </div>
       {selectedInsert(insert) && <ButtonConfirm onClick={onClickConfirm} disabled={!confirm} />}
       {needsAlgorithm(selectedGraph) && ["PCA"].includes(selectedAlgorithm) && <PCAfeatures attributes={{
         onChangeSize,
