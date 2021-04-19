@@ -1,18 +1,17 @@
+import React, { useEffect, useState } from 'react';
 import FeaturesContainer from './FeaturesContainer';
-// import Graph from './Graph';
-import React from 'react';
+import Graph from './Graph';
 import RenameTitleGraph from './RenameTitleGraph';
 
 // eslint-disable-next-line no-unused-vars
-export default function GraphContainer({algoritmoGrafico, tipoGrafico, distanzaGrafico, onDelete, i, svg}) {
-	
-	const [title, setTitle] = React.useState('Scatterplot');
+export default function GraphContainer({ algoritmoGrafico, tipoGrafico, distanzaGrafico, onDelete, index }) {
+	const [title, setTitle] = useState('Scatterplot Matrix');
 
 	return (
 		<div>
-			<FeaturesContainer algoritmoGrafico={algoritmoGrafico} distanzaGrafico={distanzaGrafico} onDelete={onDelete} i={i}/>
+			<FeaturesContainer algoritmoGrafico={algoritmoGrafico} distanzaGrafico={distanzaGrafico} onDelete={onDelete} i={index} />
 			<RenameTitleGraph title={title} setTitle={setTitle} />
-			{/* <Graph svg={svg} tipoGrafico={tipoGrafico} /> */}
+			<Graph tipoGrafico={tipoGrafico} index={index} />
 		</div>
-	)
-} 
+	);
+}

@@ -34,7 +34,6 @@ const Insert = ({ fileName, onChange }) => {
         accept=".csv, .json, .tsv"
         className={classes.input}
         id="contained-button-file"
-        multiple
         type="file"
         onChange={onChange}
       />

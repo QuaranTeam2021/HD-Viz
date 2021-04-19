@@ -10,13 +10,13 @@ import { makeStyles } from '@material-ui/core/styles';
 import React from 'react';
 
 const useStyles = makeStyles(theme => ({
-    nested: {
-        paddingLeft: theme.spacing(4),
-      },
-    root: {
+  nested: {
+    paddingLeft: theme.spacing(4),
+  },
+  root: {
     backgroundColor: theme.palette.background.paper,
   },
-  
+
 }));
 
 export default function FeaturesContainer(onDelete, i) {
@@ -33,27 +33,21 @@ export default function FeaturesContainer(onDelete, i) {
   };
 
   return (
-      <div className="FeatContainer">
-    <List
-      component="nav"
-      className={classes.root}
-    >
-      <ListItem button onClick={handleClick}>
-        <ListItemText primary={showOption ? hide : show} />
-        {open ? <ExpandLess /> : <ExpandMore />}
-      </ListItem>
-      <Collapse in={open} timeout="auto" unmountOnExit>
-        <List component="div" disablePadding>
-          <ListItem>
-            <div>
-                <FeaturesGraph onDelete={onDelete} i={i}/>
-            </div>
-          </ListItem>
-        </List>
-      </Collapse>
-    </List>
+    <div className="FeatContainer">
+      <List
+        component="nav"
+        className={classes.root}
+      >
+        <ListItem button onClick={handleClick}>
+          <ListItemText primary={showOption ? hide : show} />
+          {open ? <ExpandLess /> : <ExpandMore />}
+        </ListItem>
+        <Collapse in={open} timeout="auto" unmountOnExit>
+          <FeaturesGraph onDelete={onDelete} i={i} />
+        </Collapse>
+      </List>
     </div>
   );
-} 
+}
 
 

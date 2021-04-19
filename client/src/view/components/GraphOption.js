@@ -4,6 +4,7 @@ import ButtonConfirm from './ButtonConfirm'
 import FASTMAPfeatures from './FASTMAPfeatures';
 import Insert from './Insert';
 import ISOUMAPLLEfeatures from './ISOUMAPLLEfeatures';
+import { Link } from 'react-router-dom';
 import PCAfeatures from './PCAfeatures';
 import SelectAlgorithm from './SelectAlgorithm';
 import SelectColumns from './SelectColumns';
@@ -180,10 +181,12 @@ export default function GraphOption() {
           </div>
         
           
-        </div>
-      <div id="ButtonConfirm">
-      {selectedInsert(insert) && <ButtonConfirm onClick={onClickConfirm} disabled={!confirm} />}
       </div>
+      <Link to="/visualization" >
+        <div id="ButtonConfirm">
+          {selectedInsert(insert) && <ButtonConfirm onClick={onClickConfirm} disabled={!confirm} />}
+        </div>
+      </Link>
     </div>
   );
 }
