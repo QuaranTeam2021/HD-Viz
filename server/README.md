@@ -1,6 +1,6 @@
 cd server
 npm init
-npm i express pg cors
+npm i express jsonwebtoken pg cors dotenv
 
 nodemon index
 (node index)
