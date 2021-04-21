@@ -5,92 +5,79 @@ const { Data } = require('./Data');
 
 export class Store {
 
-    _originalData = null;
+    originalData = [];
 
-    _graphs = [];
+    graphs = [];
 
-    _features = [];
-    
-    _selectedFeatures = [];
-    
-    _selectedData = null;
+    features = [];
     
     constructor() {
         makeAutoObservable(this);
-        this._originalData = new Data();
-        this._selectedData = new Data();
+        this.originalData = new Data([]);
     }
 
     // setters
     set setOriginalData(data) {
-        this._originalData = data;
-        this._selectedData = data;
-        this.features = data[0];
+        this.originalData = data;
+    }
+
+    get getOriginalData() {
+        return this.originalData;
     }
     
     set features(features) {
-        this._features = features;
+        this.features = features;
     }
 
-    set setGraphs(graphs) {
-        this._graphs = graphs;
-    }
-
-    set setSelectedFeatures(sF) {
-        this._selectedFeatures = sF;
-        this.setSelectedData();
-    }
-    
-    setSelectedData() {
-        let res = [];
-        for (let i = 0; i < this._selectedFeatures.length; ++i) {
-            res[i] = [];
-            let feature = this._selectedFeatures[i];
-            let col = this._originalData.getCol(feature);
-            res[i] = col;
-        }
-        res = transpose(res);
-        this._selectedData = res;
-    }
-
-    // getters
-    get getOriginalData() {
-        return this._originalData;
+    get features() {
+        return this.features;
     }
 
     get getGraphs() {
-        return this._graphs;
+        return this.graphs;
     }
 
-    get getSelectedFeatures() {
-        return this._selectedFeatures;
+    addGraph(graph) {
+        this.graphs.push(graph);
     }
 
-    get getSelectedData() {
-        return this._selectedData;
+    updateGraph(index, graph) {
+        this.graphs[index] = graph;
     }
 
-    addGraphState(graphState) {
-        this._graphs.push(graphState);
+    getGraphById(graphId) {
+        for (let i = 0; i < this.graphs.length; ++i) {
+            let g = this.graphs[i];
+            if (g.getGraphId === graphId) 
+                return g;
+        }
+        throw new Error('Id non presente');
     }
 
-    removeGraphStateAtIndex(index) {
-        this._graphs[index] = "toRemove";
-        this._graphs = this._graphs.filter(x => x !== "toRemove");
+    getGraphIndex(graphId) {
+        for (let i = 0; i < this.graphs.length; ++i) {
+            let g = this.graphs[i];
+            if (g.getGraphId === graphId) 
+                return i;
+        }
+        throw new Error('Id non presente');
     }
 
-    getGraphStateAtIndex(index) {
-        if (index < this._graphs.length && index >= 0) {
-            let GraphState = this._graphs[index];
-            return GraphState;
-        } 
-        throw new Error('Out of bounds...')
+    removeGraphAtIndex(index) {
+        this.graphs[index] = "toRemove";
+        this.graphs = this.graphs.filter(x => x !== "toRemove");
+    }
+
+    reset() {
+        this.originalData = new Data([]);
+        this.graphs = [];
+        this.features = [];
     }
 
     getGraphStateIndexById(id) {
         let res;
-        for (let i = 0; i < this._graphs.length; ++i) {
-            let g = this._graphs[i].getGraphId;
+        for (let i = 0; i < this.graphs.length; ++i) {
+            let g = this.graphs[i].getGraphId;
             if (g === id) {
                res = i;
                break;
@@ -100,21 +87,26 @@ export class Store {
             return res;
         throw new Error('Id grafico non presente');
     }
-    
-    /**
-     * @param algorithm oggetto per la riduzione (NO STRINGA)
-     */
-    calculateReduction(algorithm, param, graphId) {
-        let res = algorithm.compute(this._selectedData, param);
-        let index = this.getGraphStateIndexById(graphId);
-        this._graphs[index].setDataset = res; 
+
+    calculateSelectedData(sel) {
+        let selectedFeatures = Array.from(sel);
+        let res = [];
+        for (let i = 0; i < this.selectedFeatures.length; ++i) {
+            res[i] = [];
+            let feature = this.selectedFeatures[i];
+            let col = this.originalData.getCol(feature);
+            res[i] = col;
+        }
+        res = transpose(res);
+        return res;
     }
 
-    reset() {
-        this._originalData = [];
-        this._graphs = [];
-        this._selectedData = [];
-        this._selectedFeatures = [];
+    calculateDistanceData() {}
+
+    calculateReduction(features, strategy, parameters) {
+        let data = this.calculateSelectedData(features);
+        parameters.setData(data);
+        return strategy.compute(parameters);
     }
 }
 
