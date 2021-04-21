@@ -1,0 +1,26 @@
+/* eslint-disable class-methods-use-this */
+import Data from './Data';
+import Parameters from '../Parameters';
+
+export default class TsneParameters extends Parameters {
+
+    constructor(data = new Data([]), dimensions, perplexity, epsilon, metric) {
+        this.data = data;
+        this.dimensions = dimensions;
+        this.perplexity = perplexity;
+        this.epsilon = epsilon;
+        this.metric = metric;
+    }   
+
+    get perplexity() {
+        return this.perplexity;
+    }
+
+    get epsilon() {
+        return this.epsilon;
+    }
+
+    get metric () {
+        return this.metric;
+    }
+}
