@@ -16,17 +16,16 @@ export class Store {
         this.originalData = new Data([]);
     }
 
-    // setters
     set setOriginalData(data) {
-        this.originalData = data;
+        this._originalData = data;
     }
 
     get getOriginalData() {
         return this.originalData;
     }
     
-    set features(features) {
-        this.features = features;
+    set features(feat) {
+        this._features = feat;
     }
 
     get features() {
@@ -101,7 +100,7 @@ export class Store {
         return res;
     }
 
-    calculateDistanceData() {}
+ //   calculateDistanceData() {}
 
     calculateReduction(features, strategy, parameters) {
         let data = this.calculateSelectedData(features);
