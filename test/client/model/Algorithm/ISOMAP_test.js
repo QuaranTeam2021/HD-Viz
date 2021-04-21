@@ -1,6 +1,6 @@
 /* eslint-disable func-names */
 const { expect } = require('chai');
-const { ISOMAP } = require('../../../../client/src/model/Algorithm/ISOMAP');
+const { ISOMAP } = require('../../../../client/src/store/Algorithm/ISOMAP');
 
 describe("Testing ISOMAP class", function() {
 

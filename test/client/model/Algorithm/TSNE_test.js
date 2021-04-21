@@ -1,6 +1,6 @@
 /* eslint-disable func-names */
 const { expect } = require('chai');
-const { TSNE } = require('../../../../client/src/model/Algorithm/TSNE');
+const { TSNE } = require('../../../../client/src/store/Algorithm/TSNE');
 
 describe("Testing TSNE class", function() {
 

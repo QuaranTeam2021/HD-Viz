@@ -1,6 +1,6 @@
 import '../css/App.css';
 import MainController, { MainControllerContext } from '../../controller/MainController';
-import { Model, ModelContext } from '../../model/Model';
+import { Store, StoreContext } from '../../store/Store';
 import { Route, BrowserRouter as Router, Switch } from 'react-router-dom';
 import GraphOption from './GraphOption';
 import Header from './Header';
@@ -8,14 +8,12 @@ import React from 'react';
 import VizContainer from './VizContainer';
 
 const App = () => {
-  // creaiamo un'unica istanza del modello per tutta l'App
-  const model = new Model();
-  const mainController = new MainController(model);
+  const store = new Store();
+  const mainController = new MainController(store);
   const i = 1;
 
   return (
-    // modelContext.Provider fornisce il contesto con un valore (model) a tutto il sottoalbero di componenti
-    <ModelContext.Provider value={model}>
+    <StoreContext.Provider value={store}>
       <MainControllerContext.Provider value={mainController}>
         <div className="App">
           <Router>
@@ -28,7 +26,7 @@ const App = () => {
         </div>
 
       </MainControllerContext.Provider>
-    </ModelContext.Provider>
+    </StoreContext.Provider>
   );
 };
 

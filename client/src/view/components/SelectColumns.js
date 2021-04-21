@@ -6,7 +6,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormGroup from '@material-ui/core/FormGroup';
 import { observer } from 'mobx-react-lite';
 import { purple } from '@material-ui/core/colors';
-import { useModel } from '../../model/Model';
+import { useStore } from '../../store/Store';
 import { withStyles } from '@material-ui/core/styles';
 
 const PurpleCheckbox = withStyles({
@@ -21,13 +21,13 @@ const PurpleCheckbox = withStyles({
 
 const SelectColumns = observer(({onChange}) => {
 
-  const model = useModel();
+  const store = useStore();
 
   const [uploadedColumns, setUploadedColumns] = useState([]);
 
   useEffect(() => autorun(() => {
-          setUploadedColumns(model._features)
-      }), [model._features])
+          setUploadedColumns(store._features)
+      }), [store._features])
 
   return (
     <div>

@@ -2,8 +2,8 @@ import { createContext, useContext } from "react";
 
 export default class GeneralOptionController {
 
-    constructor(model) {
-        this.model = model;
+    constructor(store) {
+        this.store = store;
     }
 
 }

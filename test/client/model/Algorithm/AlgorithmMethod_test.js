@@ -1,5 +1,5 @@
 /* eslint-disable func-names */
-const { FASTMAP } = require('../../../../client/src/model/Algorithm/FASTMAP');
+const { FASTMAP } = require('../../../../client/src/store/Algorithm/FASTMAP');
 const druid = require('@saehrimnir/druidjs');
 const { expect } = require('chai');
 

@@ -3,7 +3,7 @@ import { makeAutoObservable } from 'mobx';
 const { transpose } = require('mathjs');
 const { Data } = require('./Data');
 
-export class Model {
+export class Store {
 
     _originalData = null;
 
@@ -118,5 +118,5 @@ export class Model {
     }
 }
 
-export const ModelContext = createContext(Model);
-export const useModel = () => useContext(ModelContext);
+export const StoreContext = createContext(Store);
+export const useStore = () => useContext(StoreContext);

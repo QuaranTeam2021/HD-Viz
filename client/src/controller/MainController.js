@@ -3,8 +3,8 @@ import { autorun } from "mobx";
 
 export default class MainController {
 
-    constructor(model) {
-        this.model = model; 
+    constructor(store) {
+        this.store = store; 
     }
 
     setInsert(insertForm) {
@@ -41,7 +41,7 @@ export default class MainController {
                 for (let i = 0; i < matrix.length; ++i) {
                     matrix[i] = matrix[i].split(delimiter);
                 }
-                this.model.setOriginalData = matrix;
+                this.store.setOriginalData = matrix;
             };
             reader.onerror = () => {
                 console.log("Error reading file in controller");
