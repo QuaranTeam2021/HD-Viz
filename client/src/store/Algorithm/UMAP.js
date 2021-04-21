@@ -1,12 +1,13 @@
 /* eslint-disable class-methods-use-this */
-const {Algorithm} = require('../Algorithm');
-const druid = require('@saehrimnir/druidjs');
+import AlgorithmStrategy from '../AlgorithmStrategy';
+import * as druid from "@saehrimnir/druidjs";
 
-class UMAP extends Algorithm {
+export default class UMAP extends AlgorithmStrategy {
 
-    setAlgorithm(data, param) {
-        return new druid.UMAP(data, param.neighbors, 1, 1, param.dims);
+    compute(parameters) {
+        let data = druid.Matrix.from(parameters.data);
+        let strategy = new druid.UMAP(data, parameters.neighbors, 1, 1, parameters.dimensions);
+        let res = strategy.transform();
+        return this.get2dArray(res.to2dArray);
     }
 }
-
-exports.UMAP = UMAP;

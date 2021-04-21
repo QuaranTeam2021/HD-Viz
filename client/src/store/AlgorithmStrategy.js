@@ -1,29 +1,10 @@
 /* eslint-disable class-methods-use-this */
-const druid = require('@saehrimnir/druidjs');
 
-/**
- * @abstract
- * Uso il template method patter
- */
-class Algorithm {
+export default class AlgorithmStrategy {
 
     constructor() {
         if (this.constructor === Algorithm) 
             throw new Error("Can't instantiate abstract class!");
-    }
-    
-    // definisco i passi dell'algoritmo
-    compute(data, param) {
-        let matrix = druid.Matrix.from(data);
-        if (param.metric)
-            param.metric = this.getMetric(param.metric);
-        let red = this.setAlgorithm(matrix, param);
-        let res = red.transform();
-        return this.get2dArray(res.to2dArray);
-    }
-
-    setAlgorithm(data, param) { // eslint-disable-line
-        // abstract
     }
 
     getMetric(metric) {
@@ -47,7 +28,7 @@ class Algorithm {
         return res;
     }
 
-    get2dArray(data) {
+    static get2dArray(data) {
         let i = 0;
         for (const row of data.values()) {
             data[i] = Array.from(row);
@@ -56,5 +37,3 @@ class Algorithm {
         return data;
     }
 }
-
-exports.Algorithm = Algorithm;

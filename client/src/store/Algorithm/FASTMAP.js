@@ -1,12 +1,14 @@
 /* eslint-disable class-methods-use-this */
-const {Algorithm} = require('../Algorithm');
-const druid = require('@saehrimnir/druidjs');
+import AlgorithmStrategy from '../AlgorithmStrategy';
+import * as druid from "@saehrimnir/druidjs";
 
-class FASTMAP extends Algorithm {
+export default class FASTMAP extends AlgorithmStrategy {
 
-    setAlgorithm(data, param) {
-        return new druid.FASTMAP(data, param.dims, param.metric);
+    compute(parameters) {
+        let data = druid.Matrix.from(parameters.data);
+        let metric = this.getMetric(parameters.metric);
+        let strategy = new druid.FASTMAP(data, parameters.dimensions, metric);
+        let res = strategy.transform();
+        return this.get2dArray(res.to2dArray);
     }
 }
-
-exports.FASTMAP = FASTMAP;

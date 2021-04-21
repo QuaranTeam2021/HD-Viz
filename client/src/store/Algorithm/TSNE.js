@@ -1,12 +1,14 @@
 /* eslint-disable class-methods-use-this */
-const {Algorithm} = require('../Algorithm');
-const druid = require('@saehrimnir/druidjs');
+import AlgorithmStrategy from '../AlgorithmStrategy';
+import * as druid from "@saehrimnir/druidjs";
 
-class TSNE extends Algorithm {
+export default class TSNE extends AlgorithmStrategy {
 
-    setAlgorithm(data, param) {
-        return new druid.TSNE(data, param.perplexity, param.epsilon, param.dims, param.metric);
+    compute(parameters) {
+        let data = druid.Matrix.from(parameters.data);
+        let metric = this.getMetric(parameters.metric);
+        let strategy = new druid.TSNE(data, parameters.perplexity, parameters.epsilon, parameters.dimensions, metric);
+        let res = strategy.transform();
+        return this.get2dArray(res.to2dArray);
     }
 }
-
-exports.TSNE = TSNE;

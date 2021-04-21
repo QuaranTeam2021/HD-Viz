@@ -1,12 +1,13 @@
 /* eslint-disable class-methods-use-this */
-const {Algorithm} = require('../Algorithm');
-const druid = require('@saehrimnir/druidjs');
+import AlgorithmStrategy from '../AlgorithmStrategy';
+import * as druid from "@saehrimnir/druidjs";
 
-class PCA extends Algorithm {
+export default class PCA extends AlgorithmStrategy {
 
-    setAlgorithm(data, param) {
-        return new druid.PCA(data, param.dims);
+    compute(parameters) {
+        let data = druid.Matrix.from(parameters.data);
+        let strategy = new druid.ISOMAP(data, parameters.dimensions);
+        let res = strategy.transform();
+        return this.get2dArray(res.to2dArray);
     }
 }
-
-exports.PCA = PCA;
