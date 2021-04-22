@@ -25,7 +25,7 @@ const ColorButton = withStyles(theme => ({
   },
 }))(Button);
 
-const Insert = ({ fileName, onChange, onClick }) => {
+const Insert = ({ fileName, onChange }) => {
   const classes = useStyles();
 
   return (
@@ -34,15 +34,13 @@ const Insert = ({ fileName, onChange, onClick }) => {
         accept=".csv, .json, .tsv"
         className={classes.input}
         id="contained-button-file"
-        multiple
         type="file"
         onChange={onChange}
-        onClick={onClick}
       />
 
       <label htmlFor="contained-button-file">
         <ColorButton variant="contained" color="primary" component="span" >
-          {fileName === undefined ? "Inserimento file" : fileName}
+          {fileName === undefined ? "Importa" : fileName}
         </ColorButton>
       </label>
     </div>

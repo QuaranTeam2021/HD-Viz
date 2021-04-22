@@ -1,7 +1,7 @@
 import { createContext, useContext } from 'react';
+import Data from './Data';
 import { makeAutoObservable } from 'mobx';
-const { transpose } = require('mathjs');
-const { Data } = require('./Data');
+import { transpose } from 'mathjs';
 
 export default class Store {
 
@@ -18,11 +18,11 @@ export default class Store {
 
     set originalData(data) {
         this._originalData = new Data(data);
-        this.features = this.originalData.features;
+        this._features = this.originalData.features;
     }
 
     get originalData() {
-        return this.originalData;
+        return this._originalData;
     }
     
     set features(feat) {
@@ -30,11 +30,15 @@ export default class Store {
     }
 
     get features() {
-        return this.features;
+        return this._features;
+    }
+
+    set graphs(graphs) {
+        this._graphs = graphs;
     }
 
     get graphs() {
-        return this.graphs;
+        return this._graphs;
     }
 
     addGraph(graph) {

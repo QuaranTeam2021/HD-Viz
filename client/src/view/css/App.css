@@ -19,6 +19,7 @@
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
+  margin-bottom: -2em;
 }
 
 .App-link {
@@ -75,7 +76,7 @@
 } 
 
 #insert{
-  margin-bottom: 5rem;
+  margin:0
 } 
 #graph{
   margin-left:10rem; 
@@ -133,3 +134,53 @@
 #slider-3 {
   color: rgb(0, 173, 0);
 }
+
+/* bottone inserimento */
+#inserimento{ 
+  margin-top: 2em;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 2em;
+  
+}
+
+/*colonne grid*/ 
+
+#impostazioni {
+  display: grid;
+  grid-template-rows: 500px;
+  grid-template-columns: 410px 100px 50px 250px 500px;
+  grid-gap: 10px;
+}
+
+/*colonne*/
+#colonne { 
+  margin-top: 1.5em;
+}
+
+#question{ 
+  margin-top:0.5em;
+} 
+
+/*algoritmi*/ 
+.dimensione{ 
+  margin-top: 5em;
+}  
+
+#FeaturesAlgorithm{
+  margin-top: 0em;
+}
+
+#FeaturesAlgorithm2{
+  margin-top: -4.7em;
+}
+
+/*Bottone conferma*/
+#ButtonConfirm{
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+

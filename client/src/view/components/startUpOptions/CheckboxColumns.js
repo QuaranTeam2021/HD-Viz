@@ -2,11 +2,13 @@
 import React, { useEffect, useState} from 'react';
 import { autorun } from 'mobx';
 import Checkbox from '@material-ui/core/Checkbox';
+import FormControl from '@material-ui/core/FormControl';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormGroup from '@material-ui/core/FormGroup';
+import FormLabel from '@material-ui/core/FormLabel';
 import { observer } from 'mobx-react-lite';
 import { purple } from '@material-ui/core/colors';
-import { useStore } from '../../store/Store';
+import { useStore } from '../../../store/Store';
 import { withStyles } from '@material-ui/core/styles';
 
 const PurpleCheckbox = withStyles({
@@ -19,7 +21,7 @@ const PurpleCheckbox = withStyles({
   },
 })(props => <Checkbox color="default" {...props} />);
 
-const SelectColumns = observer(({onChange}) => {
+const CheckboxColumns = observer(({onChange}) => {
 
   const store = useStore();
 
@@ -30,17 +32,20 @@ const SelectColumns = observer(({onChange}) => {
       }), [store._features])
 
   return (
-    <div>
-    <FormGroup row>
+    <div className="colonne">
+    <FormControl component="fieldset">
+    <FormLabel component="legend">Colonne:</FormLabel>
+    <FormGroup col>
       {
         uploadedColumns.map((d, i) => <FormControlLabel key={i} control={<PurpleCheckbox />} onChange={onChange}
         label={d} value={d}
       />)
       }
     </FormGroup>
+    </FormControl>
     </div>
   );
   
 })
 
-export default SelectColumns;
+export default CheckboxColumns;

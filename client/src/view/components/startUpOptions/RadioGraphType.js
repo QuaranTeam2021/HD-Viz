@@ -26,16 +26,12 @@ const PurpleRadio = withStyles({
   }
 })(props => <Radio color="default" {...props} />);
 
-export default function SelectGraph({ onChange }) {
+export default function RadioGraphType({ onChange }) {
   const classes = useStyles();
-  const insert = event => {
-    event.preventDefault()
-
-  }
 
   return (
     <div className={classes.root} id="graph">
-      <FormControl component="fieldset" className={classes.formControl} onSubmit={insert}>
+      <FormControl component="fieldset" className={classes.formControl}>
         <FormLabel component="legend" >Grafico: </FormLabel>
         <RadioGroup aria-label="position" name="position" position="left" onChange={onChange}>
           <FormControlLabel value="Scatterplot Matrix" control={<PurpleRadio color="primary" />} label="Scatterplot Matrix" />
