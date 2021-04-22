@@ -11,18 +11,18 @@ export default class Graph {
     }
 
     set graphId(id) {
-        this.graphId = id;
+        this._graphId = id;
     }
 
     get graphId() {
-        return this.graphId;
+        return this._graphId;
     }
 
     set type(type) {
-        this.type = type;
+        this._type = type;
     }
 
     get type() {
-        return this.type;
+        return this._type;
     }
 }

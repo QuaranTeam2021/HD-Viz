@@ -14,12 +14,13 @@ import TooltipDistColumns from './startUpOptions/TooltipDistColumns';
 import TooltipVizColumns from './startUpOptions/TooltipVizColumns';
 import TSNEfeatures from './algorithms/TSNEfeatures';
 import { useMainController } from '../../controller/MainController';
+import { usePcaController } from '../../controller/PcaController';
 
 const needsAlgorithm = g => ["Scatterplot Matrix", "Scatterplot", "Proiezione Multiassi"].includes(g);
 const needsDistance = g => ["HeatMap", "Force Field"].includes(g);
 const selectedInsert = i => i.name !== undefined;
- 
-export default function BuildGraph() {
+
+export default function BuildGraph({defineStore}) {
   const [selectedGraph, setGraph] = useState('');
   const [insert, setInsert] = useState([]);
   const [selectedColumns, setSelectedColumns] = useState([]);
@@ -30,6 +31,7 @@ export default function BuildGraph() {
   const [perplexity, setPerplexity] = useState(20);
   const [selectedAlgorithm, setAlgorithm] = useState('');
   const mainController = useMainController();
+  const pcaController = usePcaController();
 
   const allOptionsSelected = useCallback(() => {
     let allSelected;
@@ -39,8 +41,8 @@ export default function BuildGraph() {
     if (needsDistance(selectedGraph))
       allSelected = allSelected && distanza !== "";
     if (needsAlgorithm(selectedGraph)) {
-      if (["UMAP", "ISOMAP", "LLE", "FASTMAP", "T-SNE"].includes(selectedAlgorithm))
-        allSelected = allSelected && distanza !== "";
+      if (["PCA", "UMAP", "ISOMAP", "LLE", "FASTMAP", "T-SNE"].includes(selectedAlgorithm))
+        allSelected = allSelected && size >= 2 && size <= 10;
       else
         allSelected = false;
     }
@@ -51,6 +53,9 @@ export default function BuildGraph() {
     allOptionsSelected();
   }, [allOptionsSelected]);
 
+  useEffect(() => {
+    defineStore(false);
+  }, [defineStore])
 
   const onChangeGraph = e => {
     setGraph(e.target.value);
@@ -66,7 +71,10 @@ export default function BuildGraph() {
 
   const onChangeAlgorithm = (_e, v) => setAlgorithm(v);
 
-  const onChangeSize = (_e, v) => setSize(v);
+  const onChangeSize = (_e, v) => {
+    setSize(v);
+    pcaController.dimensions = v; // diventerá lo stato algorithmController
+  }
 
   const onChangeNeighbours = (_e, v) => setNeighbours(v);
 
@@ -103,6 +111,8 @@ export default function BuildGraph() {
         formData.perplexity = perplexity;
     }
     console.log(formData);
+    pcaController.createGraph(`${selectedGraph}-${Math.round(Math.random() * 100)}`, selectedGraph, selectedColumns);
+    defineStore(true);
   });
 
   return (

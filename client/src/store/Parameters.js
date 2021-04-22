@@ -8,19 +8,23 @@ export default class Parameters {
     dimensions = null;
 
     constructor() {
-        if (this.constructor === Parameters) 
+        if (this._constructor === Parameters) 
             throw new Error("Can't instantiate abstract class!");
     }
 
     set data(data) {
-        this.data = data;
+        this._data = data;
     }
 
     get data() {
-        return this.data;
+        return this._data;
+    }
+
+    set dimensions(dimensions) {
+        this._dimensions = dimensions;
     }
 
     get dimensions() {
-        return this.dimensions;
+        return this._dimensions;
     }    
 }

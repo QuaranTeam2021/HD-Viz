@@ -1,17 +1,37 @@
+import * as forceDir from '../chart/forceDirected';
+import * as scpt from '../chart/scptMatrix';
 import React, { useEffect, useState } from 'react';
+import { autorun } from 'mobx';
 import FeaturesContainer from './FeaturesContainer';
 import Graph from './Graph';
+import { observer } from 'mobx-react-lite';
 import RenameTitleGraph from './RenameTitleGraph';
+import { useStore } from '../../store/Store';
+
+const { forceDirected } = forceDir;
+const { scpMatrix } = scpt;
 
 // eslint-disable-next-line no-unused-vars
-export default function GraphContainer({ algoritmoGrafico, tipoGrafico, distanzaGrafico, onDelete, index }) {
+const GraphContainer = observer(({ algoritmoGrafico, tipoGrafico, distanzaGrafico, onDelete, graphId }) => {
 	const [title, setTitle] = useState('Scatterplot Matrix');
+	const store = useStore();
+
+	useEffect(() => autorun(() => {
+		console.log(store.getGraphById(graphId));
+	}), [graphId, store])
+
+	useEffect(() => {
+		const graph = store.getGraphById(graphId);
+		scpMatrix(graph.data);
+	}, [graphId, store])
 
 	return (
 		<div>
-			<FeaturesContainer algoritmoGrafico={algoritmoGrafico} distanzaGrafico={distanzaGrafico} onDelete={onDelete} i={index} />
+			{/* <FeaturesContainer onDelete={onDelete} graphId={graphId} /> */}
 			<RenameTitleGraph title={title} setTitle={setTitle} />
-			<Graph tipoGrafico={tipoGrafico} index={index} />
+			<div id={graphId} />
 		</div>
 	);
-}
+});
+
+export default GraphContainer;

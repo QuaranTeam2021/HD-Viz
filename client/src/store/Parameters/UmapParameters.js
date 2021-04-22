@@ -1,5 +1,5 @@
 /* eslint-disable class-methods-use-this */
-import Data from './Data';
+import Data from '../Data';
 import Parameters from '../Parameters';
 
 export default class UmapParameters extends Parameters {

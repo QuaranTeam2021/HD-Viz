@@ -1,3 +1,4 @@
+import { createContext, useContext } from 'react';
 import PCA from '../store/Algorithm/PCA';
 import PcaParameters from '../store/Parameters/PcaParameters';
 import StandardGraph from '../store/Graph/StandardGraph';
@@ -8,19 +9,22 @@ export default class PcaController extends StandardGraphController {
     constructor(store) {
         super();
         this.store = store;
-        this.PCA = new PCA();
+        this.pca = new PCA();
         this.dimensions = null;
     }
 
     createGraph(graphId, type, features) {
         let data = this.store.calculateSelectedData(features);
         let params = new PcaParameters(this.dimensions, data);
-        let reducedData = PCA.compute(params);
+        let reducedData = this.pca.compute(params);
         let graph = new StandardGraph(graphId, type, reducedData);
         this.store.addGraph(graph);
     }
 
     set dimensions(dims) {
-        this.dimensions = dims;
+        this._dimensions = dims;
     }
 }
+
+export const PcaControllerContext = createContext(PcaController);
+export const usePcaController = () => useContext(PcaControllerContext);

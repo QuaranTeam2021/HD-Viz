@@ -1,11 +1,18 @@
+import Store, { useStore } from '../../store/Store';
 import GraphContainer from './GraphContainer';
 import React from 'react';
+// import { useStore } from '../../store/Store';
 
 export default function Vizualization({ algoritmoGrafico, tipoGrafico, distanzaGrafico, onDelete, index }) {
+	const store = useStore();
+	// const store = new Store();
 
 	return (
 		<div>
-			<GraphContainer algoritmoGrafico={algoritmoGrafico} tipoGrafico={tipoGrafico} distanzaGrafico={distanzaGrafico} onDelete={onDelete} index={index} />
+			{store.graphs.forEach(g => {
+				// niente algoritmo o distanza
+				<GraphContainer graphId={g.graphId} key={g.graphId} tipoGrafico={g.type} onDelete={onDelete} />
+			})}
         </div>
 	)
 }

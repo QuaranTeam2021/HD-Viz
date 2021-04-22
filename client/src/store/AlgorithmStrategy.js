@@ -8,6 +8,10 @@ export default class AlgorithmStrategy {
             throw new Error("Can't instantiate abstract class!");
     }
 
+    compute() {
+        // astratto
+    }
+
     getMetric(metric) {
         let res;
         switch (metric) {

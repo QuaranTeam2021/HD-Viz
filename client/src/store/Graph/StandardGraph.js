@@ -2,8 +2,6 @@ import Graph from '../Graph';
 
 export default class StandardGraph extends Graph {
 
-    data = [];
-
     constructor(graphId, type, data) {
         super();
         this.graphId = graphId;
@@ -12,6 +10,7 @@ export default class StandardGraph extends Graph {
     }
 
     set data(data) {
+        // if (data.length > 0) {
         let jsonArray = [];
         let colNum = data[0].length;
         for (let i = 0; i < data.length; ++i) {
@@ -21,11 +20,12 @@ export default class StandardGraph extends Graph {
             }
             jsonArray.push(jsonObject);
         }
-        this.data = jsonArray;
+            this._data = jsonArray;
+        // }
     }
 
     get data() {
-        return this.data;
+        return this._data;
     }
 
 }
