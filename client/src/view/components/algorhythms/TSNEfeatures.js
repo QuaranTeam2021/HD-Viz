@@ -1,8 +1,9 @@
+import RadioDistance from '../startUpOptions/RadioDistance';
 import React from 'react';
-import SelectDistanza from './SelectDistanza';
 import SliderNeighbors from './SliderNeighbors';
 import SliderPerplexity from './SliderPerplexity';
 import SliderSize from './SliderSize';
+
 
 export default function TSNEfeatures({ attributes }) {
     const { d, n, p, s } = attributes;
@@ -13,7 +14,7 @@ export default function TSNEfeatures({ attributes }) {
 
     return (
         <div>
-            <SelectDistanza distanza={distanza} onChange={onChangeDistanza} />
+            <RadioDistance distanza={distanza} onChange={onChangeDistanza} />
             <SliderSize size={size} onChange={onChangeSize} />
             <SliderNeighbors neighbours={neighbours} onChange={onChangeNeighbours} />
             <SliderPerplexity perplexity={perplexity} onChange={onChangePerplexity} />

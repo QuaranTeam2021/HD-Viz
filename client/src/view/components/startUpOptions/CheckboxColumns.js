@@ -8,7 +8,7 @@ import FormGroup from '@material-ui/core/FormGroup';
 import FormLabel from '@material-ui/core/FormLabel';
 import { observer } from 'mobx-react-lite';
 import { purple } from '@material-ui/core/colors';
-import { useModel } from '../../model/Model';
+import { useModel } from '../../../model/Model';
 import { withStyles } from '@material-ui/core/styles';
 
 const PurpleCheckbox = withStyles({
@@ -21,7 +21,7 @@ const PurpleCheckbox = withStyles({
   },
 })(props => <Checkbox color="default" {...props} />);
 
-const SelectColumns = observer(({onChange}) => {
+const CheckboxColumns = observer(({onChange}) => {
 
   const model = useModel();
 
@@ -48,4 +48,4 @@ const SelectColumns = observer(({onChange}) => {
   
 })
 
-export default SelectColumns;
+export default CheckboxColumns;

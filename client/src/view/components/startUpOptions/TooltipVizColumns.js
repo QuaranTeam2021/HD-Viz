@@ -16,12 +16,12 @@ const useStyles = makeStyles(theme => ({
  
 }));
 
-export default function SimpleTooltips() {
+export default function TooltipVizColumns() {
   const classes = useStyles();
 
   return (
     <div>
-      <Tooltip title="Colonne per il calcolo della distanza">
+      <Tooltip title="Colonne di dati da visualizzare">
         <IconButton aria-label="Colonne">
           <HelpIcon />
         </IconButton>

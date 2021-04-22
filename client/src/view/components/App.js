@@ -3,9 +3,9 @@ import { Link, Redirect, Route, BrowserRouter as Router, Switch } from 'react-ro
 import MainController, { MainControllerContext } from '../../controller/MainController';
 import { Model, ModelContext } from '../../model/Model';
 import React, { useEffect, useState } from 'react';
-import GraphOption from './GraphOption';
+import BuildGraph from './BuildGraph';
 import Header from './Header';
-import VizContainer from './VizContainer';
+import Vizualization from './Vizualization';
 
 const App = () => {
   // creaiamo un'unica istanza del modello per tutta l'App
@@ -33,10 +33,10 @@ const App = () => {
             </ul>
             <Switch>
               <Route exact path="/">
-                <GraphOption />
+                <BuildGraph />
               </Route>
               <Route path="/visualization">
-                { modelDefined ? <VizContainer algoritmoGrafico="pca" tipoGrafico="scpm" distanzaGrafico="euclidean" onDelete={idx => console.log(`Eliminato ${idx}`)} key={i} index={i} /> : <Redirect to="/" /> }
+                { modelDefined ? <Vizualization algoritmoGrafico="pca" tipoGrafico="scpm" distanzaGrafico="euclidean" onDelete={idx => console.log(`Eliminato ${idx}`)} key={i} index={i} /> : <Redirect to="/" /> }
               </Route>
               <Route path="/dataset">
                 <div>Gestion dataset</div>

@@ -1,18 +1,18 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { action } from 'mobx';
-import ButtonConfirm from './ButtonConfirm'
-import FASTMAPfeatures from './FASTMAPfeatures';
-import Insert from './Insert';
-import ISOUMAPLLEfeatures from './ISOUMAPLLEfeatures';
+import ButtonConfirm from './startUpOptions/ButtonConfirm'
+import CheckboxColumns from './startUpOptions/CheckboxColumns';
+import FASTMAPfeatures from './algorhythms/FASTMAPfeatures';
+import Insert from './startUpOptions/chooseDataset/Insert';
+import ISOUMAPLLEfeatures from './algorhythms/ISOUMAPLLEfeatures';
 import { Link } from 'react-router-dom';
-import PCAfeatures from './PCAfeatures';
-import SelectAlgorithm from './SelectAlgorithm';
-import SelectColumns from './SelectColumns';
-import SelectDistanza from './SelectDistanza';
-import SelectGraph from './SelectGraph';
-import TooltipColonne2 from './TooltipColonne2'
-import TooltipColumns from './TooltipColumns'
-import TSNEfeatures from './TSNEfeatures';
+import PCAfeatures from './algorhythms/PCAfeatures';
+import RadioAlgorhythm from './algorhythms/RadioAlgorhythm';
+import RadioDistance from './startUpOptions/RadioDistance';
+import RadioGraphType from './startUpOptions/RadioGraphType';
+import TooltipDistColumns from './startUpOptions/TooltipDistColumns';
+import TooltipVizColumns from './startUpOptions/TooltipVizColumns';
+import TSNEfeatures from './algorhythms/TSNEfeatures';
 import { useMainController } from '../../controller/MainController';
 
 const needsAlgorithm = g => ["Scatterplot Matrix", "Scatterplot", "Proiezione Multiassi"].includes(g);
@@ -20,7 +20,7 @@ const needsDistance = g => ["HeatMap", "Force Field"].includes(g);
 const selectedInsert = i => i.name !== undefined; 
  
 
-export default function GraphOption() {
+export default function BuildGraph() {
   const [selectedGraph, setGraph] = useState('');
   const [insert, setInsert] = useState([]);
   const [selectedColumns, setSelectedColumns] = useState([]);
@@ -106,24 +106,24 @@ export default function GraphOption() {
 
   return (
 
-    <div className="GraphOption" >
+    <div className="BuildGraph" >
       <div id="intestazione"><h2>Benvenuto in HD-VIZ! La miglior applicazione di grafici dimensionali!</h2></div>
        <div id="inserimento"> {!selectedInsert(insert) && <p>Inserisci qui i tuoi dati</p>}
           <Insert onChange={onChangeInsert} fileName={insert.name} /> 
         </div>
         <div id="selezione">
           <div id="impostazioni">
-            { selectedInsert(insert) && <SelectGraph onChange={onChangeGraph}/> }
+            { selectedInsert(insert) && <RadioGraphType onChange={onChangeGraph}/> }
             <div id="colonne"> 
-              { needsAlgorithm(selectedGraph) && <SelectColumns onChange={onChangeColumns} />} 
-              { needsDistance(selectedGraph) && <SelectColumns onChange={onChangeColumns} />}
+              { needsAlgorithm(selectedGraph) && <CheckboxColumns onChange={onChangeColumns} />} 
+              { needsDistance(selectedGraph) && <CheckboxColumns onChange={onChangeColumns} />}
             </div>
             <div id="question">
-            { needsDistance(selectedGraph) && <TooltipColumns/>}
-            { needsAlgorithm(selectedGraph) && <TooltipColonne2/>}
+            { needsDistance(selectedGraph) && <TooltipDistColumns/>}
+            { needsAlgorithm(selectedGraph) && <TooltipVizColumns/>}
             </div>
-            {["Scatterplot Matrix", "Proiezione Multiassi", "Scatterplot"].includes(selectedGraph) && <SelectAlgorithm onChange={onChangeAlgorithm} />}
-            {needsDistance(selectedGraph) && <SelectDistanza onChange={onChangeDistanza} distanza={distanza} />}
+            {["Scatterplot Matrix", "Proiezione Multiassi", "Scatterplot"].includes(selectedGraph) && <RadioAlgorhythm onChange={onChangeAlgorithm} />}
+            {needsDistance(selectedGraph) && <RadioDistance onChange={onChangeDistanza} distanza={distanza} />}
             <div id="FeaturesAlgorithm">  
               <div className="dimensione">
                 {needsAlgorithm(selectedGraph) && ["PCA"].includes(selectedAlgorithm) && <PCAfeatures attributes={{

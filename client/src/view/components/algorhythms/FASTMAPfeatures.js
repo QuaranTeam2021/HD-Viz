@@ -1,5 +1,6 @@
+
+import RadioDistance from '../startUpOptions/RadioDistance';
 import React from 'react';
-import SelectDistanza from './SelectDistanza';
 import SliderSize from './SliderSize';
 
 export default function FASTMAP({attributes}) {
@@ -9,7 +10,7 @@ export default function FASTMAP({attributes}) {
 
     return (
         <div>
-            <SelectDistanza distanza={distanza} onChange={onChangeDistanza} />
+            <RadioDistance distanza={distanza} onChange={onChangeDistanza} />
             <SliderSize size={size} onChange={onChangeSize} />
         </div>
     );

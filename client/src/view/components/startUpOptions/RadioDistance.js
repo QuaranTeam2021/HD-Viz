@@ -26,7 +26,7 @@ const PurpleRadio = withStyles({
   }
 })(props => <Radio color="default" {...props} />);
 
-export default function SelectDistanza({ distanza, onChange }) {
+export default function RadioDistance({ distanza, onChange }) {
   const classes = useStyles();
 
   useEffect(() => {

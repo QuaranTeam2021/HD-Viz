@@ -26,7 +26,7 @@ const PurpleRadio = withStyles({
   }
 })(props => <Radio color="default" {...props} />);
 
-export default function SelectGraph({ onChange }) {
+export default function RadioGraphType({ onChange }) {
   const classes = useStyles();
 
   return (

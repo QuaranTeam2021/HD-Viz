@@ -1,7 +1,7 @@
 import GraphContainer from './GraphContainer';
 import React from 'react';
 
-export default function VizContainer({ algoritmoGrafico, tipoGrafico, distanzaGrafico, onDelete, index }) {
+export default function Vizualization({ algoritmoGrafico, tipoGrafico, distanzaGrafico, onDelete, index }) {
 
 	return (
 		<div>

@@ -26,7 +26,7 @@ const PurpleRadio = withStyles({
   }
 })(props => <Radio color="default" {...props} />);
 
-export default function SelectAlgorithm({ onChange }) {
+export default function RadioAlgorhythm({ onChange }) {
   const classes = useStyles();
 
   return (
