@@ -2,24 +2,23 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { action } from 'mobx';
 import ButtonConfirm from './startUpOptions/ButtonConfirm'
 import CheckboxColumns from './startUpOptions/CheckboxColumns';
-import FASTMAPfeatures from './algorhythms/FASTMAPfeatures';
+import FASTMAPfeatures from './algorithms/FASTMAPfeatures';
 import Insert from './startUpOptions/chooseDataset/Insert';
-import ISOUMAPLLEfeatures from './algorhythms/ISOUMAPLLEfeatures';
+import ISOUMAPLLEfeatures from './algorithms/ISOUMAPLLEfeatures';
 import { Link } from 'react-router-dom';
-import PCAfeatures from './algorhythms/PCAfeatures';
-import RadioAlgorhythm from './algorhythms/RadioAlgorhythm';
+import PCAfeatures from './algorithms/PCAfeatures';
+import RadioAlgorithm from './algorithms/RadioAlgorithm';
 import RadioDistance from './startUpOptions/RadioDistance';
 import RadioGraphType from './startUpOptions/RadioGraphType';
 import TooltipDistColumns from './startUpOptions/TooltipDistColumns';
 import TooltipVizColumns from './startUpOptions/TooltipVizColumns';
-import TSNEfeatures from './algorhythms/TSNEfeatures';
+import TSNEfeatures from './algorithms/TSNEfeatures';
 import { useMainController } from '../../controller/MainController';
 
 const needsAlgorithm = g => ["Scatterplot Matrix", "Scatterplot", "Proiezione Multiassi"].includes(g);
 const needsDistance = g => ["HeatMap", "Force Field"].includes(g);
-const selectedInsert = i => i.name !== undefined; 
+const selectedInsert = i => i.name !== undefined;
  
-
 export default function BuildGraph() {
   const [selectedGraph, setGraph] = useState('');
   const [insert, setInsert] = useState([]);
@@ -124,7 +123,7 @@ export default function BuildGraph() {
             { needsDistance(selectedGraph) && <TooltipDistColumns/>}
             { needsAlgorithm(selectedGraph) && <TooltipVizColumns/>}
             </div>
-            {["Scatterplot Matrix", "Proiezione Multiassi", "Scatterplot"].includes(selectedGraph) && <RadioAlgorhythm onChange={onChangeAlgorithm} />}
+            {["Scatterplot Matrix", "Proiezione Multiassi", "Scatterplot"].includes(selectedGraph) && <RadioAlgorithm onChange={onChangeAlgorithm} />}
             {needsDistance(selectedGraph) && <RadioDistance onChange={onChangeDistanza} distanza={distanza} />}
             <div id="FeaturesAlgorithm">  
               <div className="dimensione">
