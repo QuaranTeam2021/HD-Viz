@@ -3,9 +3,9 @@ import { makeAutoObservable } from 'mobx';
 const { transpose } = require('mathjs');
 const { Data } = require('./Data');
 
-export class Store {
+export default class Store {
 
-    originalData = [];
+    originalData = new Data([]);
 
     graphs = [];
 
@@ -16,11 +16,12 @@ export class Store {
         this.originalData = new Data([]);
     }
 
-    set setOriginalData(data) {
-        this._originalData = data;
+    set originalData(data) {
+        this._originalData = new Data(data);
+        this.features = this.originalData.features;
     }
 
-    get getOriginalData() {
+    get originalData() {
         return this.originalData;
     }
     
@@ -32,7 +33,7 @@ export class Store {
         return this.features;
     }
 
-    get getGraphs() {
+    get graphs() {
         return this.graphs;
     }
 
@@ -87,12 +88,11 @@ export class Store {
         throw new Error('Id grafico non presente');
     }
 
-    calculateSelectedData(sel) {
-        let selectedFeatures = Array.from(sel);
+    calculateSelectedData(selectedFeatures) {
         let res = [];
-        for (let i = 0; i < this.selectedFeatures.length; ++i) {
+        for (let i = 0; i < selectedFeatures.length; ++i) {
             res[i] = [];
-            let feature = this.selectedFeatures[i];
+            let feature = selectedFeatures[i];
             let col = this.originalData.getCol(feature);
             res[i] = col;
         }

@@ -1,15 +1,9 @@
 import { createContext, useContext } from 'react';
-import { autorun } from "mobx";
 
 export default class MainController {
 
     constructor(store) {
         this.store = store; 
-    }
-
-    setInsert(insertForm) {
-        this.insert = insertForm;
-        autorun(() => this.parse(this.insert));
     }
 
     parse(file) {
@@ -41,7 +35,7 @@ export default class MainController {
                 for (let i = 0; i < matrix.length; ++i) {
                     matrix[i] = matrix[i].split(delimiter);
                 }
-                this.store.setOriginalData = matrix;
+                this.store.originalData = matrix;
             };
             reader.onerror = () => {
                 console.log("Error reading file in controller");

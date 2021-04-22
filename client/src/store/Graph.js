@@ -10,11 +10,11 @@ export default class Graph {
             throw new Error("Can't instantiate abstract class!");
     }
 
-    set setGraphId(id) {
+    set graphId(id) {
         this.graphId = id;
     }
 
-    get getGraphId() {
+    get graphId() {
         return this.graphId;
     }
 

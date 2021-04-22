@@ -1,26 +1,23 @@
 const {column} = require('mathjs');
 
-class Data {
+export default class Data {
 
     constructor(matrix = []) {
         this._matrix = matrix;
     }
 
-    // setters
-    set setMatrix(matrix) {
+    set matrix(matrix) {
         this._matrix = matrix;
     }
 
-    // getters
-    get getMatrix() {
+    get matrix() {
         return this._matrix;
     }
 
-    get getFeatures() {
+    get features() {
         return this._matrix.length === 1 ? this._matrix.flat() : this._matrix[0];
     }
 
-    // methods
     getBody() {
         return Array.from(this._matrix).splice(1);
     }
@@ -69,6 +66,4 @@ class Data {
         this.setMatrix = res;
     }   
 }
-
-exports.Data = Data;
 
