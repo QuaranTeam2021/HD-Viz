@@ -4,7 +4,8 @@ import Parameters from '../Parameters';
 
 export default class TsneParameters extends Parameters {
 
-    constructor(data = new Data([]), dimensions, perplexity, epsilon, metric) {
+    constructor(dimensions, perplexity, epsilon, metric, data = new Data([])) {
+        super();
         this.data = data;
         this.dimensions = dimensions;
         this.perplexity = perplexity;

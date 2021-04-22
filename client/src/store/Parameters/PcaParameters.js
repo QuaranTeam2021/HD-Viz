@@ -4,7 +4,8 @@ import Parameters from '../Parameters';
 
 export default class PcaParameters extends Parameters {
 
-    constructor(data = new Data([]), dimensions) {
+    constructor(dimensions, data = new Data([])) {
+        super();
         this.data = data;
         this.dimensions = dimensions;
     }   

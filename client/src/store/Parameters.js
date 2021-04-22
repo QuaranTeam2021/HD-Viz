@@ -22,7 +22,5 @@ export default class Parameters {
 
     get dimensions() {
         return this.dimensions;
-    }
-
-    
+    }    
 }

@@ -4,7 +4,8 @@ import Parameters from '../Parameters';
 
 export default class IsomapLleParameters extends Parameters {
 
-    constructor(data = new Data([]), dimensions, neighbors, metric) {
+    constructor(dimensions, neighbors, metric, data = new Data([])) {
+        super();
         this.data = data;
         this.dimensions = dimensions;
         this.neighbors = neighbors;

@@ -4,7 +4,8 @@ import Parameters from '../Parameters';
 
 export default class FastmapParameters extends Parameters {
 
-    constructor(data = new Data([]), dimensions, metric) {
+    constructor(dimensions, metric, data = new Data([])) {
+        super();
         this.data = data;
         this.dimensions = dimensions;
         this.metric = metric;

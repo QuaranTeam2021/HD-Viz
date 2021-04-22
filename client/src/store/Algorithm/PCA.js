@@ -1,6 +1,6 @@
 /* eslint-disable class-methods-use-this */
-import AlgorithmStrategy from '../AlgorithmStrategy';
 import * as druid from "@saehrimnir/druidjs";
+import AlgorithmStrategy from '../AlgorithmStrategy';
 
 export default class PCA extends AlgorithmStrategy {
 

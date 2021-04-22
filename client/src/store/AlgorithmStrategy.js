@@ -1,9 +1,10 @@
 /* eslint-disable class-methods-use-this */
+import * as druid from "@saehrimnir/druidjs";
 
 export default class AlgorithmStrategy {
 
     constructor() {
-        if (this.constructor === Algorithm) 
+        if (this.constructor === AlgorithmStrategy) 
             throw new Error("Can't instantiate abstract class!");
     }
 
@@ -32,7 +33,7 @@ export default class AlgorithmStrategy {
         let i = 0;
         for (const row of data.values()) {
             data[i] = Array.from(row);
-            i++;
+            i = i + 1;
         }
         return data;
     }

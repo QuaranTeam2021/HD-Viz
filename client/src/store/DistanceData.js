@@ -2,6 +2,7 @@
 export default class DistanceData {
 
     nodes = [];
+    
     links = [];
 
     constructor(nodes, links) {

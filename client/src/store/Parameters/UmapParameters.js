@@ -4,7 +4,8 @@ import Parameters from '../Parameters';
 
 export default class UmapParameters extends Parameters {
 
-    constructor(data = new Data([]), dimensions, neighbors) {
+    constructor(dimensions, neighbors, data = new Data([])) {
+        super();
         this.data = data;
         this.dimensions = dimensions;
         this.neighbors = neighbors;
