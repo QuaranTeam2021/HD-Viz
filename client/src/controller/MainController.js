@@ -1,4 +1,5 @@
 import { createContext, useContext } from 'react';
+import Papa from 'papaparse';
 
 export default class MainController {
 
@@ -14,7 +15,7 @@ export default class MainController {
             switch (ext) {
                 case 'csv': this.parseWithDelimiter(file, ',');
                     break;
-                case 'json':
+                case 'json': this.parseJson(file);
                     break;
                 case 'tsv': this.parseWithDelimiter(file, '\t');
                     break;
@@ -24,18 +25,42 @@ export default class MainController {
         }
     }
 
-    parseWithDelimiter(file, delimiter) {
-        let matrix = [];
+    parseJson(file) {
         let reader = new FileReader();
         if (file && file.size > 0) {
             reader.readAsText(file, "UTF-8");
             reader.onload = () => {
-                let text = reader.result;
-                matrix = text.split('\n');
-                for (let i = 0; i < matrix.length; ++i) {
-                    matrix[i] = matrix[i].split(delimiter);
-                }
-                this.store.originalData = matrix;
+                let csv = Papa.unparse(reader.result);
+                let result = Papa.parse(csv, {
+                    delimiter: ',',
+                    dynamicTyping: true,
+                    error(error) {
+                        throw new Error(error);
+                    }
+                })
+                this.store.originalData = result.data;
+                console.log(this.store.originalData)
+                console.log(this.store.features)
+            };
+            reader.onerror = () => {
+                console.log("Error reading file in controller");
+            };
+        }
+    }
+
+    parseWithDelimiter(file, del) {
+        let reader = new FileReader();
+        if (file && file.size > 0) {
+            reader.readAsText(file, "UTF-8");
+            reader.onload = () => {
+                let result = Papa.parse(reader.result, {
+                    delimiter: del,
+                    dynamicTyping: true,
+                    error(error) {
+                        throw new Error(error);
+                    }
+                })
+                this.store.originalData = result.data;
             };
             reader.onerror = () => {
                 console.log("Error reading file in controller");
