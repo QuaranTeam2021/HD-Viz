@@ -39,8 +39,6 @@ export default class MainController {
                     }
                 })
                 this.store.originalData = result.data;
-                console.log(this.store.originalData)
-                console.log(this.store.features)
             };
             reader.onerror = () => {
                 console.log("Error reading file in controller");
