@@ -50,12 +50,12 @@ export default class Store {
     }
 
     getGraphById(graphId) {
-        for (let i = 0; i < this.graphs.length; ++i) {
-            let g = this.graphs[i];
-            if (g.getGraphId === graphId) 
-                return g;
-        }
-        throw new Error('Id non presente');
+        let graph;
+        this.graphs.forEach(g => {
+            if (graphId === g.graphId) 
+                graph = g;
+        })
+        return graph;
     }
 
     getGraphIndex(graphId) {

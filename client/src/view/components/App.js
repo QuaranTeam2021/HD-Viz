@@ -19,7 +19,6 @@ const App = () => {
   useEffect(() => {
     // eslint-disable-next-line no-unused-expressions
     store.originalData.matrix.length > 0 ? setStoreDefined(true) : setStoreDefined(false);
-    console.log(store.graphs);
   }, [])
 
   const defineStore = v => setStoreDefined(v);

@@ -7,12 +7,11 @@ export default function Vizualization({ algoritmoGrafico, tipoGrafico, distanzaG
 	const store = useStore();
 	// const store = new Store();
 
+
 	return (
 		<div>
-			{store.graphs.forEach(g => {
-				// niente algoritmo o distanza
-				<GraphContainer graphId={g.graphId} key={g.graphId} tipoGrafico={g.type} onDelete={onDelete} />
-			})}
+			{store.graphs.map(g => <GraphContainer graphId={g.graphId} key={g.graphId} tipoGrafico={g.type} onDelete={onDelete} 
+			/>)}
         </div>
 	)
 }

@@ -17,7 +17,10 @@ const scpMatrix = function(data, cols, grouper, idBox) {
 	// size = (width - (columns.length + 1) * padding) / columns.length + padding;
 	const padding = 20;
 	let columns = cols.filter(d => d !== grouper);
-
+	console.log('grafico:')
+	console.log(data)
+	console.log(cols)
+	console.log(idBox)
 	let svg = d3.select(`#${idBox}`).append("svg");
 	
 	svg.append("style")
@@ -158,6 +161,7 @@ const scpMatrix = function(data, cols, grouper, idBox) {
 		svg.property("value", []).dispatch("input");
 		circle.classed("hidden", false);
 	});
+
 }
 
 exports.scpMatrix = scpMatrix;
