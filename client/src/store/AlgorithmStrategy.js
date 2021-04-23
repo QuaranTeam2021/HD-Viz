@@ -33,6 +33,20 @@ export default class AlgorithmStrategy {
         return res;
     }
 
+    static addHeader(data, dimensions) {
+        let header = [];
+        for (let i = 0; i < dimensions; ++i) {
+            let dimension = String("Dimension").concat(i + 1);
+            header.push(dimension);
+        }
+        let headerContainer = [];
+        headerContainer.push(header);
+        let resultMatrix = [];
+        resultMatrix.push(headerContainer);
+        resultMatrix.push(data);
+        return resultMatrix.flat(1);
+    }
+
     static get2dArray(data) {
         let i = 0;
         for (const row of data.values()) {

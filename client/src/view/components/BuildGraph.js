@@ -47,7 +47,7 @@ export default function BuildGraph({defineStore}) {
         allSelected = false;
     }
     setConfirm(allSelected);
-  }, [insert, selectedGraph, selectedColumns.length, distanza, selectedAlgorithm]);
+  }, [insert, selectedGraph, selectedColumns.length, distanza, selectedAlgorithm, size]);
 
   useEffect(() => {
     allOptionsSelected();

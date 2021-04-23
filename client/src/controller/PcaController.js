@@ -15,16 +15,11 @@ export default class PcaController extends StandardGraphController {
 
     createGraph(graphId, type, features) {
         let data = this.store.calculateSelectedData(features);
-        console.log(data.slice(1))
+        data = data.slice(1);
         let params = new PcaParameters(this.dimensions, data);
         let reducedData = this.pca.compute(params);
         let graph = new StandardGraph(graphId, type, reducedData);
         this.store.addGraph(graph);
-        console.log(reducedData)
-    }
-
-    set dimensions(dims) {
-        this._dimensions = dims;
     }
 }
 

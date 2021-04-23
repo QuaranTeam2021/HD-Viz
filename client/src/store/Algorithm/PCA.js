@@ -6,8 +6,9 @@ export default class PCA extends AlgorithmStrategy {
 
     compute(parameters) {
         let data = druid.Matrix.from(parameters.data);
-        let strategy = new druid.ISOMAP(data, parameters.dimensions);
+        let strategy = new druid.PCA(data, parameters.dimensions);
         let res = strategy.transform();
-        return PCA.get2dArray(res.to2dArray);
+        let reduced = PCA.get2dArray(res.to2dArray);
+        return PCA.addHeader(reduced, parameters.dimensions);
     }
 }

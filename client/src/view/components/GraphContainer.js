@@ -17,12 +17,12 @@ const GraphContainer = observer(({ algoritmoGrafico, tipoGrafico, distanzaGrafic
 	const store = useStore();
 
 	useEffect(() => autorun(() => {
-		console.log(store.getGraphById(graphId));
-	}), [graphId, store])
+		console.log('ciao');
+	}), [store])
 
 	useEffect(() => {
 		const graph = store.getGraphById(graphId);
-		scpMatrix(graph.data);
+		scpMatrix(graph.data, store.features, store.features[4], graphId);
 	}, [graphId, store])
 
 	return (
