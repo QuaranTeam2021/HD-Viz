@@ -59,7 +59,7 @@ describe('Testing Algorithm method with abstact class', function() {
         it('Must return an equal array', function() {
             const expected = [[1, 2, 3], [1, 2, 3], [1, 2, 3]];
             const m = druid.Matrix.from(expected);
-            const actual = new FASTMAP().get2dArray(m.to2dArray);
+            const actual = FASTMAP.get2dArray(m.to2dArray);
             expect(actual).to.deep.equal(expected);
         })
     })

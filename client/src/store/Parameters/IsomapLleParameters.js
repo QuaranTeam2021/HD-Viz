@@ -12,10 +12,18 @@ export default class IsomapLleParameters extends Parameters {
     }   
 
     get neighbors() {
-        return this.neighbors;
+        return this._neighbors;
+    }
+
+    set neighbors(neighbors) {
+        this._neighbors = neighbors;
     }
 
     get metric() {
-        return this.metric;
+        return this._metric;
+    }
+
+    set metric(metric) {
+        this._metric = metric;
     }
 }

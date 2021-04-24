@@ -13,14 +13,26 @@ export default class TsneParameters extends Parameters {
     }   
 
     get perplexity() {
-        return this.perplexity;
+        return this._perplexity;
+    }
+
+    set perplexity(perplexity) {
+        this._perplexity = perplexity;
     }
 
     get epsilon() {
-        return this.epsilon;
+        return this._epsilon;
+    }
+
+    set epsilon(epsilon) {
+        this._epsilon = epsilon;
     }
 
     get metric () {
-        return this.metric;
+        return this._metric;
+    }
+
+    set metric(metric) {
+        this._metric = metric;
     }
 }

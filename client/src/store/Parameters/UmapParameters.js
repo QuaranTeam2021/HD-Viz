@@ -11,6 +11,10 @@ export default class UmapParameters extends Parameters {
     }   
 
     get neighbors() {
-        return this.neighbors;
+        return this._neighbors;
+    }
+
+    set neighbors(neighbors) {
+        this._neighbors = neighbors;
     }
 }

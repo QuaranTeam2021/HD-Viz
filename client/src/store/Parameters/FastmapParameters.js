@@ -11,6 +11,10 @@ export default class FastmapParameters extends Parameters {
     }   
 
     get metric() {
-        return this.metric;
+        return this._metric;
+    }
+
+    set metric(metric) {
+        this._metric = metric;
     }
 }

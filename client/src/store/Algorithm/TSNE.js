@@ -9,6 +9,6 @@ export default class TSNE extends AlgorithmStrategy {
         let metric = this.getMetric(parameters.metric);
         let strategy = new druid.TSNE(data, parameters.perplexity, parameters.epsilon, parameters.dimensions, metric);
         let res = strategy.transform();
-        return this.get2dArray(res.to2dArray);
+        return TSNE.get2dArray(res.to2dArray);
     }
 }
