@@ -11,16 +11,6 @@ import { useStore } from '../../store/Store';
 const { forceDirected } = forceDir;
 const { scpMatrix } = scpt;
 
-const Prova = graphId => {
-	const store = useStore();
-	const graph = store.getGraphById(graphId.graphId); 
-	scpMatrix(graph.data, store.features, store.features[0], graphId.graphId);
-
-	return (
-		<p>Prova</p>
-	);
-}
-
 // eslint-disable-next-line no-unused-vars
 const GraphContainer = observer(({ algoritmoGrafico, tipoGrafico, distanzaGrafico, onDelete, graphId }) => {
 	const [title, setTitle] = useState('Scatterplot Matrix');
@@ -30,15 +20,20 @@ const GraphContainer = observer(({ algoritmoGrafico, tipoGrafico, distanzaGrafic
 	per cui non fa mai useEffect */
 	useEffect(() => {
 		const graph = store.getGraphById(graphId);
-		scpMatrix(graph.data, store.features, store.features[4], graphId);
+		let keys = Object.keys(graph.data[0]);
+		graph.data.shift();
+		scpMatrix(graph.data, keys, keys[0], graphId);
 	}, [graphId, store])
-
+	
+	useEffect(() => autorun(() => {
+		//
+	}), [])
+	
 	return (
-		<div>
+		<div id={`cont-${graphId}`}>
 			{/* <FeaturesContainer onDelete={onDelete} graphId={graphId} /> */}
 			<RenameTitleGraph title={title} setTitle={setTitle} />
-			<div id={graphId} />
-			<Prova graphId={graphId} />
+			<Graph graphId={graphId} />
 		</div>
 	);
 });

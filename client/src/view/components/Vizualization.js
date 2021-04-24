@@ -9,9 +9,12 @@ export default function Vizualization({ algoritmoGrafico, tipoGrafico, distanzaG
 
 
 	return (
-		<div>
-			{store.graphs.map(g => <GraphContainer graphId={g.graphId} key={g.graphId} tipoGrafico={g.type} onDelete={onDelete} 
-			/>)}
+		<div id="visualization">
+			{store.graphs.map(g => {
+				// niente algoritmo o distanza
+				console.log(g.graphId);
+				return <GraphContainer graphId={g.graphId} key={g.graphId} tipoGrafico={g.type} onDelete={onDelete} />
+			})}
         </div>
 	)
 }
