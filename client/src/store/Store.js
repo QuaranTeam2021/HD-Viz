@@ -78,7 +78,7 @@ export default class Store {
         this.features = [];
     }
 
-    getGraphStateIndexById(id) {
+    getGraphIndexById(id) {
         let res;
         for (let i = 0; i < this.graphs.length; ++i) {
             let g = this.graphs[i].getGraphId;
@@ -108,7 +108,8 @@ export default class Store {
 
     calculateReduction(features, strategy, parameters) {
         let data = this.calculateSelectedData(features);
-        parameters.setData(data);
+        data = data.slice(1);
+        parameters.data = data;
         return strategy.compute(parameters);
     }
 }

@@ -3,7 +3,7 @@ import Data from './Data';
 
 export default class Parameters {
 
-    data = new Data([]);
+    data = [];
 
     dimensions = null;
 

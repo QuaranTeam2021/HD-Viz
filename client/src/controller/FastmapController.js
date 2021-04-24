@@ -15,12 +15,19 @@ export default class FastmapController extends StandardGraphController {
     }
 
     createGraph(graphId, type, features) {
-        let data = this.store.calculateSelectedData(features);
-        data = data.slice(1);
-        let parameters = new FastmapParameters(this.dimensions, this.metric, data);
-        let reducedData = this.fastmap.compute(parameters);
+        let parameters = new FastmapParameters(this.dimensions, this.metric);
+        let reducedData = this.store.calculateReduction(features, this.fastmap, parameters);
         let graph = new StandardGraph(graphId, type, reducedData);
         this.store.addGraph(graph);
+    }
+
+    calculateReduction(graphId, features) {
+        let parameters = new FastmapParameters(this.dimensions, this.metric);
+        let reducedData = this.store.calculateReduction(features, this.fastmap, parameters);
+        let updatedGraph = this.store.getGraphById(graphId);
+        updatedGraph.data = reducedData;
+        let index = this.store.getGraphIndexById(graphId);
+        this.store.graphs[index] = updatedGraph;
     }
 
     set dimensions(dimensions) {

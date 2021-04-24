@@ -1,10 +1,9 @@
 /* eslint-disable class-methods-use-this */
-import Data from '../Data';
 import Parameters from '../Parameters';
 
 export default class IsomapLleParameters extends Parameters {
 
-    constructor(dimensions, neighbors, metric, data = new Data([])) {
+    constructor(dimensions, neighbors, metric, data = []) {
         super();
         this.data = data;
         this.dimensions = dimensions;
