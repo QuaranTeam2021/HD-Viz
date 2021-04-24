@@ -1,7 +1,7 @@
 import React from 'react';
 import SliderSize from './SliderSize';
 
-export default function PCA({ attributes }) {
+export default function PCAfeatures({ attributes }) {
     const { onChangeSize, size } = attributes;
 
     return (

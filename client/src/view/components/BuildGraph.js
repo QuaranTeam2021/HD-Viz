@@ -4,7 +4,7 @@ import ButtonConfirm from './startUpOptions/ButtonConfirm';
 import CheckboxColumns from './startUpOptions/CheckboxColumns';
 import FASTMAPfeatures from './algorithms/FASTMAPfeatures';
 import Insert from './startUpOptions/chooseDataset/Insert';
-import ISOUMAPLLEfeatures from './algorithms/ISOUMAPLLEfeatures';
+import ISOMAPLLEfeatures from './algorithms/ISOMAPLLEfeatures';
 import { Link } from 'react-router-dom';
 import PCAfeatures from './algorithms/PCAfeatures';
 import RadioAlgorithm from './algorithms/RadioAlgorithm';
@@ -13,6 +13,7 @@ import RadioGraphType from './startUpOptions/RadioGraphType';
 import TooltipDistColumns from './startUpOptions/TooltipDistColumns';
 import TooltipVizColumns from './startUpOptions/TooltipVizColumns';
 import TSNEfeatures from './algorithms/TSNEfeatures';
+import UMAPfeatures from './algorithms/UMAPfeatures';
 import { useFastmapController } from '../../controller/FastmapController';
 import { useIsomapController } from '../../controller/IsomapController';
 import { useLleController } from '../../controller/LleController';
@@ -23,7 +24,7 @@ import { useTsneController } from '../../controller/TsneController';
 import { useUmapController } from '../../controller/UmapController';
 
 const needsAlgorithm = g => ["scptMat", "scp", "malp"].includes(g);
-const needsDistance = g => ["htmp", "frcfld"].includes(g);
+const needsDistance = e => ["htmp", "frcfld"].includes(e) || ["FASTMAP", "ISOMAP", "T-SNE", "LLE"].includes(e);
 const selectedInsert = i => i.name !== undefined;
 
 export default function BuildGraph({ defineStore }) {
@@ -79,7 +80,7 @@ export default function BuildGraph({ defineStore }) {
     allSelected = insert !== "";
     allSelected = allSelected && selectedGraph !== "";
     allSelected = allSelected && selectedColumns.length > 0;
-    if (needsDistance(selectedGraph))
+    if (needsDistance(selectedGraph) || needsDistance(selectedAlgorithm))
       allSelected = allSelected && distanza !== "";
     if (needsAlgorithm(selectedGraph)) {
       if (["PCA", "UMAP", "ISOMAP", "LLE", "FASTMAP", "T-SNE", "none"].includes(selectedAlgorithm))
@@ -133,7 +134,7 @@ export default function BuildGraph({ defineStore }) {
 
   const onChangeDistanza = (_e, v) => {
     setDistanza(v);
-    algorithmController.current.dimensions = v; // per tutti tranne pca manca parametro distanza
+    algorithmController.current.metric = v;
   };
 
   const onChangeColumns = e => {
@@ -154,7 +155,7 @@ export default function BuildGraph({ defineStore }) {
       selectedColumns,
       selectedGraph
     };
-    if (needsDistance(selectedGraph))
+    if (needsDistance(selectedGraph) || needsDistance(selectedAlgorithm))
       formData.distanza = distanza;
     if (needsAlgorithm(selectedGraph)) {
       if (["UMAP", "ISOMAP", "LLE", "FASTMAP", "T-SNE"].includes(selectedAlgorithm))
@@ -165,7 +166,7 @@ export default function BuildGraph({ defineStore }) {
         formData.perplexity = perplexity;
     }
     console.log(formData);
-    pcaController.createGraph(`${selectedGraph}-${Math.round(Math.random() * 100)}`, selectedGraph, selectedColumns);
+    algorithmController.current.createGraph(`${selectedGraph}-${Math.round(Math.random() * 100)}`, selectedGraph, selectedColumns);
     defineStore(true);
   });
 
@@ -196,7 +197,7 @@ export default function BuildGraph({ defineStore }) {
               }} />}
             </div>
             <div id="FeaturesAlgorithm2">
-              {needsAlgorithm(selectedGraph) && ["UMAP", "ISOMAP", "LLE"].includes(selectedAlgorithm) && <ISOUMAPLLEfeatures attributes={{
+              {needsAlgorithm(selectedGraph) && ["ISOMAP", "LLE"].includes(selectedAlgorithm) && <ISOMAPLLEfeatures attributes={{
                 d: {
                   distanza,
                   onChangeDistanza
@@ -223,24 +224,38 @@ export default function BuildGraph({ defineStore }) {
                 }
               }} />}
             </div>
-            {needsAlgorithm(selectedGraph) && ["T-SNE"].includes(selectedAlgorithm) && <TSNEfeatures attributes={{
-              d: {
-                distanza,
-                onChangeDistanza
-              },
-              n: {
-                neighbours,
-                onChangeNeighbours
-              },
-              p: {
-                onChangePerplexity,
-                perplexity
-              },
-              s: {
-                onChangeSize,
-                size
-              }
-            }} />}
+            <div id="FeaturesAlgorithm4">
+              {needsAlgorithm(selectedGraph) && ["T-SNE"].includes(selectedAlgorithm) && <TSNEfeatures attributes={{
+                d: {
+                  distanza,
+                  onChangeDistanza
+                },
+                n: {
+                  neighbours,
+                  onChangeNeighbours
+                },
+                p: {
+                  onChangePerplexity,
+                  perplexity
+                },
+                s: {
+                  onChangeSize,
+                  size
+                }
+              }} />}
+            </div>
+            <div id="FeaturesAlgorithm5">
+              {needsAlgorithm(selectedGraph) && ["UMAP"].includes(selectedAlgorithm) && <UMAPfeatures attributes={{
+                n: {
+                  neighbours,
+                  onChangeNeighbours
+                },
+                s: {
+                  onChangeSize,
+                  size
+                }
+              }} />}
+            </div>
           </div>
         </div>
 

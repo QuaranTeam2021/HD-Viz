@@ -3,7 +3,7 @@ import React from 'react';
 import SliderNeighbors from './SliderNeighbors';
 import SliderSize from './SliderSize';
 
-export default function ISOUMAPLLE({attributes}) {
+export default function ISOMAPLLEfeatures({attributes}) {
     const { d, n, s } = attributes;
     const { distanza, onChangeDistanza } = d;
     const { neighbours, onChangeNeighbours } = n;
