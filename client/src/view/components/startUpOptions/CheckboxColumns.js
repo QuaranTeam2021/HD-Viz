@@ -37,7 +37,7 @@ const CheckboxColumns = observer(({onChange}) => {
     <FormLabel component="legend">Colonne:</FormLabel>
     <FormGroup>
       {
-        uploadedColumns.map((d, i) => <FormControlLabel key={i} control={<PurpleCheckbox />} onChange={onChange}
+        uploadedColumns && uploadedColumns.map((d, i) => <FormControlLabel key={i} control={<PurpleCheckbox />} onChange={onChange}
         label={d} value={d}
       />)
       }
