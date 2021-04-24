@@ -47,7 +47,7 @@ export default function BuildGraph({ defineStore }) {
   const standardController = useStandardController();
   const tsneController = useTsneController();
   const umapController = useUmapController();
-  const algorithmController = useRef({});
+  const algorithmController = useRef(standardController);
   const setAlgorithmController = useCallback(alg => {
     switch (alg) {
       case "PCA":
@@ -72,13 +72,7 @@ export default function BuildGraph({ defineStore }) {
         algorithmController.current = standardController;
         break;
     }
-    console.log(algorithmController);
   }, [fastmapController, isomapController, lleController, pcaController, standardController, tsneController, umapController]);
-
-  useEffect(() => {
-    setAlgorithmController(selectedAlgorithm);
-  }, [])
-
 
   const allOptionsSelected = useCallback(() => {
     let allSelected;
