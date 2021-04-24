@@ -1,23 +1,24 @@
 import { createContext, useContext } from 'react';
-import PCA from '../store/Algorithm/PCA';
-import PcaParameters from '../store/Parameters/PcaParameters';
 import StandardGraph from '../store/Graph/StandardGraph';
 import StandardGraphController from './StandardGraphController';
+import UMAP from '../store/Algorithm/UMAP';
+import UmapParameters from '../store/Parameters/UmapParameters';
 
-export default class PcaController extends StandardGraphController {
+export default class UmapController extends StandardGraphController {
 
     constructor(store) {
         super();
         this.store = store;
-        this.pca = new PCA();
+        this.umap = new UMAP();
         this.dimensions = null;
+        this.neighbors = null;
     }
 
     createGraph(graphId, type, features) {
         let data = this.store.calculateSelectedData(features);
         data = data.slice(1);
-        let params = new PcaParameters(this.dimensions, data);
-        let reducedData = this.pca.compute(params);
+        let parameters = new UmapParameters(this.dimensions, this.neighbors, data);
+        let reducedData = this.umap.compute(parameters)
         let graph = new StandardGraph(graphId, type, reducedData);
         this.store.addGraph(graph);
     }
@@ -25,7 +26,11 @@ export default class PcaController extends StandardGraphController {
     set dimensions(dimensions) {
         this._dimensions = dimensions;
     }
+
+    set neighbors(neighbors) {
+        this._neighbors = neighbors;
+    }
 }
 
-export const PcaControllerContext = createContext(PcaController);
-export const usePcaController = () => useContext(PcaControllerContext);
+export const UmapControllerContext = createContext(UmapController);
+export const useUmapController = () => useContext(UmapControllerContext);
