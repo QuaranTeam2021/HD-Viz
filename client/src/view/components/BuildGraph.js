@@ -16,8 +16,8 @@ import TSNEfeatures from './algorithms/TSNEfeatures';
 import { useMainController } from '../../controller/MainController';
 import { usePcaController } from '../../controller/PcaController';
 
-const needsAlgorithm = g => ["Scatterplot Matrix", "Scatterplot", "Proiezione Multiassi"].includes(g);
-const needsDistance = g => ["HeatMap", "Force Field"].includes(g);
+const needsAlgorithm = g => ["scptMat", "scp", "malp"].includes(g);
+const needsDistance = g => ["htmp", "frcfld"].includes(g);
 const selectedInsert = i => i.name !== undefined;
 
 export default function BuildGraph({defineStore}) {
@@ -133,7 +133,7 @@ export default function BuildGraph({defineStore}) {
             { needsDistance(selectedGraph) && <TooltipDistColumns/>}
             { needsAlgorithm(selectedGraph) && <TooltipVizColumns/>}
             </div>
-            {["Scatterplot Matrix", "Proiezione Multiassi", "Scatterplot"].includes(selectedGraph) && <RadioAlgorithm onChange={onChangeAlgorithm} />}
+            {["scptMat", "malp", "scp"].includes(selectedGraph) && <RadioAlgorithm onChange={onChangeAlgorithm} />}
             {needsDistance(selectedGraph) && <RadioDistance onChange={onChangeDistanza} distanza={distanza} />}
             <div id="FeaturesAlgorithm">  
               <div className="dimensione">
