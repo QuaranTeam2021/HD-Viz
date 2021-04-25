@@ -17,14 +17,14 @@ export default class TsneController extends StandardGraphController {
     }
 
     createGraph(graphId, type, features) {
-        let parameters = new TsneParameters(this.dimensions, this.perplexity, this.epsilon, this.metric);
+        let parameters = new TsneParameters(this._dimensions, this._perplexity, this._epsilon, this._metric);
         let reducedData = this.store.calculateReduction(features, this.tsne, parameters);
         let graph = new StandardGraph(graphId, type, reducedData);
         this.store.addGraph(graph);
     }
 
     calculateReduction(graphId, features) {
-        let parameters = new TsneParameters(this.dimensions, this.perplexity, this.epsilon, this.metric);
+        let parameters = new TsneParameters(this._dimensions, this._perplexity, this._epsilon, this._metric);
         let reducedData = this.store.calculateReduction(features, this.tsne, parameters);
         let updatedGraph = this.store.getGraphById(graphId);
         updatedGraph.data = reducedData;

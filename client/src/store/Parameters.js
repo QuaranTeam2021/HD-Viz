@@ -1,5 +1,4 @@
 /* eslint-disable class-methods-use-this */
-import Data from './Data';
 
 export default class Parameters {
 

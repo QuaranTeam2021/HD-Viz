@@ -58,16 +58,17 @@ export default class Store {
         return graph;
     }
 
-    getGraphIndex(graphId) {
+    getGraphIndexById(graphId) {
         for (let i = 0; i < this.graphs.length; ++i) {
             let g = this.graphs[i];
-            if (g.getGraphId === graphId) 
+            if (g.graphId === graphId) 
                 return i;
         }
         throw new Error('Id non presente');
     }
 
-    removeGraphAtIndex(index) {
+    removeGraph(graphId) {
+        let index = this.getGraphIndexById(graphId);
         this.graphs[index] = "toRemove";
         this.graphs = this.graphs.filter(x => x !== "toRemove");
     }
@@ -76,20 +77,6 @@ export default class Store {
         this.originalData = new Data([]);
         this.graphs = [];
         this.features = [];
-    }
-
-    getGraphIndexById(id) {
-        let res;
-        for (let i = 0; i < this.graphs.length; ++i) {
-            let g = this.graphs[i].getGraphId;
-            if (g === id) {
-               res = i;
-               break;
-            }
-        }
-        if (res) 
-            return res;
-        throw new Error('Id grafico non presente');
     }
 
     calculateSelectedData(selectedFeatures) {

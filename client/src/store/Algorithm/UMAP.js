@@ -8,6 +8,7 @@ export default class UMAP extends AlgorithmStrategy {
         let data = druid.Matrix.from(parameters.data);
         let strategy = new druid.UMAP(data, parameters.neighbors, 1, 1, parameters.dimensions);
         let res = strategy.transform();
-        return UMAP.get2dArray(res.to2dArray);
+        let reduced = UMAP.get2dArray(res.to2dArray);
+        return UMAP.addHeader(reduced, parameters.dimensions);
     }
 }

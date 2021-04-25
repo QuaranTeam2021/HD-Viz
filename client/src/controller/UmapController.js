@@ -15,14 +15,14 @@ export default class UmapController extends StandardGraphController {
     }
 
     createGraph(graphId, type, features) {
-        let parameters = new UmapParameters(this.dimensions, this.neighbors);
+        let parameters = new UmapParameters(this._dimensions, this._neighbors);
         let reducedData = this.store.calculateReduction(features, this.umap, parameters);
         let graph = new StandardGraph(graphId, type, reducedData);
         this.store.addGraph(graph);
     }
 
     calculateReduction(graphId, features) {
-        let parameters = new UmapParameters(this.dimensions, this.neighbors);
+        let parameters = new UmapParameters(this._dimensions, this._neighbors);
         let reducedData = this.store.calculateReduction(features, this.umap, parameters);
         let updatedGraph = this.store.getGraphById(graphId);
         updatedGraph.data = reducedData;

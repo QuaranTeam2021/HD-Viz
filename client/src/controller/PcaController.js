@@ -14,14 +14,14 @@ export default class PcaController extends StandardGraphController {
     }
 
     createGraph(graphId, type, features) {
-        let parameters = new PcaParameters(this.dimensions);
+        let parameters = new PcaParameters(this._dimensions);
         let reducedData = this.store.calculateReduction(features, this.pca, parameters);
         let graph = new StandardGraph(graphId, type, reducedData);
         this.store.addGraph(graph);
     }
 
     calculateReduction(graphId, features) {
-        let parameters = new PcaParameters(this.dimensions);
+        let parameters = new PcaParameters(this._dimensions);
         let reducedData = this.store.calculateReduction(features, this.pca, parameters);
         let updatedGraph = this.store.getGraphById(graphId);
         updatedGraph.data = reducedData;

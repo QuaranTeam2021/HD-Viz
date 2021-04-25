@@ -16,14 +16,14 @@ export default class IsomapController extends StandardGraphController {
     }
 
     createGraph(graphId, type, features) {
-        let parameters = new IsomapLleParameters(this.dimensions, this.neighbors, this.metric);
+        let parameters = new IsomapLleParameters(this._dimensions, this._neighbors, this._metric);
         let reducedData = this.store.calculateReduction(features, this.isomap, parameters)
         let graph = new StandardGraph(graphId, type, reducedData);
         this.store.addGraph(graph);
     }
 
     calculateReduction(graphId, features) {
-        let parameters = new IsomapLleParameters(this.dimensions, this.neighbors, this.metric);
+        let parameters = new IsomapLleParameters(this._dimensions, this._neighbors, this._metric);
         let reducedData = this.store.calculateReduction(features, this.isomap, parameters)
         let updatedGraph = this.store.getGraphById(graphId);
         updatedGraph.data = reducedData;

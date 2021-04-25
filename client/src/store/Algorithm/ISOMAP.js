@@ -9,6 +9,7 @@ export default class ISOMAP extends AlgorithmStrategy {
         let metric = this.getMetric(parameters.metric);
         let strategy = new druid.ISOMAP(data, parameters.neighbors, parameters.dimensions, metric);
         let res = strategy.transform();
-        return ISOMAP.get2dArray(res.to2dArray);
+        let reduced = ISOMAP.get2dArray(res.to2dArray);
+        return ISOMAP.addHeader(reduced, parameters.dimensions);
     }
 }
