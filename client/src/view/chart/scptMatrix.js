@@ -46,7 +46,7 @@ const scpMatrix = function(data, cols, grouper, idBox) {
 		.ticks(6)
 		.tickSize(size * columns.length);
 
-	let x = svg.append("g")
+	svg.append("g")
 		.selectAll("g")
 		.data(xScale)
 		.join("g")
@@ -60,7 +60,7 @@ const scpMatrix = function(data, cols, grouper, idBox) {
 		.ticks(6)
 		.tickSize(-size * columns.length);
 
-	let y = svg.append("g")
+	svg.append("g")
 		.selectAll("g")
 		.data(yScale)
 		.join("g")

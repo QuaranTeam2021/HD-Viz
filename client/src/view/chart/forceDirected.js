@@ -1,3 +1,4 @@
+/* eslint-disable no-confusing-arrow */
 /* eslint-disable func-style */
 const d3 = require('d3');
 
@@ -19,19 +20,19 @@ export const forceDirected = function (data, idBox) {
 			y: 0.5
 		},
 		charge: {
-			enabled: true,
-			strength: -30,
+			distanceMax: 2000,
 			distanceMin: 1,
-			distanceMax: 2000
+			enabled: true,
+			strength: -30
 		},
 		collide: {
 			enabled: true,
-			strength: 0.7,
-			radius: 5
+			radius: 5,
+			strength: 0.7
 		},
 		link: {
-			enabled: true,
 			distance: 30,
+			enabled: true,
 			iterations: 1
 		}
 	}
@@ -83,7 +84,7 @@ node.append("title")
 		node
 			.attr("cx", d => d.x)
 			.attr("cy", d => d.y)
-			.attr("stroke", d => (d.fx ? "#333" : "#fff"));
+			.attr("stroke", d => d.fx ? "#333" : "#fff");
 	});
 	function updateForces() {
 		simulation.force("charge")
@@ -110,10 +111,13 @@ node.append("title")
 		updateForces();
 	}
 	function updateThreshold(threshold) {
-		link.attr("stroke-width", d => (d.value > threshold) ? Math.sqrt(d.value - threshold) : 0);
+		link.attr("stroke-width", d => d.value > threshold ? Math.sqrt(d.value - threshold) : 0);
 	}
 	
-	return Object.assign(svg.node(), { updateStrength, updateDistanceMin, updateDistanceMax, updateThreshold });
+	return Object.assign(svg.node(), { updateDistanceMax,
+		updateDistanceMin,
+		updateStrength,
+		updateThreshold, });
 }
 
 const drag = sim => {
@@ -122,12 +126,14 @@ const drag = sim => {
 		if (!event.active) {
 			sim.alphaTarget(0.3).restart();
 		}
+		// eslint-disable-next-line no-negated-condition
 		if (!event.subject.fx) {
 			event.subject.fx = event.subject.x;
 			event.subject.fy = event.subject.y;
 		} 
 		else {
-			event.subject.fx = event.subject.fy = null;
+			event.subject.fx = null;
+			event.subject.fy = null;
 		}
 	}
 	

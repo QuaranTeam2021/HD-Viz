@@ -1,3 +1,5 @@
+/* eslint-disable prefer-arrow-callback */
+/* eslint-disable no-shadow */
 /* eslint-disable func-names */
 /* eslint-disable no-invalid-this */
 /* eslint-disable func-style */
@@ -12,9 +14,15 @@ import { computeCoordinates, getEigenvalues, initProjection, scale } from "./d3-
  * @param {String} idBox box to append
  */
 export const linearProjection = function (data, cols, grouper, idBox) {
-    const margin = { top: 20, right: 20, bottom: 35, left: 40 },
-        width = 1000 - margin.left - margin.right,
-        height = 1000 - margin.top - margin.bottom;
+
+    const margin = {
+        bottom: 35,
+        left: 40,
+        right: 20,
+        top: 20
+    };
+    const height = 1000 - margin.top - margin.bottom,
+        width = 1000 - margin.left - margin.right;
     const columns = cols.filter(d => d !== grouper && typeof data[0][d] === "number");
 
     const xScale = d3.scaleLinear([0, width]);
@@ -69,21 +77,21 @@ export const linearProjection = function (data, cols, grouper, idBox) {
     const totalWidth = width + margin.left + margin.right;
     const totalHeight = height + margin.top + margin.bottom;
 
-    const svg = d3.select("#" + idBox)
+    const svg = d3.select(`#${idBox}`)
         .append("svg")
         .attr("class", "grafico")
         .attr("width", totalWidth)
         .attr("height", totalHeight)
         // .attr("viewBox", [0, 0, totalWidth, totalHeight])
         .append("g")
-        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+        .attr("transform", `translate(${margin.left},${margin.top})`);
 
     let rawData = data.map(d => columns.map(dim => d[dim]));
     rawData = scale(rawData, true, true);
     let eigvecs = getEigenvalues(rawData, 2);
     let initMat = initProjection(rawData, 2);
 
-    let { min, max } = getMinMaxDots(initMat, eigvecs);
+    let { max, min } = getMaxMinDots(initMat, eigvecs);
 
     xScale.domain([1.2 * min, 1.2 * max]).nice();
     yScale.domain([1.2 * min, 1.2 * max]).nice();
@@ -91,10 +99,12 @@ export const linearProjection = function (data, cols, grouper, idBox) {
     setDotAttributes(initMat, data);
     let dims = columns
         .map((key, i) => ({
-                value: key,
-                pc_1: isNaN(eigvecs[i][0]) ? 0 : eigvecs[i][0] * 4,
-                pc_2: isNaN(eigvecs[i][1]) ? 0 : eigvecs[i][1] * 4,
-                id: i
+            id: i,
+            // eslint-disable-next-line camelcase
+            pc_1: isNaN(eigvecs[i][0]) ? 0 : eigvecs[i][0] * 4,
+            // eslint-disable-next-line camelcase
+            pc_2: isNaN(eigvecs[i][1]) ? 0 : eigvecs[i][1] * 4,
+            value: key
             }));
 
     svg.append("g")
@@ -122,10 +132,10 @@ export const linearProjection = function (data, cols, grouper, idBox) {
             d3.select(this)
                 .attr("cx", d.x)
                 .attr("cy", d.y);
-            svg.select("#" + d.value + "_line")
+            svg.select(`#${d.value}_line`)
                 .attr("x2", d.x)
                 .attr("y2", d.y);
-            svg.select("#" + d.value + "_label")
+            svg.select(`#${d.value}_label`)
                 .attr("x", d.x + 10)
                 .attr("y", d.y);
 
@@ -147,7 +157,7 @@ export const linearProjection = function (data, cols, grouper, idBox) {
         .data(dims)
         .join("text")
         .attr("class", "label-end-axis")
-        .attr("id", d => d.value + "_label")
+        .attr("id", d => `${d.value}_label`)
         .attr("x", d => xScale(d.pc_1) + 10)
         .attr("y", d => yScale(d.pc_2) + 0)
         .text(d => d.value);
@@ -163,7 +173,7 @@ export const linearProjection = function (data, cols, grouper, idBox) {
         svg.selectAll(".line")
         .data(dims)
         .join("line")
-        .attr("id", d => d.value + "_line")
+        .attr("id", d => `${d.value}_line`)
         .attr("x1", xScale(0))
         .attr("y1", yScale(0))
         .attr("x2", d => xScale(d.pc_1))
@@ -194,13 +204,15 @@ function drawDots(svg, xScale, yScale) {
 
 function setDotAttributes(A, dots) {
     dots.forEach(function (d, i) {
+        // eslint-disable-next-line camelcase
         d.pc_1 = A[i][0];
+        // eslint-disable-next-line camelcase
         d.pc_2 = A[i][1];
     });
 }
 
-function getMinMaxDots(A, B) {
-    let min, max;
+function getMaxMinDots(A, B) {
+    let max, min;
     A.forEach(function (itm) {
         itm.forEach(function (itmInner) {
             min = min === undefined || itmInner < min ? itmInner : min;
@@ -213,5 +225,6 @@ function getMinMaxDots(A, B) {
             max = max === undefined || itmInner * 4 > max ? itmInner * 4 : max;
         });
     });
-    return { min, max };
+    return { max,
+        min };
 }
