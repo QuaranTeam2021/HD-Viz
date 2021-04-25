@@ -6,6 +6,7 @@ const StandardGraph = require('../../../client/src/store/Graph/StandardGraph');
 const Data = require('../../../client/src/store/Data');
 const PCA = require('../../../client/src/store/Algorithm/PCA');
 const PcaParameters = require('../../../client/src/store/Parameters/PcaParameters');
+const druid = require('@saehrimnir/druidjs');
 
 describe('Testing store class', function() {
 
@@ -85,22 +86,6 @@ describe('Testing store class', function() {
         })
     }) 
 
-    context('Testing removeGraphStateAtIndex', function() {
-
-        it('Must remove the graphs at the correct index', function() {
-            const store = new Store();
-            const graph1 = new StandardGraph('id1', 'heatmap', []);
-            const graph2 = new StandardGraph('id1', 'heatmap', []);
-            const graph3 = new StandardGraph('id1', 'heatmap', []);
-            store.addGraph(graph1);
-            store.addGraph(graph2);
-            store.addGraph(graph3);
-            store.removeGraphStateAtIndex(1);
-
-            expect(store.graphs[1]).to.deep.equal(graph3);
-        })
-    })
-
     context('Testing getters', function() {
 
         it('Must return originalData', function() {
@@ -122,6 +107,9 @@ describe('Testing store class', function() {
             store.originalData = d;
             expect(store.features).to.deep.equal(['id', 'name', 'surname']);
         })
+    })
+
+    context('Testing removeGraph', function() {
 
         it('Must remove the graphs', function() {
             const store = new Store();
@@ -270,6 +258,119 @@ describe('Testing store class', function() {
             ];
 
             expect(res).to.deep.equal(expected);
+        })
+    })
+
+    context('Testing calculateDistanceData', function() {
+
+        it('Testing euclidean distance', function() {
+            const store = new Store();
+            let data = [
+                ['sepalLength', 'sepalWidth', 'petalLength', 'petalWidth', 'species'],
+                [5.1, 3.5, 1.4, 0.2, 'setosa'],
+                [4.9, 3, 1.4, 0.2, 'setosa'],
+                [4.7, 3.2, 1.3, 0.2, 'setosa'],
+                [4.6, 3.1, 1.5, 0.2, 'setosa'],
+                [5, 3.6, 1.4, 0.2, 'setosa'],
+                [5.4, 3.9, 1.7, 0.4, 'setosa'],
+                [4.6, 3.4, 1.4, 0.3, 'setosa'],
+                [5, 3.4, 1.5, 0.2, 'setosa']
+            ];
+            store.originalData = data;
+
+            let actual = store.calculateDistanceData(druid.euclidean, ['sepalLength', 'sepalWidth', 'petalWidth'], 'species');
+
+            let expected;
+
+            expect(actual).to.deep.equal(expected);
+        })
+
+        it('Testing euclidean_squared distance', function() {
+            const store = new Store();
+            let data = [
+                ['sepalLength', 'sepalWidth', 'petalLength', 'petalWidth', 'species'],
+                [5.1, 3.5, 1.4, 0.2, 'setosa'],
+                [4.9, 3, 1.4, 0.2, 'setosa'],
+                [4.7, 3.2, 1.3, 0.2, 'setosa'],
+                [4.6, 3.1, 1.5, 0.2, 'setosa'],
+                [5, 3.6, 1.4, 0.2, 'setosa'],
+                [5.4, 3.9, 1.7, 0.4, 'setosa'],
+                [4.6, 3.4, 1.4, 0.3, 'setosa'],
+                [5, 3.4, 1.5, 0.2, 'setosa']
+            ];
+            store.originalData = data;
+
+            let actual = store.calculateDistanceData(druid.euclidean_squared, ['sepalLength', 'sepalWidth', 'petalWidth'], 'species');
+
+            let expected;
+
+            expect(actual).to.deep.equal(expected);
+        })
+
+        it('Testing cosine distance', function() {
+            const store = new Store();
+            let data = [
+                ['sepalLength', 'sepalWidth', 'petalLength', 'petalWidth', 'species'],
+                [5.1, 3.5, 1.4, 0.2, 'setosa'],
+                [4.9, 3, 1.4, 0.2, 'setosa'],
+                [4.7, 3.2, 1.3, 0.2, 'setosa'],
+                [4.6, 3.1, 1.5, 0.2, 'setosa'],
+                [5, 3.6, 1.4, 0.2, 'setosa'],
+                [5.4, 3.9, 1.7, 0.4, 'setosa'],
+                [4.6, 3.4, 1.4, 0.3, 'setosa'],
+                [5, 3.4, 1.5, 0.2, 'setosa']
+            ];
+            store.originalData = data;
+
+            let actual = store.calculateDistanceData(druid.cosine, ['sepalLength', 'sepalWidth', 'petalWidth'], 'species');
+
+            let expected;
+
+            expect(actual).to.deep.equal(expected);
+        })
+
+        it('Testing manhattan distance', function() {
+            const store = new Store();
+            let data = [
+                ['sepalLength', 'sepalWidth', 'petalLength', 'petalWidth', 'species'],
+                [5.1, 3.5, 1.4, 0.2, 'setosa'],
+                [4.9, 3, 1.4, 0.2, 'setosa'],
+                [4.7, 3.2, 1.3, 0.2, 'setosa'],
+                [4.6, 3.1, 1.5, 0.2, 'setosa'],
+                [5, 3.6, 1.4, 0.2, 'setosa'],
+                [5.4, 3.9, 1.7, 0.4, 'setosa'],
+                [4.6, 3.4, 1.4, 0.3, 'setosa'],
+                [5, 3.4, 1.5, 0.2, 'setosa']
+            ];
+            store.originalData = data;
+
+            let actual = store.calculateDistanceData(druid.manhattan, ['sepalLength', 'sepalWidth', 'petalWidth'], 'species');
+
+            let expected;
+
+            expect(actual).to.deep.equal(expected);
+        })
+
+        it('Testing canberra distance', function() {
+            const store = new Store();
+            let data = [
+                ['sepalLength', 'sepalWidth', 'petalLength', 'petalWidth', 'species'],
+                [5.1, 3.5, 1.4, 0.2, 'setosa'],
+                [4.9, 3, 1.4, 0.2, 'setosa'],
+                [4.7, 3.2, 1.3, 0.2, 'setosa'],
+                [4.6, 3.1, 1.5, 0.2, 'setosa'],
+                [5, 3.6, 1.4, 0.2, 'setosa'],
+                [5.4, 3.9, 1.7, 0.4, 'setosa'],
+                [4.6, 3.4, 1.4, 0.3, 'setosa'],
+                [5, 3.4, 1.5, 0.2, 'setosa']
+            ];
+            store.originalData = data;
+
+            let actual = store.calculateDistanceData(druid.canberra, ['sepalLength', 'sepalWidth', 'petalWidth'], 'species');
+
+            let expected;
+
+            expect(actual).to.deep.equal(expected);
         })
     })
 })
