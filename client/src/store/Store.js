@@ -1,5 +1,8 @@
+/* eslint-disable prefer-template */
+/* eslint-disable space-infix-ops */
 import { createContext, useContext } from 'react';
 import Data from './Data';
+import DistanceData from './DistanceData';
 import { makeAutoObservable } from 'mobx';
 import { transpose } from 'mathjs';
 
@@ -91,7 +94,37 @@ export default class Store {
         return res;
     }
 
- //   calculateDistanceData() {}
+     /**
+        * Calculate distance matrix.
+        * @param {function} distFunc druid object (es. druid.euclidean)
+        * @param {Array<string>} cols set of columns to calculate distance
+        * @param {string} grouper grouping column
+        * @return {Object} DistanceData instance
+        */
+    calculateDistanceData(distFunc, cols, grouper) {
+        let data = this.calculateSelectedData(cols);
+
+        let matrix = new DistanceData();
+        let links = [], 
+            nodes = [];
+        for (let i = 0; i < data.length; i++) {
+            let node = data[i];
+            node.id="nodo_"+i;
+            node.group = node[grouper];
+            nodes.push(node);
+            for (let j = i+1; j < data.length; j++) {
+                let link = {
+                    source: "nodo_"+i,
+                    target: "nodo_"+j,
+                    value: distFunc(data[i], data[j])
+                };
+                links.push(link);
+            }
+        }
+        matrix.nodes = nodes;
+        matrix.links = links;
+        return matrix;
+    }
 
     calculateReduction(features, strategy, parameters) {
         let data = this.calculateSelectedData(features);

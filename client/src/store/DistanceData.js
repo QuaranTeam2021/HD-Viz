@@ -1,29 +1,25 @@
 
 export default class DistanceData {
 
-    nodes = [];
-    
-    links = [];
-
-    constructor(nodes, links) {
+    constructor(nodes = [], links = []) {
         this.nodes = nodes;
         this.links = links;
     }
 
     set nodes(nodes) {
-        this.nodes = nodes;
+        this._nodes = nodes;
     }
 
     get nodes() {
-        return this.nodes;
+        return this._nodes;
     }
 
     set links(links) {
-        this.links = links;
+        this._links = links;
     }
 
     get links() {
-        return this.links;
+        return this._links;
     }
 
 }
