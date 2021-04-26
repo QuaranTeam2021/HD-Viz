@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { action } from 'mobx';
 import ButtonConfirm from './startUpOptions/ButtonConfirm'
 import CheckboxColumns from './startUpOptions/CheckboxColumns';
+import Database from './Database/Database'; 
 import FASTMAPfeatures from './algorhythms/FASTMAPfeatures';
 import Insert from './startUpOptions/chooseDataset/Insert';
 import ISOUMAPLLEfeatures from './algorhythms/ISOUMAPLLEfeatures';
@@ -187,6 +188,8 @@ export default function BuildGraph() {
           {selectedInsert(insert) && <ButtonConfirm onClick={onClickConfirm} disabled={!confirm} />}
         </div>
       </Link>
+      <Database/>
+     
     </div>
   );
 }
