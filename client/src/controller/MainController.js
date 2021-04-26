@@ -39,9 +39,14 @@ export default class MainController {
                     }
                 })
                 this.store.originalData = result.data;
+                let features = new Map();
+                for (let i = 0; i < result.data[0].length; ++i) {
+                    features.set(result.data[0][i], typeof result.data[1][i] === "number");
+                }
+                this.store.features = features;
             };
             reader.onerror = () => {
-                console.log("Error reading file in controller");
+                console.log("Error reading file...");
             };
         }
     }
@@ -59,9 +64,14 @@ export default class MainController {
                     }
                 })
                 this.store.originalData = result.data;
+                let features = new Map();
+                for (let i = 0; i < result.data[0].length; ++i) {
+                    features.set(result.data[0][i], typeof result.data[1][i] === "number");
+                }
+                this.store.features = features;
             };
             reader.onerror = () => {
-                console.log("Error reading file in controller");
+                console.log("Error reading file...");
             };
         }
     }

@@ -12,7 +12,7 @@ export default class Store {
 
     graphs = [];
 
-    features = [];
+    features = new Map();
     
     constructor() {
         makeAutoObservable(this);
@@ -21,15 +21,17 @@ export default class Store {
 
     set originalData(data) {
         this._originalData = new Data(data);
-        this._features = this.originalData.features;
     }
 
     get originalData() {
         return this._originalData;
     }
     
-    set features(feat) {
-        this._features = feat;
+    /**
+     * @param {Map} features: a map <String, boolean>
+     */
+    set features(features) {
+        this._features = features;
     }
 
     get features() {

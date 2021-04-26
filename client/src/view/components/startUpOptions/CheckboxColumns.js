@@ -28,7 +28,7 @@ const CheckboxColumns = observer(({onChange}) => {
   const [uploadedColumns, setUploadedColumns] = useState([]);
 
   useEffect(() => autorun(() => {
-          setUploadedColumns(store._features)
+          setUploadedColumns([...store._features.keys()])
       }), [store._features])
 
   return (
