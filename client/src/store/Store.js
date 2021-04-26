@@ -84,6 +84,14 @@ export default class Store {
         this.features = [];
     }
 
+    getNumericFeatures() {
+        let numericFeatures = [];
+        this.features.forEach((value, key) => {
+            if (value === true) numericFeatures.push(key);
+        })
+        return numericFeatures;
+    }
+
     calculateSelectedData(selectedFeatures) {
         let res = [];
         for (let i = 0; i < selectedFeatures.length; ++i) {

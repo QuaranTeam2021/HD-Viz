@@ -13,11 +13,11 @@ export default class MainController {
             name = name.split('.');
             let ext = name[1];
             switch (ext) {
-                case 'csv': this.parseWithDelimiter(file, ',');
+                case 'csv': this.parseWithDelimiter(file);
                     break;
                 case 'json': this.parseJson(file);
                     break;
-                case 'tsv': this.parseWithDelimiter(file, '\t');
+                case 'tsv': this.parseWithDelimiter(file);
                     break;
                 default:
                     break;
@@ -51,13 +51,13 @@ export default class MainController {
         }
     }
 
-    parseWithDelimiter(file, del) {
+    parseWithDelimiter(file) {
         let reader = new FileReader();
         if (file && file.size > 0) {
             reader.readAsText(file, "UTF-8");
             reader.onload = () => {
                 let result = Papa.parse(reader.result, {
-                    delimiter: del,
+                    delimiter: ',' || ';' || '\t',
                     dynamicTyping: true,
                     error(error) {
                         throw new Error(error);

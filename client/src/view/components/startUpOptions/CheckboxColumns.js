@@ -28,8 +28,8 @@ const CheckboxColumns = observer(({onChange}) => {
   const [uploadedColumns, setUploadedColumns] = useState([]);
 
   useEffect(() => autorun(() => {
-          setUploadedColumns([...store._features.keys()])
-      }), [store._features])
+          setUploadedColumns(store.getNumericFeatures())
+      }), [store])
 
   return (
     <div className="colonne">
