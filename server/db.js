@@ -1,20 +1,16 @@
 const Client = require("pg").Client;
+require("dotenv").config();
 
-const client = new Client({
-    user: "postgres",
-    password: "",
-    host: "localhost",
-    port: 5432,
-    database: "hdviz",
-});
+const connectionString = `postgresql://${process.env.USER}:${process.env.PASSWORD}@${process.env.HOST}:${process.env.PORT}/${process.env.DATABASE}`;
+
+const client = new Client({ connectionString });
 
 client
     .connect()
     .then(() => console.log('connected with the DB'))
     .catch(err => console.error('connection error with the DB', err.stack));
 
-/*
-CHIUDERE LA CONNESSIONE
+/*   CHIUDERE LA CONNESSIONE
 client
     .end()
     .then(() => console.log('client has disconnected'))
