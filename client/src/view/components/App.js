@@ -4,6 +4,7 @@ import MainController, { MainControllerContext } from '../../controller/MainCont
 import { Model, ModelContext } from '../../model/Model';
 import React, { useEffect, useState } from 'react';
 import BuildGraph from './BuildGraph';
+import Database from './Database/Database';
 import Header from './Header';
 import Vizualization from './Vizualization';
 
@@ -39,7 +40,10 @@ const App = () => {
                 { modelDefined ? <Vizualization algoritmoGrafico="pca" tipoGrafico="scpm" distanzaGrafico="euclidean" onDelete={idx => console.log(`Eliminato ${idx}`)} key={i} index={i} /> : <Redirect to="/" /> }
               </Route>
               <Route path="/dataset">
-                <div>Gestion dataset</div>
+                <div>
+                  Gestion dataset
+                  <Database/>
+                  </div>
               </Route>
               <Route path="/help">
                 <div>Manuale</div>

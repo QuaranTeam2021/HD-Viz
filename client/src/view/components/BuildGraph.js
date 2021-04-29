@@ -2,11 +2,11 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { action } from 'mobx';
 import ButtonConfirm from './startUpOptions/ButtonConfirm'
 import CheckboxColumns from './startUpOptions/CheckboxColumns';
-import Database from './Database/Database'; 
 import FASTMAPfeatures from './algorhythms/FASTMAPfeatures';
 import Insert from './startUpOptions/chooseDataset/Insert';
 import ISOUMAPLLEfeatures from './algorhythms/ISOUMAPLLEfeatures';
 import { Link } from 'react-router-dom';
+import ModalDb from './Database/ModalDb';
 import PCAfeatures from './algorhythms/PCAfeatures';
 import RadioAlgorhythm from './algorhythms/RadioAlgorhythm';
 import RadioDistance from './startUpOptions/RadioDistance';
@@ -111,6 +111,7 @@ export default function BuildGraph() {
       <div id="intestazione"><h2>Benvenuto in HD-VIZ! La miglior applicazione di grafici dimensionali!</h2></div>
        <div id="inserimento"> {!selectedInsert(insert) && <p>Inserisci qui i tuoi dati</p>}
           <Insert onChange={onChangeInsert} fileName={insert.name} /> 
+          <ModalDb/>
         </div>
         <div id="selezione">
           <div id="impostazioni">
@@ -188,7 +189,7 @@ export default function BuildGraph() {
           {selectedInsert(insert) && <ButtonConfirm onClick={onClickConfirm} disabled={!confirm} />}
         </div>
       </Link>
-      <Database/>
+      
      
     </div>
   );

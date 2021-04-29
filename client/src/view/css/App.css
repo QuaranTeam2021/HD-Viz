@@ -184,3 +184,7 @@
   width: 100%;
 }
 
+/* inserimento dati da db*/ 
+#DbButton{
+  margin-top: -2em;
+}

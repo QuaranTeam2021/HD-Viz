@@ -21,13 +21,13 @@ const useStyles = makeStyles(theme => ({
 }));
 
 
-export default function GuidaButtom({ onClick, disabled }) {
+export default function DbButton({ onClick, disabled }) {
   const classes = useStyles();
 
   return (
     <div id="button">
-      <ColorButton variant="contained" color="primary" className={classes.margin} onClick={onClick}>
-        Guida
+      <ColorButton variant="contained" color="primary" className={classes.margin} onClick={onClick} disabled={disabled}>
+        DataBase
       </ColorButton>
     </div>
   );
