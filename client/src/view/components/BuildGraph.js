@@ -19,7 +19,7 @@ import { useMainController } from '../../controller/MainController';
 const needsAlgorithm = g => ["Scatterplot Matrix", "Scatterplot", "Proiezione Multiassi"].includes(g);
 const needsDistance = g => ["HeatMap", "Force Field"].includes(g);
 const selectedInsert = i => i.name !== undefined; 
- 
+
 
 export default function BuildGraph() {
   const [selectedGraph, setGraph] = useState('');
@@ -53,7 +53,6 @@ export default function BuildGraph() {
   useEffect(() => {
     allOptionsSelected();
   }, [allOptionsSelected]);
-
 
   const onChangeGraph = e => {
     setGraph(e.target.value);
@@ -105,6 +104,12 @@ export default function BuildGraph() {
     console.log(formData);
   });
 
+  let showDimMode = {}
+
+  if (["PCA"].includes(selectedAlgorithm)) {
+    showDimMode.display = "initial";
+  }
+
   return (
 
     <div className="BuildGraph" >
@@ -119,15 +124,16 @@ export default function BuildGraph() {
             <div id="colonne"> 
               { needsAlgorithm(selectedGraph) && <CheckboxColumns onChange={onChangeColumns} />} 
               { needsDistance(selectedGraph) && <CheckboxColumns onChange={onChangeColumns} />}
+              <div id="question">
+                { needsDistance(selectedGraph) && <TooltipDistColumns/>}
+                { needsAlgorithm(selectedGraph) && <TooltipVizColumns/>}
+              </div>
             </div>
-            <div id="question">
-            { needsDistance(selectedGraph) && <TooltipDistColumns/>}
-            { needsAlgorithm(selectedGraph) && <TooltipVizColumns/>}
-            </div>
+           
             {["Scatterplot Matrix", "Proiezione Multiassi", "Scatterplot"].includes(selectedGraph) && <RadioAlgorhythm onChange={onChangeAlgorithm} />}
             {needsDistance(selectedGraph) && <RadioDistance onChange={onChangeDistanza} distanza={distanza} />}
             <div id="FeaturesAlgorithm">  
-              <div className="dimensione">
+              <div style={showDimMode} className="dimensione">
                 {needsAlgorithm(selectedGraph) && ["PCA"].includes(selectedAlgorithm) && <PCAfeatures attributes={{
                 onChangeSize,
                 size
@@ -181,7 +187,6 @@ export default function BuildGraph() {
               }}/>}
             </div>
           </div>
-        
           
       </div>
       <Link to="/visualization" >
