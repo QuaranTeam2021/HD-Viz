@@ -76,25 +76,12 @@
 } 
 
 #insert{
-  margin:0
-} 
-#graph{
-  margin-left:10rem; 
-  float:left;
+  margin:0;
 }
- #algorithm {
-  float: left;
- }
- #dimensione{
-   float:left; 
- }
- #button{
-   float: left;
-   margin-top: 2rem;
- }
-  #columns{
+
+#columns{
     margin-top: 10rem;
-  }
+}
 
 .FeatContainer {
   display: inline-block;
@@ -143,44 +130,59 @@
   justify-content: center;
   align-items: center;
   margin-bottom: 2em;
-  
+}
+
+#selezione {
+  padding: 2em;
 }
 
 /*colonne grid*/ 
-
 #impostazioni {
-  display: grid;
-  grid-template-rows: 500px;
-  grid-template-columns: 410px 100px 50px 250px 500px;
-  grid-gap: 10px;
+  display: inline-grid;
+  grid-template-columns: auto auto auto auto;
+  grid-gap: 1em 3em;
 }
 
 /*colonne*/
 #colonne { 
   margin-top: 1.5em;
+  display: inline-grid;
+  grid-template-columns: auto auto;
 }
 
-#question{ 
-  margin-top:0.5em;
+#question { 
+  position: relative;
+  right: 2em;
+  bottom: 1em;
 } 
 
 /*algoritmi*/ 
 .dimensione{ 
-  margin-top: 5em;
+  display: none;
+  padding: 0.5em;
 }  
-
-#FeaturesAlgorithm{
-  margin-top: 0em;
-}
-
-#FeaturesAlgorithm2{
-  margin-top: -4.7em;
-}
 
 /*Bottone conferma*/
 #ButtonConfirm{
   display: flex;
   justify-content: center;
-  width: 100%;
 }
 
+/* Responsive per schermi più piccoli */
+@media screen and (max-width:1023px) {
+  #impostazioni{
+    grid-template-columns: auto auto auto;
+  }
+}
+
+@media screen and (max-width:768px) {
+  #impostazioni {
+    grid-template-columns: auto auto;
+  }
+}
+
+@media screen and (max-width:600px) {
+  #impostazioni {
+    grid-template-columns: auto;
+  }
+}
