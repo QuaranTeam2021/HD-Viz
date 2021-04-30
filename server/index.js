@@ -1,6 +1,7 @@
 const cors = require("cors");
 require("dotenv").config();
 const express = require("express");
+const fileUpload = require('express-fileupload');
 const jwt = require("jsonwebtoken");
 const router = require("./route");
 
@@ -10,7 +11,14 @@ const PORT = 5000;
 // middleware
 app.use(cors());
 app.use(express.json());
-app.use('/tables', authenticateToken, router);
+
+// enable files upload
+app.use(fileUpload({
+    createParentPath: true
+}));
+
+//app.use('/tables', authenticateToken, router);
+app.use('/tables', router);
 
 app.post('/login', (req, res) => {
     // Authentication Mock User
