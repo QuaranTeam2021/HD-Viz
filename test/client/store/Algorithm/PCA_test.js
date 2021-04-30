@@ -1,6 +1,7 @@
 /* eslint-disable func-names */
 const { expect } = require('chai');
-const { PCA } = require('../../../../client/src/store/Algorithm/PCA');
+const PCA = require('../../../../client/src/store/Algorithm/PCA');
+const PcaParameters = require('../../../../client/src/store/Parameters/PcaParameters');
 
 describe("Testing PCA class", function() {
 
@@ -14,8 +15,9 @@ describe("Testing PCA class", function() {
                 [4.6, 3.4, 1.4, 0.3],
                 [5.0, 3.4, 1.5, 0.2]
             ];
-            const param = { dims: 2 };
-            let actual = new PCA().compute(data, param);
+            const param = new PcaParameters(2, data)
+            const actual = new PCA().compute(param);
+
             const expected = [
                 [-3.458666762269165, 0.027612959089264852],
                 [-3.307398289104195, 0.17005252869688292],
@@ -35,9 +37,9 @@ describe("Testing PCA class", function() {
                 [5.4, 3.9, 1.7, 0.4],
                 [4.6, 3.4, 1.4, 0.3]
             ];
-            let param = { dims: 2 };
-            let res = new PCA().compute(input, param);
-            let size = [res.length, res[0].length];
+            const param = new PcaParameters(2, input);
+            const actual = new PCA().compute(param);
+            let size = [actual.length, actual[0].length];
             const expected = [5, 2];
 
             expect(size).to.deep.equal(expected);

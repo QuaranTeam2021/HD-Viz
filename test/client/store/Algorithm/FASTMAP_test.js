@@ -1,6 +1,7 @@
 /* eslint-disable func-names */
 const { expect } = require('chai');
-const { FASTMAP } = require('../../../../client/src/store/Algorithm/FASTMAP');
+const FASTMAP = require('../../../../client/src/store/Algorithm/FASTMAP');
+const FastmapParameters = require('../../../../client/src/store/Parameters/FastmapParameters');
 
 describe("Testing FASTMAP class", function() {
 
@@ -14,11 +15,8 @@ describe("Testing FASTMAP class", function() {
                 [0, 36, 0, 26, 0, 81, 0, 60, 0, 22, 0, 40, 0, 67, 0, 79, 0, 47, 0, 81, 0, 73, 0, 44, 0, 97, 0, 14, 0, 44],
                 [0, 99, 0, 17, 0, 54, 0, 8, 0, 2, 0, 48, 0, 31, 0, 50, 0, 75, 0, 32, 0, 96, 0, 58, 0, 38, 0, 10, 0, 92]
             ];
-            const param = {
-                dims: 2,
-                metric: "euclidean"
-            }
-            const output = new FASTMAP().compute(input, param);
+            const param = new FastmapParameters(2, "euclidean", input);
+            const output = new FASTMAP().compute(param);
 
             const expected = [
                 [91.49326937559317, 158.94666127930674],
@@ -39,12 +37,10 @@ describe("Testing FASTMAP class", function() {
                 [5.4, 3.9, 1.7, 0.4],
                 [4.6, 3.4, 1.4, 0.3]
             ];
-            const param = {
-                dims: 3,
-                metric: "euclidean"
-            }
-            const res = new FASTMAP().compute(input, param);
-            const size = [res.length, res[0].length];
+            const param = new FastmapParameters(3, "euclidean", input);
+            const output = new FASTMAP().compute(param);
+
+            const size = [output.length, output[0].length];
             const expected = [5, 3];
 
             expect(size).to.deep.equal(expected);
@@ -59,11 +55,9 @@ describe("Testing FASTMAP class", function() {
                 [4.6, 3.4, 1.4, 0.3],
                 [5.0, 3.4, 1.5, 0.2]
             ];
-            const param = {
-                dims: 2, 
-                metric: "manhattan"
-            }
-            const output = new FASTMAP().compute(input, param);
+            const param = new FastmapParameters(2, "manhattan", input);
+            const output = new FASTMAP().compute(param);
+
             
             const expected = [
                 [0.040000000000000695, NaN],
@@ -86,12 +80,9 @@ describe("Testing FASTMAP class", function() {
                 [4.6, 3.4, 1.4, 0.3],
                 [5.0, 3.4, 1.5, 0.2]
             ];
-            const param = {
-                dims: 2, 
-                metric: "canberra"
-            }
-            const output = new FASTMAP().compute(input, param);
-            
+            const param = new FastmapParameters(2, "canberra", input);
+            const output = new FASTMAP().compute(param);
+
             const expected = [
                 [0, 0.10245677879739995],
                 [0.05046532752652574, 0.0530893786468296],
@@ -113,11 +104,8 @@ describe("Testing FASTMAP class", function() {
                 [4.6, 3.4, 1.4, 0.3],
                 [5.0, 3.4, 1.5, 0.2]
             ];
-            const param = {
-                dims: 2, 
-                metric: "cosine"
-            }
-            const output = new FASTMAP().compute(input, param);
+            const param = new FastmapParameters(2, "cosine", input);
+            const output = new FASTMAP().compute(param);
             
             const expected = [
                 [0.021998756776749246, 0.0400192341499719],
@@ -140,11 +128,8 @@ describe("Testing FASTMAP class", function() {
                 [4.6, 3.4, 1.4, 0.3],
                 [5.0, 3.4, 1.5, 0.2]
             ];
-            const param = {
-                dims: 2, 
-                metric: "euclidean_squared"
-            }
-            const output = new FASTMAP().compute(input, param);
+            const param = new FastmapParameters(2, "euclidean_squared", input);
+            const output = new FASTMAP().compute(param);
             
             const expected = [
                 [0.16941176470588326, 0],
@@ -167,11 +152,9 @@ describe("Testing FASTMAP class", function() {
                 [4.6, 3.4, 1.4, 0.3],
                 [5.0, 3.4, 1.5, 0.2]
             ];
-            const param = {
-                dims: 2, 
-                metric: "chebyshev"
-            }
-            const output = new FASTMAP().compute(input, param);
+            const param = new FastmapParameters(2, "chebyshev", input);
+            const output = new FASTMAP().compute(param);
+
             
             const expected = [
                 [0.11875000000000038, 0.13004069843317445],

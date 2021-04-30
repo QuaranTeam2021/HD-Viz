@@ -246,7 +246,7 @@ describe('Testing store class', function() {
             store.originalData = d;
             let param = new PcaParameters(2, d.matrix);
             let strategy = new PCA();
-            let res = store.calculateReduction(['feat1', 'feat2'], strategy, param);
+            let res = store.calculateReduction(['feat1', 'feat2', 'feat3', 'feat4'], strategy, param);
 
             const expected = [
                 [-3.458666762269165, 0.027612959089264852],

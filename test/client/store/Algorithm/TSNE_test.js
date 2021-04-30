@@ -1,6 +1,7 @@
 /* eslint-disable func-names */
 const { expect } = require('chai');
-const { TSNE } = require('../../../../client/src/store/Algorithm/TSNE');
+const TSNE = require('../../../../client/src/store/Algorithm/TSNE');
+const TsneParameters = require('../../../../client/src/store/Parameters/TsneParameters');
 
 describe("Testing TSNE class", function() {
 
@@ -13,12 +14,8 @@ describe("Testing TSNE class", function() {
                 [0, 36, 0, 26, 0, 81, 0, 60, 0, 22, 0, 40, 0, 67, 0, 79, 0, 47, 0, 81, 0, 73, 0, 44, 0, 97, 0, 14, 0, 44],
                 [0, 99, 0, 17, 0, 54, 0, 8, 0, 2, 0, 48, 0, 31, 0, 50, 0, 75, 0, 32, 0, 96, 0, 58, 0, 38, 0, 10, 0, 92]
             ];
-            const param = {
-                perplexity: 2,
-                epsilon: 1,
-                dims: 2
-            }
-            const output = new TSNE().compute(input, param);
+            const param = new TsneParameters(2, 2, 1, "euclidean", input);
+            const output = new TSNE().compute(param);
 
             const expected = [
                 [7.594857485078024, -3.8857569640866547],
@@ -37,14 +34,10 @@ describe("Testing TSNE class", function() {
                 [4.6, 3.1, 1.5, 0.2],
                 [5.0, 3.6, 1.4, 0.2]
             ];
-            const param = {
-                perplexity: 2,
-                epsilon: 1,
-                dims: 3
-            }
-            const res = new TSNE().compute(input, param);
+            const param = new TsneParameters(3, 2, 1, "euclidean", input);
+            const output = new TSNE().compute(param);
 
-            const size = [res.length, res[0].length];
+            const size = [output.length, output[0].length];
             const expected = [3, 3];
 
             expect(size).to.deep.equal(expected);
@@ -59,13 +52,8 @@ describe("Testing TSNE class", function() {
                 [4.6, 3.4, 1.4, 0.3],
                 [5.0, 3.4, 1.5, 0.2]
             ];
-            const param = {
-                perplexity: 2,
-                epsilon: 1,
-                dims: 2,
-                metric: "manhattan"
-            }
-            const output = new TSNE().compute(input, param);
+            const param = new TsneParameters(2, 2, 1, "manhattan", input);
+            const output = new TSNE().compute(param);
 
             const expected = [
                 [-5.315796658300116, -1.4713808599835434],
@@ -88,13 +76,8 @@ describe("Testing TSNE class", function() {
                 [4.6, 3.4, 1.4, 0.3],
                 [5.0, 3.4, 1.5, 0.2]
             ];
-            const param = {
-                perplexity: 2,
-                epsilon: 1,
-                dims: 2,
-                metric: "canberra"
-            }
-            const output = new TSNE().compute(input, param);
+            const param = new TsneParameters(2, 2, 1, "canberra", input);
+            const output = new TSNE().compute(param);
 
             const expected = [
                 [-14.038864467695094, -6.665967982802074],
@@ -117,13 +100,8 @@ describe("Testing TSNE class", function() {
                 [4.6, 3.4, 1.4, 0.3],
                 [5.0, 3.4, 1.5, 0.2]
             ];
-            const param = {
-                perplexity: 2,
-                epsilon: 1,
-                dims: 2,
-                metric: "cosine"
-            }
-            const output = new TSNE().compute(input, param);
+            const param = new TsneParameters(2, 2, 1, "cosine", input);
+            const output = new TSNE().compute(param);
 
             const expected = [
                 [-4.736690904389666, -1.1850857480266648],
@@ -146,13 +124,8 @@ describe("Testing TSNE class", function() {
                 [4.6, 3.4, 1.4, 0.3],
                 [5.0, 3.4, 1.5, 0.2]
             ];
-            const param = {
-                perplexity: 2,
-                epsilon: 1,
-                dims: 2,
-                metric: "euclidean_squared"
-            }
-            const output = new TSNE().compute(input, param);
+            const param = new TsneParameters(2, 2, 1, "euclidean_squared", input);
+            const output = new TSNE().compute(param);
 
             const expected = [
                 [-4.888006745108702, -0.4066783665863901],
@@ -175,13 +148,8 @@ describe("Testing TSNE class", function() {
                 [4.6, 3.4, 1.4, 0.3],
                 [5.0, 3.4, 1.5, 0.2]
             ];
-            const param = {
-                perplexity: 2,
-                epsilon: 1,
-                dims: 2,
-                metric: "chebyshev"
-            }
-            const output = new TSNE().compute(input, param);
+            const param = new TsneParameters(2, 2, 1, "chebyshev", input);
+            const output = new TSNE().compute(param);
 
             const expected = [
                 [-7.211491681571181, -1.5383409531740595],

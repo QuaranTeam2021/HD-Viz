@@ -8,7 +8,7 @@
     "dev": "nodemon src/index.js",
     "lint": "npx eslint src",
     "lint-client": "npx eslint client",
-    "test": "mocha --recursive -r esm"
+    "test": "mocha './test/client/store' -r esm"
   },
   "author": "",
   "license": "ISC",
