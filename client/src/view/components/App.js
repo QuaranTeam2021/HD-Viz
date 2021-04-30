@@ -3,7 +3,7 @@ import FastmapController, { FastmapControllerContext } from '../../controller/Fa
 import IsomapController, { IsomapControllerContext } from '../../controller/IsomapController';
 import { Link, Redirect, Route, BrowserRouter as Router, Switch } from 'react-router-dom';
 import LleController, { LleControllerContext } from '../../controller/LleController';
-import MainController, { MainControllerContext } from '../../controller/MainController';
+import LocalLoaderController, { LocalLoaderControllerContext } from '../../controller/LocalLoaderController';
 import PcaController, { PcaControllerContext } from '../../controller/PcaController';
 import React, { useEffect, useState } from 'react';
 import StandardController, { StandardControllerContext } from '../../controller/StandardController';
@@ -15,7 +15,7 @@ import Header from './Header';
 import Vizualization from './Vizualization';
 
 const store = new Store();
-const mainController = new MainController(store);
+const localLoaderController = new LocalLoaderController(store);
 const standardController = new StandardController(store);
 const fastmapController = new FastmapController(store);
 const isomapController = new IsomapController(store);
@@ -37,7 +37,7 @@ const App = () => {
 
   return (
     <StoreContext.Provider value={store}>
-      <MainControllerContext.Provider value={mainController}>
+      <LocalLoaderControllerContext.Provider value={localLoaderController}>
         <StandardControllerContext.Provider value={standardController}>
         <FastmapControllerContext.Provider value={fastmapController}>
         <IsomapControllerContext.Provider value={isomapController}>
@@ -76,7 +76,7 @@ const App = () => {
         </IsomapControllerContext.Provider>
         </FastmapControllerContext.Provider>
         </StandardControllerContext.Provider>
-      </MainControllerContext.Provider>
+      </LocalLoaderControllerContext.Provider>
     </StoreContext.Provider>
   );
 };

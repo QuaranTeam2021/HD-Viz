@@ -1,0 +1,40 @@
+import { createContext, useContext } from 'react';
+import Papa from 'papaparse';
+
+export default class LocalLoaderController {
+
+    constructor(store) {
+        this.store = store; 
+    }
+
+    parse(file) {
+        if (file.size > 0 && file.size < 50000) {
+            let reader = new FileReader();
+            if (file && file.size > 0) {
+                reader.readAsText(file, "UTF-8");
+                reader.onload = () => {
+                    let dataString = file.name.split('.')[1] === 'json' ? Papa.unparse(reader.result) : reader.result;
+                    let result = Papa.parse(dataString, {
+                        dynamicTyping: true,
+                        error(error) {
+                            throw new Error(error);
+                        }
+                    })
+                    this.store.originalData = result.data;
+                    let features = new Map();
+                    for (let i = 0; i < result.data[0].length; ++i) {
+                        features.set(result.data[0][i], typeof result.data[1][i] === "number");
+                    }
+                    this.store.features = features;
+                };
+                reader.onerror = () => {
+                    console.log("Error reading file...");
+                };
+            }
+        }
+    }
+
+}
+
+export const LocalLoaderControllerContext = createContext(LocalLoaderController);
+export const useLocalLoaderController = () => useContext(LocalLoaderControllerContext);

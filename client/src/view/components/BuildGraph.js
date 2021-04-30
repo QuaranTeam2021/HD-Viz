@@ -17,7 +17,7 @@ import UMAPfeatures from './algorithms/UMAPfeatures';
 import { useFastmapController } from '../../controller/FastmapController';
 import { useIsomapController } from '../../controller/IsomapController';
 import { useLleController } from '../../controller/LleController';
-import { useMainController } from '../../controller/MainController';
+import { useLocalLoaderController } from '../../controller/LocalLoaderController';
 import { usePcaController } from '../../controller/PcaController';
 import { useStandardController } from '../../controller/StandardController';
 import { useTsneController } from '../../controller/TsneController';
@@ -40,7 +40,7 @@ export default function BuildGraph({ defineStore }) {
 
   /* Controller
      Quelli degli algoritmi sono spostabili in RadioAlgorithm */
-  const mainController = useMainController();
+  const localLoaderController = useLocalLoaderController();
   const fastmapController = useFastmapController();
   const isomapController = useIsomapController();
   const lleController = useLleController();
@@ -108,7 +108,7 @@ export default function BuildGraph({ defineStore }) {
     let v = e.target.files[0];
     if (v !== undefined) {
       setInsert(v);
-      mainController.parse(v);
+      localLoaderController.parse(v);
     }
   };
 
