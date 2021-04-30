@@ -19,6 +19,17 @@ export default class Store {
         this.originalData = new Data([]);
     }
 
+    loadData(data) {
+        this.originalData = data;
+        const header = this.originalData.features;
+        const firstDataRow = this.originalData.matrix[1];
+        let features = new Map();
+        for (let i = 0; i < header.length; ++i) {
+            features.set(header[i], typeof firstDataRow[i] === "number" ? "number" : "string");
+        }
+        this.features = features;
+    } 
+
     set originalData(data) {
         this._originalData = new Data(data);
     }
@@ -55,12 +66,7 @@ export default class Store {
     }
 
     getGraphById(graphId) {
-        let graph;
-        this.graphs.forEach(g => {
-            if (graphId === g.graphId) 
-                graph = g;
-        })
-        return graph;
+        return this.graphs.find(g => g.graphId === graphId);
     }
 
     getGraphIndexById(graphId) {
@@ -73,21 +79,19 @@ export default class Store {
     }
 
     removeGraph(graphId) {
-        let index = this.getGraphIndexById(graphId);
-        this.graphs[index] = "toRemove";
-        this.graphs = this.graphs.filter(x => x !== "toRemove");
+        this.graphs = this.graphs.filter(g => g.graphId !== graphId);
     }
 
     reset() {
         this.originalData = new Data([]);
         this.graphs = [];
-        this.features = [];
+        this.features.clear();
     }
 
     getNumericFeatures() {
         let numericFeatures = [];
         this.features.forEach((value, key) => {
-            if (value === true) numericFeatures.push(key);
+            if (value === "number") numericFeatures.push(key);
         })
         return numericFeatures;
     }

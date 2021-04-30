@@ -20,12 +20,7 @@ export default class LocalLoaderController {
                             throw new Error(error);
                         }
                     })
-                    this.store.originalData = result.data;
-                    let features = new Map();
-                    for (let i = 0; i < result.data[0].length; ++i) {
-                        features.set(result.data[0][i], typeof result.data[1][i] === "number");
-                    }
-                    this.store.features = features;
+                    this.store.loadData(result.data);                    
                 };
                 reader.onerror = () => {
                     console.log("Error reading file...");
