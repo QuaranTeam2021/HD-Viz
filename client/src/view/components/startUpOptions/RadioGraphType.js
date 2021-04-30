@@ -34,11 +34,11 @@ export default function RadioGraphType({ onChange }) {
       <FormControl component="fieldset" className={classes.formControl}>
         <FormLabel component="legend" >Grafico: </FormLabel>
         <RadioGroup aria-label="position" name="position" position="left" onChange={onChange}>
-          <FormControlLabel value="Scatterplot Matrix" control={<PurpleRadio color="primary" />} label="Scatterplot Matrix" />
-          <FormControlLabel value="Scatterplot" control={<PurpleRadio color="primary" />} label="Scatterplot" />
-          <FormControlLabel value="HeatMap" control={<PurpleRadio color="primary" />} label="HeatMap" />
-          <FormControlLabel value="Force Field" control={<PurpleRadio color="primary" />} label="Force Field" />
-          <FormControlLabel value="Proiezione Multiassi" control={<PurpleRadio color="primary" />} label="Proiezione Multiassi" />
+          <FormControlLabel value="scptMat" control={<PurpleRadio color="primary" />} label="Scatterplot Matrix" />
+          <FormControlLabel value="scp" control={<PurpleRadio color="primary" />} label="Scatterplot" />
+          <FormControlLabel value="htmp" control={<PurpleRadio color="primary" />} label="HeatMap" />
+          <FormControlLabel value="frcfld" control={<PurpleRadio color="primary" />} label="Force Field" />
+          <FormControlLabel value="malp" control={<PurpleRadio color="primary" />} label="Proiezione Multiassi" />
         </RadioGroup>
       </FormControl>
     </div>

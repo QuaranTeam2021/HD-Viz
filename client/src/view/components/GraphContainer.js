@@ -1,17 +1,36 @@
 import React, { useEffect, useState } from 'react';
+import { autorun } from 'mobx';
 import FeaturesContainer from './FeaturesContainer';
 import Graph from './Graph';
+import { observer } from 'mobx-react-lite';
 import RenameTitleGraph from './RenameTitleGraph';
+import { useStore } from '../../store/Store';
 
 // eslint-disable-next-line no-unused-vars
-export default function GraphContainer({ algoritmoGrafico, tipoGrafico, distanzaGrafico, onDelete, index }) {
-	const [title, setTitle] = useState('Scatterplot Matrix');
+const GraphContainer = observer(({ algoritmoGrafico, graphTitle, distanzaGrafico, onDelete, graphId, switchArguments, switchGraph }) => {
+	const [title, setTitle] = useState(graphTitle);
+	const store = useStore();
+	const graph = store.getGraphById(graphId);
+	const render = useState(() => switchGraph(graph.type))[0];
+	const [renderArguments, setRenderArguments] = useState(() => switchArguments(graph));
 
+	/* questa è da rivedere => POTREBBE essere utile per le modifiche, ma nella creazione lo store cambia prima che si crei questa componente
+	per cui non fa mai useEffect */
+	useEffect(() => {
+		render(...renderArguments);
+	}, [render, renderArguments])
+	
+	useEffect(() => autorun(() => {
+		//
+	}), [])
+	
 	return (
-		<div>
-			<FeaturesContainer algoritmoGrafico={algoritmoGrafico} distanzaGrafico={distanzaGrafico} onDelete={onDelete} i={index} />
+		<React.Fragment key={`cont-${graphId}`}>
+			{/* <FeaturesContainer onDelete={onDelete} graphId={graphId} /> */}
 			<RenameTitleGraph title={title} setTitle={setTitle} />
-			<Graph tipoGrafico={tipoGrafico} index={index} />
-		</div>
+			<Graph graphId={graphId} />
+		</React.Fragment>
 	);
-}
+});
+
+export default GraphContainer;

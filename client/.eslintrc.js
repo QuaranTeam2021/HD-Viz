@@ -119,7 +119,6 @@ module.exports = {
                 "before": true
             }
         ],
-        "line-comment-position": "error",
         "linebreak-style": [
             "error",
             "windows"
@@ -132,7 +131,7 @@ module.exports = {
         "max-lines": "error",
         "max-lines-per-function": "off",
         "max-nested-callbacks": "error",
-        "max-params": [ "warn", 4 ],
+        "max-params": [ "warn", 5 ],
         "max-statements": "off",
         "max-statements-per-line": "error",
         "multiline-comment-style": "error",
@@ -162,7 +161,6 @@ module.exports = {
         "no-implicit-coercion": "error",
         "no-implicit-globals": "error",
         "no-implied-eval": "error",
-        "no-inline-comments": "error",
         "no-invalid-this": "error",
         "no-iterator": "error",
         "no-label-var": "error",
@@ -256,7 +254,7 @@ module.exports = {
         "quote-props": "off",
         "quotes": "off",
         "radix": "error",
-        "react/prop-types": "warn",
+        "react/prop-types": "off",
         "react-hooks/rules-of-hooks": "error",
         "react-hooks/exhaustive-deps": "warn",
         "require-atomic-updates": "error",

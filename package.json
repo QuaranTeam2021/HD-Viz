@@ -21,7 +21,7 @@
     "nodemon": "^2.0.7"
   },
   "dependencies": {
-    "@saehrimnir/druidjs": "github:fheyen/DruidJS",
+    "@saehrimnir/druidjs": "^0.3.10",
     "d3": "^6.5.0",
     "express": "^4.17.1",
     "express-fileupload": "^1.2.1",

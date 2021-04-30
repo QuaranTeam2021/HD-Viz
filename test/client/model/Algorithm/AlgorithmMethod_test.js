@@ -1,5 +1,5 @@
 /* eslint-disable func-names */
-const { FASTMAP } = require('../../../../client/src/model/Algorithm/FASTMAP');
+const { FASTMAP } = require('../../../../client/src/store/Algorithm/FASTMAP');
 const druid = require('@saehrimnir/druidjs');
 const { expect } = require('chai');
 
@@ -59,7 +59,7 @@ describe('Testing Algorithm method with abstact class', function() {
         it('Must return an equal array', function() {
             const expected = [[1, 2, 3], [1, 2, 3], [1, 2, 3]];
             const m = druid.Matrix.from(expected);
-            const actual = new FASTMAP().get2dArray(m.to2dArray);
+            const actual = FASTMAP.get2dArray(m.to2dArray);
             expect(actual).to.deep.equal(expected);
         })
     })

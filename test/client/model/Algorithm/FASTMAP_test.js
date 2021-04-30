@@ -1,6 +1,6 @@
 /* eslint-disable func-names */
 const { expect } = require('chai');
-const { FASTMAP } = require('../../../../client/src/model/Algorithm/FASTMAP');
+const { FASTMAP } = require('../../../../client/src/store/Algorithm/FASTMAP');
 
 describe("Testing FASTMAP class", function() {
 

@@ -1,6 +1,6 @@
 /* eslint-disable func-names */
 const { expect } = require('chai');
-const { PCA } = require('../../../../client/src/model/Algorithm/PCA');
+const { PCA } = require('../../../../client/src/store/Algorithm/PCA');
 
 describe("Testing PCA class", function() {
 

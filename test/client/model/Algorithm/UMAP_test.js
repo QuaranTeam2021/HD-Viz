@@ -1,6 +1,6 @@
 /* eslint-disable func-names */
 const { expect } = require('chai');
-const { UMAP } = require('../../../../client/src/model/Algorithm/UMAP');
+const { UMAP } = require('../../../../client/src/store/Algorithm/UMAP');
 
 describe("Testing UMAP class", function() {
 

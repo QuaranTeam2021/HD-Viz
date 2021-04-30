@@ -1,6 +1,6 @@
 /* eslint-disable func-names */
 const { expect } = require('chai');
-const { GraphState } = require('../../../client/src/model/GraphState');
+const { GraphState } = require('../../../client/src/store/GraphState');
 
 describe('Testing GraphState class', function() {
 
