@@ -14,6 +14,7 @@ import TooltipDistColumns from './startUpOptions/TooltipDistColumns';
 import TooltipVizColumns from './startUpOptions/TooltipVizColumns';
 import TSNEfeatures from './algorithms/TSNEfeatures';
 import UMAPfeatures from './algorithms/UMAPfeatures';
+import { useDistanceBasedGraphController } from '../../controller/DistanceBasedGraphController';
 import { useFastmapController } from '../../controller/FastmapController';
 import { useIsomapController } from '../../controller/IsomapController';
 import { useLleController } from '../../controller/LleController';
@@ -48,29 +49,32 @@ export default function BuildGraph({ defineStore }) {
   const standardController = useStandardController();
   const tsneController = useTsneController();
   const umapController = useUmapController();
-  const algorithmController = useRef(standardController);
+
+  const distanceBasedGraphController = useDistanceBasedGraphController();
+
+  const controller = useRef(standardController);
   const setAlgorithmController = useCallback(alg => {
     switch (alg) {
       case "PCA":
-        algorithmController.current = pcaController;
+        controller.current = pcaController;
         break;
       case "UMAP":
-        algorithmController.current = umapController;
+        controller.current = umapController;
         break;
       case "FASTMAP":
-        algorithmController.current = fastmapController;
+        controller.current = fastmapController;
         break;
       case "ISOMAP":
-        algorithmController.current = isomapController;
+        controller.current = isomapController;
         break;
       case "T-SNE":
-        algorithmController.current = tsneController;
+        controller.current = tsneController;
         break;
       case "LLE":
-        algorithmController.current = lleController;
+        controller.current = lleController;
         break;
       default:
-        algorithmController.current = standardController;
+        controller.current = standardController;
         break;
     }
   }, [fastmapController, isomapController, lleController, pcaController, standardController, tsneController, umapController]);
@@ -100,8 +104,10 @@ export default function BuildGraph({ defineStore }) {
     defineStore(false);
   }, [defineStore]);
 
-  const onChangeGraph = e => {
-    setGraph(e.target.value);
+  const onChangeGraph = (_e, v) => {
+    setGraph(v);
+    if (needsDistance(v))
+      controller.current = distanceBasedGraphController;
   };
 
   const onChangeInsert = e => {
@@ -119,22 +125,22 @@ export default function BuildGraph({ defineStore }) {
 
   const onChangeSize = (_e, v) => {
     setSize(v);
-    algorithmController.current.dimensions = v;
+    controller.current.dimensions = v;
   };
 
   const onChangeNeighbours = (_e, v) => {
     setNeighbours(v);
-    algorithmController.current.neighbors = v;
+    controller.current.neighbors = v;
   };
 
   const onChangePerplexity = (_e, v) => {
     setPerplexity(v);
-    algorithmController.current.perplexity = v;
+    controller.current.perplexity = v;
   };
 
   const onChangeDistanza = (_e, v) => {
     setDistanza(v);
-    algorithmController.current.metric = v;
+    controller.current.metric = v;
   };
 
   const onChangeColumns = e => {
@@ -155,8 +161,10 @@ export default function BuildGraph({ defineStore }) {
       selectedColumns,
       selectedGraph
     };
-    if (needsDistance(selectedGraph) || needsDistance(selectedAlgorithm))
+    if (needsDistance(selectedGraph) || needsDistance(selectedAlgorithm)) {
       formData.distanza = distanza;
+      controller.current.createGraph(`${selectedGraph}-${Math.round(Math.random() * 100)}`, selectedGraph, distanza, selectedColumns);
+    }
     if (needsAlgorithm(selectedGraph)) {
       if (["UMAP", "ISOMAP", "LLE", "FASTMAP", "T-SNE"].includes(selectedAlgorithm))
         formData.distanza = distanza;
@@ -164,9 +172,9 @@ export default function BuildGraph({ defineStore }) {
         formData.neighbours = neighbours;
       if (["T-SNE"].includes(selectedAlgorithm))
         formData.perplexity = perplexity;
+      controller.current.createGraph(`${selectedGraph}-${Math.round(Math.random() * 100)}`, selectedGraph, selectedColumns);
     }
     console.log(formData);
-    algorithmController.current.createGraph(`${selectedGraph}-${Math.round(Math.random() * 100)}`, selectedGraph, selectedColumns);
     defineStore(true);
   });
 

@@ -13,11 +13,11 @@ export default class DistanceBasedGraph extends Graph {
     }
 
     set data(data) {
-        this.data = data;
+        this._data = data;
     }
 
     get data() {
-        return this.data;
+        return this._data;
     }
 
 }

@@ -13,7 +13,7 @@ export default class StandardGraph extends Graph {
         // if (data.length > 0) {
         let jsonArray = [];
         let colNum = data[0].length;
-        for (let i = 0; i < data.length; ++i) {
+        for (let i = 1; i < data.length; ++i) {
             let jsonObject = {};
             for (let j = 0; j < colNum; ++j) {
                 jsonObject[data[0][j]] = data[i][j];
