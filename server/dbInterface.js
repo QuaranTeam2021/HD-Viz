@@ -6,13 +6,13 @@ const getToken = async () => {
     try {
         const username = "tmp";
         const response = await fetch(`http://localhost:${PORT}/login`, {
-            method: "POST",
-            body: JSON.stringify(username)
+            body: JSON.stringify(username),
+            method: "POST"
         });
         const jsonData = await response.json();
         return jsonData;
     } catch (err) {
-        console.error(err.message);
+        return err.message;
     }
 };
 
@@ -24,11 +24,11 @@ const getTablesNames = async () => {
         const jsonData = await response.json();
         return jsonData;
     } catch (err) {
-        console.error(err.message);
+        return err.message;
     }
 };
 
-const getTableContent = async (table) => {
+const getTableContent = async table => {
     try {
         const response = await fetch(`http://localhost:${PORT}/tables/${table}`, {
             headers: { "authorization": `Bearer ${token}` }
@@ -36,11 +36,11 @@ const getTableContent = async (table) => {
         const jsonData = await response.json();
         return jsonData;
     } catch (err) {
-        console.error(err.message);
+        return err.message;
     }
 };
 
-const getTableColumnsNames = async (table) => {
+const getTableColumnsNames = async table => {
     try {
         const response = await fetch(`http://localhost:${PORT}/tables/${table}/columnsnames`, {
             headers: { "authorization": `Bearer ${token}` }
@@ -48,12 +48,12 @@ const getTableColumnsNames = async (table) => {
         const jsonData = await response.json();
         return jsonData;
     } catch (err) {
-        console.error(err.message);
+        return err.message;
     }
 };
 
 // Non va
-const getSelectedCol = async (table) => {
+const getSelectedCol = async table => {
     try {
         const response = await fetch(`http://localhost:${PORT}/tables/selectedcol/${table}`, {
             headers: { "authorization": `Bearer ${token}` }
@@ -62,36 +62,34 @@ const getSelectedCol = async (table) => {
         const jsonData = await response.json();
         return jsonData;
     } catch (err) {
-        console.error(err.message);
+        return err.message;
     }
 };
 
 // Non va 
-const importDataset = async (table) => {
+const importDataset = async table => {
     try {
-        console.log(col);
-        console.log(columns);
         const response = await fetch(`http://localhost:${PORT}/tables/${table}`, {
-            method: "POST",
-            headers: { "authorization": `Bearer ${token}` }
+            headers: { "authorization": `Bearer ${token}` },
+            method: "POST"
         });
         const jsonData = await response.json();
         return jsonData;
     } catch (err) {
-        console.error(err.message);
+        return err.message;
     }
 };
 
-const deleteTable = async (table) => {
+const deleteTable = async table => {
     try {
-        const deleteTable = await fetch(`http://localhost:${PORT}/tables/${table}`, { 
-            method: "DELETE",
-            headers: { "authorization": `Bearer ${token}` }
+        const delTable = await fetch(`http://localhost:${PORT}/tables/${table}`, { 
+            headers: { "authorization": `Bearer ${token}` },
+            method: "DELETE"
         });
-        const jsonData = await deleteTable.json();
+        const jsonData = await delTable.json();
         return jsonData;
     } catch (err) {
-        console.error(err.message);
+        return err.message;
     }
 };
 
