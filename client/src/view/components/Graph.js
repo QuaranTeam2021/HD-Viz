@@ -1,15 +1,11 @@
-import React, { useState } from 'react'
+import React, { useEffect } from 'react'
 
-export default function Graph({ svg, onDelete, index }) {
-	const [i] = useState(index);
+export default function Graph({ graphId }) {
+	useEffect(() => {
+		console.log(`Render graph component ${graphId}`);
+	}, [graphId])
 
-	const createMarkup = () => {
-		return { __html: svg }
-	}
 	return (
-		<div>
-			<button onClick={() => onDelete(i)}>RIMUOVI</button>
-			<div dangerouslySetInnerHTML={createMarkup()}></div>
-		</div>
+		<div id={graphId}/>
 	)
 }

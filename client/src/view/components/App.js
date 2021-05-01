@@ -1,24 +1,40 @@
 import '../css/App.css';
+import DistanceBasedGraphController, { DistanceBasedGraphControllerContext } from '../../controller/DistanceBasedGraphController';
+import FastmapController, { FastmapControllerContext } from '../../controller/FastmapController';
+import IsomapController, { IsomapControllerContext } from '../../controller/IsomapController';
 import { Link, Redirect, Route, BrowserRouter as Router, Switch } from 'react-router-dom';
-import MainController, { MainControllerContext } from '../../controller/MainController';
-import { Model, ModelContext } from '../../model/Model';
+import LleController, { LleControllerContext } from '../../controller/LleController';
+import LocalLoaderController, { LocalLoaderControllerContext } from '../../controller/LocalLoaderController';
+import PcaController, { PcaControllerContext } from '../../controller/PcaController';
 import React, { useEffect, useState } from 'react';
+import StandardController, { StandardControllerContext } from '../../controller/StandardController';
+import Store, { StoreContext } from '../../store/Store';
+import TsneController, { TsneControllerContext } from '../../controller/TsneController';
+import UmapController, { UmapControllerContext } from '../../controller/UmapController';
 import BuildGraph from './BuildGraph';
 import Database from './Database/Database';
 import Header from './Header';
 import Vizualization from './Vizualization';
 
+const store = new Store();
+const localLoaderController = new LocalLoaderController(store);
+const standardController = new StandardController(store);
+const fastmapController = new FastmapController(store);
+const isomapController = new IsomapController(store);
+const lleController = new LleController(store);
+const pcaController = new PcaController(store);
+const tsneController = new TsneController(store);
+const umapController = new UmapController(store);
+const distanceBasedController = new DistanceBasedGraphController(store);
+
 const App = () => {
-  // creaiamo un'unica istanza del modello per tutta l'App
-  const model = new Model();
-  const mainController = new MainController(model);
-  const [modelDefined, setModelDefined] = useState(false)
+  const [storeDefined, setStoreDefined] = useState(false)
   const i = 1;
 
   useEffect(() => {
     // eslint-disable-next-line no-unused-expressions
-    model.getOriginalData.length > 0 ? setModelDefined(true) : setModelDefined(false);
-  }, [model])
+    store.graphs.length > 0 ? setStoreDefined(true) : setStoreDefined(false);
+  }, [])
 
   return (
     // modelContext.Provider fornisce il contesto con un valore (model) a tutto il sottoalbero di componenti
@@ -53,8 +69,51 @@ const App = () => {
           </Router>
         </div>
 
-      </MainControllerContext.Provider>
-    </ModelContext.Provider>
+  return (
+    <StoreContext.Provider value={store}>
+      <LocalLoaderControllerContext.Provider value={localLoaderController}>
+        <DistanceBasedGraphControllerContext.Provider value={distanceBasedController}>
+        <StandardControllerContext.Provider value={standardController}>
+        <FastmapControllerContext.Provider value={fastmapController}>
+        <IsomapControllerContext.Provider value={isomapController}>
+        <LleControllerContext.Provider value={lleController}>
+        <PcaControllerContext.Provider value={pcaController}>
+        <TsneControllerContext.Provider value={tsneController}>
+        <UmapControllerContext.Provider value={umapController}>
+          <div className="App">
+            <Router>
+              <Header />
+              <ul>
+                <li><Link to="/">Cambia dati</Link></li>
+                <li><Link to="/dataset">Gestisci dataset</Link></li>
+                <li><Link to="/help">Aiuto</Link></li>
+              </ul>
+              <Switch>
+                <Route exact path="/">
+                    <BuildGraph defineStore={defineStore}/>
+                </Route>
+                <Route path="/visualization">
+                  { storeDefined ? <Vizualization onDelete={idx => console.log(`Eliminato ${idx}`)} key={i} index={i} /> : <Redirect to="/" /> }
+                </Route>
+                <Route path="/dataset">
+                  <div>Gestion dataset</div>
+                </Route>
+                <Route path="/help">
+                  <div>Manuale</div>
+                </Route>
+              </Switch>
+            </Router>
+          </div>
+        </UmapControllerContext.Provider>
+        </TsneControllerContext.Provider>
+        </PcaControllerContext.Provider>
+        </LleControllerContext.Provider>
+        </IsomapControllerContext.Provider>
+        </FastmapControllerContext.Provider>
+        </StandardControllerContext.Provider>
+      </DistanceBasedGraphControllerContext.Provider>  
+      </LocalLoaderControllerContext.Provider>
+    </StoreContext.Provider>
   );
 };
 

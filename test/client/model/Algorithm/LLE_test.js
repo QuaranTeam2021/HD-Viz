@@ -1,6 +1,6 @@
 /* eslint-disable func-names */
 const { expect } = require('chai');
-const { LLE } = require('../../../../client/src/model/Algorithm/LLE');
+const { LLE } = require('../../../../client/src/store/Algorithm/LLE');
 
 describe("Testing LLE class", function() {
 

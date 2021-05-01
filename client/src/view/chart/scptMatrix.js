@@ -1,23 +1,26 @@
 /* eslint-disable no-mixed-operators */
 /* eslint-disable no-invalid-this */
+/* eslint-disable prefer-arrow-callback */
+/* eslint-disable func-names */
 const d3 = require('d3');
 
 
 /**
- * Plot force-directed graph of les Miserables example.
- * @param {data} table-formed-js array
- * @param {cols} set colums to be plotted. CAN contain gruper
- * @param {grouper} grouping column
- * @param {idBox} box to append
+ * Plot Scatterplot Matrix
+ * @param {Array<Object>} data table-formed js-array
+ * @param {Array<String>} cols set of colums to be plotted. grouper will be filtered
+ * @param {String} grouper grouping column
+ * @param {String} idBox box to append
  */
-
-
 const scpMatrix = function(data, cols, grouper, idBox) {
 	const size = 180;
 	// size = (width - (columns.length + 1) * padding) / columns.length + padding;
 	const padding = 20;
-	let columns = cols.filter(d => d !== grouper);
-
+	const columns = cols.filter(d => d !== grouper && typeof data[0][d] === "number");
+	console.log('grafico:')
+	console.log(data)
+	console.log(cols)
+	console.log(idBox)
 	let svg = d3.select(`#${idBox}`).append("svg");
 	
 	svg.append("style")
@@ -43,7 +46,7 @@ const scpMatrix = function(data, cols, grouper, idBox) {
 		.ticks(6)
 		.tickSize(size * columns.length);
 
-	let x = svg.append("g")
+	svg.append("g")
 		.selectAll("g")
 		.data(xScale)
 		.join("g")
@@ -57,7 +60,7 @@ const scpMatrix = function(data, cols, grouper, idBox) {
 		.ticks(6)
 		.tickSize(-size * columns.length);
 
-	let y = svg.append("g")
+	svg.append("g")
 		.selectAll("g")
 		.data(yScale)
 		.join("g")
@@ -122,7 +125,7 @@ const scpMatrix = function(data, cols, grouper, idBox) {
 	let brushCell;
 
 
-	brush.on("start", () => {
+	brush.on("start", function () {
 		if (brushCell !== this) {
 			d3.select(brushCell).call(brush.move, null);
 			// eslint-disable-next-line consistent-this
@@ -130,20 +133,20 @@ const scpMatrix = function(data, cols, grouper, idBox) {
 		}
 	});
 
-	brush.on("brush", ({selection}, [i, j]) => {
+	brush.on("brush", function ({selection}, [i, j]) {
 		let selected = [];
 		if (selection) {
-		const [[x0, y0], [x1, y1]] = selection; 
-		circle.classed(
-"hidden",
-		d => {
-			return x0 > xScale[i](d[columns[i]]) ||
-				x1 < xScale[i](d[columns[i]]) ||
-				y0 > yScale[j](d[columns[j]]) ||
-				y1 < yScale[j](d[columns[j]]);
-		}
-);
-		selected = data.filter(d => {
+			const [[x0, y0], [x1, y1]] = selection; 
+			circle.classed(
+				"hidden",
+			d => {
+				return x0 > xScale[i](d[columns[i]]) ||
+					x1 < xScale[i](d[columns[i]]) ||
+					y0 > yScale[j](d[columns[j]]) ||
+					y1 < yScale[j](d[columns[j]]);
+			}
+			);
+			selected = data.filter(d => {
 				return x0 < xScale[i](d[columns[i]]) &&
 					x1 > xScale[i](d[columns[i]]) &&
 					y0 < yScale[j](d[columns[j]]) &&
@@ -153,11 +156,14 @@ const scpMatrix = function(data, cols, grouper, idBox) {
 		svg.property("value", selected).dispatch("input");
 	});
 
-	brush.on("end", ({ selection }) => {
-		if (selection) return;
+	brush.on("end", function ({ selection }) {
+		if (selection) {
+			return;
+		}
 		svg.property("value", []).dispatch("input");
 		circle.classed("hidden", false);
 	});
+
 }
 
 exports.scpMatrix = scpMatrix;
