@@ -12,7 +12,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function DeleteDb() {
+export default function DeleteDb({ onClickDelete }) {
   const classes = useStyles();
    return (
     <div className={classes.root}>

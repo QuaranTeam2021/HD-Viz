@@ -168,12 +168,20 @@
   justify-content: center;
 }
 
+/* Gestione dataset*/ 
+#dataset{
+  display: inline-grid;
+  grid-template-columns: auto auto;
+  grid-gap: 1em 3em;
+}
+
 /* Responsive per schermi più piccoli */
 @media screen and (max-width:1023px) {
   #impostazioni{
     grid-template-columns: auto auto auto;
   }
-}
+} 
+
 
 @media screen and (max-width:768px) {
   #impostazioni {
