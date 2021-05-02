@@ -6,7 +6,7 @@ import FASTMAPfeatures from './algorithms/FASTMAPfeatures';
 import Insert from './startUpOptions/chooseDataset/Insert';
 import ISOMAPLLEfeatures from './algorithms/ISOMAPLLEfeatures';
 import { Link } from 'react-router-dom';
-import ModalDb from './database/ModalDb';
+import ModalDb from './Database/ModalDb';
 import PCAfeatures from './algorithms/PCAfeatures';
 import RadioAlgorithm from './algorithms/RadioAlgorithm';
 import RadioDistance from './startUpOptions/RadioDistance';

@@ -25,7 +25,7 @@ const ColorButton = withStyles(theme => ({
   },
 }))(Button);
 
-const Dataset = ({ fileName, onChange }) => {
+const Dataset = ({ fileName, onChange, onChangeTableName}) => {
   const classes = useStyles();
 
   return (
@@ -36,6 +36,11 @@ const Dataset = ({ fileName, onChange }) => {
         id="contained-button-file"
         type="file"
         onChange={onChange}
+      />
+
+      <input  
+        type="text"
+        onChange={onChangeTableName}
       />
 
       <label htmlFor="contained-button-file">

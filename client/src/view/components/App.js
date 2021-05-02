@@ -12,7 +12,7 @@ import Store, { StoreContext } from '../../store/Store';
 import TsneController, { TsneControllerContext } from '../../controller/TsneController';
 import UmapController, { UmapControllerContext } from '../../controller/UmapController';
 import BuildGraph from './BuildGraph';
-import Database from './database/Database';
+import Database from './Database/Database';
 import Header from './Header';
 import Vizualization from './Vizualization';
 
