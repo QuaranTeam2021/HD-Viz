@@ -12,7 +12,7 @@ import Store, { StoreContext } from '../../store/Store';
 import TsneController, { TsneControllerContext } from '../../controller/TsneController';
 import UmapController, { UmapControllerContext } from '../../controller/UmapController';
 import BuildGraph from './BuildGraph';
-import Database from './Database/Database';
+import Database from './database/Database';
 import Header from './Header';
 import Vizualization from './Vizualization';
 
@@ -36,38 +36,7 @@ const App = () => {
     store.graphs.length > 0 ? setStoreDefined(true) : setStoreDefined(false);
   }, [])
 
-  return (
-    // modelContext.Provider fornisce il contesto con un valore (model) a tutto il sottoalbero di componenti
-    <ModelContext.Provider value={model}>
-      <MainControllerContext.Provider value={mainController}>
-        <div className="App">
-          <Router>
-            <Header />
-            <ul>
-              <li><Link to="/">Cambia dati</Link></li>
-              <li><Link to="/dataset">Gestisci dataset</Link></li>
-              <li><Link to="/help">Aiuto</Link></li>
-            </ul>
-            <Switch>
-              <Route exact path="/">
-                <BuildGraph />
-              </Route>
-              <Route path="/visualization">
-                { modelDefined ? <Vizualization algoritmoGrafico="pca" tipoGrafico="scpm" distanzaGrafico="euclidean" onDelete={idx => console.log(`Eliminato ${idx}`)} key={i} index={i} /> : <Redirect to="/" /> }
-              </Route>
-              <Route path="/dataset">
-                <div>
-                  
-                  <Database/>
-                  
-                  </div>
-              </Route>
-              <Route path="/help">
-                <div>Manuale</div>
-              </Route>
-            </Switch>
-          </Router>
-        </div>
+  const defineStore = v => setStoreDefined(v);
 
   return (
     <StoreContext.Provider value={store}>
@@ -90,13 +59,13 @@ const App = () => {
               </ul>
               <Switch>
                 <Route exact path="/">
-                    <BuildGraph defineStore={defineStore}/>
+                    <BuildGraph defineStore={defineStore} />
                 </Route>
                 <Route path="/visualization">
                   { storeDefined ? <Vizualization onDelete={idx => console.log(`Eliminato ${idx}`)} key={i} index={i} /> : <Redirect to="/" /> }
                 </Route>
                 <Route path="/dataset">
-                  <div>Gestion dataset</div>
+                  <Database />
                 </Route>
                 <Route path="/help">
                   <div>Manuale</div>
