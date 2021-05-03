@@ -6,7 +6,7 @@ import FASTMAPfeatures from './algorithms/FASTMAPfeatures';
 import Insert from './startUpOptions/chooseDataset/Insert';
 import ISOMAPLLEfeatures from './algorithms/ISOMAPLLEfeatures';
 import { Link } from 'react-router-dom';
-import ModalDb from './database/ModalDb';
+import ModalDb from './Database/ModalDb';
 import PCAfeatures from './algorithms/PCAfeatures';
 import RadioAlgorithm from './algorithms/RadioAlgorithm';
 import RadioDistance from './startUpOptions/RadioDistance';
@@ -20,7 +20,6 @@ import { useFastmapController } from '../../controller/FastmapController';
 import { useIsomapController } from '../../controller/IsomapController';
 import { useLleController } from '../../controller/LleController';
 import { useLocalLoaderController } from '../../controller/LocalLoaderController';
-import { usePcaController } from '../../controller/PcaController';
 import { useStandardController } from '../../controller/StandardController';
 import { useTsneController } from '../../controller/TsneController';
 import { useUmapController } from '../../controller/UmapController';
@@ -48,7 +47,6 @@ export default function BuildGraph({ defineStore }) {
   const fastmapController = useFastmapController();
   const isomapController = useIsomapController();
   const lleController = useLleController();
-  const pcaController = usePcaController();
   const standardController = useStandardController();
   const tsneController = useTsneController();
   const umapController = useUmapController();
@@ -58,9 +56,6 @@ export default function BuildGraph({ defineStore }) {
   const controller = useRef(standardController);
   const setAlgorithmController = useCallback(alg => {
     switch (alg) {
-      case "PCA":
-        controller.current = pcaController;
-        break;
       case "UMAP":
         controller.current = umapController;
         break;
@@ -80,7 +75,7 @@ export default function BuildGraph({ defineStore }) {
         controller.current = standardController;
         break;
     }
-  }, [fastmapController, isomapController, lleController, pcaController, standardController, tsneController, umapController]);
+  }, [fastmapController, isomapController, lleController, standardController, tsneController, umapController]);
 
   const allOptionsSelected = useCallback(() => {
     let allSelected;
@@ -162,7 +157,11 @@ export default function BuildGraph({ defineStore }) {
     allOptionsSelected();
   };
 
-  const onChangeGrouper = (_e, v) => setGrouper(v);
+  const onChangeGrouper = (_e, v) => setGrouper(() => {
+    let gr = [];
+    gr.push(v);
+    return gr;
+  });
 
   const onClickConfirm = action(() => {
     let formData = {

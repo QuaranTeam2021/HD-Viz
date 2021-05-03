@@ -23,7 +23,7 @@ const PurpleRadio = withStyles({
 
 export default function Database() {
     const controllerManager = new DatabaseManagerController();
-    const [datasets] = useState(['tabella', 'tabella2', 'tabella3', 'tabella4', 'tabella5']); // <--controllerManager.getTablesName();
+    const [datasets] = useState(['prova']); // <--controllerManager.getTablesName();
     const [tableName, setTableName] = useState('');
     const [insertDs, setInsertDs] = useState([]);
     const [deleteDs, setDeleteDs] = useState([]);

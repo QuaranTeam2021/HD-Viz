@@ -105,6 +105,7 @@ export default class Store {
     }
 
     calculateSelectedData(selectedFeatures) {
+        if (selectedFeatures.length === 1) return this.originalData.getCol(selectedFeatures[0]);
         let res = [];
         for (let i = 0; i < selectedFeatures.length; ++i) {
             res[i] = [];
@@ -125,6 +126,7 @@ export default class Store {
         */
     calculateDistanceData(distFunc, cols, grouper) {
         let data = this.calculateSelectedData(cols);
+        let groups = this.calculateSelectedData(grouper);
 
         let matrix = new DistanceData();
         let links = [], 
@@ -132,7 +134,7 @@ export default class Store {
         for (let i = 0; i < data.length; i++) {
             let node = data[i];
             node.id="nodo_"+i;
-            node.group = node[grouper];
+            node.group = groups[i];
             nodes.push(node);
             for (let j = i+1; j < data.length; j++) {
                 let link = {
