@@ -95,6 +95,14 @@ export default class Store {
         })
         return numericFeatures;
     }
+    
+    getStringFeatures() {
+        let stringFeatures = [];
+        this.features.forEach((value, key) => {
+            if (value === "string") stringFeatures.push(key);
+        })
+        return stringFeatures;
+    }
 
     calculateSelectedData(selectedFeatures) {
         let res = [];
