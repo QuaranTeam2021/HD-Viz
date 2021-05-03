@@ -9,7 +9,8 @@ router.get("/list", async(req, res) => {
     try {
         const data = await client.query(`SELECT table_name FROM information_schema.tables WHERE table_schema='public'`);
         res.json(data.rows);
-    } catch (err) {
+    } 
+    catch (err) {
         console.error(err.message);
         res.status(500).send('Server error: access to data denied');
     }
@@ -21,7 +22,8 @@ router.get("/:table/columnsnames", async(req, res) => {
         const { table } = req.params;
         const data = await client.query(`SELECT column_name, data_type FROM information_schema.columns WHERE table_name = '${table}';`);
         res.json(data.rows);
-    } catch (err) {
+    } 
+    catch (err) {
         console.error(err.message);
         res.status(404).send('Server error: selected table doesn\'t exist');
     }
@@ -33,47 +35,50 @@ router.get("/:table", async(req, res) => {
         const { table } = req.params;
         const data = await client.query(`SELECT * FROM ${table}`);
         res.json(data.rows);
-    } catch (err) {
+    } 
+    catch (err) {
         console.error(err.message);
         res.status(404).send('Server error: selected table doesn\'t exist');
     }
 });
 
 // get selected columns
-router.get("/selectedcol/:table", async (req, res) => {
+router.post("/selectedcol/:table", async (req, res) => {
     try{
         const { table } = req.params;
-        
-        // Array mock
-        var selectedCol = [];
-        selectedCol.push("species");
-        selectedCol.push("island");
+        const { features } = req.body;
+
+        const selectedCol = features.split(",");
 
         // creazione lista colonne
         var query = ``;
-        for (i in selectedCol) {
-            query = query + ` ${selectedCol[i]},`;
+        for (var i in selectedCol) {
+            if (i) 
+                query = query + ` ${selectedCol[i]},`;
         }
+
         query = query.slice(0, -1);
 
-        if(!table){
-            res.status(400).send({msg:'select table name'});
+        if(!table) {
+            res.status(400).send({ msg: 'select table name' });
         }
-        else if(selectedCol.length === 0){
-            res.status(400).send({msg:'select some columns'});
+        else if(selectedCol.length === 0) {
+            res.status(400).send({ msg: 'select some columns' });
         }
-        else{
+        else {
             const data = await client.query(`SELECT ${query} FROM ${table}`);
             res.json(data.rows);
         }
-    }catch(err){
+    }
+    catch(err) {
         console.error(err.message);
         res.status(404).send('Server error');
     }
 });
 
 // upload a csv (and create the table)
-router.post('/upload/:table', async (req, res) => {
+router.post('/upload/:table', (req, res) => {
+// router.post('/upload/:table', async (req, res) => {
     try {
         const { table } = req.params;
 
@@ -82,7 +87,8 @@ router.post('/upload/:table', async (req, res) => {
                 status: false,
                 message: 'No file uploaded'
             });
-        } else {
+        } 
+        else {
             // Use the name of the input field to retrieve the uploaded file
             let uploadedFile = req.files.uploadedFile;
             
@@ -93,10 +99,10 @@ router.post('/upload/:table', async (req, res) => {
             let csvData = [];
             let csvStream = fastcsv
                 .parse()
-                .on("data", function(data) {
+                .on("data", function parseData(data) {
                     csvData.push(data);
                 })
-                .on("end", function() {
+                .on("end", function saveInTheDB() {
 
                     // header e prima riga
                     const header = csvData[0];
@@ -104,16 +110,15 @@ router.post('/upload/:table', async (req, res) => {
                     console.log(header);
                     console.log(firstRow);
 
-                    function type(el) {
+                    var type = function(el) {
                         if(isNaN(1 * el))
                             return "VARCHAR";
-                        else 
-                            return "numeric";
+                        return "numeric";
                     }
 
                     // Creo mappa (nome_colonna, tipo)
                     var columns = new Map();
-                    for (i = 0; i < header.length; i++) {
+                    for (var i = 0; i < header.length; i++) {
                         columns.set(header[i], type(firstRow[i]));
                     }
                     console.log(columns);
@@ -126,29 +131,30 @@ router.post('/upload/:table', async (req, res) => {
     
                     // CREAZIONE TABELLA (Rimosso await)
                     const data = client.query(`CREATE TABLE ${table} ( ${query} );`);
+                    console.log(data);
 
                     // remove the first line: header
                     csvData.shift();
                 
                     // Creazione query nella forma `INSERT INTO ${table} VALUES ($1, $2, ...);`
                     var param = `INSERT INTO ${table} VALUES (`;
-                    for (i = 1; i <= header.length; i++) {
-                        param = param + ` $${i},`;
+                    for (var j = 1; j <= header.length; j++) {
+                        param = param + ` $${j},`;
                     }
                     param = param.slice(0, -1);
                     param = param + `);`;
                     console.log(param);
 
                     try {
-                        csvData.forEach(row => {
-                            client.query(param, row, (err, res) => {
+                        csvData.forEach((row) => {
+                            // rimosso res da sotto
+                            client.query(param, row, (err) => {
                                 if (err)
                                     console.log(err.stack);
-                                // else
-                                //    console.log("inserted " + res.rowCount + " row:", row);
                             });
                         });
-                    } catch (err) {
+                    } 
+                    catch (err) {
                         res.status(500).send(err);
                     }
                 });
@@ -166,7 +172,8 @@ router.post('/upload/:table', async (req, res) => {
                 table: 'Successfully created'
             });
         }
-    } catch (err) {
+    } 
+    catch (err) {
         res.status(500).send(err);
     }
 });
@@ -175,9 +182,10 @@ router.post('/upload/:table', async (req, res) => {
 router.delete("/:table", async (req, res) => {
     try {
         const { table } = req.params;
-        await client.query( `DROP TABLE ${table};` );
+        await client.query(`DROP TABLE ${table};`);
         res.json(`The table ${table} was successfully deleted`);
-    } catch (err) {
+    } 
+    catch (err) {
         console.error(err.message);
         res.status(404).send('Server error: selected table doesnt exist');
     }

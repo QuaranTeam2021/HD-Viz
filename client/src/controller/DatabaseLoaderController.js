@@ -55,14 +55,24 @@ export default class DatabaseLoaderController {
         }
     }
 
-    // features: Array 
-    async getSelectedCol(table, features) {
+    async getSelectedCol(table, selectedFeatures) {
+        // array es: ['species','island','sex']
+        if (!Array.isArray(selectedFeatures) || typeof table !== "string") {
+            console.log({ error: "select table name and features" });
+        } 
+        const features = selectedFeatures.toString();
+        const body = { features };
         try {
             const response = await fetch(`http://localhost:${this.port}/tables/selectedcol/${table}`, {
-                headers: { "authorization": `Bearer ${token}` }
-                // passare array con nomi colonne selezionate
+                body: JSON.stringify(body),
+                headers: {
+                    "Content-Type": "application/json",
+                    "authorization": `Bearer ${token}`
+                },
+                method: "POST"
             });
             const jsonData = await response.json();
+            console.log(jsonData);
             let dataString = Papa.unparse(jsonData);
             let result = Papa.parse(dataString, {
                 delimiter: ',',
@@ -72,8 +82,10 @@ export default class DatabaseLoaderController {
                 }
             })
             this.store.loadData(result.data);
-        } catch (err) {
-            console.log(err.message);
+        } 
+        catch (err) {
+            console.error(err.message);
         }
     }
+
 }
