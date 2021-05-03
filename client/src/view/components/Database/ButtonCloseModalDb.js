@@ -12,7 +12,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function CloseButton({onClick}) {
+export default function ButtonCloseModalDb({onClick}) {
   const classes = useStyles();
 
   return (

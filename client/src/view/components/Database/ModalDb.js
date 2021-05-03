@@ -1,14 +1,10 @@
-import CloseButton from './CloseButton';
+import ButtonCloseModalDb from './ButtonCloseModalDb';
 import DbButton from './DbButton'; 
 import { makeStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
 import React from 'react';
+import SelectVizTable from './SelectVizTable';
 import VizColumns from './VizColumns';
-
-
-const rand = e => {
-  return Math.round(Math.random() * 20) - 10;
-}
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -26,6 +22,7 @@ export default function ModalDb() {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   
+  
   const onOpen = () => {
     setOpen(true);
   };
@@ -33,16 +30,14 @@ export default function ModalDb() {
   const onClose = () => {
     setOpen(false);
   }
-
   const body = 
   <div className={classes.paper}>
-      <CloseButton onClick={onClose}/> 
+      <ButtonCloseModalDb onClick={onClose}/> 
       <h2 id="title">Database</h2>
       <p id="description">
-        i dati
-        <VizColumns/>
-      </p>
-      
+        <SelectVizTable/>
+        <VizColumns /> 
+      </p>   
     </div>
   
 
@@ -53,15 +48,11 @@ export default function ModalDb() {
       </div> 
       <Modal 
         open={open}
-        
         aria-labelledby="title"
         aria-describedby="description"
-        
       >
         {body}
-        
       </Modal>
-    
     </div>
   );
 }
