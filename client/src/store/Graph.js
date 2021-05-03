@@ -5,6 +5,8 @@ export default class Graph {
 
     type = null;
 
+    grouper = null;
+
     constructor() {
         if (this.constructor === Graph) 
             throw new Error("Can't instantiate abstract class!");
@@ -24,5 +26,13 @@ export default class Graph {
 
     get type() {
         return this._type;
+    }
+
+    set grouper(grouper) {
+        this._grouper = grouper;
+    }
+
+    get grouper() {
+        return this._grouper;
     }
 }

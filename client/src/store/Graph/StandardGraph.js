@@ -2,10 +2,11 @@ import Graph from '../Graph';
 
 export default class StandardGraph extends Graph {
 
-    constructor(graphId, type, data) {
+    constructor(graphId, type, grouper, data) {
         super();
         this.graphId = graphId;
         this.type = type;
+        this.grouper = grouper;
         this.data = data;
     }
 

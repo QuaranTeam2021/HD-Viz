@@ -9,9 +9,9 @@ export default class StandardController extends StandardGraphController {
         this.store = store;
     }
 
-    createGraph(graphId, type, features) {
+    createGraph(graphId, type, features, grouper) {
         let data = this.store.calculateSelectedData(features);
-        let graph = new StandardGraph(graphId, type, data);
+        let graph = new StandardGraph(graphId, type, grouper, data);
         this.store.addGraph(graph);
     }
 
