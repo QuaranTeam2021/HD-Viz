@@ -1,0 +1,29 @@
+<title>Upload</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<script type="text/javascript" src="dbInterface.js"></script>
+<body>
+    <h1>Upload </h1>
+    <form class = "form" id = "myForm">
+        <input type = "text" id = "tableName" placeholder="nome tabella"><br>
+        <input type = "file" id = "inputFile"><br>
+        <button type = "submit">Upload</button>
+    </form>
+
+    <script>
+
+        const input = document.getElementById("tableName");
+        const myForm = document.getElementById("myForm");
+        const inpFile = document.getElementById("inputFile");
+
+        myForm.addEventListener("submit", e => {
+            e.preventDefault();
+
+            const table = input.value;
+            const file = inputFile.files[0];
+
+            const res = importDataset(table, file);
+            console.log(res);
+        });
+
+    </script>
+</body>

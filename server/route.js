@@ -40,14 +40,12 @@ router.get("/:table", async(req, res) => {
 });
 
 // get selected columns
-router.get("/selectedcol/:table", async (req, res) => {
+router.post("/selectedcol/:table", async (req, res) => {
     try{
         const { table } = req.params;
-        
-        // Array mock
-        var selectedCol = [];
-        selectedCol.push("species");
-        selectedCol.push("island");
+        const { features } = req.body;
+
+        const selectedCol = features.split(",");
 
         // creazione lista colonne
         var query = ``;
@@ -56,17 +54,17 @@ router.get("/selectedcol/:table", async (req, res) => {
         }
         query = query.slice(0, -1);
 
-        if(!table){
+        if(!table) {
             res.status(400).send({msg:'select table name'});
         }
-        else if(selectedCol.length === 0){
+        else if(selectedCol.length === 0) {
             res.status(400).send({msg:'select some columns'});
         }
         else{
             const data = await client.query(`SELECT ${query} FROM ${table}`);
             res.json(data.rows);
         }
-    }catch(err){
+    }catch(err) {
         console.error(err.message);
         res.status(404).send('Server error');
     }

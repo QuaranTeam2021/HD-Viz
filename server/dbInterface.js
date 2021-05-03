@@ -52,28 +52,37 @@ const getTableColumnsNames = async (table) => {
     }
 };
 
-// Non va
-const getSelectedCol = async (table) => {
-    try {
-        const response = await fetch(`http://localhost:${PORT}/tables/selectedcol/${table}`, {
-            headers: { "authorization": `Bearer ${token}` }
-            // passare array con nomi colonne selezionate
-        });
-        const jsonData = await response.json();
-        return jsonData;
-    } catch (err) {
-        console.error(err.message);
+const getSelectedCol = async (table, selectedFeatures) => {
+    // array es: ['species','island','sex']
+    if ( !Array.isArray(selectedFeatures) || typeof(table) != "string" ) {
+        return { error: "select table name and features"}
+    } else {
+        features = selectedFeatures.toString();
+        var body = { features }
+        try {
+            const response = await fetch(`http://localhost:${PORT}/tables/selectedcol/${table}`, {
+                body: JSON.stringify(body),
+                headers: { "authorization": `Bearer ${token}`, "Content-Type": "application/json" },
+                method: "POST"
+            });
+            const jsonData = await response.json();
+            console.log(jsonData)
+            return jsonData;
+        } catch (err) {
+            console.error(err.message);
+        }
     }
 };
 
-// Non va 
-const importDataset = async (table) => {
+const importDataset = async (table, file) => {
     try {
-        console.log(col);
-        console.log(columns);
-        const response = await fetch(`http://localhost:${PORT}/tables/${table}`, {
-            method: "POST",
-            headers: { "authorization": `Bearer ${token}` }
+        const formData = new FormData();
+        formData.append("uploadedFile", file);
+
+        const response = await fetch(`http://localhost:${PORT}/tables/upload/${table}`, {
+            body: formData,
+            headers: { "authorization": `Bearer ${token}` },
+            method: "POST"
         });
         const jsonData = await response.json();
         return jsonData;
