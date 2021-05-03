@@ -44,8 +44,9 @@ export default class DatabaseManagerController {
                 headers: { "authorization": `Bearer ${token}` }
             });
             const jsonData = await response.json();
-            const tables = [];
+            let tables = [];
             jsonData.forEach(e => tables.push(Object.values(e)));
+            tables = tables.flat();
             console.log(tables)
             return tables;
         } catch (err) {

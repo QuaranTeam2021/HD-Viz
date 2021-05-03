@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import AddDb from './AddDb';
 import DatabaseManagerController from '../../../controller/DatabaseManagerController';
 import DeleteDb from './DeleteDb';
@@ -23,7 +23,33 @@ const PurpleRadio = withStyles({
 
 export default function Database() {
     const controllerManager = new DatabaseManagerController();
-    const [datasets] = useState(['prova']); // <--controllerManager.getTablesName();
+
+
+    // **********************************************************************
+
+    /* 
+    OLD: const [datasets] = useState(['prova']); // <--controllerManager.getTablesName();
+    Ho importato useEffect e aggiunto le cose presenti tra i due commenti.
+    Funziona.
+    */
+
+    const [datasets, setDatasets] = useState([]);
+
+    const getTabNames = async () => {
+        try {
+            const tables = await controllerManager.getTablesNames();
+            setDatasets(tables);
+        } catch (err) {
+            console.log(err.message);
+        }
+    }
+
+    useEffect(() => {
+        getTabNames();
+    });
+    // **********************************************************************
+
+
     const [tableName, setTableName] = useState('');
     const [insertDs, setInsertDs] = useState([]);
     const [deleteDs, setDeleteDs] = useState([]);
