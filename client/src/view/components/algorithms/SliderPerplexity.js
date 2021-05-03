@@ -20,7 +20,7 @@ const marks = [
     value: 50,
   },
 ];
-export default function SliderSize({ perplexity, onChange }) {
+export default function SliderPerplexity({ perplexity, onChange }) {
   const classes = useStyles();
 
   useEffect(() => {

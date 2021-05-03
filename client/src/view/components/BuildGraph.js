@@ -1,18 +1,18 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { action } from 'mobx';
 import ButtonConfirm from './startUpOptions/ButtonConfirm';
-import CheckboxColumns from './startUpOptions/CheckboxColumns';
+import Columns from './startUpOptions/columns/Columns';
 import FASTMAPfeatures from './algorithms/FASTMAPfeatures';
 import Insert from './startUpOptions/chooseDataset/Insert';
 import ISOMAPLLEfeatures from './algorithms/ISOMAPLLEfeatures';
 import { Link } from 'react-router-dom';
-import ModalDb from './Database/ModalDb';
+import ModalDb from './database/ModalDb';
 import PCAfeatures from './algorithms/PCAfeatures';
 import RadioAlgorithm from './algorithms/RadioAlgorithm';
 import RadioDistance from './startUpOptions/RadioDistance';
 import RadioGraphType from './startUpOptions/RadioGraphType';
-import TooltipDistColumns from './startUpOptions/TooltipDistColumns';
-import TooltipVizColumns from './startUpOptions/TooltipVizColumns';
+import TooltipDistColumns from './startUpOptions/columns/TooltipDistColumns';
+import TooltipVizColumns from './startUpOptions/columns/TooltipVizColumns';
 import TSNEfeatures from './algorithms/TSNEfeatures';
 import UMAPfeatures from './algorithms/UMAPfeatures';
 import { useDistanceBasedGraphController } from '../../controller/DistanceBasedGraphController';
@@ -33,11 +33,13 @@ export default function BuildGraph({ defineStore }) {
   const [selectedGraph, setGraph] = useState('');
   const [insert, setInsert] = useState([]);
   const [selectedColumns, setSelectedColumns] = useState([]);
+  const [grouper, setGrouper] = useState('');
   const [confirm, setConfirm] = useState(false);
   const [size, setSize] = useState(5);
   const [distanza, setDistanza] = useState('');
   const [neighbours, setNeighbours] = useState(200);
   const [perplexity, setPerplexity] = useState(20);
+  const [epsilon, setEpsilon] = useState(20);
   const [selectedAlgorithm, setAlgorithm] = useState('');
 
   /* Controller
@@ -100,8 +102,7 @@ export default function BuildGraph({ defineStore }) {
     allOptionsSelected();
   }, [allOptionsSelected]);
 
-  // Abilita reindirizzamento da Visualization
-  useEffect(() => {
+  useEffect(() => { // Abilita reindirizzamento da Visualization
     defineStore(false);
   }, [defineStore]);
 
@@ -139,6 +140,11 @@ export default function BuildGraph({ defineStore }) {
     controller.current.perplexity = v;
   };
 
+  const onChangeEpsilon = (_e, v) => {
+    setEpsilon(v);
+    controller.current.epsilon = v;
+  }
+
   const onChangeDistanza = (_e, v) => {
     setDistanza(v);
     controller.current.metric = v;
@@ -156,24 +162,28 @@ export default function BuildGraph({ defineStore }) {
     allOptionsSelected();
   };
 
+  const onChangeGrouper = (_e, v) => setGrouper(v);
+
   const onClickConfirm = action(() => {
     let formData = {
       insert,
       selectedColumns,
       selectedGraph
     };
-    if (needsDistance(selectedGraph) || needsDistance(selectedAlgorithm)) {
+    if (needsDistance(selectedGraph)) {
       formData.distanza = distanza;
-      controller.current.createGraph(`${selectedGraph}-${Math.round(Math.random() * 100)}`, selectedGraph, distanza, selectedColumns);
+      controller.current.createGraph(`${selectedGraph}-${Math.round(Math.random() * 100)}`, selectedGraph, distanza, selectedColumns, grouper);
     }
     if (needsAlgorithm(selectedGraph)) {
       if (["UMAP", "ISOMAP", "LLE", "FASTMAP", "T-SNE"].includes(selectedAlgorithm))
         formData.distanza = distanza;
       if (["UMAP", "ISOMAP", "LLE", "T-SNE"].includes(selectedAlgorithm))
         formData.neighbours = neighbours;
-      if (["T-SNE"].includes(selectedAlgorithm))
+      if (["T-SNE"].includes(selectedAlgorithm)) {
         formData.perplexity = perplexity;
-      controller.current.createGraph(`${selectedGraph}-${Math.round(Math.random() * 100)}`, selectedGraph, selectedColumns);
+        formData.epsilon = epsilon;
+      }
+      controller.current.createGraph(`${selectedGraph}-${Math.round(Math.random() * 100)}`, selectedGraph, selectedColumns, grouper);
     }
     console.log(formData);
     defineStore(true);
@@ -197,7 +207,7 @@ export default function BuildGraph({ defineStore }) {
         <div id="impostazioni">
           {selectedInsert(insert) && <RadioGraphType onChange={onChangeGraph} />}
           <div id="colonne">
-            {selectedInsert(insert) && <CheckboxColumns onChange={onChangeColumns} />}
+            {selectedInsert(insert) && <Columns onChangeUploaded={onChangeColumns} onChangeGrouper={onChangeGrouper}/>}
             <div id="question">
               {needsDistance(selectedGraph) && <TooltipDistColumns />}
               {needsAlgorithm(selectedGraph) && <TooltipVizColumns />}
@@ -246,6 +256,10 @@ export default function BuildGraph({ defineStore }) {
                 d: {
                   distanza,
                   onChangeDistanza
+                },
+                e: {
+                  epsilon,
+                  onChangeEpsilon
                 },
                 n: {
                   neighbours,

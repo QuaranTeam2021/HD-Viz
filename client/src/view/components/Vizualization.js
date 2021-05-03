@@ -30,14 +30,14 @@ const switchGraph = type => {
 }
 
 const switchArguments = graph => {
-	let data = graph.data;
+	const { data, grouper } = graph;
 	console.log(data);
 	switch (graph.type) {
 		case "scptMat":
 			return [
 				data,
 				Object.keys(data[0]),
-				Object.keys(data[0])[0],
+				grouper,
 				graph.graphId,
 			];
 			
@@ -57,7 +57,7 @@ const switchArguments = graph => {
 			return [
 				data,
 				Object.keys(data[0]),
-				Object.keys(data[0])[0],
+				grouper,
 				graph.graphId,
 			];
 		default:
