@@ -6,22 +6,21 @@ export default class DatabaseManagerController {
         this.port = 5000;
     }
 
-    // da sistemare
     async upload(table, file) {
-        console.log("upload")
-        console.log(table)
-        console.log(file)
         if (file.size > 0 && file.size < 50000) {
             try {
-                const response = await fetch(`http://localhost:${this.port}/tables/${table}`, {
-                    body: file,
+                const formData = new FormData();
+                formData.append("uploadedFile", file);
+        
+                const response = await fetch(`http://localhost:${this.port}/tables/upload/${table}`, {
+                    body: formData,
                     headers: { "authorization": `Bearer ${token}` },
                     method: "POST"
                 });
                 const jsonData = await response.json();
                 console.log(jsonData);
             } catch (err) {
-                console.log(err.message);
+                console.error(err.message);
             }
         }
     }

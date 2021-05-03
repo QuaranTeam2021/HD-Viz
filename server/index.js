@@ -17,7 +17,7 @@ app.use(fileUpload({
     createParentPath: true
 }));
 
-//app.use('/tables', authenticateToken, router);
+// app.use('/tables', authenticateToken, router);
 app.use('/tables', router);
 
 app.post('/login', (req, res) => {
@@ -28,9 +28,10 @@ app.post('/login', (req, res) => {
 
     console.log(user);
     const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET);
-    res.json({ accessToken: accessToken })
+    res.json({ accessToken })
 });
 
+/*
 function authenticateToken(req, res, next) {
     // Bearer TOKEN
     const authHeader = req.headers['authorization'];
@@ -43,6 +44,7 @@ function authenticateToken(req, res, next) {
         next();
     });
 }
+*/
 
 app.listen(
     PORT,
