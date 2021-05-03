@@ -47,7 +47,7 @@ const marks3 = [
   },
 ];
 
-export default function DiscreteSlider() {
+export default function ForceFieldFeat() {
   const classes = useStyles();
 
   return (

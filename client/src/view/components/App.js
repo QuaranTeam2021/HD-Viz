@@ -1,4 +1,5 @@
 import '../css/App.css';
+import DistanceBasedGraphController, { DistanceBasedGraphControllerContext } from '../../controller/DistanceBasedGraphController';
 import FastmapController, { FastmapControllerContext } from '../../controller/FastmapController';
 import IsomapController, { IsomapControllerContext } from '../../controller/IsomapController';
 import { Link, Redirect, Route, BrowserRouter as Router, Switch } from 'react-router-dom';
@@ -11,6 +12,7 @@ import Store, { StoreContext } from '../../store/Store';
 import TsneController, { TsneControllerContext } from '../../controller/TsneController';
 import UmapController, { UmapControllerContext } from '../../controller/UmapController';
 import BuildGraph from './BuildGraph';
+import Database from './Database/Database';
 import Header from './Header';
 import Vizualization from './Vizualization';
 
@@ -23,6 +25,7 @@ const lleController = new LleController(store);
 const pcaController = new PcaController(store);
 const tsneController = new TsneController(store);
 const umapController = new UmapController(store);
+const distanceBasedController = new DistanceBasedGraphController(store);
 
 const App = () => {
   const [storeDefined, setStoreDefined] = useState(false)
@@ -38,6 +41,7 @@ const App = () => {
   return (
     <StoreContext.Provider value={store}>
       <LocalLoaderControllerContext.Provider value={localLoaderController}>
+        <DistanceBasedGraphControllerContext.Provider value={distanceBasedController}>
         <StandardControllerContext.Provider value={standardController}>
         <FastmapControllerContext.Provider value={fastmapController}>
         <IsomapControllerContext.Provider value={isomapController}>
@@ -55,13 +59,13 @@ const App = () => {
               </ul>
               <Switch>
                 <Route exact path="/">
-                    <BuildGraph defineStore={defineStore}/>
+                    <BuildGraph defineStore={defineStore} />
                 </Route>
                 <Route path="/visualization">
-                  { storeDefined ? <Vizualization algoritmoGrafico="pca" tipoGrafico="scpm" distanzaGrafico="euclidean" onDelete={idx => console.log(`Eliminato ${idx}`)} key={i} index={i} /> : <Redirect to="/" /> }
+                  { storeDefined ? <Vizualization onDelete={idx => console.log(`Eliminato ${idx}`)} key={i} index={i} /> : <Redirect to="/" /> }
                 </Route>
                 <Route path="/dataset">
-                  <div>Gestion dataset</div>
+                  <Database />
                 </Route>
                 <Route path="/help">
                   <div>Manuale</div>
@@ -76,6 +80,7 @@ const App = () => {
         </IsomapControllerContext.Provider>
         </FastmapControllerContext.Provider>
         </StandardControllerContext.Provider>
+      </DistanceBasedGraphControllerContext.Provider>  
       </LocalLoaderControllerContext.Provider>
     </StoreContext.Provider>
   );

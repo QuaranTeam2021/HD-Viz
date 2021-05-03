@@ -31,7 +31,7 @@ export default function ChangeDistance() {
                 <MenuItem value={'euclidean'}>Euclidean</MenuItem>
                 <MenuItem value={'manhattan'}>Manhattan</MenuItem>
                 <MenuItem value={'cosine'}>Cosine</MenuItem>
-                <MenuItem value={'euclidean squared'}>Euclidean Squared</MenuItem>
+                <MenuItem value={'euclidean_squared'}>Euclidean Squared</MenuItem>
                 <MenuItem value={'canberra'}>Canberra</MenuItem>
                 <MenuItem value={'chebyshev'}>Chebyshev</MenuItem>
             </Select>

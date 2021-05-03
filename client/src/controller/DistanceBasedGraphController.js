@@ -1,3 +1,5 @@
+import * as druid from '@saehrimnir/druidjs';
+import { createContext, useContext } from 'react';
 import DistanceBasedGraph from '../store/Graph/DistanceBasedGraph';
 
 export default class DistanceBasedGraphController {
@@ -7,7 +9,7 @@ export default class DistanceBasedGraphController {
     }
 
     createGraph(graphId, type, distance, features) {
-        let data = this.store.calculateDistanceData(distance, features);
+        let data = this.store.calculateDistanceData(DistanceBasedGraphController.getMetric(distance), features);
         let graph = new DistanceBasedGraph(graphId, type, data);
         this.store.addGraph(graph);
     }
@@ -19,4 +21,29 @@ export default class DistanceBasedGraphController {
         let index = this.store.getGraphIndexById(graphId);
         this.store.graphs[index] = graph;
     }
+
+    static getMetric(metric) {
+        let res;
+        switch (metric) {
+            case "euclidean": res = druid.euclidean;
+                break;
+            case "manhattan": res = druid.manhattan;
+                break;
+            case "cosine": res = druid.cosine;
+                break;
+            case "euclidean_squared": res = druid.euclidean_squared;
+                break;
+            case "canberra": res = druid.canberra;
+                break;
+            case "chebyshev": res = druid.chebyshev;
+                break;
+            default: res = druid.euclidean;
+                break;
+        }
+        return res;
+    }
+
 }
+
+export const DistanceBasedGraphControllerContext = createContext(DistanceBasedGraph);
+export const useDistanceBasedGraphController = () => useContext(DistanceBasedGraphControllerContext);
