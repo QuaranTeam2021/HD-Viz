@@ -172,7 +172,7 @@ export default function BuildGraph({ defineStore }) {
     };
     if (needsDistance(selectedGraph)) {
       formData.distanza = distanza;
-      controller.current.createGraph(`${selectedGraph}-${Math.round(Math.random() * 100)}`, selectedGraph, distanza, selectedColumns);
+      controller.current.createGraph(`${selectedGraph}-${Math.round(Math.random() * 100)}`, selectedGraph, distanza, selectedColumns, grouper);
     }
     if (needsAlgorithm(selectedGraph)) {
       if (["UMAP", "ISOMAP", "LLE", "FASTMAP", "T-SNE"].includes(selectedAlgorithm))
@@ -183,7 +183,7 @@ export default function BuildGraph({ defineStore }) {
         formData.perplexity = perplexity;
         formData.epsilon = epsilon;
       }
-      controller.current.createGraph(`${selectedGraph}-${Math.round(Math.random() * 100)}`, selectedGraph, selectedColumns);
+      controller.current.createGraph(`${selectedGraph}-${Math.round(Math.random() * 100)}`, selectedGraph, selectedColumns, grouper);
     }
     console.log(formData);
     defineStore(true);
