@@ -9,7 +9,7 @@ import SliderSize from './SliderSize';
 export default function TSNEfeatures({ attributes }) {
     const { d, e, n, p, s } = attributes;
     const { distanza, onChangeDistanza } = d;
-    const { epsilon, onChangeEpsilon } = d;
+    const { epsilon, onChangeEpsilon } = e;
     const { neighbours, onChangeNeighbours } = n;
     const { perplexity, onChangePerplexity } = p;
     const { onChangeSize, size } = s;
