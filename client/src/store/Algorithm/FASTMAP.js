@@ -8,8 +8,11 @@ export default class FASTMAP extends AlgorithmStrategy {
         let data = druid.Matrix.from(parameters.data);
         let metric = this.getMetric(parameters.metric);
         let strategy = new druid.FASTMAP(data, parameters.dimensions, metric);
-        let res = strategy.transform();
-        let reduced = FASTMAP.get2dArray(res.to2dArray);
-        return FASTMAP.addHeader(reduced, parameters.dimensions);
+        let res = strategy.transform().to2dArray;
+        let reduced = res.map(e => Array.from(e));
+        let header = [];
+        for (let i = 0; i < parameters.dimensions; i++) header.push(String("Dimension").concat(i + 1));
+        reduced.unshift(header)
+        return reduced;
     }
 }
