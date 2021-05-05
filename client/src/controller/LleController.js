@@ -18,7 +18,7 @@ export default class LleController extends StandardGraphController {
     createGraph(graphId, type, features, grouper) {
         let parameters = new IsomapLleParameters(this._dimensions, this._neighbors, this._metric);
         let reducedData = this.store.calculateReduction(features, this.lle, parameters);
-        let grouperCol = this.store.calculateSelectedData(grouper);
+        let grouperCol = this.store.calculateSelectedData(grouper).flat();
         for (let i = 0; i < reducedData.length; ++i) {
             reducedData[i].push(grouperCol[i]);
         }

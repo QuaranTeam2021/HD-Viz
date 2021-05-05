@@ -17,7 +17,7 @@ export default class FastmapController extends StandardGraphController {
     createGraph(graphId, type, features, grouper) {
         let parameters = new FastmapParameters(this._dimensions, this._metric);
         let reducedData = this.store.calculateReduction(features, this.fastmap, parameters);
-        let grouperCol = this.store.calculateSelectedData(grouper);
+        let grouperCol = this.store.calculateSelectedData(grouper).flat();
         for (let i = 0; i < reducedData.length; ++i) {
             reducedData[i].push(grouperCol[i]);
         }
