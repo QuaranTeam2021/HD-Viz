@@ -1,13 +1,13 @@
 /* eslint-disable class-methods-use-this */
 import * as druid from "@saehrimnir/druidjs";
 import AlgorithmStrategy from '../AlgorithmStrategy';
+import Distance from '../Distance';
 
 export default class TSNE extends AlgorithmStrategy {
 
     compute(parameters) {
         let data = druid.Matrix.from(parameters.data);
-        let metric = this.getMetric(parameters.metric);
-        let strategy = new druid.TSNE(data, parameters.perplexity, parameters.epsilon, parameters.dimensions, metric);
+        let strategy = new druid.TSNE(data, parameters.perplexity, parameters.epsilon, parameters.dimensions, Distance[parameters.metric]);
         let res = strategy.transform().to2dArray;
         let reduced = res.map(e => Array.from(e));
         let header = [];
