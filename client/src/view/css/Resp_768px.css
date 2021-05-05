@@ -1,0 +1,5 @@
+@media screen and (max-width:768px) { 
+  #impostazioni {
+      grid-template-columns: auto auto;
+    }
+}
