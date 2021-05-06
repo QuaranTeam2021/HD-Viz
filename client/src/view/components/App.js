@@ -14,7 +14,7 @@ import Store, { StoreContext } from '../../store/Store';
 import TsneController, { TsneControllerContext } from '../../controller/TsneController';
 import UmapController, { UmapControllerContext } from '../../controller/UmapController';
 import BuildGraph from './BuildGraph';
-import Database from './Database/Database';
+import Database from './database/Database';
 import Header from './Header';
 import Vizualization from './Vizualization';
 
