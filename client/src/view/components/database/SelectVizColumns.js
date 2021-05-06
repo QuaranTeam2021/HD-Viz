@@ -49,35 +49,28 @@ const names = [
 ];
 
 
-export default function MultipleSelectColumns() {
+export default function MultipleSelectColumns({ onChange, col }) {
   const classes = useStyles();
-  const theme = useTheme();
-  const [columns, setColumns] = React.useState([]);
-
-  const selectColumns = event => {
-    setColumns(event.target.value);
-  };
   
   return (
-    <div>
+
   <FormControl className={classes.formControl}>
-        <InputLabel id="mutiple-columns">Colonne</InputLabel>
-        <Select
-          labelId="mutiple-columns-label"
-          id="mutiple-columns"
-          multiple
-          value={columns}
-          onChange={selectColumns}
-          input={<Input id="select-multiple-columns" />}
-          renderValue={selected => <div className={classes.columns}>
-              {selected.map(value => <Chip key={value} label={value} className={classes.columns} />)}
-            </div>
-          }
-          MenuProps={MenuProps}
-        >
-          {names.map(name => <MenuItem key={name} value={name} > {name} </MenuItem>)}
-        </Select>
-      </FormControl>
+  <InputLabel id="demo-mutiple-chip-label">Columns</InputLabel>
+  <Select
+    labelId="demo-mutiple-chip-label"
+    id="demo-mutiple-chip"
+    multiple
+    value={col}
+    onChange={onChange}
+    input={<Input id="select-multiple-chip" />}
+    renderValue={selected => <div className={classes.chips}>
+        {selected.map(value => <Chip key={value} label={value} className={classes.chip} />)}
       </div>
+    }
+    MenuProps={MenuProps}
+  >
+    {names.map(name => <MenuItem key={name} value={name}> {name} </MenuItem>)}
+  </Select>
+</FormControl>
   );
 }

@@ -15,30 +15,24 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function SimpleSelect() {
+export default function SimpleSelect({onChange, tab}) {
   const classes = useStyles();
-  const [table, setTable] = React.useState('');
-
-  const onChangeTable = event => {
-    setTable(event.target.value);
-  };
 
   return (
     <div>
-      <FormControl className={classes.formControl}>
-        <InputLabel id="select-Table">Tabelle</InputLabel>
+        <FormControl className={classes.formControl}>
+        <InputLabel id="demo-simple-select-label">Tabelle</InputLabel>
         <Select
-          labelId="select-table"
-          id="select-table"
-          value={table}
-          onChange={onChangeTable}
+          labelId="demo-simple-select-label"
+          id="demo-simple-select"
+          value={tab}
+          onChange={onChange}
         >
-          <MenuItem value={"Tab1"}>Tab1</MenuItem>
-          <MenuItem value={"Tab2"}>Tab2</MenuItem>
-          <MenuItem value={"Tab3"}>Tab3</MenuItem>
+          <MenuItem value={'tab1'}>Tab1</MenuItem>
+          <MenuItem value={'tab2'}>Tab2</MenuItem>
+          <MenuItem value={'tab3'}>Tab3</MenuItem>
         </Select>
       </FormControl>
-     
     </div>
   );
 }
