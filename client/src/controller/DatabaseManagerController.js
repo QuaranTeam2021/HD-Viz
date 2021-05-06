@@ -37,20 +37,4 @@ export default class DatabaseManagerController {
             return err.message;
         }
     }
-
-    async getTablesNames() {
-        try {
-            const response = await fetch(`http://localhost:${this.port}/tables/list`, {
-                headers: { "authorization": `Bearer ${token}` }
-            });
-            const jsonData = await response.json();
-            let tables = [];
-            jsonData.forEach(e => tables.push(Object.values(e)));
-            tables = tables.flat();
-            console.log(tables)
-            return tables;
-        } catch (err) {
-            return err.message;
-        }
-    }
 }

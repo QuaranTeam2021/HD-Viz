@@ -18,14 +18,13 @@ export default class DatabaseLoaderController {
             let tables = [];
             jsonData.forEach(e => tables.push(Object.values(e)));
             tables = tables.flat();
-            console.log(tables)
             return tables;
         } catch (err) {
             return err.message;
         }
     }
 
-    async getTableContent(table) {
+    async loadTable(table) {
         try {
             const response = await fetch(`http://localhost:${this.port}/tables/${table}`, {
                 headers: { "authorization": `Bearer ${token}` }
@@ -45,19 +44,7 @@ export default class DatabaseLoaderController {
         }
     }
 
-    async getTableColumnsNames(table) {
-        try {
-            const response = await fetch(`http://localhost:${this.port}/tables/${table}/columnsnames`, {
-                headers: { "authorization": `Bearer ${token}` }
-            });
-            const jsonData = await response.json();
-            return jsonData;
-        } catch (err) {
-            return err.message;
-        }
-    }
-
-    async getSelectedCol(table, selectedFeatures) {
+    async loadTableCols(table, selectedFeatures) {
         // array es: ['species','island','sex']
         if (!Array.isArray(selectedFeatures) || typeof table !== "string") {
             console.log({ error: "select table name and features" });

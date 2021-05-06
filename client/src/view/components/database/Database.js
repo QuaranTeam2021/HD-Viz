@@ -1,29 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import AddDb from './AddDb';
 import DatabaseManagerController from '../../../controller/DatabaseManagerController';
+import DatabaseTablesController from '../../../controller/DatabaseTablesController';
 import DeleteDb from './DeleteDb';
-import FormControl from '@material-ui/core/FormControl';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import FormLabel from '@material-ui/core/FormLabel';
-import { purple } from '@material-ui/core/colors';
-import Radio from '@material-ui/core/Radio';
-import RadioGroup from '@material-ui/core/RadioGroup';
-import { withStyles } from '@material-ui/core/styles';
-
-const PurpleRadio = withStyles({
-    checked: {},
-    root: {
-      '&$checked': {
-        color: purple[600],
-      },
-      color: purple[400],
-    }
-})(props => <Radio color="default" {...props} />);
-
 
 export default function Database() {
     const controllerManager = new DatabaseManagerController();
-
+    const tablesController = new DatabaseTablesController();
 
     // **********************************************************************
 
@@ -37,7 +21,7 @@ export default function Database() {
 
     const getTabNames = async () => {
         try {
-            const tables = await controllerManager.getTablesNames();
+            const tables = await tablesController.getTablesNames();
             setDatasets(tables);
         } catch (err) {
             console.log(err.message);

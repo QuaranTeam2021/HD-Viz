@@ -1,8 +1,8 @@
-import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Chip from '@material-ui/core/Chip';
 import FormControl from '@material-ui/core/FormControl';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
+import { makeStyles } from '@material-ui/core/styles';
 import MenuItem from '@material-ui/core/MenuItem';
 import React from 'react';
 import Select from '@material-ui/core/Select';
@@ -39,16 +39,7 @@ const MenuProps = {
   },
 };
 
-const names = [
-  'Col 1',
-  'Col 2',
-  'Col 3',
-  'Col 4',
-  'Col 5',
-];
-
-
-export default function MultipleSelectColumns({ onChange, col }) {
+export default function MultipleSelectColumns({ onChange, col, tableColumns}) {
   const classes = useStyles();
   
   return (
@@ -67,7 +58,7 @@ export default function MultipleSelectColumns({ onChange, col }) {
         }
         MenuProps={MenuProps}
       >
-        {names.map(name => <MenuItem key={name} value={name}> {name} </MenuItem>)}
+        {tableColumns.map((column, i) => <MenuItem key={i} value={column}> {column} </MenuItem>)}
       </Select>
     </FormControl>
   );
