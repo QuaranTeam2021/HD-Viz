@@ -19,9 +19,8 @@ const useStyles = makeStyles(theme => ({
   },
   formControl: {
     margin: theme.spacing(1),
-    maxWidth: 300,
+    maxWidth: 150,
     minWidth: 120,
-    
   },
  
   noLabel: {
@@ -53,24 +52,23 @@ export default function MultipleSelectColumns({ onChange, col }) {
   const classes = useStyles();
   
   return (
-
-  <FormControl className={classes.formControl}>
-  <InputLabel id="demo-mutiple-chip-label">Columns</InputLabel>
-  <Select
-    labelId="demo-mutiple-chip-label"
-    id="demo-mutiple-chip"
-    multiple
-    value={col}
-    onChange={onChange}
-    input={<Input id="select-multiple-chip" />}
-    renderValue={selected => <div className={classes.chips}>
-        {selected.map(value => <Chip key={value} label={value} className={classes.chip} />)}
-      </div>
-    }
-    MenuProps={MenuProps}
-  >
-    {names.map(name => <MenuItem key={name} value={name}> {name} </MenuItem>)}
-  </Select>
-</FormControl>
+      <FormControl className={classes.formControl}>
+      <InputLabel id="demo-mutiple-chip-label">Columns</InputLabel>
+      <Select
+        labelId="demo-mutiple-chip-label"
+        id="demo-mutiple-chip"
+        multiple
+        value={col}
+        onChange={onChange}
+        input={<Input id="select-multiple-chip" />}
+        renderValue={selected => <div className={classes.chips}>
+            {selected.map(value => <Chip key={value} label={value} className={classes.chip} />)}
+          </div>
+        }
+        MenuProps={MenuProps}
+      >
+        {names.map(name => <MenuItem key={name} value={name}> {name} </MenuItem>)}
+      </Select>
+    </FormControl>
   );
 }
