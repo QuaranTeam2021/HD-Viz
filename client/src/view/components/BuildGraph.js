@@ -287,12 +287,12 @@ export default function BuildGraph({ defineStore }) {
               }} />}
             </div>
           </div>
-          <Link to="/visualization" >
+        </div>
+        <Link to="/visualization" >
             <div id="ButtonConfirm">
               {selectedInsert(insert) && <ButtonConfirm onClick={onClickConfirm} disabled={!confirm} />}
             </div>
-          </Link>
-        </div>
+        </Link>
       </div>
     </div>
   );

@@ -1,4 +1,7 @@
 import '../css/App.css';
+import '../css/Resp_1023px.css';
+import '../css/Resp_768px.css';
+import '../css/Resp_600px.css';
 import DistanceBasedGraphController, { DistanceBasedGraphControllerContext } from '../../controller/DistanceBasedGraphController';
 import FastmapController, { FastmapControllerContext } from '../../controller/FastmapController';
 import IsomapController, { IsomapControllerContext } from '../../controller/IsomapController';
@@ -49,8 +52,8 @@ const App = () => {
           <div className="App">
             <Router>
               <Header />
-              <ul>
-                <li><Link to="/">Cambia dati</Link></li>
+              <ul className="main_menu">
+                <li className="item_home"><Link to="/">Cambia dati</Link></li>
                 <li><Link to="/dataset">Gestisci dataset</Link></li>
                 <li><Link to="/help">Aiuto</Link></li>
               </ul>

@@ -59,6 +59,38 @@
   border-radius: 5px;
 }
 
+.main_menu {
+  list-style-type: none;
+  text-align: center;
+}
+
+.main_menu > li {
+  display: inline-block;
+  padding: 0.5em;
+}
+
+.main_menu > li a {
+  background-color: rgb(101, 101, 187);
+  color: white;
+  padding: 10px 20px;
+  text-decoration: none;
+  border-radius: 10px;
+}
+
+.main_menu > li a:hover {
+  background-color: rgb(144, 169, 223);
+}
+
+.item_home a {
+  background-color: rgb(109, 47, 109);
+  color: white;
+}
+
+.main_menu > li a:focus {
+  background-color: rgb(109, 47, 109);
+  color: white;
+}
+
 .button {
   font-size: 1em;
   padding: 0.5em 1em;
@@ -145,16 +177,13 @@
 
 /*colonne*/
 #colonne { 
-  margin-top: 1.5em;
-  display: inline-grid;
+  display: flex;
   grid-template-columns: auto auto;
 }
-
-#question { 
-  position: relative;
-  right: 2em;
-  bottom: 1em;
-} 
+.colonne fieldset {
+  margin-top: 1.5em;
+  margin-bottom: 0.5em;
+}
 
 /*algoritmi*/ 
 .dimensione{ 
@@ -168,6 +197,10 @@
   justify-content: center;
 }
 
+#selezione a {
+  text-decoration: none;
+}
+
 /* Gestione dataset*/ 
 #dataset{
   display: inline-grid;
@@ -175,22 +208,29 @@
   grid-gap: 1em 3em;
 }
 
-/* Responsive per schermi più piccoli */
-@media screen and (max-width:1023px) {
-  #impostazioni{
-    grid-template-columns: auto auto auto;
-  }
-} 
-
-
-@media screen and (max-width:768px) {
-  #impostazioni {
-    grid-template-columns: auto auto;
-  }
+.makeStyles-paper-4 {
+  top: 30%;
+  left: 30%;
+  width: 35%;
+  padding: 5px 15px;
 }
 
-@media screen and (max-width:600px) {
-  #impostazioni {
-    grid-template-columns: auto;
-  }
+.makeStyles-root-7 {
+  text-align: right;
+  float: right;
+}
+
+.MuiIconButton-root {
+  margin: 0px;
+  padding: 0;
+}
+
+/* posizione del box select del db colonne e tab */
+.MuiPaper-root.MuiMenu-paper.MuiPopover-paper.MuiPaper-elevation8.MuiPaper-rounded {
+  margin-left: 9em;
+  max-width: 150px;
+}
+
+#button {
+  text-align: center;
 }
