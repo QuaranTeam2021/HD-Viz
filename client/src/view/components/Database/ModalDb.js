@@ -70,7 +70,6 @@ export default function ModalDb() {
   const body = 
   <div className={classes.paper}>
       <ButtonCloseModalDb onClick={onClose}/> 
-      <h2 id="title">Database</h2>
       <div id="description">
         <SelectVizTable onChange={onChangeTableDb} tab={table}/>
         <SelectVizColumns onChange={onChangeColumnsDb} col={columns}/> 
