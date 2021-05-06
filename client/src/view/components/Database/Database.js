@@ -40,29 +40,22 @@ export default function Database() {
         controllerManager.upload(tableName ? tableName : insertDs.name, insertDs);
     };
 
-    const onChangeDeleteDs = e => {
-        setDeleteDs(e.target.value);
-    }
-
-    const onClickDelete = () => {
-        console.log('click')
+    const onClickDelete = idx => {
+        console.log('click');
+        console.log(idx);
         controllerManager.deleteTable(deleteDs);
+        setDeleteDs(list => list.filter((_d, i) => i !== idx))
     };
 
     return (
         <div>
             <AddDb onChange={onChangeInsertDs} fileName={insertDs.name} onChangeTableName={onChangeTableName} />
             <div id="dataset">
-                <FormControl component="fieldset">
-                <FormLabel component="legend">Colonne:</FormLabel>
-                <RadioGroup>
-                {
-                    datasets && datasets.map((d, i) => <FormControlLabel key={i} onChange={onChangeDeleteDs} control={<PurpleRadio />} label={d} value={d} />)
-                }
-                </RadioGroup>
-                </FormControl>
+            <>
+            {datasets.map((d, i) => <FormControlLabel key={i} control={<DeleteDb onClick={onClickDelete} />} label={d} value={d} />)}
+             </>
             </div>
-            <DeleteDb onClick={onClickDelete} />
-        </div>
+                
+         </div>
     );
 }
