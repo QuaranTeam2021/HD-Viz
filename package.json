@@ -8,17 +8,23 @@
     "dev": "nodemon src/index.js",
     "lint": "npx eslint src",
     "lint-client": "npx eslint client",
-    "test": "mocha './test/client/store' -r esm"
+    "test": "mocha --recursive -r core-js -r regenerator-runtime -r @babel/register"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@babel/core": "^7.14.0",
+    "@babel/preset-env": "^7.14.1",
+    "@babel/preset-react": "^7.13.13",
+    "@babel/register": "^7.13.16",
     "chai": "^4.3.0",
+    "core-js": "^3.12.0",
     "eslint": "^7.23.0",
     "eslint-plugin-mocha": "^8.0.0",
     "esm": "^3.2.25",
     "mocha": "^8.2.1",
-    "nodemon": "^2.0.7"
+    "nodemon": "^2.0.7",
+    "regenerator-runtime": "^0.13.7"
   },
   "dependencies": {
     "@saehrimnir/druidjs": "^0.3.10",
