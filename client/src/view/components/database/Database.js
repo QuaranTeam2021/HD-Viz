@@ -47,13 +47,12 @@ export default function Database() {
           return v === undefined ? insertDs.name : v.name;
       })
       setDisableName(v === undefined);
-      controllerManager.upload(tableName ? tableName : insertDs.name, insertDs);
     };
 
     const onClickDelete = idx => {
         console.log('click');
         console.log(idx);
-        controllerManager.deleteTable(deleteDs);
+        controllerManager.deleteTable(idx);
         setDeleteDs(list => list.filter((_d, i) => i !== idx))
     }; 
 
@@ -61,16 +60,13 @@ export default function Database() {
         setName(e.target.value);
       }; 
 
-      const optionsAddDs = useCallback(
-        () => {
-          let select; 
-          select = name !== "";
-          setDs(select);
-        },
-        [name]
-        );  
+    const optionsAddDs = useCallback(() => {
+        let select; 
+        select = name !== "";
+        setDs(select);
+    }, [name]);  
     
-     useEffect(() => {
+    useEffect(() => {
         optionsAddDs();
     }, [optionsAddDs]);  
  
@@ -79,6 +75,7 @@ export default function Database() {
           name 
         }; 
         formData.name = name; 
+        controllerManager.upload(formData.name, insertDs);
       });
       
 
@@ -87,10 +84,10 @@ export default function Database() {
             <ButtonAddDb onChange={onChangeInsertDs} onChangeTableName={onChangeTableName} />
             {console.log(insertDs.name)}
             <TextFieldAddDb onChangeName={onChangeName} fileName={insertDs.name} nameDs={name} disabled={disableName}/>
-            <ButtonConfirmAddDb onChange={onClickDs} disabled={!sentDataset} fileName={insertDs.name}/>
+            <ButtonConfirmAddDb onClick={onClickDs} disabled={!sentDataset} fileName={insertDs.name}/>
             <div id="dataset">
             <>
-            {datasets.map((d, i) => <FormControlLabel key={i} control={<DeleteDb onClick={onClickDelete} value={d} />} label={d} value={d} />)}
+            {datasets.map((d, i) => <FormControlLabel key={i} control={<DeleteDb onClick={onClickDelete} key={d} />} label={d} value={d} />)}
              </>
             </div>
                 
