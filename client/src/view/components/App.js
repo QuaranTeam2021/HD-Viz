@@ -54,7 +54,7 @@ const App = () => {
               <Header />
               <ul className="main_menu">
                 <li className="item_home"><Link to="/">Cambia dati</Link></li>
-                <li><Link to="/dataset">Gestisci dataset</Link></li>
+                <li><Link to="/dataset">Gestisci Database</Link></li>
                 <li><Link to="/help">Aiuto</Link></li>
               </ul>
               <Switch>
