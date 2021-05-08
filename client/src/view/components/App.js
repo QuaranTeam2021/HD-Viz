@@ -52,11 +52,13 @@ const App = () => {
           <div className="App">
             <Router>
               <Header />
-              <ul className="main_menu">
-                <li className="item_home"><Link to="/">Cambia dati</Link></li>
-                <li><Link to="/dataset">Gestisci dataset</Link></li>
-                <li><Link to="/help">Aiuto</Link></li>
-              </ul>
+              <div className="menu_div">
+                  <ul className="main_menu">
+                    <li className="item_home"><Link to="/">Cambia dati</Link></li>
+                    <li><Link to="/dataset">Gestisci dataset</Link></li>
+                    <li><Link to="/help">Aiuto</Link></li>
+                  </ul>
+              </div>
               <Switch>
                 <Route exact path="/">
                     <BuildGraph defineStore={defineStore} />
