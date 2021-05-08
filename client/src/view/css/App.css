@@ -6,20 +6,18 @@
   margin-top: 1rem;
   height: 5rem;
   pointer-events: none;
-  margin-bottom: 5rem;
+  margin-bottom: 2rem;
 }
 
-
 .App-header {
-  background-color: white;
-  min-height: 5vh;
-  display: flex;
-  flex-direction: column;
+  background-color: black;
+  min-height: 5em;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-  margin-bottom: -2em;
+}
+
+.menu_div {
+  background-color: black;
+  padding: 1em;
 }
 
 .App-link {
@@ -222,7 +220,7 @@
   margin-left: 8%;
 }
 
-.makeStyles-root-4 {
+.makeStyles-root-10 {
   margin-left: 40%;
 }
 .makeStyles-paper-4 {
@@ -252,4 +250,15 @@
   text-align: center;
 }
 
+/* div aggiungi dataset */
+.dataset_div {
+  margin-top: 1em;
+}
 
+.makeStyles-root-2, .makeStyles-root-3, #buttonConfirmAddDb {
+  display: inline;
+}
+
+#buttonConfirmAddDb button {
+  padding: 14px;
+}

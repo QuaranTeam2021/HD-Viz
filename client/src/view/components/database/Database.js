@@ -72,7 +72,7 @@ export default function Database() {
 
 
     return (
-        <div>
+        <div className="dataset_div">
             <ButtonAddDb onChange={onChangeInsertDs} onChangeTableName={onChangeTableName} />
             <TextFieldAddDb onChangeName={onChangeName} fileName={insertDs.name} nameDs={name} disabled={disableName} />
             <ButtonConfirmAddDb onChange={onClickDs} disabled={!sentDataset} fileName={insertDs.name} />
