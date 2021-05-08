@@ -201,13 +201,30 @@
   text-decoration: none;
 }
 
-/* Gestione dataset*/ 
-#dataset{
-  display: inline-grid;
-  grid-template-columns: auto auto;
-  grid-gap: 1em 3em;
+/* Gestione dataset*/
+#dataset {
+  display: grid;
+  grid-template-columns: auto;
+  margin-top: 1em;
+} 
+
+#dataset label {
+  text-align: center;
+  cursor: default;
 }
 
+#dataset button {
+  cursor: pointer;
+}
+
+/* Lista dataset */
+.MuiTypography-root.MuiFormControlLabel-label.MuiTypography-body1 {
+  margin-left: 8%;
+}
+
+.makeStyles-root-4 {
+  margin-left: 40%;
+}
 .makeStyles-paper-4 {
   top: 30%;
   left: 30%;
@@ -234,3 +251,5 @@
 #button {
   text-align: center;
 }
+
+
