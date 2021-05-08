@@ -8,8 +8,6 @@ import DeleteDb from './DeleteDb';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import TextFieldAddDb from './TextFieldAddDb';
 
-const controllerManager = new DatabaseManagerController();
-
 export default function Database() {
     const controllerManager = new DatabaseManagerController();
     const tablesController = new DatabaseTablesController();
@@ -61,6 +59,7 @@ export default function Database() {
         }));
 
         if (deletedTable !== "")
+            console.log(deletedTable)
             controllerManager.deleteTable(deletedTable);
     };
 
@@ -91,10 +90,10 @@ export default function Database() {
         <div>
             <ButtonAddDb onChange={onChangeInsertDs} onChangeTableName={onChangeTableName} />
             <TextFieldAddDb onChangeName={onChangeName} fileName={insertDs.name} nameDs={name} disabled={disableName} />
-            <ButtonConfirmAddDb onChange={onClickDs} disabled={!sentDataset} fileName={insertDs.name} />
+            <ButtonConfirmAddDb onClick={onClickDs} disabled={!sentDataset} fileName={insertDs.name} />
             <div id="dataset">
                 <>
-                    {datasets.map((d, i) => <FormControlLabel key={i} control={<DeleteDb onClickDelete={onClickDelete} idx={i} />} label={d} value={d} />)}
+                    {datasets !== undefined && datasets.map((d, i) => <FormControlLabel key={i} control={<DeleteDb onClickDelete={onClickDelete} idx={i} />} label={d} value={d} />)}
                 </>
             </div>
 
