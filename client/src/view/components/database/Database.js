@@ -8,35 +8,25 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 export default function Database() {
     const controllerManager = new DatabaseManagerController();
     const tablesController = new DatabaseTablesController();
-
-    // **********************************************************************
-
-    /* 
-    OLD: const [datasets] = useState(['prova']); // <--controllerManager.getTablesName();
-    Ho importato useEffect e aggiunto le cose presenti tra i due commenti.
-    Funziona.
-    */
-
     const [datasets, setDatasets] = useState([]);
+    const [tableName, setTableName] = useState('');
+    const [insertDs, setInsertDs] = useState([]);
+    const [deleteDs, setDeleteDs] = useState([]);
 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     const getTabNames = async () => {
         try {
             const tables = await tablesController.getTablesNames();
-            setDatasets(['tab1', 'tab2']);
+            setDatasets(tables);
         } catch (err) {
+            setDatasets([]);
             console.log(err.message);
         }
     }
 
     useEffect(() => {
         getTabNames();
-    });
-    // **********************************************************************
-
-
-    const [tableName, setTableName] = useState('');
-    const [insertDs, setInsertDs] = useState([]);
-    const [deleteDs, setDeleteDs] = useState([]);
+    }, []);
 
     const onChangeTableName = e => {
         setTableName(e.target.value);
@@ -50,11 +40,11 @@ export default function Database() {
         controllerManager.upload(tableName ? tableName : insertDs.name, insertDs);
     };
 
-    const onClickDelete = table => {
+    const onClickDelete = d => {
         console.log('click');
-        console.log(table);
-        controllerManager.deleteTable(table);
-        setDeleteDs(list => list.filter(d => d !== table))
+        console.log(d);
+        controllerManager.deleteTable(d);
+        setDeleteDs(list => list.filter((_d, i) => i !== d))
     };
 
     return (
@@ -62,7 +52,7 @@ export default function Database() {
             <AddDb onChange={onChangeInsertDs} fileName={insertDs.name} onChangeTableName={onChangeTableName} />
             <div id="dataset">
             <>
-            {datasets.map((d, i) => <FormControlLabel key={i} control={<DeleteDb onClick={onClickDelete(d)} />} label={d} value={d} />)}
+            {datasets.map((d, i) => <FormControlLabel key={i} control={<DeleteDb onClick={onClickDelete} value={d} />} label={d} value={d} />)}
              </>
             </div>
                 

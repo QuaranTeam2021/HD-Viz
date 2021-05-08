@@ -31,19 +31,20 @@ export default function ModalDb() {
   const loaderController = new DatabaseLoaderController(store);
   const tablesController = new DatabaseTablesController();
 
-  const getTabNames = async table => {
+  const getColsNames = async table => {
     try {
         const tables = await tablesController.getTableColumnsNames(table);
         console.log(tables)
         setTableColumns(tables);
     } catch (err) {
         console.log(err.message);
+        setTableColumns([])
     }
   }
 
   useEffect(() => {
-    getTabNames();
-  });
+    getColsNames();
+  }, []);
 
   const onOpen = () => {
     setOpen(true);
@@ -59,7 +60,7 @@ export default function ModalDb() {
 
   const onChangeTableDb = e => {
     setselectedTable(e.target.value);
-    getTabNames(e.target.value);
+    getColsNames(e.target.value);
   }
   
   const optionsSelected = useCallback(

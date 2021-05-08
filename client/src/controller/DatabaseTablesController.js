@@ -14,8 +14,7 @@ export default class DatabaseTablesController {
             const jsonData = await response.json();
             let tables = [];
             jsonData.forEach(e => tables.push(Object.values(e)));
-            tables = tables.flat();
-            console.log(tables)
+            if (tables.length !== 0) tables = tables.flat();
             return tables;
         } catch (err) {
             return err.message;
@@ -30,8 +29,8 @@ export default class DatabaseTablesController {
             const jsonData = await response.json();
             let columns = [];
             columns.push(Object.keys(jsonData[0]));
-            columns = columns.flat();
-            return columns ? columns : [];
+            if (columns.length !== 0) columns = columns.flat();
+            return columns;
         } catch (err) {
             return err.message;
         }

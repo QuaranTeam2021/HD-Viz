@@ -9,21 +9,6 @@ export default class DatabaseLoaderController {
         this.port = 5000;
     }
 
-    async getTablesNames() {
-        try {
-            const response = await fetch(`http://localhost:${this.port}/tables/list`, {
-                headers: { "authorization": `Bearer ${token}` }
-            });
-            const jsonData = await response.json();
-            let tables = [];
-            jsonData.forEach(e => tables.push(Object.values(e)));
-            tables = tables.flat();
-            return tables;
-        } catch (err) {
-            return err.message;
-        }
-    }
-
     async loadTable(table) {
         try {
             const response = await fetch(`http://localhost:${this.port}/tables/${table}`, {

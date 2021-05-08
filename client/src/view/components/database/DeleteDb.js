@@ -16,7 +16,7 @@ export default function DeleteDb({ onClick }) {
   const classes = useStyles();
    return (
     <div className={classes.root}>
-      <IconButton aria-label="delete" onClick={onClick}>
+      <IconButton aria-label="delete" onClick={onClick} >
         <DeleteIcon />
       </IconButton>
     </div>
