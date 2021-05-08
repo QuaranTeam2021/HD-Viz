@@ -1,4 +1,3 @@
-
 import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
 import { makeStyles } from '@material-ui/core/styles';
@@ -18,10 +17,9 @@ export default function TextFieldAddDb({onChangeName, nameDs, fileName, disabled
 
   return (
     <form className={classes.root} noValidate autoComplete="off">
-        {console.log(name)}
-      <FormControl variant="outlined">
+      <FormControl variant="outlined" >
         <InputLabel htmlFor="component-outlined">Name</InputLabel>
-        <OutlinedInput id="component-outlined" value={nameDs} onChange={onChangeName} label="Name" disabled={disabled} placeholder={fileName} />
+        <OutlinedInput id="component-outlined" onChange={onChangeName} label="Name" placeholder={fileName} value={nameDs} disabled={disabled} />
       </FormControl>
     </form>
   );
