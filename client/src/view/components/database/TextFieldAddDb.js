@@ -1,8 +1,6 @@
-import FormControl from '@material-ui/core/FormControl';
-import InputLabel from '@material-ui/core/InputLabel';
 import { makeStyles } from '@material-ui/core/styles';
-import OutlinedInput from '@material-ui/core/OutlinedInput';
 import React from 'react';
+import TextField from '@material-ui/core/TextField';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -12,15 +10,28 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function TextFieldAddDb({onChangeName, nameDs, fileName, onBlur, disabled}) {
+const handleSubmit = (event, error) => {
+  if (error)
+    event.preventDefault();
+}
+
+export default function TextFieldAddDb({onChangeName, nameDs, fileName, onBlur, disabled, error}) {
   const classes = useStyles();
 
   return (
-    <form className={classes.root} noValidate autoComplete="off">
-      <FormControl variant="outlined" >
-        <InputLabel htmlFor="component-outlined">Name</InputLabel>
-        <OutlinedInput id="component-outlined" onChange={onChangeName} label="Name" placeholder={fileName} value={nameDs} onBlur={onBlur} disabled={disabled} />
-      </FormControl>
+    <form className={classes.root} autoComplete="off" onSubmit={e => handleSubmit(e, error)}>
+      <TextField
+        variant="outlined"
+        label="Nome"
+        id="dataset-name"
+        onChange={onChangeName}
+        placeholder={fileName}
+        value={nameDs}
+        onBlur={onBlur}
+        disabled={disabled}
+        error={error}
+        helperText={error ? "Nome non valido: rimuovi spazi e caratteri speciali" : undefined}
+      />
     </form>
   );
 }

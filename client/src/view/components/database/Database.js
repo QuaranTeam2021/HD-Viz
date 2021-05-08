@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import ButtonAddDb from './ButtonAddDb';
 import ButtonConfirmAddDb from './ButtonConfirmAddDb';
 import DatabaseManagerController from '../../../controller/DatabaseManagerController';
@@ -14,6 +14,7 @@ export default function Database() {
     const [insertDs, setInsertDs] = useState({});
     const [disableName, setDisableName] = useState(true);
     const [name, setName] = useState("");
+    const [nameError, setNameError] = useState(false);
 
     const onChangeTableName = e => {
         setTableName(e.target.value);
@@ -47,7 +48,9 @@ export default function Database() {
     };
 
     const onChangeName = e => {
-        setName(e.target.value);
+        let n = e.target.value;
+        setName(n);
+        setNameError(n.search(/[`"'\s\\;]/gu) !== -1);
     };
 
     const onBlurName = () => {
@@ -63,8 +66,8 @@ export default function Database() {
     return (
         <div>
             <ButtonAddDb onChange={onChangeInsertDs} onChangeTableName={onChangeTableName} />
-            <TextFieldAddDb onChangeName={onChangeName} fileName={insertDs.name} nameDs={name} onBlur={onBlurName} disabled={disableName} />
-            {insertDs.name !== undefined && <ButtonConfirmAddDb onChange={onClickDs} fileName={insertDs.name} />}
+            <TextFieldAddDb onChangeName={onChangeName} fileName={insertDs.name} nameDs={name} onBlur={onBlurName} disabled={disableName} error={nameError} />
+            {insertDs.name !== undefined && <ButtonConfirmAddDb onChange={onClickDs} fileName={insertDs.name} disabled={nameError} />}
             <div id="dataset">
                 <>
                     {datasets.map((d, i) => <FormControlLabel key={i} control={<DeleteDb onClickDelete={onClickDelete} idx={i} />} label={d} value={d} />)}
