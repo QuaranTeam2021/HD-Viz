@@ -16,7 +16,7 @@ import UmapController, { UmapControllerContext } from '../../controller/UmapCont
 import BuildGraph from './BuildGraph';
 import Database from './database/Database';
 import Header from './Header';
-import Vizualization from './Vizualization';
+import Visualization from './Visualization';
 
 const store = new Store();
 const localLoaderController = new LocalLoaderController(store);
@@ -62,7 +62,7 @@ const App = () => {
                     <BuildGraph defineStore={defineStore} />
                 </Route>
                 <Route path="/visualization">
-                  { storeDefined ? <Vizualization onDelete={idx => console.log(`Eliminato ${idx}`)} key={i} index={i} /> : <Redirect to="/" /> }
+                  { storeDefined ? <Visualization onDelete={idx => console.log(`Eliminato ${idx}`)} key={i} index={i} /> : <Redirect to="/" /> }
                 </Route>
                 <Route path="/dataset">
                   <Database />
