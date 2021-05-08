@@ -65,9 +65,11 @@ export default function Database() {
 
     return (
         <div className="dataset_div">
-            <ButtonAddDb onChange={onChangeInsertDs} onChangeTableName={onChangeTableName} />
-            <TextFieldAddDb onChangeName={onChangeName} fileName={insertDs.name} nameDs={name} onBlur={onBlurName} disabled={disableName} error={nameError} />
-            {insertDs.name !== undefined && <ButtonConfirmAddDb onChange={onClickDs} fileName={insertDs.name} disabled={nameError} />}
+            <div id="completeFormInsertDataset">
+                <ButtonAddDb onChange={onChangeInsertDs} onChangeTableName={onChangeTableName} />
+                <TextFieldAddDb onChangeName={onChangeName} fileName={insertDs.name} nameDs={name} onBlur={onBlurName} disabled={disableName} error={nameError} />
+                {insertDs.name !== undefined && <ButtonConfirmAddDb onChange={onClickDs} fileName={insertDs.name} disabled={nameError} />}
+            </div>
             <div id="dataset">
                 <>
                     {datasets.map((d, i) => <FormControlLabel key={i} control={<DeleteDb onClickDelete={onClickDelete} idx={i} />} label={d} value={d} />)}

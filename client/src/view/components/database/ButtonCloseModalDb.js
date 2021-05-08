@@ -16,7 +16,7 @@ export default function ButtonCloseModalDb({onClick}) {
   const classes = useStyles();
 
   return (
-    <div className={classes.root}>
+    <div id="buttonCloseDb" className={classes.root}>
       <IconButton aria-label="close" onClick={onClick}>
         <CloseIcon />
       </IconButton>

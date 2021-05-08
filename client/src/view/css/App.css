@@ -203,7 +203,7 @@
 #dataset {
   display: grid;
   grid-template-columns: auto;
-  margin-top: 1em;
+  margin-top: 1.2em;
 } 
 
 #dataset label {
@@ -216,23 +216,28 @@
 }
 
 /* Lista dataset */
-.MuiTypography-root.MuiFormControlLabel-label.MuiTypography-body1 {
+#dataset label span {
   margin-left: 8%;
 }
 
-.makeStyles-root-10 {
+#dataset label div {
   margin-left: 40%;
 }
-.makeStyles-paper-4 {
+
+#db_div {
   top: 30%;
   left: 30%;
   width: 35%;
   padding: 5px 15px;
 }
 
-.makeStyles-root-7 {
+#buttonCloseDb {
   text-align: right;
   float: right;
+}
+
+.MuiButtonBase-root.MuiIconButton-root.MuiIconButton-colorPrimary {
+  margin-top: 0.3em;
 }
 
 .MuiIconButton-root {
@@ -255,7 +260,15 @@
   margin-top: 1em;
 }
 
-.makeStyles-root-2, .makeStyles-root-3, #buttonConfirmAddDb {
+#completeFormInsertDataset {
+  height: 6em;
+}
+
+.MuiFormControl-root.MuiTextField-root {
+  width: 28%;
+}
+
+#insertdataset, #formInsertDataset, #buttonConfirmAddDb {
   display: inline;
 }
 

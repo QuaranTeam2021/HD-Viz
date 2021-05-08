@@ -19,7 +19,7 @@ export default function TextFieldAddDb({onChangeName, nameDs, fileName, onBlur, 
   const classes = useStyles();
 
   return (
-    <form className={classes.root} autoComplete="off" onSubmit={e => handleSubmit(e, error)}>
+    <form id="formInsertDataset" className={classes.root} autoComplete="off" onSubmit={e => handleSubmit(e, error)}>
       <TextField
         variant="outlined"
         label="Nome"
