@@ -22,7 +22,7 @@ export default function Database() {
     const getTabNames = async () => {
         try {
             const tables = await tablesController.getTablesNames();
-            setDatasets(tables);
+            setDatasets(['tab1', 'tab2']);
         } catch (err) {
             console.log(err.message);
         }
@@ -50,11 +50,11 @@ export default function Database() {
         controllerManager.upload(tableName ? tableName : insertDs.name, insertDs);
     };
 
-    const onClickDelete = idx => {
+    const onClickDelete = table => {
         console.log('click');
-        console.log(idx);
-        controllerManager.deleteTable(deleteDs);
-        setDeleteDs(list => list.filter((_d, i) => i !== idx))
+        console.log(table);
+        controllerManager.deleteTable(table);
+        setDeleteDs(list => list.filter(d => d !== table))
     };
 
     return (
@@ -62,7 +62,7 @@ export default function Database() {
             <AddDb onChange={onChangeInsertDs} fileName={insertDs.name} onChangeTableName={onChangeTableName} />
             <div id="dataset">
             <>
-            {datasets.map((d, i) => <FormControlLabel key={i} control={<DeleteDb onClick={onClickDelete} />} label={d} value={d} />)}
+            {datasets.map((d, i) => <FormControlLabel key={i} control={<DeleteDb onClick={onClickDelete(d)} />} label={d} value={d} />)}
              </>
             </div>
                 
