@@ -65,7 +65,7 @@ const switchArguments = graph => {
 	}
 }
 
-export default function Vizualization({ algoritmoGrafico, tipoGrafico, distanzaGrafico, onDelete, index }) {
+export default function Visualization({ algoritmoGrafico, tipoGrafico, distanzaGrafico, onDelete, index }) {
 	const store = useStore();
 	
 	return (
