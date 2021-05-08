@@ -12,14 +12,14 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function TextFieldAddDb({onChangeName, nameDs, fileName, disabled}) {
+export default function TextFieldAddDb({onChangeName, nameDs, fileName, onBlur, disabled}) {
   const classes = useStyles();
 
   return (
     <form className={classes.root} noValidate autoComplete="off">
       <FormControl variant="outlined" >
         <InputLabel htmlFor="component-outlined">Name</InputLabel>
-        <OutlinedInput id="component-outlined" onChange={onChangeName} label="Name" placeholder={fileName} value={nameDs} disabled={disabled} />
+        <OutlinedInput id="component-outlined" onChange={onChangeName} label="Name" placeholder={fileName} value={nameDs} onBlur={onBlur} disabled={disabled} />
       </FormControl>
     </form>
   );
