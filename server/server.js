@@ -1,5 +1,4 @@
 const cors = require("cors");
-require("dotenv").config();
 const express = require("express");
 const fileUpload = require('express-fileupload');
 const jwt = require("jsonwebtoken");
@@ -27,7 +26,7 @@ app.post('/login', (req, res) => {
     const user = { name: username };
 
     console.log(user);
-    const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET);
+    const accessToken = jwt.sign(user, "secret");
     res.json({ accessToken })
 });
 
@@ -38,7 +37,7 @@ function authenticateToken(req, res, next) {
     const token = authHeader && authHeader.split(' ')[1];
     if (token == null) return res.sendStatus(401);
 
-    jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
+    jwt.verify(token, "secret", (err, user) => {
         if (err) return res.sendStatus(403);
         req.user = user;
         next();
