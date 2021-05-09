@@ -18,7 +18,6 @@ export default function Database() {
     const [name, setName] = useState("");
     const [sentDataset, setDs] = useState([]);
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     const getTabNames = async () => {
         try {
             const tables = await tablesController.getTablesNames();

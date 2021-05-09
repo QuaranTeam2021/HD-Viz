@@ -24,25 +24,36 @@ export default function ModalDb() {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
   const [selectedColumns, setSelectedColumns] = useState([]);
-  const [selectedTable, setselectedTable] = useState(''); 
+  const [selectedTable, setSelectedTable] = useState(''); 
   const [sent, sentDb] = useState([]); 
-  const [tableColumns, setTableColumns] = useState();
+
+  const [datasetsDb, setDatasetsDb] = useState();
+  const [tableColumnsDb, setTableColumnsDb] = useState();
   const store = useStore();
   const loaderController = new DatabaseLoaderController(store);
   const tablesController = new DatabaseTablesController();
 
-  const getColsNames = async table => {
+  const getTabNames = async () => {
     try {
-        const tables = await tablesController.getTableColumnsNames(table);
-        console.log(tables)
-        setTableColumns(tables);
+        const tables = await tablesController.getTablesNames();
+        setDatasetsDb(tables);
+    } catch (err) {
+        setDatasetsDb([]);
+        console.log(err.message);
+    }
+  }
+
+  const getColsNames = async () => {
+    try {
+        const cols = await tablesController.getTableColumnsNames(selectedTable);
+        setTableColumnsDb(cols);
     } catch (err) {
         console.log(err.message);
-        setTableColumns([])
     }
   }
 
   useEffect(() => {
+    getTabNames();
     getColsNames();
   }, []);
 
@@ -59,44 +70,41 @@ export default function ModalDb() {
   };
 
   const onChangeTableDb = e => {
-    setselectedTable(e.target.value);
-    getColsNames(e.target.value);
+    setSelectedTable(e.target.value);
+    getColsNames();
   }
   
-  const optionsSelected = useCallback(
-    () => {
-      let select; 
-      select = selectedColumns !== [];
-      select = select && selectedTable !== "";  
-      sentDb(select);
-    },
-    [selectedColumns, selectedTable]
-    );  
+  const optionsSelected = useCallback(() => {
+    let select; 
+    select = selectedColumns !== [];
+    select = select && selectedTable !== "";  
+    sentDb(select);
+  }, [selectedColumns, selectedTable]);  
   
-    useEffect(() => {
-      optionsSelected();
-    }, [optionsSelected]); 
+  useEffect(() => {
+    optionsSelected();
+  }, [optionsSelected]); 
 
-    const onClickSent = action(() => {
-      let formData = {
-        selectedColumns,
-        selectedTable 
-      }; 
-      formData.table = selectedTable; 
-      formData.columns = selectedColumns; 
-      if (selectedColumns.length === 0 || selectedColumns.length === tableColumns.length)
-        loaderController.loadTable(formData.table);
-      else
-        loaderController.loadTableCols(selectedTable, selectedColumns);
-      onClose();
-    });
+  const onClickSent = action(() => {
+    let formData = {
+      selectedColumns,
+      selectedTable 
+    }; 
+    formData.table = selectedTable; 
+    formData.columns = selectedColumns; 
+    if (selectedColumns.length === 0)
+      loaderController.loadTable(selectedTable);
+    else
+      loaderController.loadTableCols(selectedTable, selectedColumns);
+    onClose();
+  });
   
   const body = 
   <div className={classes.paper}>
       <ButtonCloseModalDb onClick={onClose}/> 
       <div id="description">
-        <SelectVizTable onChange={onChangeTableDb} tab={selectedTable}/>
-        <SelectVizColumns onChange={onChangeColumnsDb} col={selectedColumns} tableColumns={tableColumns}/> 
+        <SelectVizTable onChange={onChangeTableDb} tables={datasetsDb}/>
+        <SelectVizColumns onChange={onChangeColumnsDb} columns={tableColumnsDb} /> 
         <ButtonConfirmDb onClick={onClickSent} disabled={!sent} />
       </div>   
     </div>

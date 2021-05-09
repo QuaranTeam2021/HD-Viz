@@ -39,7 +39,7 @@ const MenuProps = {
   },
 };
 
-export default function MultipleSelectColumns({ onChange, col, tableColumns}) {
+export default function MultipleSelectColumns({ onChange, columns}) {
   const classes = useStyles();
   
   return (
@@ -49,7 +49,7 @@ export default function MultipleSelectColumns({ onChange, col, tableColumns}) {
         labelId="demo-mutiple-chip-label"
         id="demo-mutiple-chip"
         multiple
-        value={col}
+        value={columns}
         onChange={onChange}
         input={<Input id="select-multiple-chip" />}
         renderValue={selected => <div className={classes.chips}>
@@ -58,7 +58,7 @@ export default function MultipleSelectColumns({ onChange, col, tableColumns}) {
         }
         MenuProps={MenuProps}
       >
-        {tableColumns.map((column, i) => <MenuItem key={i} value={column}> {column} </MenuItem>)}
+        {columns && columns.map((column, i) => <MenuItem key={i} value={column}> {column} </MenuItem>)}
       </Select>
     </FormControl>
   );

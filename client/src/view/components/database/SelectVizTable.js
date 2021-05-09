@@ -1,9 +1,8 @@
-import React, {useEffect, useState } from 'react';
-import DatabaseTablesController from '../../../controller/DatabaseTablesController';
 import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
 import { makeStyles } from '@material-ui/core/styles';
 import MenuItem from '@material-ui/core/MenuItem';
+import React from 'react';
 import Select from '@material-ui/core/Select';
 
 const useStyles = makeStyles(theme => ({
@@ -16,23 +15,8 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function SimpleSelect({onChange, tab}) {
+export default function SimpleSelect({onChange, tables}) {
   const classes = useStyles();
-  const tablesController = new DatabaseTablesController();
-  const [databaseTables, setDatabaseTables] = useState(['tab1', 'tab2', 'tab3']);
-
-/*  const getTabNames = async () => {
-    try {
-        const tables = await tablesController.getTablesNames();
-        setDatabaseTables(tables);
-    } catch (err) {
-        console.log(err.message);
-    }
-  }
-
-  useEffect(() => {
-    getTabNames();
-  });*/
 
   return (
     <div>
@@ -41,9 +25,8 @@ export default function SimpleSelect({onChange, tab}) {
         <Select
           labelId="demo-simple-select-label"
           id="demo-simple-select"
-          value={tab}
           onChange={onChange}>
-          { databaseTables && databaseTables.map((v, i) => <MenuItem value={v} key={i}>{v}</MenuItem>) }
+          { tables && tables.map((v, i) => <MenuItem value={v} key={i}>{v}</MenuItem>) }
         </Select>
       </FormControl>
     </div>

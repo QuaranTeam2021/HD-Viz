@@ -29,7 +29,7 @@ export default class DatabaseTablesController {
             });
             const jsonData = await response.json();
             let columns = [];
-            columns.push(Object.keys(jsonData[0]));
+            jsonData.forEach(el => columns.push(el.column_name));
             if (columns.length !== 0) columns = columns.flat();
             return columns;
         } catch (err) {
