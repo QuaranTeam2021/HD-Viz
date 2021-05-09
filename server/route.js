@@ -5,7 +5,7 @@ const router = express.Router();
 const client = require("./db");
 
 // get tables names
-router.get("/list", async(req, res) => {
+router.get("/tableslist", async(req, res) => {
     try {
         const data = await client.query(`SELECT table_name FROM information_schema.tables WHERE table_schema='public'`);
         res.json(data.rows);
@@ -17,7 +17,7 @@ router.get("/list", async(req, res) => {
 });
 
 // get table columns names
-router.get("/:table/columnsnames", async(req, res) => {
+router.get("/getcolnames/:table", async(req, res) => {
     try {
         const { table } = req.params;
         const data = await client.query(`SELECT column_name, data_type FROM information_schema.columns WHERE table_name = '${table}';`);
@@ -30,7 +30,7 @@ router.get("/:table/columnsnames", async(req, res) => {
 });
 
 // get table content
-router.get("/:table", async(req, res) => {
+router.get("/getcontent/:table", async(req, res) => {
     try {
         const { table } = req.params;
         const data = await client.query(`SELECT * FROM ${table}`);
@@ -43,7 +43,7 @@ router.get("/:table", async(req, res) => {
 });
 
 // get selected columns
-router.post("/selectedcol/:table", async (req, res) => {
+router.post("/getselectedcol/:table", async (req, res) => {
     try{
         const { table } = req.params;
         const { features } = req.body;
@@ -179,7 +179,7 @@ router.post('/upload/:table', (req, res) => {
 });
 
 // delete table
-router.delete("/:table", async (req, res) => {
+router.delete("/delete/:table", async (req, res) => {
     try {
         const { table } = req.params;
         await client.query(`DROP TABLE ${table};`);

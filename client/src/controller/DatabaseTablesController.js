@@ -1,4 +1,4 @@
-const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2MTk0NDQzMjB9.OhXJ3Rhs2I7SW1KzmHEtz9I-Zxpy5KZhDtrOaURpZRQ";
+const token = "";
 
 export default class DatabaseTablesController {
 
@@ -8,7 +8,7 @@ export default class DatabaseTablesController {
 
     async getTablesNames() {
         try {
-            const response = await fetch(`http://localhost:${this.port}/tables/list`, {
+            const response = await fetch(`http://localhost:${this.port}/api/tableslist`, {
                 headers: { "authorization": `Bearer ${token}` }
             });
             const jsonData = await response.json();
@@ -24,7 +24,7 @@ export default class DatabaseTablesController {
 
     async getTableColumnsNames(table) {
         try {
-            const response = await fetch(`http://localhost:${this.port}/tables/${table}/columnsnames`, {
+            const response = await fetch(`http://localhost:${this.port}/api/getcolnames/${table}`, {
                 headers: { "authorization": `Bearer ${token}` }
             });
             const jsonData = await response.json();

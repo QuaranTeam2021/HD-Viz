@@ -16,8 +16,8 @@ app.use(fileUpload({
     createParentPath: true
 }));
 
-// app.use('/tables', authenticateToken, router);
-app.use('/tables', router);
+// app.use('/api', authenticateToken, router);
+app.use('/api', router);
 
 app.post('/login', (req, res) => {
     // Authentication Mock User

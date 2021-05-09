@@ -1,4 +1,4 @@
-const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2MTk0NDQzMjB9.OhXJ3Rhs2I7SW1KzmHEtz9I-Zxpy5KZhDtrOaURpZRQ";
+const token = "";
 
 export default class DatabaseManagerController {
 
@@ -12,7 +12,7 @@ export default class DatabaseManagerController {
                 const formData = new FormData();
                 formData.append("uploadedFile", file);
         
-                const response = await fetch(`http://localhost:${this.port}/tables/upload/${table}`, {
+                const response = await fetch(`http://localhost:${this.port}/api/upload/${table}`, {
                     body: formData,
                     headers: { "authorization": `Bearer ${token}` },
                     method: "POST"
@@ -27,7 +27,7 @@ export default class DatabaseManagerController {
 
     async deleteTable(table) {
         try {
-            const delTable = await fetch(`http://localhost:${this.port}/tables/${table}`, { 
+            const delTable = await fetch(`http://localhost:${this.port}/api/delete/${table}`, { 
                 headers: { "authorization": `Bearer ${token}` },
                 method: "DELETE"
             });
