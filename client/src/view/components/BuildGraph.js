@@ -7,7 +7,6 @@ import Insert from './startUpOptions/chooseDataset/Insert';
 import ISOMAPLLEfeatures from './algorithms/ISOMAPLLEfeatures';
 import { Link } from 'react-router-dom';
 import ModalDb from './database/ModalDb';
-import PCAfeatures from './algorithms/PCAfeatures';
 import RadioAlgorithm from './algorithms/RadioAlgorithm';
 import RadioDistance from './startUpOptions/RadioDistance';
 import RadioGraphType from './startUpOptions/RadioGraphType';
@@ -85,7 +84,7 @@ export default function BuildGraph({ defineStore }) {
     if (needsDistance(selectedGraph) || needsDistance(selectedAlgorithm))
       allSelected = allSelected && distanza !== "";
     if (needsAlgorithm(selectedGraph)) {
-      if (["PCA", "UMAP", "ISOMAP", "LLE", "FASTMAP", "T-SNE", "none"].includes(selectedAlgorithm))
+      if (["UMAP", "ISOMAP", "LLE", "FASTMAP", "T-SNE", "none"].includes(selectedAlgorithm))
         allSelected = allSelected && size >= 2 && size <= 10;
       else
         allSelected = false;
@@ -190,7 +189,7 @@ export default function BuildGraph({ defineStore }) {
 
   let showDimMode = {};
 
-  if (["PCA"].includes(selectedAlgorithm)) {
+  if (["none"].includes(selectedAlgorithm)) {
     showDimMode.display = "initial";
   }
 
@@ -216,12 +215,6 @@ export default function BuildGraph({ defineStore }) {
           {["scptMat", "malp", "scp"].includes(selectedGraph) && <RadioAlgorithm onChange={onChangeAlgorithm} />}
           {needsDistance(selectedGraph) && <RadioDistance onChange={onChangeDistanza} distanza={distanza} />}
           <div id="FeaturesAlgorithm">
-            <div style={showDimMode} className="dimensione">
-              {needsAlgorithm(selectedGraph) && ["PCA"].includes(selectedAlgorithm) && <PCAfeatures attributes={{
-                onChangeSize,
-                size
-              }} />}
-            </div>
             <div id="FeaturesAlgorithm2">
               {needsAlgorithm(selectedGraph) && ["ISOMAP", "LLE"].includes(selectedAlgorithm) && <ISOMAPLLEfeatures attributes={{
                 d: {

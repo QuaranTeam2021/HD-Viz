@@ -35,7 +35,6 @@ export default function RadioAlgorithm({ onChange }) {
         <FormLabel component="legend" >Algoritmo: </FormLabel>
         <RadioGroup aria-label="position" name="position" onChange={onChange}>
           <FormControlLabel value="none" control={<PurpleRadio color="primary" />} label="Nessuna riduzione" />
-          <FormControlLabel value="PCA" control={<PurpleRadio color="primary" />} label="PCA" />
           <FormControlLabel value="UMAP" control={<PurpleRadio color="primary" />} label="UMAP" />
           <FormControlLabel value="FASTMAP" control={<PurpleRadio color="primary" />} label="FASTMAP" />
           <FormControlLabel value="ISOMAP" control={<PurpleRadio color="primary" />} label="ISOMAP" />

@@ -58,7 +58,6 @@ export default function FeaturesGraph({ onDelete, i}) {
             <FormControl className={classes.formControl}>
                 <InputLabel id="demo-simple-select-label">Modifica l&apos;algoritmo</InputLabel>
                 <Select labelId="demo-simple-select-label" id="demo-simple-select" value={value} onChange={handleChange}>
-                    <MenuItem value={'PCA'}>PCA</MenuItem>
                     <MenuItem value={'FASTMAP'}>FASTMAP</MenuItem>
                     <MenuItem value={'LLE'}>LLE</MenuItem>
                     <MenuItem value={'ISOMAP'}>ISOMAP</MenuItem>
