@@ -20,12 +20,25 @@ router.get("/tableslist", async(req, res) => {
 router.get("/getcolnames/:table", async(req, res) => {
     try {
         const { table } = req.params;
-        const data = await client.query(`SELECT column_name, data_type FROM information_schema.columns WHERE table_name = '${table}';`);
-        res.json(data.rows);
+
+        if(table === undefined || table === null) {
+            console.log(`Empty table parameter passed`);
+            res.status(400).send(`Empty table parameter passed`);
+        }
+        else {
+            const data = await client.query(`SELECT column_name, data_type FROM information_schema.columns WHERE table_name = '${table}';`);
+            
+            if(data.rowCount == 0) {
+                console.log(`table ${table} doesn't exist => `, data.rows)
+                res.status(404).send(`Server error: table ${table} doesn't exist`);
+            } 
+            else
+                res.json(data.rows);
+        }
     } 
     catch (err) {
-        console.error(err.message);
-        res.status(404).send('Server error: selected table doesn\'t exist');
+        console.error('Server error', err.message);
+        res.status(500).send('Server error');
     }
 });
 
