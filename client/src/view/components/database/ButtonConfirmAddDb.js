@@ -25,7 +25,7 @@ export default function ButtonConfirm({ onClick, disabled }) {
   const classes = useStyles();
 
   return (
-    <div id="button">
+    <div id="buttonConfirmAddDb">
       <ColorButton variant="contained" color="primary" className={classes.margin} onClick={onClick} disabled={disabled}>
         invia
       </ColorButton>

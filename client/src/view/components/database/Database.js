@@ -1,5 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { action } from 'mobx';
+import React, { useEffect, useState } from 'react';
 import ButtonAddDb from './ButtonAddDb';
 import ButtonConfirmAddDb from './ButtonConfirmAddDb';
 import DatabaseManagerController from '../../../controller/DatabaseManagerController';
@@ -13,10 +12,10 @@ export default function Database() {
     const tablesController = new DatabaseTablesController();
     const [datasets, setDatasets] = useState([]);
     const [tableName, setTableName] = useState('');
-    const [insertDs, setInsertDs] = useState([]);
+    const [insertDs, setInsertDs] = useState({});
     const [disableName, setDisableName] = useState(true);
     const [name, setName] = useState("");
-    const [sentDataset, setDs] = useState([]);
+    const [nameError, setNameError] = useState(false);
 
     const getTabNames = async () => {
         try {
@@ -38,15 +37,17 @@ export default function Database() {
 
     const onChangeInsertDs = e => {
         let v = e.target.files[0];
+        let isUndef = v === undefined;
         setInsertDs(prev => {
-            return v === undefined ? prev : v;
+            return isUndef ? prev : v;
         });
         setName(() => {
-            return v === undefined ? insertDs.name : v.name;
+            return isUndef ? insertDs.name : v.name;
         });
-        setDisableName(v === undefined);
-        // insertDs non é aggiornato quando viene chiamata la funzione
-        controllerManager.upload(tableName ? tableName : insertDs.name, insertDs);
+        setTableName(() => {
+            return isUndef ? insertDs.name : v.name;
+        });
+        setDisableName(isUndef);
     };
 
     const onClickDelete = idx => {
@@ -63,33 +64,28 @@ export default function Database() {
     };
 
     const onChangeName = e => {
-        setName(e.target.value);
+        let n = e.target.value;
+        setName(n);
+        setNameError(n.search(/[`"'\s\\;]/gu) !== -1);
     };
 
-    const optionsAddDs = useCallback(() => {
-        let select; 
-        select = name !== "";
-        setDs(select);
-    }, [name]);  
-    
-    useEffect(() => {
-        optionsAddDs();
-    }, [optionsAddDs]);
+    const onBlurName = () => {
+        let n = name === "" ? insertDs.name : name
+        setTableName(n);
+        setName(n);
+    };
 
-    const onClickDs = action(() => {
-        let formData = {
-          name 
-        }; 
-        formData.name = name; 
-        controllerManager.upload(formData.name, insertDs);
-      });
-      
+    const onClickDs = () => {
+        controllerManager.upload(tableName ? tableName : insertDs.name, insertDs);
+    };
 
     return (
-        <div>
-            <ButtonAddDb onChange={onChangeInsertDs} onChangeTableName={onChangeTableName} />
-            <TextFieldAddDb onChangeName={onChangeName} fileName={insertDs.name} nameDs={name} disabled={disableName} />
-            <ButtonConfirmAddDb onClick={onClickDs} disabled={!sentDataset} fileName={insertDs.name} />
+        <div className="dataset_div">
+            <div id="completeFormInsertDataset">
+                <ButtonAddDb onChange={onChangeInsertDs} onChangeTableName={onChangeTableName} />
+                <TextFieldAddDb onChangeName={onChangeName} fileName={insertDs.name} nameDs={name} onBlur={onBlurName} disabled={disableName} error={nameError} />
+                {insertDs.name !== undefined && <ButtonConfirmAddDb onChange={onClickDs} fileName={insertDs.name} disabled={nameError} />}
+            </div>
             <div id="dataset">
                 <>
                     {datasets !== undefined && datasets.map((d, i) => <FormControlLabel key={i} control={<DeleteDb onClickDelete={onClickDelete} idx={i} />} label={d} value={d} />)}
