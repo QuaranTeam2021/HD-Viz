@@ -1,6 +1,7 @@
 /* eslint-disable func-names */
 const { expect } = require('chai');
-const { LLE } = require('../../../../client/src/store/Algorithm/LLE');
+const LLE = require('../../../../client/src/store/Algorithm/LLE');
+const IsomapLleParameters = require('../../../../client/src/store/Parameters/IsomapLleParameters');
 
 describe("Testing LLE class", function() {
 
@@ -13,12 +14,8 @@ describe("Testing LLE class", function() {
                 [0, 36, 0, 26, 0, 81, 0, 60, 0, 22, 0, 40, 0, 67, 0, 79, 0, 47, 0, 81, 0, 73, 0, 44, 0, 97, 0, 14, 0, 44],
                 [0, 99, 0, 17, 0, 54, 0, 8, 0, 2, 0, 48, 0, 31, 0, 50, 0, 75, 0, 32, 0, 96, 0, 58, 0, 38, 0, 10, 0, 92]
             ];
-            const param = {
-                neighbors: 10,
-                dims: 2,
-                metric: "euclidean"
-            }
-            const output = new LLE().compute(input, param);
+            const param = new IsomapLleParameters(2, 10, "euclidean", input);
+            const output = new LLE().compute(param);
 
             const expected = [
                 [0.07197743141570735, -0.7493437421596598],
@@ -39,14 +36,10 @@ describe("Testing LLE class", function() {
                 [5.4, 3.9, 1.7, 0.4],
                 [4.6, 3.4, 1.4, 0.3]
             ];
-            const param = {
-                neighbors: 10,
-                dims: 3,
-                metric: "euclidean"
-            }
-            const res = new LLE().compute(input, param);
+            const param = new IsomapLleParameters(3, 10, "euclidean", input);
+            const output = new LLE().compute(param);
 
-            const size = [res.length, res[0].length];
+            const size = [output.length, output[0].length];
             const expected = [5, 3];
 
             expect(size).to.deep.equal(expected);
@@ -61,12 +54,8 @@ describe("Testing LLE class", function() {
                 [4.6, 3.4, 1.4, 0.3],
                 [5.0, 3.4, 1.5, 0.2]
             ];
-            const param = {
-                neighbors: 10,
-                dims: 2,
-                metric: "manhattan"
-            }
-            const output = new LLE().compute(input, param);
+            const param = new IsomapLleParameters(2, 10, "manhattan", input);
+            const output = new LLE().compute(param);
 
             const expected = [
                 [0.31040992424674757, -0.0820344470168973],
@@ -89,12 +78,8 @@ describe("Testing LLE class", function() {
                 [4.6, 3.4, 1.4, 0.3],
                 [5.0, 3.4, 1.5, 0.2]
             ];
-            const param = {
-                neighbors: 10,
-                dims: 2,
-                metric: "canberra"
-            }
-            const output = new LLE().compute(input, param);
+            const param = new IsomapLleParameters(2, 10, "canberra", input);
+            const output = new LLE().compute(param);
 
             const expected = [
                 [0.3366744427635879, -0.03155882114887092],
@@ -117,12 +102,8 @@ describe("Testing LLE class", function() {
                 [4.6, 3.4, 1.4, 0.3],
                 [5.0, 3.4, 1.5, 0.2]
             ];
-            const param = {
-                neighbors: 10,
-                dims: 2,
-                metric: "cosine"
-            }
-            const output = new LLE().compute(input, param);
+            const param = new IsomapLleParameters(2, 10, "cosine", input);
+            const output = new LLE().compute(param);
 
             const expected = [
                 [0.33873968004556576, 0.008986105663348294],
@@ -145,12 +126,8 @@ describe("Testing LLE class", function() {
                 [4.6, 3.4, 1.4, 0.3],
                 [5.0, 3.4, 1.5, 0.2]
             ];
-            const param = {
-                neighbors: 10,
-                dims: 2,
-                metric: "euclidean_squared"
-            }
-            const output = new LLE().compute(input, param);
+            const param = new IsomapLleParameters(2, 10, "euclidean_squared", input);
+            const output = new LLE().compute(param);
 
             const expected = [
                 [0.31042611573415974, -0.08425011101513767],
@@ -173,12 +150,8 @@ describe("Testing LLE class", function() {
                 [4.6, 3.4, 1.4, 0.3],
                 [5.0, 3.4, 1.5, 0.2]
             ];
-            const param = {
-                neighbors: 10,
-                dims: 2,
-                metric: "chebyshev"
-            }
-            const output = new LLE().compute(input, param);
+            const param = new IsomapLleParameters(2, 10, "chebyshev", input);
+            const output = new LLE().compute(param);
 
             const expected = [
                 [0.32355545811534964, -0.014470133211581722],

@@ -1,4 +1,4 @@
-const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2MTk0NDQzMjB9.OhXJ3Rhs2I7SW1KzmHEtz9I-Zxpy5KZhDtrOaURpZRQ";
+const token = "";
 
 export default class DatabaseManagerController {
 
@@ -6,49 +6,33 @@ export default class DatabaseManagerController {
         this.port = 5000;
     }
 
-    // da sistemare
     async upload(table, file) {
-        console.log("upload")
-        console.log(table)
-        console.log(file)
         if (file.size > 0 && file.size < 50000) {
             try {
-                const response = await fetch(`http://localhost:${this.port}/tables/${table}`, {
-                    body: file,
+                const formData = new FormData();
+                formData.append("uploadedFile", file);
+        
+                const response = await fetch(`http://localhost:${this.port}/api/upload/${table}`, {
+                    body: formData,
                     headers: { "authorization": `Bearer ${token}` },
                     method: "POST"
                 });
                 const jsonData = await response.json();
                 console.log(jsonData);
             } catch (err) {
-                console.log(err.message);
+                console.error(err.message);
             }
         }
     }
 
     async deleteTable(table) {
         try {
-            const delTable = await fetch(`http://localhost:${this.port}/tables/${table}`, { 
+            const delTable = await fetch(`http://localhost:${this.port}/api/delete/${table}`, { 
                 headers: { "authorization": `Bearer ${token}` },
                 method: "DELETE"
             });
             const jsonData = await delTable.json();
             return jsonData;
-        } catch (err) {
-            return err.message;
-        }
-    }
-
-    async getTablesNames() {
-        try {
-            const response = await fetch(`http://localhost:${this.port}/tables/list`, {
-                headers: { "authorization": `Bearer ${token}` }
-            });
-            const jsonData = await response.json();
-            const tables = [];
-            jsonData.forEach(e => tables.push(Object.values(e)));
-            console.log(tables)
-            return tables;
         } catch (err) {
             return err.message;
         }

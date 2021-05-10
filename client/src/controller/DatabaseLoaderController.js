@@ -1,6 +1,6 @@
 import Papa from 'papaparse';
 
-const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2MTk0NDQzMjB9.OhXJ3Rhs2I7SW1KzmHEtz9I-Zxpy5KZhDtrOaURpZRQ";
+const token = "";
 
 export default class DatabaseLoaderController {
 
@@ -9,23 +9,9 @@ export default class DatabaseLoaderController {
         this.port = 5000;
     }
 
-    async getTablesNames() {
+    async loadTable(table) {
         try {
-            const response = await fetch(`http://localhost:${this.port}/tables/list`, {
-                headers: { "authorization": `Bearer ${token}` }
-            });
-            const jsonData = await response.json();
-            const tables = [];
-            jsonData.forEach(e => tables.push(Object.values(e)));
-            return tables;
-        } catch (err) {
-            return err.message;
-        }
-    }
-
-    async getTableContent(table) {
-        try {
-            const response = await fetch(`http://localhost:${this.port}/tables/${table}`, {
+            const response = await fetch(`http://localhost:${this.port}/api/getcontent/${table}`, {
                 headers: { "authorization": `Bearer ${token}` }
             });
             const jsonData = await response.json();
@@ -43,26 +29,24 @@ export default class DatabaseLoaderController {
         }
     }
 
-    async getTableColumnsNames(table) {
+    async loadTableCols(table, selectedFeatures) {
+        // array es: ['species','island','sex']
+        if (!Array.isArray(selectedFeatures) || typeof table !== "string") {
+            console.log({ error: "select table name and features" });
+        } 
+        const features = selectedFeatures.toString();
+        const body = { features };
         try {
-            const response = await fetch(`http://localhost:${this.port}/tables/${table}/columnsnames`, {
-                headers: { "authorization": `Bearer ${token}` }
+            const response = await fetch(`http://localhost:${this.port}/api/getselectedcol/${table}`, {
+                body: JSON.stringify(body),
+                headers: {
+                    "Content-Type": "application/json",
+                    "authorization": `Bearer ${token}`
+                },
+                method: "POST"
             });
             const jsonData = await response.json();
-            return jsonData;
-        } catch (err) {
-            return err.message;
-        }
-    }
-
-    // features: Array 
-    async getSelectedCol(table, features) {
-        try {
-            const response = await fetch(`http://localhost:${this.port}/tables/selectedcol/${table}`, {
-                headers: { "authorization": `Bearer ${token}` }
-                // passare array con nomi colonne selezionate
-            });
-            const jsonData = await response.json();
+            console.log(jsonData);
             let dataString = Papa.unparse(jsonData);
             let result = Papa.parse(dataString, {
                 delimiter: ',',
@@ -72,8 +56,10 @@ export default class DatabaseLoaderController {
                 }
             })
             this.store.loadData(result.data);
-        } catch (err) {
-            console.log(err.message);
+        } 
+        catch (err) {
+            console.error(err.message);
         }
     }
+
 }

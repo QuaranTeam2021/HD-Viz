@@ -15,7 +15,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function SimpleSelect({onChange, tab}) {
+export default function SimpleSelect({onChange, tables}) {
   const classes = useStyles();
 
   return (
@@ -25,12 +25,8 @@ export default function SimpleSelect({onChange, tab}) {
         <Select
           labelId="demo-simple-select-label"
           id="demo-simple-select"
-          value={tab}
-          onChange={onChange}
-        >
-          <MenuItem value={'tab1'}>Tab1</MenuItem>
-          <MenuItem value={'tab2'}>Tab2</MenuItem>
-          <MenuItem value={'tab3'}>Tab3</MenuItem>
+          onChange={onChange}>
+          { tables && tables.map((v, i) => <MenuItem value={v} key={i}>{v}</MenuItem>) }
         </Select>
       </FormControl>
     </div>

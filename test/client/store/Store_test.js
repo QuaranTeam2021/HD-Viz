@@ -4,8 +4,8 @@ const Store= require('../../../client/src/store/Store');
 const { expect } = require('chai');
 const StandardGraph = require('../../../client/src/store/Graph/StandardGraph');
 const Data = require('../../../client/src/store/Data');
-const PCA = require('../../../client/src/store/Algorithm/PCA');
-const PcaParameters = require('../../../client/src/store/Parameters/PcaParameters');
+const FASTMAP = require('../../../client/src/store/Algorithm/FASTMAP');
+const FastmapParameters = require('../../../client/src/store/Parameters/FastmapParameters');
 const druid = require('@saehrimnir/druidjs');
 
 describe('Testing store class', function() {
@@ -205,8 +205,8 @@ describe('Testing store class', function() {
                 [5.0, 3.4, 1.5, 0.2]
             ]);
             store.originalData = d;
-            let param = new PcaParameters(2, d.matrix);
-            let strategy = new PCA();
+            let param = new FastmapParameters(2, d.matrix);
+            let strategy = new FASTMAP();
             let res = store.calculateReduction(['feat1', 'feat2', 'feat3'], strategy, param);
 
             // eslint-disable-next-line no-unused-expressions
@@ -225,8 +225,8 @@ describe('Testing store class', function() {
                 [5.0, 3.4, 1.5, 0.2]
             ]);
             store.originalData = d;
-            let param = new PcaParameters(2, d.matrix);
-            let strategy = new PCA();
+            let param = new FastmapParameters(2, d.matrix);
+            let strategy = new FASTMAP();
             let res = store.calculateReduction(['feat1', 'feat2', 'feat3'], strategy, param);
 
             expect(res).instanceOf(Array);
@@ -244,9 +244,9 @@ describe('Testing store class', function() {
                 [5.0, 3.4, 1.5, 0.2]
             ]);
             store.originalData = d;
-            let param = new PcaParameters(2, d.matrix);
-            let strategy = new PCA();
-            let res = store.calculateReduction(['feat1', 'feat2'], strategy, param);
+            let param = new FastmapParameters(2, d.matrix);
+            let strategy = new FASTMAP();
+            let res = store.calculateReduction(['feat1', 'feat2', 'feat3', 'feat4'], strategy, param);
 
             const expected = [
                 [-3.458666762269165, 0.027612959089264852],

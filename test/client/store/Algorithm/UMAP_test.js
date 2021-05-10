@@ -1,6 +1,7 @@
 /* eslint-disable func-names */
 const { expect } = require('chai');
-const { UMAP } = require('../../../../client/src/store/Algorithm/UMAP');
+const UMAP = require('../../../../client/src/store/Algorithm/UMAP');
+const UmapParameters = require('../../../../client/src/store/Parameters/UmapParameters');
 
 describe("Testing UMAP class", function() {
 
@@ -19,12 +20,8 @@ describe("Testing UMAP class", function() {
                 [5.4, 3.7, 1.5, 0.2],
                 [4.8, 3.4, 1.6, 0.2]
             ];
-            const param = {
-                neighbors: 10,
-                dims: 2
-            }
-            
-            let output = new UMAP().compute(input, param);
+            const param = new UmapParameters(2, 10, input);
+            const output = new UMAP().compute(param);
 
             let expected = [
                 [-0.04172346189476262, -0.7409675049529523],
@@ -50,12 +47,9 @@ describe("Testing UMAP class", function() {
                 [5.4, 3.9, 1.7, 0.4],
                 [4.6, 3.4, 1.4, 0.3]
             ];
-            const param = {
-                neighbors: 10,
-                dims: 2
-            }
-            const res = new UMAP().compute(input, param);
-            const size = [res.length, res[0].length];
+            const param = new UmapParameters(2, 10, input);
+            const output = new UMAP().compute(param);
+            const size = [output.length, output[0].length];
             const expected = [5, 2];
 
             expect(size).to.deep.equal(expected);

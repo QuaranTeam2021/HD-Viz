@@ -1,6 +1,6 @@
 /* eslint-disable func-names */
 const { expect } = require('chai');
-const { Data } = require('../../../client/src/store/data');
+const Data = require('../../../client/src/store/data');
 
 
 describe('Test for Data class', function() {

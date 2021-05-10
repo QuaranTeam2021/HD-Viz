@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import ButtonAddDb from './ButtonAddDb';
 import ButtonConfirmAddDb from './ButtonConfirmAddDb';
 import DatabaseManagerController from '../../../controller/DatabaseManagerController';
+import DatabaseTablesController from '../../../controller/DatabaseTablesController';
 import DeleteDb from './DeleteDb';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import TextFieldAddDb from './TextFieldAddDb';
@@ -14,12 +15,27 @@ const parseName = name => {
 }
 
 export default function Database() {
-    const [datasets, setDatasets] = useState(['tabella', 'tabella2', 'tabella3', 'tabella4', 'tabella5']); // <--controllerManager.getTablesName();
+    const tablesController = new DatabaseTablesController();
+    const [datasets, setDatasets] = useState([]);
     const [tableName, setTableName] = useState('');
     const [insertDs, setInsertDs] = useState({});
     const [disableName, setDisableName] = useState(true);
     const [name, setName] = useState("");
-    const [nameError, setNameError] = useState([false, ""]);
+    const [nameError, setNameError] = useState(false);
+
+    const getTabNames = async () => {
+        try {
+            const tables = await tablesController.getTablesNames();
+            setDatasets(tables);
+        } catch (err) {
+            setDatasets([]);
+            console.log(err.message);
+        }
+    }
+
+    useEffect(() => {
+        getTabNames();
+    }, []);
 
     const onChangeInsertDs = e => {
         let v = e.target.files[0];
@@ -41,6 +57,7 @@ export default function Database() {
         }));
 
         if (deletedTable !== "")
+            console.log(deletedTable)
             controllerManager.deleteTable(deletedTable);
     };
 
@@ -75,7 +92,7 @@ export default function Database() {
             </div>
             <div id="dataset">
                 <>
-                    {datasets.map((d, i) => <FormControlLabel key={i} control={<DeleteDb onClickDelete={onClickDelete} idx={i} />} label={d} value={d} />)}
+                    {datasets !== undefined && datasets.map((d, i) => <FormControlLabel key={i} control={<DeleteDb onClickDelete={onClickDelete} idx={i} />} label={d} value={d} />)}
                 </>
             </div>
 

@@ -5,10 +5,11 @@ export default class DistanceBasedGraph extends Graph {
 
     data = new DistanceData();
 
-    constructor(graphId, type, data) {
+    constructor(graphId, type, grouper, data) {
         super();
         this.graphId = graphId;
         this.type = type;
+        this.grouper = grouper;
         this.data = data;
     }
 
