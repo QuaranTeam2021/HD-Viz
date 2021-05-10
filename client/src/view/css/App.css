@@ -133,10 +133,14 @@
 }
 
 .textInput {
-  text-align: center;
-  width: 20%;
+  margin-top: 0.8em;
+  margin-left: 5%;
   padding: 5px;
-  border: 1px solid black;
+  border: 2px solid black;
+  font-weight: bold;
+  font-size: x-large;
+  height: 1.5em;
+  width: 60%;
 }
 
 .MenuBG {
@@ -247,12 +251,27 @@
 
 /* posizione del box select del db colonne e tab */
 .MuiPaper-root.MuiMenu-paper.MuiPopover-paper.MuiPaper-elevation8.MuiPaper-rounded {
-  margin-left: 9em;
+  margin-left: 9.5em;
   max-width: 150px;
 }
 
 #button {
   text-align: center;
+}
+
+#titleGraphdiv {
+  display: inline-flex;
+  height: 5em;
+}
+
+#buttonRenameTitle {
+  background-color: #9c27b0;
+  margin: 1.8em;
+}
+
+#buttonConfirmRename {
+  background-color: #51A800;
+  margin: 1.6em;
 }
 
 /* div aggiungi dataset */
