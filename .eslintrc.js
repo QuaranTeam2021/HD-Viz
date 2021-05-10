@@ -6,8 +6,7 @@ module.exports = {
         "mocha": true
     },
     "extends": [
-        "eslint:recommended",
-        "plugin:mocha/recommended"
+        "eslint:recommended"
     ],
     "parserOptions": {
         "ecmaVersion": 12
