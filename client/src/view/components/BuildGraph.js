@@ -23,7 +23,7 @@ import { useStandardController } from '../../controller/StandardController';
 import { useTsneController } from '../../controller/TsneController';
 import { useUmapController } from '../../controller/UmapController';
 
-const needsAlgorithm = g => ["scptMat", "scp", "malp"].includes(g);
+const needsAlgorithm = g => ["scptMat", "malp"].includes(g);
 const needsDistance = e => ["htmp", "frcfld"].includes(e) || ["FASTMAP", "ISOMAP", "T-SNE", "LLE"].includes(e);
 const selectedInsert = i => i.name !== undefined;
 
@@ -212,7 +212,7 @@ export default function BuildGraph({ defineStore }) {
             </div>
           </div>
 
-          {["scptMat", "malp", "scp"].includes(selectedGraph) && <RadioAlgorithm onChange={onChangeAlgorithm} />}
+          {["scptMat", "malp"].includes(selectedGraph) && <RadioAlgorithm onChange={onChangeAlgorithm} />}
           {needsDistance(selectedGraph) && <RadioDistance onChange={onChangeDistanza} distanza={distanza} />}
           <div id="FeaturesAlgorithm">
             <div id="FeaturesAlgorithm2">
