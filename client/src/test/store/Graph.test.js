@@ -3,13 +3,13 @@ import Graph from '../../store/Graph';
 
 jest.mock('../../store/Graph'); // Graph is now a mock constructor
 
-describe('Testing for abstract class Graph', () => {
+describe('Testing concrete method of abstract class Graph', () => {
 
     beforeEach(() => {
         Graph.mockClear();
     });
 
-    describe('Testing setters function', () => {
+    describe('Testing setters methods', () => {
 
         test('Must set graphId', () => {
             const graph = new Graph();
@@ -30,24 +30,27 @@ describe('Testing for abstract class Graph', () => {
         })
     })
 
-    describe('Testing getters function', () => {
+    describe('Testing getters methods', () => {
 
         test('Must get graphId', () => {
             const graph = new Graph();
             graph.graphId = 'testId';
-            expect(graph.graphId).toEqual('testId');
+            const getterResult = graph.graphId;
+            expect(getterResult).toEqual('testId');
         })
 
         test('Must get type', () => {
             const graph = new Graph();
             graph.type = 'Scatterplot';
-            expect(graph.type).toEqual('Scatterplot');
+            const getterResult = graph.type;
+            expect(getterResult).toEqual('Scatterplot');
         })
 
         test('Must get grouper', () => {
             const graph = new Graph();
             graph.grouper = 'Species';
-            expect(graph.grouper).toEqual('Species');
+            const getterResult = graph.grouper;
+            expect(getterResult).toEqual('Species');
         })
     })
 })
