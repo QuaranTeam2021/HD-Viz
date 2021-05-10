@@ -5,7 +5,7 @@ const router = express.Router();
 const client = require("./db");
 
 // get tables names
-router.get("/tableslist", async(req, res) => {
+router.get("/tableslist", async (req, res) => {
     try {
         const data = await client.query(`SELECT table_name FROM information_schema.tables WHERE table_schema='public'`);
         res.json(data.rows);
@@ -48,7 +48,7 @@ router.get("/getcontent/:table", async(req, res) => {
         const { table } = req.params;
         const data = await client.query(`SELECT * FROM ${table}`);
         res.json(data.rows);
-    } 
+    }
     catch (err) {
         console.error(err.message);
         res.status(404).send('Server error: selected table doesn\'t exist');
@@ -72,10 +72,10 @@ router.post("/getselectedcol/:table", async (req, res) => {
 
         query = query.slice(0, -1);
 
-        if(!table) {
+        if (!table) {
             res.status(400).send({ msg: 'select table name' });
         }
-        else if(selectedCol.length === 0) {
+        else if (selectedCol.length === 0) {
             res.status(400).send({ msg: 'select some columns' });
         }
         else {
@@ -90,21 +90,21 @@ router.post("/getselectedcol/:table", async (req, res) => {
 });
 
 // upload a csv (and create the table)
-router.post('/upload/:table', (req, res) => {
-// router.post('/upload/:table', async (req, res) => {
+// eslint-disable-next-line require-await
+router.post('/upload/:table', async (req, res) => {
     try {
         const { table } = req.params;
 
-        if(!req.files) {
+        if (!req.files) {
             res.send({
                 status: false,
                 message: 'No file uploaded'
             });
-        } 
+        }
         else {
             // Use the name of the input field to retrieve the uploaded file
             let uploadedFile = req.files.uploadedFile;
-            
+
             // Use the mv() method to place the file in uploads directory
             uploadedFile.mv('./uploads/' + uploadedFile.name);
 
@@ -130,28 +130,28 @@ router.post('/upload/:table', (req, res) => {
                     }
 
                     // Creo mappa (nome_colonna, tipo)
-                    var columns = new Map();
-                    for (var i = 0; i < header.length; i++) {
+                    let columns = new Map();
+                    for (let i = 0; i < header.length; i++) {
                         columns.set(header[i], type(firstRow[i]));
                     }
                     console.log(columns);
-    
-                    var query = '  ';
-                    for (var [key, value] of columns) {
+
+                    let query = '  ';
+                    for (let [key, value] of columns) {
                         query = query + `${key} ${value}, `;
                     }
                     query = query.slice(0, -2);
-    
+
                     // CREAZIONE TABELLA (Rimosso await)
                     const data = client.query(`CREATE TABLE ${table} ( ${query} );`);
                     console.log(data);
 
                     // remove the first line: header
                     csvData.shift();
-                
+
                     // Creazione query nella forma `INSERT INTO ${table} VALUES ($1, $2, ...);`
-                    var param = `INSERT INTO ${table} VALUES (`;
-                    for (var j = 1; j <= header.length; j++) {
+                    let param = `INSERT INTO ${table} VALUES (`;
+                    for (let j = 1; j <= header.length; j++) {
                         param = param + ` $${j},`;
                     }
                     param = param.slice(0, -1);
@@ -166,12 +166,12 @@ router.post('/upload/:table', (req, res) => {
                                     console.log(err.stack);
                             });
                         });
-                    } 
+                    }
                     catch (err) {
                         res.status(500).send(err);
                     }
                 });
-            
+
             stream.pipe(csvStream);
 
             res.send({
@@ -185,7 +185,7 @@ router.post('/upload/:table', (req, res) => {
                 table: 'Successfully created'
             });
         }
-    } 
+    }
     catch (err) {
         res.status(500).send(err);
     }
@@ -197,7 +197,7 @@ router.delete("/delete/:table", async (req, res) => {
         const { table } = req.params;
         await client.query(`DROP TABLE ${table};`);
         res.json(`The table ${table} was successfully deleted`);
-    } 
+    }
     catch (err) {
         console.error(err.message);
         res.status(404).send('Server error: selected table doesnt exist');

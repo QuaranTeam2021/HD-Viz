@@ -2,11 +2,11 @@
   "name": "hd-viz",
   "version": "0.2.2-react",
   "description": "",
-  "main": "src/index.js",
+  "main": "server/server.js",
   "scripts": {
-    "start": "node src/index.js",
-    "dev": "nodemon src/index.js",
-    "lint": "npx eslint src",
+    "start": "cd server && npm start",
+    "dev": "cd server && npm run dev",
+    "lint": "npx eslint server",
     "lint-client": "npx eslint client",
     "test": "mocha --recursive -r core-js -r regenerator-runtime -r @babel/register"
   },

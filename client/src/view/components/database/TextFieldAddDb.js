@@ -10,24 +10,19 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const handleSubmit = (event, error) => {
-  if (error)
-    event.preventDefault();
-}
-
-export default function TextFieldAddDb({onChangeName, nameDs, fileName, onBlur, disabled, error}) {
+export default function TextFieldAddDb({onChangeName, nameDs, fileName, onBlur, disabled, error, onSubmit }) {
   const classes = useStyles();
 
   return (
-    <form id="formInsertDataset" className={classes.root} autoComplete="off" onSubmit={e => handleSubmit(e, error)}>
+    <form id="formInsertDataset" className={classes.root} autoComplete="off" onSubmit={onSubmit}>
       <TextField
         variant="outlined"
         label="Nome"
         id="dataset-name"
         onChange={onChangeName}
+        onBlur={onBlur}
         placeholder={fileName}
         value={nameDs}
-        onBlur={onBlur}
         disabled={disabled}
         error={error[0]}
         helperText={error[0] ? error[1] : undefined}

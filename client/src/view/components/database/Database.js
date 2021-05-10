@@ -8,6 +8,8 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import TextFieldAddDb from './TextFieldAddDb';
 
 const controllerManager = new DatabaseManagerController();
+const tablesController = new DatabaseTablesController();
+
 const parseName = name => {
     if (name === undefined) return name;
     const parsedName = name.replace(/(\.(csv|tsv|json))/giu, "");
@@ -15,12 +17,11 @@ const parseName = name => {
 }
 
 export default function Database() {
-    const tablesController = new DatabaseTablesController();
     const [datasets, setDatasets] = useState([]);
-    const [tableName, setTableName] = useState('');
+    const [tableName, setTableName] = useState(''); // tableName e name ridondanti, probabilmente se ne puó togliere uno
+    const [name, setName] = useState("");
     const [insertDs, setInsertDs] = useState({});
     const [disableName, setDisableName] = useState(true);
-    const [name, setName] = useState("");
     const [nameError, setNameError] = useState(false);
 
     const getTabNames = async () => {
@@ -48,17 +49,11 @@ export default function Database() {
         setDisableName(isUndef);
     };
 
-    const onClickDelete = idx => {
-        let deletedTable = "";
-        setDatasets(list => list.filter((d, i) => {
-            if (i === idx)
-                deletedTable = d;
-            return i !== idx;
+    const onClickDelete = async dsName => {
+        await controllerManager.deleteTable(dsName);
+        setDatasets(list => list.filter(d => {
+            return d !== dsName;
         }));
-
-        if (deletedTable !== "")
-            console.log(deletedTable)
-            controllerManager.deleteTable(deletedTable);
     };
 
     const onChangeName = e => {
@@ -66,6 +61,7 @@ export default function Database() {
         let parsedN = parseName(n);
         if (n === parsedN) {
             setName(n);
+            setTableName(n);
             setNameError([n.search(/[`"'\s\\;]/gu) !== -1, "Nome non valido: rimuovi spazi e caratteri speciali"]);
         }
         else {
@@ -79,20 +75,22 @@ export default function Database() {
         setTableName(parseName(n));
     }
 
-    const onClickDs = () => {
-        controllerManager.upload(tableName ? tableName : parseName(insertDs.name), insertDs);
+    const onClickDs = async e => {
+        e.preventDefault();
+        await controllerManager.upload(tableName ? tableName : parseName(insertDs.name), insertDs);
+        getTabNames();
     };
 
     return (
         <div className="dataset_div">
             <div id="completeFormInsertDataset">
                 <ButtonAddDb onChange={onChangeInsertDs} />
-                <TextFieldAddDb onChangeName={onChangeName} fileName={parseName(insertDs.name)} nameDs={name} onBlur={onBlurName} disabled={disableName} error={nameError} />
-                {insertDs.name !== undefined && <ButtonConfirmAddDb onClick={onClickDs} fileName={insertDs.name} disabled={nameError} />}
+                <TextFieldAddDb onChangeName={onChangeName} fileName={parseName(insertDs.name)} nameDs={name} onBlur={onBlurName} disabled={disableName} error={nameError} onSubmit={onClickDs} />
+                {insertDs.name !== undefined && <ButtonConfirmAddDb onClick={onClickDs} fileName={insertDs.name} disabled={nameError[0]} />}
             </div>
             <div id="dataset">
                 <>
-                    {datasets !== undefined && datasets.map((d, i) => <FormControlLabel key={i} control={<DeleteDb onClickDelete={onClickDelete} idx={i} />} label={d} value={d} />)}
+                    {datasets !== undefined && datasets.map((d, i) => <FormControlLabel key={i} control={<DeleteDb onClickDelete={onClickDelete} value={d} />} label={d} value={d} />)}
                 </>
             </div>
 

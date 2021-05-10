@@ -39,7 +39,7 @@ const MenuProps = {
   },
 };
 
-export default function MultipleSelectColumns({ onChange, columns, selectedColumns}) {
+export default function SelectVizColumns({ onChange, columns, selectedColumns }) {
   const classes = useStyles();
   
   return (
