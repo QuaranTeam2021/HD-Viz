@@ -1,5 +1,4 @@
 import React, {useCallback, useEffect, } from 'react';
-import { action } from 'mobx';
 import ButtonCloseModalDb from './ButtonCloseModalDb';
 import ButtonConfirmDb from './ButtonConfirmDb';
 import DbButton from './DbButton'; 
@@ -54,7 +53,7 @@ export default function ModalDb() {
       optionsSelected();
     }, [optionsSelected]); 
 
-    const onClickSent = action(() => {
+    const onClickSent = () => {
       let formData = {
         columns,
         table 
@@ -62,7 +61,7 @@ export default function ModalDb() {
       formData.table = table; 
       formData.columns = columns; 
       onClose();
-    });
+    };
   
   const body = 
   <div id="db_div" className={classes.paper}>

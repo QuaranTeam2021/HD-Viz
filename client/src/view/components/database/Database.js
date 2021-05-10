@@ -68,7 +68,7 @@ export default function Database() {
             <div id="completeFormInsertDataset">
                 <ButtonAddDb onChange={onChangeInsertDs} onChangeTableName={onChangeTableName} />
                 <TextFieldAddDb onChangeName={onChangeName} fileName={insertDs.name} nameDs={name} onBlur={onBlurName} disabled={disableName} error={nameError} />
-                {insertDs.name !== undefined && <ButtonConfirmAddDb onChange={onClickDs} fileName={insertDs.name} disabled={nameError} />}
+                {insertDs.name !== undefined && <ButtonConfirmAddDb onClick={onClickDs} fileName={insertDs.name} disabled={nameError} />}
             </div>
             <div id="dataset">
                 <>
