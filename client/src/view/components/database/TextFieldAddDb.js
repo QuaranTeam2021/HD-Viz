@@ -29,8 +29,8 @@ export default function TextFieldAddDb({onChangeName, nameDs, fileName, onBlur, 
         value={nameDs}
         onBlur={onBlur}
         disabled={disabled}
-        error={error}
-        helperText={error ? "Nome non valido: rimuovi spazi e caratteri speciali" : undefined}
+        error={error[0]}
+        helperText={error[0] ? error[1] : undefined}
       />
     </form>
   );
