@@ -39,7 +39,7 @@ const MenuProps = {
   },
 };
 
-export default function MultipleSelectColumns({ onChange, columns}) {
+export default function MultipleSelectColumns({ onChange, columns, selectedColumns}) {
   const classes = useStyles();
   
   return (
@@ -49,7 +49,7 @@ export default function MultipleSelectColumns({ onChange, columns}) {
         labelId="demo-mutiple-chip-label"
         id="demo-mutiple-chip"
         multiple
-        value={columns}
+        value={selectedColumns}
         onChange={onChange}
         input={<Input id="select-multiple-chip" />}
         renderValue={selected => <div className={classes.chips}>

@@ -104,7 +104,7 @@ export default function ModalDb() {
       <ButtonCloseModalDb onClick={onClose}/> 
       <div id="description">
         <SelectVizTable onChange={onChangeTableDb} tables={datasetsDb}/>
-        <SelectVizColumns onChange={onChangeColumnsDb} columns={tableColumnsDb} /> 
+        <SelectVizColumns onChange={onChangeColumnsDb} columns={tableColumnsDb} selectedColumns={selectedColumns} /> 
         <ButtonConfirmDb onClick={onClickSent} disabled={!sent} />
       </div>   
     </div>
