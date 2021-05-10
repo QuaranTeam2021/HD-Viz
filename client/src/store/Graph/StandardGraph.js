@@ -11,7 +11,10 @@ export default class StandardGraph extends Graph {
     }
 
     set data(data) {
-        // if (data.length > 0) {
+        if (data.length === 0) {
+            this._data = [];
+            return;
+        }
         let jsonArray = [];
         let colNum = data[0].length;
         for (let i = 1; i < data.length; ++i) {
@@ -21,8 +24,7 @@ export default class StandardGraph extends Graph {
             }
             jsonArray.push(jsonObject);
         }
-            this._data = jsonArray;
-        // }
+        this._data = jsonArray;
     }
 
     get data() {
