@@ -7,8 +7,14 @@ import DeleteDb from './DeleteDb';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import TextFieldAddDb from './TextFieldAddDb';
 
+const controllerManager = new DatabaseManagerController();
+const parseName = name => {
+    if (name === undefined) return name;
+    const parsedName = name.replace(/(\.(csv|tsv|json))/giu, "");
+    return parsedName;
+}
+
 export default function Database() {
-    const controllerManager = new DatabaseManagerController();
     const tablesController = new DatabaseTablesController();
     const [datasets, setDatasets] = useState([]);
     const [tableName, setTableName] = useState('');
@@ -31,22 +37,14 @@ export default function Database() {
         getTabNames();
     }, []);
 
-    const onChangeTableName = e => {
-        setTableName(e.target.value);
-    };
-
     const onChangeInsertDs = e => {
         let v = e.target.files[0];
         let isUndef = v === undefined;
         setInsertDs(prev => {
             return isUndef ? prev : v;
         });
-        setName(() => {
-            return isUndef ? insertDs.name : v.name;
-        });
-        setTableName(() => {
-            return isUndef ? insertDs.name : v.name;
-        });
+        setName(parseName(isUndef ? insertDs.name : v.name));
+        setTableName(parseName(isUndef ? insertDs.name : v.name));
         setDisableName(isUndef);
     };
 
@@ -65,25 +63,31 @@ export default function Database() {
 
     const onChangeName = e => {
         let n = e.target.value;
-        setName(n);
-        setNameError(n.search(/[`"'\s\\;]/gu) !== -1);
+        let parsedN = parseName(n);
+        if (n === parsedN) {
+            setName(n);
+            setNameError([n.search(/[`"'\s\\;]/gu) !== -1, "Nome non valido: rimuovi spazi e caratteri speciali"]);
+        }
+        else {
+            setNameError([true, "Nome non valido: estensioni non supportate"])
+        }
     };
 
     const onBlurName = () => {
-        let n = name === "" ? insertDs.name : name
-        setTableName(n);
-        setName(n);
-    };
+        let n = name === "" ? parseName(insertDs.name, p => p) : name
+        setName(parseName(n));
+        setTableName(parseName(n));
+    }
 
     const onClickDs = () => {
-        controllerManager.upload(tableName ? tableName : insertDs.name, insertDs);
+        controllerManager.upload(tableName ? tableName : parseName(insertDs.name), insertDs);
     };
 
     return (
         <div className="dataset_div">
             <div id="completeFormInsertDataset">
-                <ButtonAddDb onChange={onChangeInsertDs} onChangeTableName={onChangeTableName} />
-                <TextFieldAddDb onChangeName={onChangeName} fileName={insertDs.name} nameDs={name} onBlur={onBlurName} disabled={disableName} error={nameError} />
+                <ButtonAddDb onChange={onChangeInsertDs} />
+                <TextFieldAddDb onChangeName={onChangeName} fileName={parseName(insertDs.name)} nameDs={name} onBlur={onBlurName} disabled={disableName} error={nameError} />
                 {insertDs.name !== undefined && <ButtonConfirmAddDb onClick={onClickDs} fileName={insertDs.name} disabled={nameError} />}
             </div>
             <div id="dataset">
