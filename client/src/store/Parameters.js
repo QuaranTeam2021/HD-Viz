@@ -1,5 +1,3 @@
-/* eslint-disable class-methods-use-this */
-
 export default class Parameters {
 
     data = [];
@@ -7,7 +5,7 @@ export default class Parameters {
     dimensions = null;
 
     constructor() {
-        if (this._constructor === Parameters) 
+        if (this.constructor === Parameters) 
             throw new Error("Can't instantiate abstract class!");
     }
 
