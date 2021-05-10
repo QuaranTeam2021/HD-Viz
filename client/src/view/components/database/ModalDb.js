@@ -43,10 +43,11 @@ export default function ModalDb() {
     }
   }
 
-  const getColsNames = async () => {
+  const getColsNames = async table => {
     try {
-        const cols = await tablesController.getTableColumnsNames(selectedTable);
+        const cols = await tablesController.getTableColumnsNames(table);
         setTableColumnsDb(cols);
+        console.log(cols)
     } catch (err) {
         console.log(err.message);
     }
@@ -71,7 +72,7 @@ export default function ModalDb() {
 
   const onChangeTableDb = e => {
     setSelectedTable(e.target.value);
-    getColsNames();
+    getColsNames(e.target.value);
   }
   
   const optionsSelected = useCallback(() => {
@@ -92,7 +93,7 @@ export default function ModalDb() {
     }; 
     formData.table = selectedTable; 
     formData.columns = selectedColumns; 
-    if (selectedColumns.length === 0)
+    if (selectedColumns.length === 0 || selectedColumns.length === tableColumnsDb.length)
       loaderController.loadTable(selectedTable);
     else
       loaderController.loadTableCols(selectedTable, selectedColumns);
