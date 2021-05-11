@@ -199,7 +199,7 @@ export default function BuildGraph({ defineStore }) {
       <div id="intestazione"><h2>Benvenuto in HD-VIZ! La miglior applicazione di grafici dimensionali!</h2></div>
       <div id="inserimento"> {!selectedInsert(insert) && <p>Inserisci qui i tuoi dati</p>}
         <Insert onChange={onChangeInsert} fileName={insert.name} />
-        <ModalDb />
+        <ModalDb onSubmit={insertTab => setInsert(insertTab)}/>
       </div>
       <div id="selezione">
         <div id="impostazioni">
