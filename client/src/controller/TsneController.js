@@ -10,7 +10,6 @@ export default class TsneController extends StandardGraphController {
         super();
         this.store = store;
         this.tsne = new TSNE();
-        this.dimensions = null;
         this.perplexity = null;
         this.epsilon = null;
         this.metric = null;
@@ -35,11 +34,7 @@ export default class TsneController extends StandardGraphController {
         let index = this.store.getGraphIndexById(graphId);
         this.store.graphs[index] = updatedGraph;
     }
-
-    set dimensions(dimensions) {
-        this._dimensions = dimensions;
-    }
-
+    
     set perplexity(perplexity) {
         this._perplexity = perplexity;
     }

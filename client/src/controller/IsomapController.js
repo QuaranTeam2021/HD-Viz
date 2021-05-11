@@ -10,7 +10,6 @@ export default class IsomapController extends StandardGraphController {
         super();
         this.store = store;
         this.isomap = new ISOMAP();
-        this.dimensions = null;
         this.neighbors = null;
         this.metric = null;
     }
@@ -33,10 +32,6 @@ export default class IsomapController extends StandardGraphController {
         updatedGraph.data = reducedData;
         let index = this.store.getGraphIndexById(graphId);
         this.store.graphs[index] = updatedGraph;
-    }
-
-    set dimensions(dimensions) {
-        this._dimensions = dimensions;
     }
 
     set neighbors(neighbors) {

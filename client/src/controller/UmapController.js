@@ -10,7 +10,6 @@ export default class UmapController extends StandardGraphController {
         super();
         this.store = store;
         this.umap = new UMAP();
-        this.dimensions = null;
         this.neighbors = null;
     }
 
@@ -32,10 +31,6 @@ export default class UmapController extends StandardGraphController {
         updatedGraph.data = reducedData;
         let index = this.store.getGraphIndexById(graphId);
         this.store.graphs[index] = updatedGraph;
-    }
-
-    set dimensions(dimensions) {
-        this._dimensions = dimensions;
     }
 
     set neighbors(neighbors) {

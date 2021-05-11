@@ -10,7 +10,6 @@ export default class FastmapController extends StandardGraphController {
         super();
         this.store = store;
         this.fastmap = new FASTMAP();
-        this.dimensions = null;
         this.metric = null;
     }
 
@@ -32,10 +31,6 @@ export default class FastmapController extends StandardGraphController {
         updatedGraph.data = reducedData;
         let index = this.store.getGraphIndexById(graphId);
         this.store.graphs[index] = updatedGraph;
-    }
-
-    set dimensions(dimensions) {
-        this._dimensions = dimensions;
     }
 
     set metric(metric) {
