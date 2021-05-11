@@ -1,8 +1,14 @@
+/* eslint-disable sort-keys */
 /* eslint-disable max-lines */
+import * as druid from "@saehrimnir/druidjs";
 import { describe, expect, test } from '@jest/globals';
 import Data from '../../store/Data';
+import FASTMAP from '../../store/Algorithm/FASTMAP';
+import FastmapParameters from '../../store/Parameters/FastmapParameters';
 import StandardGraph from '../../store/Graph/StandardGraph';
 import Store from '../../store/Store';
+import DistanceData from "../../store/DistanceData";
+
 
 describe('Testing Store class', () => {
 
@@ -285,7 +291,7 @@ describe('Testing Store class', () => {
                 expect(store.graphs.length).toEqual(1);
             })
     
-            test('Must add one GraphState in last position', () => {
+            test('Must add one GraphState in last postestion', () => {
                 const store = new Store();
                 const graph1 = new StandardGraph('id1', 'heatmap', 'species', []);
                 const graph2 = new StandardGraph('id2', 'heatmap', 'species', []);
@@ -324,6 +330,274 @@ describe('Testing Store class', () => {
                 store.removeGraph('id2');
     
                 expect(store.graphs).toEqual([graph1, graph3]);
+            })
+        })
+
+        test('Testing getGraphById method', () => {
+            const store = new Store();
+            const graph1 = new StandardGraph('id1', 'heatmap', 'species', []);
+            const graph2 = new StandardGraph('id2', 'heatmap', 'species', []);
+            const graph3 = new StandardGraph('id3', 'heatmap', 'species', []);
+            store.addGraph(graph1);
+            store.addGraph(graph3);
+            store.addGraph(graph2);
+            const res = store.getGraphById('id2')
+
+            expect(res).toEqual(graph2);
+        })
+
+        test('Testing getGraphIndexById method', () => {
+            const store = new Store();
+            const graph1 = new StandardGraph('id1', 'heatmap', 'species', []);
+            const graph2 = new StandardGraph('id2', 'heatmap', 'species', []);
+            const graph3 = new StandardGraph('id3', 'heatmap', 'species', []);
+            store.addGraph(graph1);
+            store.addGraph(graph3);
+            store.addGraph(graph2);
+            const res = store.getGraphIndexById('id2');
+
+            expect(res).toEqual(2);
+        })
+
+        describe('Testing reset method', () => {
+
+            test('Must remove originalData', () => {
+                const data = [
+                    ["sepalLength", "sepalWidth", "petalLength", "petalWidth", "species"],
+                    [5.1, 3.5, 1.4, 0.2, "setosa"],
+                    [4.9, 3, 1.4, 0.2, "setosa"],
+                    [4.7, 3.2, 1.3, 0.2, "setosa"]
+                ];
+                const store = new Store();
+                store.originalData = data;
+                store.reset();
+    
+                expect(store.originalData).toEqual(new Data());
+            })
+    
+            test('Must remove all graphs from graphs', () => {
+                const graph1 = new StandardGraph('id1', 'heatmap', 'species', []);
+                const graph2 = new StandardGraph('id2', 'heatmap', 'species', []);
+                const graph3 = new StandardGraph('id3', 'heatmap', 'species', []);
+                const store = new Store();
+                store.addGraph(graph1);
+                store.addGraph(graph2);
+                store.addGraph(graph3);
+                store.reset();
+    
+                expect(store.graphs.length).toEqual(0);
+            })
+        })
+
+        test('Testing getNumericFeatures', () => {
+            const features = new Map();
+            features.set('sepalLength', 'number');
+            features.set('sepalWidth', 'number');
+            features.set('species', 'string');
+            const store = new Store();
+            store.features = features;
+            expect(store.getNumericFeatures()).toEqual(['sepalLength', 'sepalWidth']);
+        })
+
+        test('Testing getNumericFeatures', () => {
+            const features = new Map();
+            features.set('sepalLength', 'number');
+            features.set('sepalWidth', 'number');
+            features.set('species', 'string');
+
+            const store = new Store();
+            store.features = features;
+            expect(store.getStringFeatures()).toEqual(['species']);
+        })
+
+        describe('Testing calculateReduction', () => {
+
+            test('Should not be undefined', () => {
+                const store = new Store();
+                const d = [
+                    ['feat1', 'feat2', 'feat3', 'feat4'],
+                    [4.7, 3.2, 1.3, 0.2],
+                    [4.6, 3.1, 1.5, 0.2],
+                    [5.0, 3.6, 1.4, 0.2],
+                    [5.4, 3.9, 1.7, 0.4],
+                    [4.6, 3.4, 1.4, 0.3],
+                    [5.0, 3.4, 1.5, 0.2]
+                ];
+                store.loadData(d);
+                let param = new FastmapParameters(2, d.matrix);
+                let strategy = new FASTMAP();
+                let res = store.calculateReduction(['feat1', 'feat2', 'feat3'], strategy, param);
+                expect(res).not.toBeUndefined();
+            })
+    
+            test('Must set an array', () => {
+                const store = new Store();
+                const d = [
+                    ['feat1', 'feat2', 'feat3', 'feat4'],
+                    [4.7, 3.2, 1.3, 0.2],
+                    [4.6, 3.1, 1.5, 0.2],
+                    [5.0, 3.6, 1.4, 0.2],
+                    [5.4, 3.9, 1.7, 0.4],
+                    [4.6, 3.4, 1.4, 0.3],
+                    [5.0, 3.4, 1.5, 0.2]
+                ];
+                store.loadData(d);
+                let param = new FastmapParameters(2, d.matrix);
+                let strategy = new FASTMAP();
+                let res = store.calculateReduction(['feat1', 'feat2', 'feat3'], strategy, param);
+    
+                expect(res).toBeInstanceOf(Array);
+            })
+    
+            test('Must set the correct reduction array', () => {
+                const store = new Store();
+                const d = [
+                    ['feat1', 'feat2', 'feat3', 'feat4'],
+                    [4.7, 3.2, 1.3, 0.2],
+                    [4.6, 3.1, 1.5, 0.2],
+                    [5.0, 3.6, 1.4, 0.2],
+                    [5.4, 3.9, 1.7, 0.4],
+                    [4.6, 3.4, 1.4, 0.3],
+                    [5.0, 3.4, 1.5, 0.2]
+                ];
+                store.loadData(d);
+                let param = new FastmapParameters(2, d.matrix);
+                let strategy = new FASTMAP();
+                let res = store.calculateReduction(['feat1', 'feat2', 'feat3', 'feat4'], strategy, param);
+                console.log(res)
+                const expected = [
+                    ['Dimension1', 'Dimension2'],
+                    [0.10289915108550575, 0.11270864473859267],
+                    [0, 0.08725830560407187],
+                    [0.6002450479987811, 0.13270533977285934],
+                    [1.1661903789690604, 0.087258305604072],
+                    [0.20579830217101036, 0.3235828832817664],
+                    [0.48019603839902486, 0]
+                  ];
+    
+                expect(res).toEqual(expected);
+            })
+        })
+
+        describe('Testing calculateDistanceData', () => {
+
+          /*  test('Testing euclidean distance', () => {
+                const store = new Store();
+                let data = [
+                    ['sepalLength', 'sepalWidth', 'petalLength', 'petalWidth', 'species'],
+                    [5.1, 3.5, 1.4, 0.2, 'setosa'],
+                    [4.9, 3, 1.4, 0.2, 'setosa']
+                ];
+                store.loadData(data);
+    
+                let actual = store.calculateDistanceData(druid.euclidean, ['sepalLength', 'sepalWidth', 'petalWidth'], 'species');
+                let expected = new DistanceData(
+                    [
+                        { 'sepalLength': 5.1,
+                          'sepalWidth': 3.5, 
+                          'petalWidth': 0.2, 
+                          'id': 'nodo_1', 
+                          'group': undefined },
+                        { 'sepalLength': 4.9, 
+                          'sepalWidth': 3, 
+                          'petalWidth': 0.2, 
+                          'id': 'nodo_2', 
+                          'group': undefined }
+                    ], [
+                        {"source": "nodo_1", 
+                        "target": "nodo_2", 
+                        "value": 0.5385164807134502}
+                    ]);
+    
+                expect(actual).toEqual(expected);
+            })*/ 
+
+            test('Must not be undefined', () => {
+                const store = new Store();
+                let data = [
+                    ['sepalLength', 'sepalWidth', 'petalLength', 'petalWidth', 'species'],
+                    [5.1, 3.5, 1.4, 0.2, 'setosa'],
+                    [4.9, 3, 1.4, 0.2, 'setosa']
+                ];
+                store.loadData(data);
+    
+                let actual = store.calculateDistanceData(druid.euclidean, ['sepalLength', 'sepalWidth', 'petalWidth'], 'species');
+    
+                expect(actual).not.toBeUndefined();
+            })
+
+            test('Must not be type of DistanceData', () => {
+                const store = new Store();
+                let data = [
+                    ['sepalLength', 'sepalWidth', 'petalLength', 'petalWidth', 'species'],
+                    [5.1, 3.5, 1.4, 0.2, 'setosa'],
+                    [4.9, 3, 1.4, 0.2, 'setosa']
+                ];
+                store.loadData(data);
+    
+                let actual = store.calculateDistanceData(druid.euclidean, ['sepalLength', 'sepalWidth', 'petalWidth'], 'species');
+    
+                expect(actual).toBeInstanceOf(DistanceData);
+            })
+        })
+
+        describe('Testing calculateSelectedData method', () => {
+
+            test('Must return correct matrix', () => {
+                const store = new Store();
+                const d = [
+                    ['feat1', 'feat2', 'feat3', 'feat4'],
+                    [4.7, 3.2, 1.3, 0.2],
+                    [4.6, 3.1, 1.5, 0.2],
+                    [5.0, 3.6, 1.4, 0.2],
+                    [5.4, 3.9, 1.7, 0.4],
+                    [4.6, 3.4, 1.4, 0.3],
+                    [5.0, 3.4, 1.5, 0.2]
+                ];
+                store.loadData(d);
+                const expected = [
+                    ['feat1', 'feat4'],
+                    [4.7, 0.2],
+                    [4.6, 0.2],
+                    [5.0, 0.2],
+                    [5.4, 0.4],
+                    [4.6, 0.3],
+                    [5.0, 0.2]
+                ];
+
+                expect(store.calculateSelectedData(['feat1', 'feat4'])).toEqual(expected);
+            })
+
+            test('Must not be undefined', () => {
+                const store = new Store();
+                const d = [
+                    ['feat1', 'feat2', 'feat3', 'feat4'],
+                    [4.7, 3.2, 1.3, 0.2],
+                    [4.6, 3.1, 1.5, 0.2],
+                    [5.0, 3.6, 1.4, 0.2],
+                    [5.4, 3.9, 1.7, 0.4],
+                    [4.6, 3.4, 1.4, 0.3],
+                    [5.0, 3.4, 1.5, 0.2]
+                ];
+                store.loadData(d);
+
+                expect(store.calculateSelectedData(['feat1', 'feat4'])).not.toBeUndefined();
+            })
+
+            test('Must return an array', () => {
+                const store = new Store();
+                const d = [
+                    ['feat1', 'feat2', 'feat3', 'feat4'],
+                    [4.7, 3.2, 1.3, 0.2],
+                    [4.6, 3.1, 1.5, 0.2],
+                    [5.0, 3.6, 1.4, 0.2],
+                    [5.4, 3.9, 1.7, 0.4],
+                    [4.6, 3.4, 1.4, 0.3],
+                    [5.0, 3.4, 1.5, 0.2]
+                ];
+                store.loadData(d);
+
+                expect(store.calculateSelectedData(['feat1', 'feat4'])).toBeInstanceOf(Array);
             })
         })
     })

@@ -83,7 +83,7 @@ export default class Store {
     }
 
     reset() {
-        this.originalData = new Data([]);
+        this.originalData = [];
         this.graphs = [];
         this.features.clear();
     }
