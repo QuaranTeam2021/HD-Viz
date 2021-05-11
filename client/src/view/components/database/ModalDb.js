@@ -20,7 +20,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function ModalDb() {
+export default function ModalDb({onSubmit}) {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
   const [selectedColumns, setSelectedColumns] = useState([]);
@@ -72,7 +72,8 @@ export default function ModalDb() {
 
   const onChangeTableDb = e => {
     setSelectedTable(e.target.value);
-    getColsNames(e.target.value);
+    getColsNames(e.target.value); 
+
   }
   
   const optionsSelected = useCallback(() => {
@@ -97,14 +98,19 @@ export default function ModalDb() {
       loaderController.loadTable(selectedTable);
     else
       loaderController.loadTableCols(selectedTable, selectedColumns);
-    onClose();
+    onClose(); 
+    onSubmit({ name: selectedTable }); 
   });
   
+  const onClickTable = () => { 
+    setSelectedColumns([]); 
+
+  }
   const body = 
   <div id="db_div" className={classes.paper}>
       <ButtonCloseModalDb onClick={onClose}/> 
       <div id="description">
-        <SelectVizTable onChange={onChangeTableDb} tables={datasetsDb}/>
+        <SelectVizTable onChange={onChangeTableDb} tables={datasetsDb} onClick={onClickTable}/>
         <SelectVizColumns onChange={onChangeColumnsDb} columns={tableColumnsDb} selectedColumns={selectedColumns} /> 
         <ButtonConfirmDb onClick={onClickSent} disabled={!sent} />
       </div>   

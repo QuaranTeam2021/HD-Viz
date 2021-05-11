@@ -12,7 +12,7 @@ const d3 = require('d3');
  * @param {String} grouper grouping column
  * @param {String} idBox box to append
  */
-const scpMatrix = function(data, cols, grouper, idBox) {
+export const scpMatrix = function(data, cols, grouper, idBox) {
 	const size = 180;
 	// size = (width - (columns.length + 1) * padding) / columns.length + padding;
 	const padding = 20;
@@ -164,6 +164,4 @@ const scpMatrix = function(data, cols, grouper, idBox) {
 		circle.classed("hidden", false);
 	});
 
-}
-
-exports.scpMatrix = scpMatrix;
+};
