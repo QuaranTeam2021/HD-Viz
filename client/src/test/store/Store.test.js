@@ -3,11 +3,11 @@
 import * as druid from "@saehrimnir/druidjs";
 import { describe, expect, test } from '@jest/globals';
 import Data from '../../store/Data';
+import DistanceData from "../../store/DistanceData";
 import FASTMAP from '../../store/Algorithm/FASTMAP';
 import FastmapParameters from '../../store/Parameters/FastmapParameters';
 import StandardGraph from '../../store/Graph/StandardGraph';
 import Store from '../../store/Store';
-import DistanceData from "../../store/DistanceData";
 
 
 describe('Testing Store class', () => {
@@ -464,7 +464,6 @@ describe('Testing Store class', () => {
                 let param = new FastmapParameters(2, d.matrix);
                 let strategy = new FASTMAP();
                 let res = store.calculateReduction(['feat1', 'feat2', 'feat3', 'feat4'], strategy, param);
-                console.log(res)
                 const expected = [
                     ['Dimension1', 'Dimension2'],
                     [0.10289915108550575, 0.11270864473859267],
@@ -481,7 +480,7 @@ describe('Testing Store class', () => {
 
         describe('Testing calculateDistanceData', () => {
 
-          /*  test('Testing euclidean distance', () => {
+            test('Testing euclidean distance', () => {
                 const store = new Store();
                 let data = [
                     ['sepalLength', 'sepalWidth', 'petalLength', 'petalWidth', 'species'],
@@ -490,27 +489,26 @@ describe('Testing Store class', () => {
                 ];
                 store.loadData(data);
     
-                let actual = store.calculateDistanceData(druid.euclidean, ['sepalLength', 'sepalWidth', 'petalWidth'], 'species');
-                let expected = new DistanceData(
-                    [
-                        { 'sepalLength': 5.1,
-                          'sepalWidth': 3.5, 
-                          'petalWidth': 0.2, 
-                          'id': 'nodo_1', 
-                          'group': undefined },
-                        { 'sepalLength': 4.9, 
-                          'sepalWidth': 3, 
-                          'petalWidth': 0.2, 
-                          'id': 'nodo_2', 
-                          'group': undefined }
+                let actual = store.calculateDistanceData(druid.euclidean, ['sepalLength', 'sepalWidth', 'petalWidth'], ['species']);
+                let expected = new DistanceData([
+                    { 'sepalLength': 5.1,
+                        'sepalWidth': 3.5, 
+                        'petalWidth': 0.2, 
+                        'id': 'nodo_1', 
+                        'group': 'setosa' },
+                    { 'sepalLength': 4.9, 
+                        'sepalWidth': 3, 
+                        'petalWidth': 0.2, 
+                        'id': 'nodo_2', 
+                        'group': 'setosa' }
                     ], [
-                        {"source": "nodo_1", 
+                    { "source": "nodo_1", 
                         "target": "nodo_2", 
-                        "value": 0.5385164807134502}
-                    ]);
+                        "value": 0.5385164807134502 }
+                ]);
     
                 expect(actual).toEqual(expected);
-            })*/ 
+            })
 
             test('Must not be undefined', () => {
                 const store = new Store();

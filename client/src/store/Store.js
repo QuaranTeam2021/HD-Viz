@@ -126,12 +126,16 @@ export default class Store {
     calculateDistanceData(distFunc, cols, grouper) {
         let data = this.calculateSelectedData(cols);
         let groups = this.calculateSelectedData(grouper).flat();
+        let header = data[0];
         let matrix = new DistanceData();
         let links = [], 
             nodes = [];
         for (let i = 1; i < data.length; i++) {
-            let node = data[i];
-            node.id="nodo_"+i;
+            let node = {};
+            data[i].forEach((el, idx) => {
+                node[header[idx]] = el;
+            })
+            node.id = "nodo_"+i;
             node.group = groups[i];
             nodes.push(node);
             for (let j = i+1; j < data.length; j++) {
