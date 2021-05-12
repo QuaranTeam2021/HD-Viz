@@ -10,6 +10,7 @@ import ModalDb from './database/ModalDb';
 import RadioAlgorithm from './algorithms/RadioAlgorithm';
 import RadioDistance from './startUpOptions/RadioDistance';
 import RadioGraphType from './startUpOptions/RadioGraphType';
+import TooltipConfirm from './startUpOptions/TooltipConfirm';
 import TooltipDistColumns from './startUpOptions/columns/TooltipDistColumns';
 import TooltipVizColumns from './startUpOptions/columns/TooltipVizColumns';
 import TSNEfeatures from './algorithms/TSNEfeatures';
@@ -283,7 +284,8 @@ export default function BuildGraph({ defineStore }) {
         </div>
         <Link to="/visualization" >
             <div id="ButtonConfirm">
-              {selectedInsert(insert) && <ButtonConfirm onClick={onClickConfirm} disabled={!confirm} />}
+              {selectedInsert(insert) && <ButtonConfirm onClick={onClickConfirm} disabled={!confirm} /> } 
+               {selectedInsert(insert) && <TooltipConfirm/>}
             </div>
         </Link>
       </div>
