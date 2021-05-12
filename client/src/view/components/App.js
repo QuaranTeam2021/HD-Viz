@@ -76,7 +76,7 @@ const App = () => {
               </Switch>
             </Router>
           </div>
-          <div className="footerDiv">
+          <div>
           <Footer />
           </div>
         </UmapControllerContext.Provider>
