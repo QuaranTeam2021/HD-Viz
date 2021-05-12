@@ -48,7 +48,7 @@ body {
   display: inline;
 }
 
-.BuildGraph, .dataset_div, #ManUt {
+.BuildGraph, .dataset_div, #ManUt, #visualization {
   min-height: 42em;
 }
 
