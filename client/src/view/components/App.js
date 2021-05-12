@@ -71,13 +71,14 @@ const App = () => {
                   <Database />
                 </Route>
                 <Route path="/help">
-                  <div>Manuale</div>
+                  <div id="ManUt">Manuale</div>
                 </Route>
               </Switch>
             </Router>
+            <div id="push"> </div>
           </div>
           <div>
-          <Footer />
+            <Footer />
           </div>
         </UmapControllerContext.Provider>
         </TsneControllerContext.Provider>
