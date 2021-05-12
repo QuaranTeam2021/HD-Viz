@@ -15,6 +15,7 @@ import TsneController, { TsneControllerContext } from '../../controller/TsneCont
 import UmapController, { UmapControllerContext } from '../../controller/UmapController';
 import BuildGraph from './BuildGraph';
 import Database from './database/Database';
+import Footer from './Footer';
 import Header from './Header';
 import Visualization from './Visualization';
 
@@ -74,6 +75,9 @@ const App = () => {
                 </Route>
               </Switch>
             </Router>
+          </div>
+          <div className="footerDiv">
+          <Footer />
           </div>
         </UmapControllerContext.Provider>
         </TsneControllerContext.Provider>
