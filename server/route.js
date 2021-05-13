@@ -1,18 +1,22 @@
 const express = require('express');
-const fs = require("fs");
-const fastcsv = require("fast-csv");
+const fs = require('fs');
+const papa = require('papaparse');
 const router = express.Router();
-const client = require("./db");
+const client = require('./db');
 
 // get tables names
 router.get("/tableslist", async(req, res) => {
     try {
-        const data = await client.query(`SELECT table_name FROM information_schema.tables WHERE table_schema='public'`);
+        const data = await client.query(`
+            SELECT table_name 
+            FROM information_schema.tables 
+            WHERE table_schema='public'
+        `);
         res.json(data.rows);
     } 
     catch (err) {
-        console.error(err.message);
-        res.status(500).send('Server error: access to data denied');
+        console.error('tableslist: Server error', err.message);
+        res.status(500).send(`Server error: ${err.message}`);
     }
 });
 
@@ -20,25 +24,28 @@ router.get("/tableslist", async(req, res) => {
 router.get("/getcolnames/:table", async(req, res) => {
     try {
         const { table } = req.params;
-
-        if(table === undefined || table === null) {
-            console.log(`Empty table parameter passed`);
+        
+        if(table == 'undefined' || table === undefined) {
+            console.log(`getcolnames: Empty table parameter passed`);
             res.status(400).send(`Empty table parameter passed`);
         }
         else {
-            const data = await client.query(`SELECT column_name, data_type FROM information_schema.columns WHERE table_name = '${table}';`);
-            
+            const data = await client.query(`
+                SELECT column_name, data_type 
+                FROM information_schema.columns 
+                WHERE table_name = '${table}';
+            `);
             if(data.rowCount == 0) {
-                console.log(`table ${table} doesn't exist => `, data.rows)
-                res.status(404).send(`Server error: table ${table} doesn't exist`);
+                console.log(`getcolnames: Table ${table} doesn't exist => `, data.rows)
+                res.status(404).send(`Table ${table} doesn't exist`);
             } 
             else
                 res.json(data.rows);
         }
     } 
     catch (err) {
-        console.error('Server error', err.message);
-        res.status(500).send('Server error');
+        console.error('getcolnames: Server error', err.message);
+        res.status(500).send(`Server error: ${err.message}`);
     }
 });
 
@@ -46,12 +53,27 @@ router.get("/getcolnames/:table", async(req, res) => {
 router.get("/getcontent/:table", async(req, res) => {
     try {
         const { table } = req.params;
-        const data = await client.query(`SELECT * FROM ${table}`);
-        res.json(data.rows);
+
+        if(table == 'undefined' || table === undefined) {
+            console.log(`getcontent: Empty table parameter passed`);
+            res.status(400).send(`Empty table parameter passed`);
+        }
+        else {
+            const data = await client.query(`
+                SELECT * 
+                FROM ${table}
+            `);
+            if(data.rowCount == 0) {
+                console.log(`getcontent: table ${table} is empty => `, data.rows)
+                res.status(404).send(`Table ${table} is empty`);
+            } 
+            else
+                res.json(data.rows);
+        }
     } 
     catch (err) {
-        console.error(err.message);
-        res.status(404).send('Server error: selected table doesn\'t exist');
+        console.error('getcontent: Server error', err.message);
+        res.status(500).send(`Server error: ${err.message}`);
     }
 });
 
@@ -61,146 +83,183 @@ router.post("/getselectedcol/:table", async (req, res) => {
         const { table } = req.params;
         const { features } = req.body;
 
-        const selectedCol = features.split(",");
-
-        // creazione lista colonne
-        var query = ``;
-        for (var i in selectedCol) {
-            if (i) 
-                query = query + ` ${selectedCol[i]},`;
+        if(table == 'undefined' || table === undefined) {
+            console.log(`getselectedcol: Empty table parameter passed`);
+            res.status(400).send(`Empty table parameter passed`);
         }
-
-        query = query.slice(0, -1);
-
-        if(!table) {
-            res.status(400).send({ msg: 'select table name' });
-        }
-        else if(selectedCol.length === 0) {
-            res.status(400).send({ msg: 'select some columns' });
+        else if(features === undefined) {
+            console.log(`getselectedcol: Empty features parameter passed (1)`);
+            res.status(400).send(`Empty features parameter passed`);
         }
         else {
-            const data = await client.query(`SELECT ${query} FROM ${table}`);
-            res.json(data.rows);
+            // creazione lista colonne
+            const selectedCol = features.split(",");
+            let query = ``;
+            for (let i in selectedCol)
+                if (i) query = query + ` ${selectedCol[i]},`;
+            query = query.slice(0, -1);
+
+            if(selectedCol.length === 0 || query.length == 1) {
+                console.log(`getselectedcol: Empty features parameter passed (2)`);
+                res.status(400).send(`Empty features parameter passed`);
+            }
+            else {
+                const data = await client.query(`
+                    SELECT ${query} 
+                    FROM ${table}
+                `);
+                res.json(data.rows);
+            }
         }
     }
-    catch(err) {
-        console.error(err.message);
-        res.status(404).send('Server error');
+    catch (err) {
+        console.error('getselectedcol: Server error', err.message);
+        res.status(500).send(`Server error: ${err.message}`);
     }
 });
 
+/*
+const readCSV = (filePath) => {
+    const file = fs.createReadStream(filePath);
+    papa.parse(file, {
+        complete: function(results) {
+            console.log(results.data);
+            return results.data;
+        }
+    });
+}
+
+    fs.createReadStream(path)
+        .pipe(csv.parse({ headers: true }))
+            .on('error', (error) => {
+                console.error(error)
+            })
+            .on('data', (row) => {
+                // console.log(row)
+            })
+            .on('end', (rowCount) => {
+                console.log(`Parsed ${rowCount} rows`)
+            });
+*/
+
+const createTable = function(header, firstRow, table) {
+    
+    let query = '  ';
+    for (let i = 0; i < header.length; i++)
+        query = query + `${header[i]} ${isNaN(1 * firstRow[i]) ? 'VARCHAR' : 'numeric'}, `;
+    query = query.slice(0, -2);
+    console.log("columns type:  ", query);
+
+    client.query(`CREATE TABLE ${table} ( ${query} );`);
+}
+
 // upload a csv (and create the table)
-router.post('/upload/:table', (req, res) => {
-// router.post('/upload/:table', async (req, res) => {
+router.post('/upload/:table', async (req, res) => {
     try {
         const { table } = req.params;
-
-        if(!req.files) {
-            res.send({
-                status: false,
-                message: 'No file uploaded'
-            });
-        } 
+        
+        if (table == 'undefined' || table === undefined) {
+            console.log(`upload: Empty table parameter passed`);
+            res.status(400).send(`Empty table parameter passed`);
+        }
+        else if (!req.files) {
+            console.log(`upload: No file uploaded`);
+            res.status(400).send(`No file uploaded`);
+        }
         else {
-            // Use the name of the input field to retrieve the uploaded file
-            let uploadedFile = req.files.uploadedFile;
-            
-            // Use the mv() method to place the file in uploads directory
-            uploadedFile.mv('./uploads/' + uploadedFile.name);
+            // Check if the table name is free
+            const data = await client.query(`
+                SELECT EXISTS (
+                    SELECT FROM pg_tables
+                    WHERE  schemaname = 'public'
+                    AND    tablename  = '${table}'
+                );
+            `);
 
-            let stream = fs.createReadStream(`uploads/${uploadedFile.name}`);
-            let csvData = [];
-            let csvStream = fastcsv
-                .parse()
-                .on("data", function parseData(data) {
-                    csvData.push(data);
-                })
-                .on("end", function saveInTheDB() {
-
-                    // header e prima riga
-                    const header = csvData[0];
-                    const firstRow = csvData[1];
-                    console.log(header);
-                    console.log(firstRow);
-
-                    var type = function(el) {
-                        if(isNaN(1 * el))
-                            return "VARCHAR";
-                        return "numeric";
-                    }
-
-                    // Creo mappa (nome_colonna, tipo)
-                    var columns = new Map();
-                    for (var i = 0; i < header.length; i++) {
-                        columns.set(header[i], type(firstRow[i]));
-                    }
-                    console.log(columns);
-    
-                    var query = '  ';
-                    for (var [key, value] of columns) {
-                        query = query + `${key} ${value}, `;
-                    }
-                    query = query.slice(0, -2);
-    
-                    // CREAZIONE TABELLA (Rimosso await)
-                    const data = client.query(`CREATE TABLE ${table} ( ${query} );`);
-                    console.log(data);
-
-                    // remove the first line: header
-                    csvData.shift();
+            if (data.rows[0].exists) {
+                console.log(`upload: table name already exists`)
+                res.status(400).send(`Table name already exists`);
+            }
+            else {
                 
-                    // Creazione query nella forma `INSERT INTO ${table} VALUES ($1, $2, ...);`
-                    var param = `INSERT INTO ${table} VALUES (`;
-                    for (var j = 1; j <= header.length; j++) {
-                        param = param + ` $${j},`;
-                    }
-                    param = param.slice(0, -1);
-                    param = param + `);`;
-                    console.log(param);
+                // Use the name of the input field to retrieve the uploaded file
+                let uploadedFile = req.files.uploadedFile;
+                let path = './uploads/' + uploadedFile.name;
+                // Use the mv() method to place the file in uploads directory
+                uploadedFile.mv(path);
+                
+                const file = fs.createReadStream(path);
+                papa.parse(file, {
+                    complete: (results) => {
 
-                    try {
-                        csvData.forEach((row) => {
-                            // rimosso res da sotto
-                            client.query(param, row, (err) => {
-                                if (err)
-                                    console.log(err.stack);
+                        let csvData = results.data;
+                        // console.log(csvData)
+                        const header = csvData[0];
+                        const firstRow = csvData[1];
+
+                        if(header === undefined || firstRow === undefined) {
+                            console.log(`upload: header and first row are undefined`)
+                            res.status(500).send(`Undefined header`);
+                        }
+                        else {
+
+                            createTable(header, firstRow, table);
+
+                            // remove the first line: header
+                            csvData.shift();
+
+                            // Creazione query nella forma `INSERT INTO ${table} VALUES ($1, $2, ...);`
+                            let param = ' ';
+                            for (let j = 1; j <= header.length; j++)
+                                param = param + ` $${j},`;
+                            param = param.slice(0, -1);
+
+                            csvData.forEach((row) => {
+                                client.query(`INSERT INTO ${table} VALUES ( ${param} );`, row, (err) => {
+                                    if (err) console.log(err.message);
+                                });
                             });
-                        });
-                    } 
-                    catch (err) {
-                        res.status(500).send(err);
+
+                            console.log("table created");
+                            res.send("table created");
+                        }
+                    },
+                    error: (err) => {
+                        console.error('upload: (error handler di papaparse): ', err.message);
+                        res.status(500).send(`Server error`);
                     }
                 });
-            
-            stream.pipe(csvStream);
 
-            res.send({
-                status: true,
-                message: 'File is uploaded',
-                data: {
-                    name: uploadedFile.name,
-                    mimetype: uploadedFile.mimetype,
-                    size: uploadedFile.size
-                },
-                table: 'Successfully created'
-            });
+                // remove file
+                
+                // fs.unlinkSync(path);
+            }
         }
     } 
     catch (err) {
-        res.status(500).send(err);
+        console.error('upload: Server error: ', err.message);
+        res.status(500).send(`Server error`);
     }
+
 });
 
 // delete table
 router.delete("/delete/:table", async (req, res) => {
     try {
         const { table } = req.params;
-        await client.query(`DROP TABLE ${table};`);
-        res.json(`The table ${table} was successfully deleted`);
+
+        if(table == 'undefined' || table === undefined) {
+            console.log(`delete: Empty table parameter passed`);
+            res.status(400).send(`Empty table parameter passed`);
+        }
+        else {
+            await client.query(`DROP TABLE ${table};`);
+            res.json(`The table ${table} was successfully deleted`);
+        }
     } 
     catch (err) {
-        console.error(err.message);
-        res.status(404).send('Server error: selected table doesnt exist');
+        console.error('delete: ', err.message);
+        res.status(404).send(`${err.message}`);
     }
 });
 
