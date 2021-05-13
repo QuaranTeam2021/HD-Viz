@@ -29,6 +29,9 @@ body {
   background-color: black;
   text-align: center;
   padding: 0.5em;
+  position:fixed;
+  bottom: 0;
+  width: 100%;
 }
 
 .App-footer, #push {
