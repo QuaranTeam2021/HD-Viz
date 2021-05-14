@@ -14,8 +14,8 @@ export default class DistanceBasedGraphController {
         this.store.addGraph(graph);
     }
 
-    changeDistance(graphId, distance, features) {
-        let data = this.store.calculateDistanceData(distance, features);
+    changeDistance(graphId, distance, features, grouper) {
+        let data = this.store.calculateDistanceData(Distance[distance], features, grouper);
         let graph = this.store.getGraphById(graphId);
         graph.data = data;
         let index = this.store.getGraphIndexById(graphId);
