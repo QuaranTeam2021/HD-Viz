@@ -12,11 +12,11 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function DeleteDb({ onClickDelete, idx }) {
+export default function DeleteDb({ onClickDelete, value }) {
   const classes = useStyles();
    return (
     <div className={classes.root}>
-      <IconButton aria-label="delete" onClick={() => onClickDelete(idx)}>
+      <IconButton aria-label="delete" onClick={() => onClickDelete(value)}>
         <DeleteIcon />
       </IconButton>
     </div>

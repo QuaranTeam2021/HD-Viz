@@ -6,6 +6,7 @@ export default class DatabaseManagerController {
         this.port = 5000;
     }
 
+// eslint-disable-next-line consistent-return
     async upload(table, file) {
         if (file.size > 0 && file.size < 50000) {
             try {
@@ -19,6 +20,7 @@ export default class DatabaseManagerController {
                 });
                 const jsonData = await response.json();
                 console.log(jsonData);
+                return jsonData;
             } catch (err) {
                 console.error(err.message);
             }

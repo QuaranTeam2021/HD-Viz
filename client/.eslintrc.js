@@ -120,7 +120,7 @@ module.exports = {
             }
         ],
         "linebreak-style": [
-            "error",
+            "warn",
             "windows"
         ],
         "lines-around-comment": "error",

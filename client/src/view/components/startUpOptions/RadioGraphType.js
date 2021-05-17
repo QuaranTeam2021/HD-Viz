@@ -35,7 +35,6 @@ export default function RadioGraphType({ onChange }) {
         <FormLabel component="legend" >Grafico: </FormLabel>
         <RadioGroup aria-label="position" name="position" position="left" onChange={onChange}>
           <FormControlLabel value="scptMat" control={<PurpleRadio color="primary" />} label="Scatterplot Matrix" />
-          <FormControlLabel value="scp" control={<PurpleRadio color="primary" />} label="Scatterplot" />
           <FormControlLabel value="htmp" control={<PurpleRadio color="primary" />} label="HeatMap" />
           <FormControlLabel value="frcfld" control={<PurpleRadio color="primary" />} label="Force Field" />
           <FormControlLabel value="malp" control={<PurpleRadio color="primary" />} label="Proiezione Multiassi" />

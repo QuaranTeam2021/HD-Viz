@@ -15,7 +15,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function SimpleSelect({onChange, tables, onClick}) {
+export default function SelectVizTable({ onChange, tables, selected }) {
   const classes = useStyles();
 
   return (
@@ -25,8 +25,8 @@ export default function SimpleSelect({onChange, tables, onClick}) {
         <Select
           labelId="demo-simple-select-label"
           id="demo-simple-select"
-          onChange={onChange}
-          onClick={onClick}>
+          value={selected}
+          onChange={onChange}>
           { tables && tables.map((v, i) => <MenuItem value={v} key={i}>{v}</MenuItem>) }
         </Select>
       </FormControl>

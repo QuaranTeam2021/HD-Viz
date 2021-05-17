@@ -112,7 +112,7 @@ module.exports = {
         "keyword-spacing": "off",
         "line-comment-position": "off",
         "linebreak-style": [
-            "error",
+            "warn",
             "windows"
         ],
         "lines-around-comment": "error",

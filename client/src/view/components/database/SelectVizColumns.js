@@ -39,12 +39,12 @@ const MenuProps = {
   },
 };
 
-export default function MultipleSelectColumns({ onChange, columns, selectedColumns}) {
+export default function SelectVizColumns({ onChange, columns, selectedColumns }) {
   const classes = useStyles();
   
   return (
       <FormControl className={classes.formControl}>
-      <InputLabel id="demo-mutiple-chip-label">Columns</InputLabel>
+      <InputLabel id="demo-mutiple-chip-label">Colonne</InputLabel>
       <Select
         labelId="demo-mutiple-chip-label"
         id="demo-mutiple-chip"

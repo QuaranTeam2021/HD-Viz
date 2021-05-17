@@ -21,13 +21,13 @@ const useStyles = makeStyles(theme => ({
 }));
 
 
-export default function ButtonConfirm({ onClick, disabled }) {
+export default function ButtonConfirmDb({ onClick, disabled }) {
   const classes = useStyles();
 
   return (
     <div id="button">
       <ColorButton variant="contained" color="primary" className={classes.margin} onClick={onClick} disabled={disabled}>
-        Invia Dati
+        Scegli questi dati
       </ColorButton>
     </div>
   );

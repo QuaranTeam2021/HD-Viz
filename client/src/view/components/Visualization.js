@@ -15,9 +15,6 @@ const switchGraph = type => {
 	switch (type) {
 		case "scptMat":
 			return scpMatrix;
-		
-		/* case "scp":
-			return scpMatrix; */
 		case "htmp":
 			return heatmap;
 		case "frcfld":
@@ -40,9 +37,6 @@ const switchArguments = graph => {
 				grouper,
 				graph.graphId,
 			];
-			
-		/* case "scp":
-		return scpMatrix; */
 		case "htmp":
 			return [
 				data,
@@ -76,9 +70,6 @@ export default function Visualization({ algoritmoGrafico, tipoGrafico, distanzaG
 				switch (g.type) {
 					case "scptMat":
 						title = "Scatterplot Matrix";
-						break;
-					case "scp":
-						title = "Scatterplot";
 						break;
 					case "htmp":
 						title = "Heatmap";

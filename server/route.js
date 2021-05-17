@@ -5,7 +5,7 @@ const router = express.Router();
 const client = require('./db');
 
 // get tables names
-router.get("/tableslist", async(req, res) => {
+router.get("/tableslist", async (req, res) => {
     try {
         const data = await client.query(`
             SELECT table_name 
@@ -118,30 +118,6 @@ router.post("/getselectedcol/:table", async (req, res) => {
     }
 });
 
-/*
-const readCSV = (filePath) => {
-    const file = fs.createReadStream(filePath);
-    papa.parse(file, {
-        complete: function(results) {
-            console.log(results.data);
-            return results.data;
-        }
-    });
-}
-
-    fs.createReadStream(path)
-        .pipe(csv.parse({ headers: true }))
-            .on('error', (error) => {
-                console.error(error)
-            })
-            .on('data', (row) => {
-                // console.log(row)
-            })
-            .on('end', (rowCount) => {
-                console.log(`Parsed ${rowCount} rows`)
-            });
-*/
-
 const createTable = function(header, firstRow, table) {
     
     let query = '  ';
@@ -235,7 +211,7 @@ router.post('/upload/:table', async (req, res) => {
                 // fs.unlinkSync(path);
             }
         }
-    } 
+    }
     catch (err) {
         console.error('upload: Server error: ', err.message);
         res.status(500).send(`Server error`);

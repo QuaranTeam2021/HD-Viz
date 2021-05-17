@@ -25,7 +25,7 @@ export default function ModalDb({onSubmit}) {
   const [open, setOpen] = useState(false);
   const [selectedColumns, setSelectedColumns] = useState([]);
   const [selectedTable, setSelectedTable] = useState(''); 
-  const [sent, sentDb] = useState([]); 
+  const [confirmDb, setConfirmDb] = useState([]); 
 
   const [datasetsDb, setDatasetsDb] = useState();
   const [tableColumnsDb, setTableColumnsDb] = useState();
@@ -35,11 +35,11 @@ export default function ModalDb({onSubmit}) {
 
   const getTabNames = async () => {
     try {
-        const tables = await tablesController.getTablesNames();
-        setDatasetsDb(tables);
+      const tables = await tablesController.getTablesNames();
+      setDatasetsDb(tables);
     } catch (err) {
-        setDatasetsDb([]);
-        console.log(err.message);
+      setDatasetsDb([]);
+      console.log(err.message);
     }
   }
 
@@ -49,13 +49,12 @@ export default function ModalDb({onSubmit}) {
         setTableColumnsDb(cols);
         console.log(cols)
     } catch (err) {
-        console.log(err.message);
+      console.log(err.message);
     }
   }
 
   useEffect(() => {
     getTabNames();
-    getColsNames();
   }, []);
 
   const onOpen = () => {
@@ -78,16 +77,16 @@ export default function ModalDb({onSubmit}) {
   
   const optionsSelected = useCallback(() => {
     let select; 
-    select = selectedColumns !== [];
-    select = select && selectedTable !== "";  
-    sentDb(select);
+    select = selectedTable !== "";  
+    select = select && selectedColumns.length > 0;
+    setConfirmDb(select);
   }, [selectedColumns, selectedTable]);  
   
   useEffect(() => {
     optionsSelected();
   }, [optionsSelected]); 
 
-  const onClickSent = action(() => {
+  const onClickConfirm = action(() => {
     let formData = {
       selectedColumns,
       selectedTable 
@@ -110,9 +109,9 @@ export default function ModalDb({onSubmit}) {
   <div id="db_div" className={classes.paper}>
       <ButtonCloseModalDb onClick={onClose}/> 
       <div id="description">
-        <SelectVizTable onChange={onChangeTableDb} tables={datasetsDb} onClick={onClickTable}/>
+        <SelectVizTable onChange={onChangeTableDb} tables={datasetsDb} selected={selectedTable} />
         <SelectVizColumns onChange={onChangeColumnsDb} columns={tableColumnsDb} selectedColumns={selectedColumns} /> 
-        <ButtonConfirmDb onClick={onClickSent} disabled={!sent} />
+        <ButtonConfirmDb onClick={onClickConfirm} disabled={!confirmDb} />
       </div>   
     </div>
   
