@@ -3,6 +3,7 @@
 /* eslint-disable no-mixed-operators */
 /* eslint-disable operator-assignment */
 const d3 = require('d3');
+import { drawLegend} from './drawLegend'
 
 /**
  * Plot an heatmap of distance-matrix
@@ -13,7 +14,6 @@ const d3 = require('d3');
  */
 
 export const heatmap = function (data, idBox) {
-  let graph = data;
   const margin = { bottom: 10,
       left: 80,
       right: 0,
@@ -21,12 +21,13 @@ export const heatmap = function (data, idBox) {
   const width = 720;
   const height = 720;
 
-  const nodeIds = d3.range(graph.nodes.length);
-  const c = d3.scaleOrdinal(d3.range(10), d3.schemeCategory10),
-    x = d3
-    .scaleBand()
-    .domain(nodeIds)
-    .range([0, width]);
+  // let nodeIds = d3.range(graph.nodes.length);
+  const c = d3.scaleOrdinal(d3.range(10), d3.schemeCategory10);
+
+  /* let x = d3
+       .scaleBand()
+       .domain(nodeIds)
+       .range([0, width]); */
 
   const svg = d3
     .select(`#${idBox}`)
@@ -39,86 +40,114 @@ export const heatmap = function (data, idBox) {
     .attr("transform", `translate(${margin.left},${margin.top})`);
 
   g.append("rect")
-    .style("fill", "rgb(249, 247, 251)")
+    .style("fill", "white")
     .attr("width", width)
     .attr("height", height);
+  const rectHandler = g.append("g").attr("transform", "translate(1,1)");
+
+  let columns, rects, rows;
+  let x = d3.scaleBand();
+
+  const labels = g
+    .append("g")
+    .style("font-size", "7px")
+    .style("font-family", "sans-serif")
+    .append("g")
+    .classed("columns-handler", true)
+    .append("g")
+    .classed("rows-handler", true);
+
+
+  updateData(data)
+  
+  // eslint-disable-next-line func-style
+  function updateData({nodes, links}) {
+    const categories = [...new Set(nodes.map(item => item.group))]; 
+		svg.selectAll(".legend").remove();
+    let nodeIds = d3.range(nodes.length);
+
+
+    x.domain(nodeIds)
+      .range([0, width]);
     
     let idToNode = {};
-    graph.nodes.forEach((n, i) => {
+    nodes.forEach((n, i) => {
         idToNode[n.id] = n;
         n.index = i;
       })
-    const matrix = graph.links
-    .flatMap(function ({ source, target, value }) {
-      const src = idToNode[source],
-      tgt = idToNode[target];
-      return [
-        [src, tgt, value],
-        [tgt, src, value]
-      ]
-    }).concat(graph.nodes.map(n => [n, n, 0]));
-  
+    const matrix = links
+      .flatMap(function ({ source, target, value }) {
+        const src = idToNode[source],
+         tgt = idToNode[target];
+        return [
+          [src, tgt, value],
+          [tgt, src, value]
+        ]
+      }).concat(nodes.map(n => [n, n, 0]));
+    
     const distanceColor = d3.scaleSequential(d3.interpolatePurples)
-        .domain(d3.extent(matrix, ([, , v]) => v));
-    const labels = g
-    .append("g")
-    .style("font-size", "7px")
-    .style("font-family", "sans-serif");
+      .domain(d3.extent(matrix, ([, , v]) => v));
 
-  const columns = labels
-    .append("g")
-    .selectAll()
-    .data(nodeIds)
-    .join("g")
-    .attr("transform", "rotate(-90)")
-    .append("g");
-  columns
-    .append("line")
-    .attr("x2", -width)
-    .style("stroke", "white");
-  columns
-    .append("text")
-    .attr("dx", 2)
-    .attr("dy", x.bandwidth() / 2 + 2)
-    .text(i => graph.nodes[i].id);
-
-  const rows = labels
-    .append("g")
-    .selectAll()
-    .data(nodeIds)
-    .join("g");
-  rows
-    .append("line")
-    .attr("x2", width)
-    .style("stroke", "white");
-  rows
-    .append("text")
-    .attr("text-anchor", "end")
-    .attr("dx", -2)
-    .attr("dy", x.bandwidth() / 2 + 2)
-    .text(i => graph.nodes[i].id);
+    labels.selectAll(".col").remove();
+    labels.selectAll(".row").remove();
+    
+    let colNames = labels
+      .selectAll(".column")
+      .data(nodeIds);
   
-    const rects = g
-    .append("g")
-    .attr("transform", "translate(1,1)")
-    .selectAll()
-    .data(matrix)
-    .join("rect")
-    .attr("width", x.bandwidth() - 2)
-    .attr("height", x.bandwidth() - 2)
-    // eslint-disable-next-line no-confusing-arrow
-    .attr("fill", ([s, t, v]) => s.index === t.index
-        ? c(s.group)
-        : distanceColor(v));
-
+    columns = colNames
+      .join("g")
+      .classed("col", true)
+      .attr("transform", "rotate(-90)")
+      .append("g");
+    columns
+      .append("line")
+      .attr("x2", -width)
+      .style("stroke", "white");
+    columns
+      .append("text")
+      .attr("dx", 2)
+      .attr("dy", x.bandwidth() / 2 + 2)
+      .text(i => nodes[i].id);
+    
+    rows = labels
+      .selectAll()
+      .data(nodeIds)
+      .join("g")
+      .classed("row", true);
+    rows
+      .append("line")
+      .attr("x2", width)
+      .style("stroke", "white");
+    rows
+      .append("text")
+      .attr("text-anchor", "end")
+      .attr("dx", -2)
+      .attr("dy", x.bandwidth() / 2 + 2)
+      .text(i => nodes[i].id);
+    
+    rects = rectHandler
+      .selectAll("rect")
+      .data(matrix)
+      .join("rect")
+      .attr("width", x.bandwidth() - 2)
+      .attr("height", x.bandwidth() - 2)
+      // eslint-disable-next-line no-confusing-arrow
+      .attr("fill", ([s, t, v]) => s.index === t.index
+          ? c(s.group)
+          : distanceColor(v));
+        
+    drawLegend(svg, categories, width);
+    
     /* for animated transitions:
        let prev; */
     
-    update(nodeIds);
+    updateOrder(nodeIds);
+  }
     // eslint-disable-next-line func-style
-    function update(permutation) {
+  function updateOrder(permutation) {
       
-      x.domain(permutation);
+    x.domain(permutation);
 
     /* for animated transitions:
        const delay = prev ? i => x(i) * 4 : 0;
@@ -161,7 +190,7 @@ export const heatmap = function (data, idBox) {
        .on("zoom", ({ transform }) => g.attr("transform", transform)); */
 
   // // zoomHandler(svg);
-  return Object.assign(svg.node(), { update }, { updateThreshold });
+  return Object.assign(svg.node(), { updateOrder }, { updateThreshold }, {updateData});
 }
 
 /**
@@ -170,12 +199,13 @@ export const heatmap = function (data, idBox) {
  * @param {String} mode type of sorting desired
  * @return { Array<number> } ordering of node index.
  */
-export const orders = (graph, mode) => {
-  const n = graph.nodes.length;
+// eslint-disable-next-line no-unused-vars
+export const orders = ({nodes, links}, mode) => {
+  const n = nodes.length;
   switch (mode) {
-    case "id": return d3.range(n).sort((a, b) => d3.ascending(graph.nodes[a].id, graph.nodes[b].id));
-    case "group": return d3.range(n).sort((a, b) => d3.ascending(graph.nodes[a].group, graph.nodes[b].group) ||
-        d3.ascending(graph.nodes[a].id, graph.nodes[b].id));
+    case "id": return d3.range(n).sort((a, b) => d3.ascending(nodes[a].id, nodes[b].id));
+    case "group": return d3.range(n).sort((a, b) => d3.ascending(nodes[a].group, nodes[b].group) ||
+        d3.ascending(nodes[a].id, nodes[b].id));
     case "none":
     default: return d3.range(n);
   }
