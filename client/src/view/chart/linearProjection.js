@@ -81,6 +81,7 @@ export const linearProjection = function (data, cols, grouper, idBox) {
         .append("svg")
         .attr("class", "grafico")
         .attr("viewBox", [0, 0, totalWidth, totalHeight])
+        .attr("width", totalWidth)
         .append("g")
         .attr("transform", `translate(${margin.left},${margin.top})`);
     svg.append("g")

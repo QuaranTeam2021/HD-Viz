@@ -3,10 +3,6 @@
 const d3 = require('d3');
 import { drawLegend} from './drawLegend'
 
-
-const height = 600;
-const width = 954;
-
 /**
  * Plot force-directed graph of an adiacency-matrix.
  * @param {Array<Object>} data graph-formed json array
@@ -17,7 +13,8 @@ const width = 954;
 export const forceDirected = function (data, idBox) {
 let nodes = data.nodes;
 let links = data.links;
-
+	const height = 600;
+	const width = 600;
 	let forceProperties = {
 		center: {
 			x: 0.5,
@@ -46,7 +43,8 @@ let links = data.links;
 		.select(`#${idBox}`)
 		.append("svg")
 		.classed("grafico", true)
-		.attr("viewBox", [0, 0, width, height]);
+		.attr("viewBox", [0, 0, width, height])
+		.attr("width", width);
 	let link,
 		node,
 		simulation;
