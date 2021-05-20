@@ -5,7 +5,7 @@
 /* eslint-disable func-style */
 import * as d3 from "d3";
 import { computeCoordinates, getEigenvalues, initProjection, scale } from "./d3-algebric";
-import { drawLegend} from './drawLegend'
+import { drawLegend } from './drawLegend'
 
 /**
  * Plot multi-axis linear-projection graph of a graph.
@@ -80,9 +80,7 @@ export const linearProjection = function (data, cols, grouper, idBox) {
     const svg = d3.select(`#${idBox}`)
         .append("svg")
         .attr("class", "grafico")
-        .attr("width", totalWidth)
-        .attr("height", totalHeight)
-        // .attr("viewBox", [0, 0, totalWidth, totalHeight])
+        .attr("viewBox", [0, 0, totalWidth, totalHeight])
         .append("g")
         .attr("transform", `translate(${margin.left},${margin.top})`);
     svg.append("g")
@@ -161,8 +159,9 @@ export const linearProjection = function (data, cols, grouper, idBox) {
     
     PC1AxisHandler.call(PC1Axis);
     PC2AxisHandler.call(PC2Axis);
-        
-        contentHandler.selectAll("*").remove();
+    
+    svg.selectAll(".legend").remove();
+    contentHandler.selectAll("*").remove();
     contentHandler.selectAll("text.end-axis")
         .data(dims)
         .join("text")
@@ -171,6 +170,7 @@ export const linearProjection = function (data, cols, grouper, idBox) {
         .attr("x", d => xScale(d.pc_1) + 10)
         .attr("y", d => yScale(d.pc_2) + 0)
         .text(d => d.value);
+        
     contentHandler.selectAll(".dot")
         .data(data)
         .join("circle")
