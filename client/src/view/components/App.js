@@ -1,5 +1,5 @@
 import '../css/App.css';
-import '../css/Resp_1023px.css';
+import '../css/Resp_1440px.css';
 import '../css/Resp_768px.css';
 import '../css/Resp_600px.css';
 import DistanceBasedGraphController, { DistanceBasedGraphControllerContext } from '../../controller/DistanceBasedGraphController';
