@@ -86,6 +86,21 @@ body {
   border: 1px solid#61dafb;
 }
 
+#visualization {
+  display: grid;
+  grid-template-columns: auto auto;
+  /*display: flex;
+  flex-wrap: wrap;
+  justify-content: center;*/
+}
+
+.GraphCont {
+  padding-bottom: 2em;
+  /*flex: 1 1 150px;  Stretching:
+  flex: 0 1 150px;  No stretching: 
+  margin: 5px;*/
+}
+
 #visualizzazione {
   display: flex;
   justify-content: space-evenly;
@@ -235,8 +250,14 @@ body {
   justify-content: center;
 }
 
+#ButtonConfirm button {
+  pointer-events: auto;
+}
+
 #selezione a {
   text-decoration: none;
+  display: block;
+  pointer-events: none;
 }
 
 /* Gestione dataset*/

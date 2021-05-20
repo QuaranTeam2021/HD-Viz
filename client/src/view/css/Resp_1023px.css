@@ -2,4 +2,8 @@
   #impostazioni{
     grid-template-columns: auto auto auto;
   }
+
+  #visualization {
+    grid-template-columns: auto;
+  }
 }

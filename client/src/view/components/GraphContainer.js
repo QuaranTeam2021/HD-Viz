@@ -27,8 +27,10 @@ const GraphContainer = observer(({ algoritmoGrafico, graphTitle, distanzaGrafico
 	return (
 		<React.Fragment key={`cont-${graphId}`}>
 			{/* <FeaturesContainer onDelete={onDelete} graphId={graphId} /> */}
-			<RenameTitleGraph title={title} setTitle={setTitle} />
-			<Graph graphId={graphId} />
+			<div className="GraphCont">
+				<RenameTitleGraph title={title} setTitle={setTitle} />
+				<Graph graphId={graphId} />
+			</div>
 		</React.Fragment>
 	);
 });
