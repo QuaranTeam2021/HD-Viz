@@ -1,8 +1,10 @@
 const express = require('express');
+const multer = require('multer');
 const fs = require('fs');
-const papa = require('papaparse');
-const router = express.Router();
 const client = require('./db');
+const papa = require('papaparse');
+const upload = multer({ dest: 'tmp/upload/' });
+const router = express.Router();
 
 // get tables names
 router.get("/tableslist", async (req, res) => {
@@ -129,21 +131,21 @@ const createTable = function(header, firstRow, table) {
     client.query(`CREATE TABLE ${table} ( ${query} );`);
 }
 
-// upload a csv (and create the table)
-router.post('/upload/:table', async (req, res) => {
+router.post('/upload/:table', upload.single('file'), async (req, res) => {
     try {
         const { table } = req.params;
         
-        if (table == 'undefined' || table === undefined) {
-            console.log(`upload: Empty table parameter passed`);
-            res.status(400).send(`Empty table parameter passed`);
-        }
-        else if (!req.files) {
+        if (!req.file) {
             console.log(`upload: No file uploaded`);
             res.status(400).send(`No file uploaded`);
         }
-        else {
-            // Check if the table name is free
+        else if (table == 'undefined' || table === undefined) {
+            fs.unlinkSync(req.file.path);
+            console.log(`upload: Empty table parameter passed`);
+            res.status(400).send(`Empty table parameter passed`);
+        }
+        else { 
+
             const data = await client.query(`
                 SELECT EXISTS (
                     SELECT FROM pg_tables
@@ -157,27 +159,20 @@ router.post('/upload/:table', async (req, res) => {
                 res.status(400).send(`Table name already exists`);
             }
             else {
-                
-                // Use the name of the input field to retrieve the uploaded file
-                let uploadedFile = req.files.uploadedFile;
-                let path = './uploads/' + uploadedFile.name;
-                // Use the mv() method to place the file in uploads directory
-                uploadedFile.mv(path);
-                
-                const file = fs.createReadStream(path);
+                const file = fs.createReadStream(req.file.path);
                 papa.parse(file, {
-                    complete: (results) => {
+                    complete: (results) => {   
 
                         let csvData = results.data;
-                        // console.log(csvData)
-                        const header = csvData[0];
-                        const firstRow = csvData[1];
 
-                        if(header === undefined || firstRow === undefined) {
-                            console.log(`upload: header and first row are undefined`)
-                            res.status(500).send(`Undefined header`);
+                        if(csvData === undefined) {
+                            console.log(`upload: csvData is undefined`)
+                            res.status(500).send(`Undefined content`);
                         }
                         else {
+
+                            const header = csvData[0];
+                            const firstRow = csvData[1];
 
                             createTable(header, firstRow, table);
 
@@ -199,24 +194,16 @@ router.post('/upload/:table', async (req, res) => {
                             console.log("table created");
                             res.send("table created");
                         }
-                    },
-                    error: (err) => {
-                        console.error('upload: (error handler di papaparse): ', err.message);
-                        res.status(500).send(`Server error`);
                     }
-                });
-
-                // remove file
-                
-                // fs.unlinkSync(path);
+                }); 
             }
+            fs.unlinkSync(req.file.path);         
         }
     }
     catch (err) {
-        console.error('upload: Server error: ', err.message);
-        res.status(500).send(`Server error`);
+        console.error('upload: Server error: catch', err.message);
+        res.status(500).send(`Server error: catch`);
     }
-
 });
 
 // delete table
