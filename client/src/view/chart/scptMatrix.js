@@ -17,19 +17,18 @@ import { drawLegend} from './drawLegend'
 export const scpMatrix = function(data, cols, grouper, idBox) {
 	// const size = 180;
 	const padding = 20;
-	const width = 954;
+	const width = 700;
 	
 	/* console.log('grafico:')
-	   console.log(data)
-	   console.log(cols)
-	   console.log(idBox) */
+	   console.log([data, cols, idBox])*/
 	
 	let svg = d3.select(`#${idBox}`).append("svg");
 	svg.append("style")
 	.text(`circle.hidden { fill: #000; fill-opacity: 1; r: 1px; }`);
 	
 	svg.classed("grafico", true)
-		.attr("viewBox", [-padding, 0, width + padding, width]);
+		.attr("viewBox", [-padding, 0, width + padding, width])
+		.attr("width", width);
 	let filteredCols;
 	let size;
 	let xScale;
