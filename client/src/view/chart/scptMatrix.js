@@ -17,7 +17,7 @@ import { drawLegend} from './drawLegend'
 export const scpMatrix = function(data, cols, grouper, idBox) {
 	// const size = 180;
 	const padding = 20;
-	const width = 954;
+	const width = 700;
 	
 	/* console.log('grafico:')
 	   console.log(data)
@@ -30,7 +30,7 @@ export const scpMatrix = function(data, cols, grouper, idBox) {
 	
 	svg.classed("grafico", true)
 		.attr("viewBox", [-padding, 0, width + padding, width])
-		.attr("width", width + 70)
+		.attr("width", width)
 		.attr("height", width);
 	let filteredCols;
 	let size;

@@ -39,7 +39,10 @@ export const forceDirected = function (data, idBox) {
 	}
 	const nodeRadius = 5;
 	
-	let svg = d3.select(`#${idBox}`).append("svg")
+	let svg = d3
+		.select(`#${idBox}`)
+		.append("svg")
+		.classed("grafico", true)
 		.attr("viewBox", [0, 0, width, height]);
 	let link,
 		node,

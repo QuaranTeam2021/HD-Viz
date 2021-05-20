@@ -15,11 +15,11 @@ import { drawLegend} from './drawLegend'
 
 export const heatmap = function (data, idBox) {
   const margin = { bottom: 10,
-      left: 80,
+      left: 40,
       right: 0,
-      top: 80 };
-  const width = 720;
-  const height = 720;
+      top: 40 };
+  const width = 700;
+  const height = 700;
 
   // let nodeIds = d3.range(graph.nodes.length);
   const c = d3.scaleOrdinal(d3.range(10), d3.schemeCategory10);
@@ -32,6 +32,7 @@ export const heatmap = function (data, idBox) {
   const svg = d3
     .select(`#${idBox}`)
     .append("svg")
+    .classed("grafico", true)
     .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom);
 

@@ -22,8 +22,8 @@ export const linearProjection = function (data, cols, grouper, idBox) {
         right: 20,
         top: 20
     };
-    const height = 1000 - margin.top - margin.bottom,
-        width = 1000 - margin.left - margin.right;
+    const height = 700 - margin.top - margin.bottom,
+        width = 700 - margin.left - margin.right;
         
     const xScale = d3.scaleLinear([0, width]);
     const yScale = d3.scaleLinear([0, height]);

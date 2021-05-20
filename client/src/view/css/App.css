@@ -88,10 +88,15 @@ body {
 
 #visualization {
   display: grid;
-  grid-template-columns: auto auto;
+  grid-template-columns: auto;
+  max-width: 100%;
   /*display: flex;
   flex-wrap: wrap;
   justify-content: center;*/
+}
+
+.grafico {
+  max-width: 100%;
 }
 
 .GraphCont {
