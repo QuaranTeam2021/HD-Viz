@@ -29,9 +29,7 @@ export const scpMatrix = function(data, cols, grouper, idBox) {
 	.text(`circle.hidden { fill: #000; fill-opacity: 1; r: 1px; }`);
 	
 	svg.classed("grafico", true)
-		.attr("viewBox", [-padding, 0, width + padding, width])
-		.attr("width", width + 70)
-		.attr("height", width);
+		.attr("viewBox", [-padding, 0, width + padding, width]);
 	let filteredCols;
 	let size;
 	let xScale;

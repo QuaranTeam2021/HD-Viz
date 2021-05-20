@@ -15,6 +15,9 @@ const width = 954;
 				to be attached to an element.
  */
 export const forceDirected = function (data, idBox) {
+let nodes = data.nodes;
+let links = data.links;
+
 	let forceProperties = {
 		center: {
 			x: 0.5,
@@ -40,6 +43,7 @@ export const forceDirected = function (data, idBox) {
 	const nodeRadius = 5;
 	
 	let svg = d3.select(`#${idBox}`).append("svg")
+		.classed("grafico", true)
 		.attr("viewBox", [0, 0, width, height]);
 	let link,
 		node,
@@ -62,9 +66,10 @@ export const forceDirected = function (data, idBox) {
 			.range([0.5, nodeRadius + 4]);
 	
 	updateData(data);
-
-	function updateData({nodes, links}) {
-		
+	// reset setting to default
+	function updateData(newData) {
+		nodes = newData.nodes;
+		links = newData.links;
 		const categories = [...new Set(nodes.map(item => item.group))]; 
 		svg.selectAll(".legend").remove();
 		
@@ -73,11 +78,6 @@ export const forceDirected = function (data, idBox) {
 			.force("charge", d3.forceManyBody())
 			.force("center", d3.forceCenter(width / 2, height / 2));
 
-
-		link = linkHandler
-			.selectAll("line")
-			.data(links)
-			.join("line");
 
 		updateThreshold(0);
 
@@ -91,7 +91,6 @@ export const forceDirected = function (data, idBox) {
 		
 		node.append("title")
 				.text(d => d.id);
-
 		simulation.on("tick", () => {
 			link
 				.attr("x1", d => d.source.x)
@@ -104,7 +103,7 @@ export const forceDirected = function (data, idBox) {
 				.attr("cy", d => d.y)
 				.attr("stroke", d => d.fx ? "#333" : "#fff");
 		});
-			drawLegend(svg, categories, width);
+		drawLegend(svg, categories, width);
 	}
 
 	function updateForces() {
@@ -119,11 +118,11 @@ export const forceDirected = function (data, idBox) {
 	}
 
 	function getMin() {
-		return d3.min(data.links, d => d.value);
+		return d3.min(links, d => d.value);
 	}
 	
 	function getMax() {
-		return d3.max(data.links, d => d.value);
+		return d3.max(links, d => d.value);
 	}
 	
 	function updateDistanceMax(value) {
@@ -142,7 +141,13 @@ export const forceDirected = function (data, idBox) {
 	}
 	
 	function updateThreshold(threshold) {
-		link.attr("stroke-width", d => d.value > threshold ? scaleThickness(d.value - threshold) : 0);
+
+		link = linkHandler
+			.selectAll("line")
+			.data(links.filter(l => l.value > threshold))
+			.join("line");
+
+		link.attr("stroke-width", d => scaleThickness(d.value - threshold));
 	}
 	
 	return Object.assign(svg.node(), { 
