@@ -51,7 +51,6 @@ describe('Testing lleController', () => {
         test('Must have correct grouper', () => {
             lleController.createGraph('testLleId', 'scpt', ['sepalLength', 'petalLength', 'petalWidth'], ['species']);
             const graphs = store.graphs;
-            console.log(graphs[0].grouper)
             expect(graphs[0].grouper).toEqual('species');
         })
 
@@ -85,7 +84,6 @@ describe('Testing lleController', () => {
                   "species": "setosa",
                 }
             ];
-            console.log(graphs[0].data)
             expect(graphs[0].data).toEqual(expected);
         })
     })

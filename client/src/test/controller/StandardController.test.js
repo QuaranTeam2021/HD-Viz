@@ -49,7 +49,6 @@ describe('Testing stdCtrl', () => {
         test('Must have correct grouper', () => {
             stdCtrl.createGraph('testStdId', 'scpt', ['sepalLength', 'petalLength', 'petalWidth'], ['species']);
             const graphs = store.graphs;
-            console.log(graphs[0].grouper)
             expect(graphs[0].grouper).toEqual('species');
         })
 
