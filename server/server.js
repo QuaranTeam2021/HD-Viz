@@ -1,6 +1,5 @@
 const cors = require("cors");
 const express = require("express");
-const fileUpload = require('express-fileupload');
 const jwt = require("jsonwebtoken");
 const router = require("./route");
 
@@ -10,11 +9,6 @@ const PORT = 5000;
 // middleware
 app.use(cors());
 app.use(express.json());
-
-// enable files upload
-app.use(fileUpload({
-    createParentPath: true
-}));
 
 app.get('/server/up', (req, res) => {
     console.log('still alive')

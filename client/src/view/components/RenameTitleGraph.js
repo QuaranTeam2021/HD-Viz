@@ -4,8 +4,8 @@ import Fab from '@material-ui/core/Fab';
 import React from 'react';
 
 export default function RenameFielddd({ title, setTitle }) {
-  const [state, setState] = React.useState('false');
-  const [value, setValue] = React.useState('Scatterplot');
+  const [state, setState] = React.useState(false);
+  const [value, setValue] = React.useState(title);
 
   let viewMode = {};
   let editMode = {};

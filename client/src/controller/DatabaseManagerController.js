@@ -11,7 +11,7 @@ export default class DatabaseManagerController {
         if (file.size > 0 && file.size < 50000) {
             try {
                 const formData = new FormData();
-                formData.append("uploadedFile", file);
+                formData.append("file", file);
         
                 const response = await fetch(`http://localhost:${this.port}/api/upload/${table}`, {
                     body: formData,
