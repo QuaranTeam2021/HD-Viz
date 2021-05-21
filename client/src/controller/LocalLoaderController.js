@@ -9,6 +9,7 @@ export default class LocalLoaderController {
 
     parse(file) {
         if (file.size > 0 && file.size < 50000) {
+            this.store.reset();
             let reader = new FileReader();
             if (file && file.size > 0) {
                 reader.readAsText(file, "utf-8");
@@ -23,7 +24,7 @@ export default class LocalLoaderController {
                     this.store.loadData(result.data);                 
                 };
                 reader.onerror = () => {
-                    console.log("Error reading file...");
+                    console.error("Error reading file...");
                 };
             }
         }

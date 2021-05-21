@@ -8,12 +8,8 @@ const dataTest = [
     [5.1, 3.5, 1.4, 0.2, 'setosa'],
     [4.9, 3, 1.4, 0.2, 'setosa']
 ];
-const file = new File([dataTest.toString()], 'fileTest.csv', {
-    type: 'text/csv'
-});
-const fileJson = new File([dataTest.toString()], 'fileTest.json', {
-    type: 'text/json'
-});
+const fileCsv = new File([dataTest.toString()], 'fileTest.csv', { type: 'text/csv' });
+const fileJson = new File([dataTest.toString()], 'fileTest.json', { type: 'text/json' });
 const readAsTextSpy = jest.spyOn(FileReader.prototype, 'readAsText');
 
 describe('Testing LocalLoaderController', () => {
@@ -22,26 +18,20 @@ describe('Testing LocalLoaderController', () => {
         jest.resetAllMocks();
     })
 
-    test("readAsText must be called 1 times", () => {
-        loaderCtrl.parse(file);
-        expect(readAsTextSpy).toBeCalledTimes(1);
-    }) 
-
-    test("readAsText must not be called", () => {
-        const emptyFile = new File([], 'fileTest.csv', {
-            type: 'text/csv'
-        });
+    test('Must not call readAsText', () => {
+        const emptyFile = new File([], 'empty.csv', { type: 'test/csv' });
         loaderCtrl.parse(emptyFile);
         expect(readAsTextSpy).toBeCalledTimes(0);
-    }) 
+    })
 
-    test("readAsText must be called 1 time with json files", () => {
-        loaderCtrl.parse(fileJson);
+    test('Must call readAsText with fileCsv', () => {
+        loaderCtrl.parse(fileCsv);
         expect(readAsTextSpy).toBeCalledTimes(1);
-    }) 
+        expect(readAsTextSpy).toBeCalledWith(fileCsv, "utf-8");
+    })
 
-    test("Must print an error", () => {
-        loaderCtrl.parse();
-        expect(console.error).toBeCalledTimes(1);
+    test('Must call readAsText with fileCsv', () => {
+        loaderCtrl.parse(fileJson);
+        expect(readAsTextSpy).toBeCalledWith(fileJson, "utf-8");
     })
 })
