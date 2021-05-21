@@ -198,8 +198,10 @@ export default function BuildGraph({ defineStore }) {
 
     <div className="BuildGraph" >
       <div id="inserimento"> {!selectedInsert(insert) && <p>Inserisci qui i tuoi dati</p>}
-        <Insert onChange={onChangeInsert} fileName={insert.name} />
-        <ModalDb onSubmit={insertTab => setInsert(insertTab)}/>
+        <div className="uploadButton">
+          <Insert onChange={onChangeInsert} fileName={insert.name} />
+          <ModalDb onSubmit={insertTab => setInsert(insertTab)}/>
+        </div>
       </div>
       <div id="selezione">
         <div id="impostazioni">

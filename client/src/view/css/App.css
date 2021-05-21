@@ -94,6 +94,12 @@ body {
   justify-content: center;*/
 }
 
+.uploadButton {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
 .GraphCont {
   padding-bottom: 2em;
   /*flex: 1 1 150px;  Stretching:
@@ -158,7 +164,7 @@ body {
 }
 
 #insert{
-  margin:0;
+  margin: 8px;
 }
 
 #columns{
@@ -210,11 +216,11 @@ body {
 
 /* bottone inserimento */
 #inserimento{ 
-  margin-top: 1em;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
+  margin-top: 0.8em;
+}
+
+#inserimento p {
+  margin: 0.4em;
 }
 
 #selezione {
@@ -233,6 +239,7 @@ body {
   display: flex;
   grid-template-columns: auto auto;
 }
+
 .colonne fieldset {
   margin-top: 1.5em;
   margin-bottom: 0.5em;
@@ -298,7 +305,7 @@ body {
 }
 
 .MuiButtonBase-root.MuiIconButton-root.MuiIconButton-colorPrimary {
-  margin-top: 0.3em;
+  padding: 0.4em;
 }
 
 .MuiIconButton-root {
@@ -333,11 +340,15 @@ body {
 
 /* div aggiungi dataset */
 .dataset_div {
-  margin-top: 1em;
+  margin-top: 0.8em;
 }
 
 #completeFormInsertDataset {
   height: 6em;
+}
+
+#completeFormInsertDataset p {
+  margin: 0.6em;
 }
 
 .MuiFormControl-root.MuiTextField-root {
@@ -346,6 +357,11 @@ body {
 
 #insertdataset, #formInsertDataset, #buttonConfirmAddDb {
   display: inline;
+}
+
+#insertdataset label {
+  padding: 0.8em;
+  display: table-cell;
 }
 
 #buttonConfirmAddDb button {
