@@ -1,3 +1,4 @@
+/* eslint-disable consistent-return */
 const token = "";
 
 export default class DatabaseManagerController {
@@ -6,7 +7,6 @@ export default class DatabaseManagerController {
         this.port = 5000;
     }
 
-// eslint-disable-next-line consistent-return
     async upload(table, file) {
         if (file.size > 0 && file.size < 50000) {
             try {
@@ -35,7 +35,7 @@ export default class DatabaseManagerController {
             const jsonData = await delTable.json();
             return jsonData;
         } catch (err) {
-            return err.message;
+            console.error(err.message);
         }
     }
 }
