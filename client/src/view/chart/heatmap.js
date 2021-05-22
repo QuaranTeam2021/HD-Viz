@@ -3,7 +3,7 @@
 /* eslint-disable no-mixed-operators */
 /* eslint-disable operator-assignment */
 const d3 = require('d3');
-import { drawLegend} from './drawLegend'
+import { drawLegend } from './drawLegend'
 
 /**
  * Plot an heatmap of distance-matrix
@@ -18,8 +18,8 @@ export const heatmap = function (data, idBox) {
       left: 50,
       right: 0,
       top: 50 };
-  const width = 600;
-  const height = 600;
+  const width = 650;
+  const height = 650;
 
   // let nodeIds = d3.range(graph.nodes.length);
   const c = d3.scaleOrdinal(d3.range(10), d3.schemeCategory10);
@@ -47,8 +47,11 @@ export const heatmap = function (data, idBox) {
     .attr("stroke-width", "0.5")
     .attr("width", width)
     .attr("height", height);
-  const rectHandler = g.append("g")
-    .classed("rect-handler", true);
+  const rectHandler = g.append("g");
+
+  rectHandler.append("style")
+    .text(`.rect-handler>rect { stroke: #d62333; stroke-width: 0px; } .rect-handler>rect:hover { stroke-width: 1px; }`);
+  rectHandler.classed("rect-handler", true);
 
   let columns, rects, rows;
   let x = d3.scaleBand();
@@ -167,7 +170,6 @@ export const heatmap = function (data, idBox) {
           .style('fill', '#d62333')
           .style('font-weight', 'bold')
           .style('font-size', `${fontSize < 3 ? 2.5 * fontSize : 1.2 * fontSize}px`);
-    
   }
 
 
@@ -223,7 +225,6 @@ export const heatmap = function (data, idBox) {
       .selectAll("rect")
       .data(matrix.filter(l => l[2] >= threshold || l[0] === l[1]))
       .join("rect")
-
       .attr("width", x.bandwidth())
       .attr("height", x.bandwidth())
       // eslint-disable-next-line no-confusing-arrow

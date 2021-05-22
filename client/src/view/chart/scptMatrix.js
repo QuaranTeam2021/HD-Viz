@@ -1,10 +1,9 @@
-/* eslint-disable max-lines */
 /* eslint-disable no-mixed-operators */
 /* eslint-disable no-invalid-this */
 /* eslint-disable prefer-arrow-callback */
 /* eslint-disable func-names */
 const d3 = require('d3');
-import { drawLegend} from './drawLegend'
+import { drawLegend } from './drawLegend'
 
 
 /**
@@ -15,29 +14,24 @@ import { drawLegend} from './drawLegend'
  * @param {String} idBox box to append
  */
 export const scpMatrix = function(data, cols, grouper, idBox) {
-	// const size = 180;
 	const padding = 20;
-	const width = 700;
+	const width = 670;
 	
 	/* console.log('grafico:')
 	   console.log([data, cols, idBox])*/
 	
 	let svg = d3.select(`#${idBox}`).append("svg");
 	svg.append("style")
-	.text(`circle.hidden { fill: #000; fill-opacity: 1; r: 1px; }`);
+		.text(`circle.hidden { fill: #000; fill-opacity: 1; r: 1px; }`);
 	
 	svg.classed("grafico", true)
-		.attr("viewBox", [-padding, 0, width + padding, width])
-		.attr("width", width);
-	let filteredCols;
-	let size;
-	let xScale;
-	let yScale;
+		.attr("viewBox", [-padding * 2, 0, width + padding * 1.5, width + padding * 1.5])
+		.attr("width", width + padding * 1.5);
+	let filteredCols, size, xScale, yScale;
 	let colors = d3.scaleOrdinal()
 		.domain(data.map(d => d[grouper]))
 		.range(d3.schemeCategory10);
-	let cell;
-	let circle;
+	let cell, circle;
 	const categories = [...new Set(data.map(item => item[grouper]))]; 
 	updateColumns(cols);
 
@@ -58,7 +52,6 @@ export const scpMatrix = function(data, cols, grouper, idBox) {
 			.domain(d3.extent(data, d => d[c]))
 			.range([size - padding / 2, padding / 2]));
 		
-		
 		const xAxis = d3.axisBottom()
 			.ticks(6)
 			.tickSize(size * filteredCols.length);
@@ -73,7 +66,7 @@ export const scpMatrix = function(data, cols, grouper, idBox) {
 			.call(g => g.select(".domain").remove())
 			.call(g => g.selectAll(".tick text")
 				.attr("transform", `rotate(30 9 ${size * filteredCols.length + 3})`)
-				.style("text-anchor", "start"))
+				.style("text-anchor", "middle"))
 			.call(g => g.selectAll(".tick line").attr("stroke", "#ddd"));
 		
 		
@@ -89,8 +82,9 @@ export const scpMatrix = function(data, cols, grouper, idBox) {
 			.attr("transform", (d, i) => `translate(0,${size * i})`)
 			.each((d, i, nodes) => d3.select(nodes[i]).call(yAxis.scale(d)))
 				.call(g => g.select(".domain").remove())
+				.call(g => g.selectAll(".tick text")
+					.attr("x", `0`))
 				.call(g => g.selectAll(".tick line").attr("stroke", "#ddd"));
-		
 		
 		cell = svg
 		.append("g")
