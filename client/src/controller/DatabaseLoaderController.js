@@ -25,14 +25,14 @@ export default class DatabaseLoaderController {
             })
             this.store.loadData(result.data);
         } catch (err) {
-            console.log(err.message);
+            console.error(err.message);
         }
     }
 
     async loadTableCols(table, selectedFeatures) {
         // array es: ['species','island','sex']
         if (!Array.isArray(selectedFeatures) || typeof table !== "string") {
-            console.log({ error: "select table name and features" });
+            console.error({ error: "select table name and features" });
         } 
         const features = selectedFeatures.toString();
         const body = { features };

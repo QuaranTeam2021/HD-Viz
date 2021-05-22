@@ -17,7 +17,7 @@ export default class DatabaseTablesController {
             if (tables.length !== 0) tables = tables.flat();
             return tables;
         } catch (err) {
-            console.log(err.message);
+            console.error(err.message);
             return [];
         }
     }
@@ -39,9 +39,8 @@ export default class DatabaseTablesController {
                 return columns;
             }
             return [];
-
         } catch (err) {
-            console.log(err.message);
+            console.error(err.message);
             return [];
         }
     }
