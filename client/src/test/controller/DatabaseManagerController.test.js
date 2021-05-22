@@ -87,7 +87,7 @@ describe('Testing DatabaseManagerController', () => {
        test('Fetch must not be called', async () => {
             fetch.mockImplementationOnce(() => Promise.reject(new Error("something gone wrong")));
             await dbManagerCtrl.deleteTable('iris_dataset');
-            expect(console.error).toBeCalled()
+            expect(console.error).toBeCalled();
         })
 
         test('deleteTable must return', async () => {
