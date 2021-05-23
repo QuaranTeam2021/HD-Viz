@@ -201,6 +201,7 @@ router.post('/upload/:table', upload.single('file'), async (req, res) => {
         }
     }
     catch (err) {
+        fs.unlinkSync(req.file.path);
         console.error('upload: Server error: catch', err.message);
         res.status(500).send(`Server error: catch`);
     }

@@ -15,16 +15,6 @@ app.get('/server/up', (req, res) => {
     res.send('still alive')
 })
 
-/*
-const checkDBConnection = function(req, res, next) {
-    const connection = false;
-    if(connection) {
-        return res.status(500).send('DB non configurato correttamente');
-    }
-    next();
-}
-*/
-
 // app.use('/api', authenticateToken, router);
 app.use('/api', router);
 
