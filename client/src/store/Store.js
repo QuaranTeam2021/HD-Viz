@@ -69,13 +69,14 @@ export default class Store {
         return this.graphs.find(g => g.graphId === graphId);
     }
 
+    // eslint-disable-next-line consistent-return
     getGraphIndexById(graphId) {
         for (let i = 0; i < this.graphs.length; ++i) {
             let g = this.graphs[i];
             if (g.graphId === graphId) 
                 return i;
         }
-        throw new Error('Id non presente');
+        console.error('Id non presente');
     }
 
     removeGraph(graphId) {

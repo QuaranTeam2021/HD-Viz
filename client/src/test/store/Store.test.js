@@ -1,7 +1,7 @@
 /* eslint-disable sort-keys */
 /* eslint-disable max-lines */
 import * as druid from "@saehrimnir/druidjs";
-import { describe, expect, test } from '@jest/globals';
+import { afterAll, beforeAll, describe, expect, jest, test } from '@jest/globals';
 import Data from '../../store/Data';
 import DistanceData from "../../store/DistanceData";
 import FASTMAP from '../../store/Algorithm/FASTMAP';
@@ -11,6 +11,18 @@ import Store from '../../store/Store';
 
 
 describe('Testing Store class', () => {
+
+    beforeAll(() => {
+        jest.spyOn(console, 'error').mockImplementation(err => console.error(err));
+    })
+
+    beforeEach(() => {
+        console.error.mockClear();
+    })
+
+    afterAll(() => {
+        console.error.mockRestore();
+    })
 
     describe('Testing constructors', () => {
 
@@ -141,12 +153,6 @@ describe('Testing Store class', () => {
                 const maptest = new Map();
                 expect(store.features).not.toEqual(maptest);
             })
-
-    /*        test('originalData must have correct value', () => {
-                const store = new Store();
-                store.features = features;
-                expect(store.features).toEqual(features);
-            })*/
         })
     })
 
@@ -250,13 +256,6 @@ describe('Testing Store class', () => {
                 const getterResult = store.features;
                 expect(getterResult).not.toEqual(maptest);
             })
-
-/*            test('features must have correct value', () => {
-                const store = new Store();
-                store.features = features;
-                const getterResult = store.features;
-                expect(getterResult).toMatchObject([["sepalLength", "number"], ["sepalWidth", "number"], ["species", "string"]]);
-            })*/
         })       
     })
 
@@ -291,7 +290,7 @@ describe('Testing Store class', () => {
                 expect(store.graphs.length).toEqual(1);
             })
     
-            test('Must add one GraphState in last postestion', () => {
+            test('Must add one GraphState in last position', () => {
                 const store = new Store();
                 const graph1 = new StandardGraph('id1', 'heatmap', 'species', []);
                 const graph2 = new StandardGraph('id2', 'heatmap', 'species', []);
@@ -302,6 +301,26 @@ describe('Testing Store class', () => {
     
                 expect(store.graphs[2]).toEqual(graph3);
             })
+        })
+
+        test('Testing updateGraph method', () => {
+            const store = new Store();
+            const graph1 = new StandardGraph('id1', 'heatmap', 'species', []);
+            const graph2 = new StandardGraph('id2', 'heatmap', 'species', []);
+            const graph3 = new StandardGraph('id3', 'heatmap', 'species', []);
+            store.addGraph(graph1);
+            store.addGraph(graph2);
+            store.updateGraph(1, graph3);
+            expect(store.graphs).toEqual([graph1, graph3]);
+        })
+
+        test('Testing updateGraph method', () => {
+            const store = new Store();
+            const graph1 = new StandardGraph('id1', 'heatmap', 'species', []);
+            store.addGraph(graph1);
+            store.getGraphIndexById('id4');
+            expect(console.error).toBeCalledTimes(1);
+            expect(console.error).toBeCalledWith('Id non presente');
         })
 
         describe('Testing removeGraph', () => {

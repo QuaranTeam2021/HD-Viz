@@ -1,7 +1,7 @@
-import {describe, expect, jest, test } from '@jest/globals';
+import { describe, expect, jest, test } from '@jest/globals';
 import Parameters from '../../store/Parameters';
 
-jest.mock('../../store/Parameters'); // Parameters is now a mock constructor
+jest.mock('../../store/Parameters');
 
 describe('Testing concrete method of abstract class Graph', () => {
 
