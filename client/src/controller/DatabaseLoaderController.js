@@ -20,7 +20,7 @@ export default class DatabaseLoaderController {
                 delimiter: ',',
                 dynamicTyping: true,
                 error(error) {
-                    throw new Error(error);
+                    console.error(error.message);
                 }
             })
             this.store.loadData(result.data);
@@ -46,13 +46,12 @@ export default class DatabaseLoaderController {
                 method: "POST"
             });
             const jsonData = await response.json();
-            console.log(jsonData);
             let dataString = Papa.unparse(jsonData);
             let result = Papa.parse(dataString, {
                 delimiter: ',',
                 dynamicTyping: true,
                 error(error) {
-                    throw new Error(error);
+                    console.error(error.message);
                 }
             })
             this.store.loadData(result.data);
