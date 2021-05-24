@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import ButtonAnchorOptions from './ButtonAnchorOptions';
 import Checkbox from '@material-ui/core/Checkbox';
-import ForceFieldFeat from './ForceFieldFeat';
+import ForceFieldOptions from './ForceFieldOptions';
 import FormControl from '@material-ui/core/FormControl';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import HeatmapFeat from './HeatmapFeat';
+import HeatmapOptions from './HeatmapOptions';
 import InputLabel from '@material-ui/core/InputLabel';
 import { makeStyles } from '@material-ui/core/styles';
 import MenuItem from '@material-ui/core/MenuItem';
-import PLMAFeat from './PLMAFeat';
+import MALPOptions from './MALPOptions';
 import RenameAxis from './RenameAxis';
 import Select from '@material-ui/core/Select';
 

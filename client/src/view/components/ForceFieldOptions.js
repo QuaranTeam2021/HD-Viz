@@ -47,7 +47,7 @@ const marks3 = [
   },
 ];
 
-export default function ForceFieldFeat() {
+export default function ForceFieldOptions() {
   const classes = useStyles();
 
   return (

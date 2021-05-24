@@ -6,10 +6,10 @@ import AccordionSummary from '@material-ui/core/AccordionSummary';
 import Button from '@material-ui/core/Button';
 import ButtonAnchorOptions from './ButtonAnchorOptions';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import ForceFieldFeat from './ForceFieldFeat';
-import HeatMapFeat from './HeatmapFeat';
+import ForceFieldOptions from './ForceFieldOptions';
+import HeatmapOptions from './HeatmapOptions';
 import { makeStyles } from '@material-ui/core/styles';
-import MALPFeat from './PLMAFeat';
+import MALPOptions from './MALPOptions';
 import { purple } from '@material-ui/core/colors'
 import RemoveIcon from '@material-ui/icons/Delete';
 import RenameTitleGraph from './RenameTitleGraph';
@@ -52,11 +52,11 @@ export default function FeaturesContainer({ onDelete, graphViz, graphId, graphTy
       /* case "scptMat":
         return <ScptMat {...optProps} />; */
       case "htmp":
-        return <HeatMapFeat {...optProps} />;
+        return <HeatmapOptions {...optProps} />;
       case "frcfld":
-        return <ForceFieldFeat {...optProps} />;
+        return <ForceFieldOptions {...optProps} />;
       case "malp":
-        return <MALPFeat {...optProps} />;
+        return <MALPOptions {...optProps} />;
       default:
         return null;
     }
