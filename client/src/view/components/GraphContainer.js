@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import FeaturesContainer from './FeaturesContainer';
+import OptionsGraph from './OptionsGraph';
 import Graph from './Graph';
 import { useStore } from '../../store/Store';
 
@@ -19,7 +19,7 @@ const GraphContainer = ({ graphTitle, onDelete, graphId, switchArguments, switch
 
 	return (
 		<div id={`cont-${graphId} opt-${optionsPosition}`/* classe per posizione opzioni*/}>
-			<FeaturesContainer onDelete={onDelete} graphId={graphId} graphViz={updatableGraphViz} graphType={type} graphData={data} graphTitle={graphTitle} optionsPosition={{
+			<OptionsGraph onDelete={onDelete} graphId={graphId} graphViz={updatableGraphViz} graphType={type} graphData={data} graphTitle={graphTitle} optionsPosition={{
 				position: optionsPosition,
 				setPosition: setOptionsPosition
 			}} />

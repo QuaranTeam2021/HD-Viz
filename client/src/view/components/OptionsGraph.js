@@ -33,7 +33,7 @@ const useStyles = makeStyles(theme => ({
 
 }));
 
-export default function FeaturesContainer({ onDelete, graphViz, graphId, graphType, graphData, graphTitle, optionsPosition }) {
+export default function OptionsGraph({ onDelete, graphViz, graphId, graphType, graphData, graphTitle, optionsPosition }) {
   const classes = useStyles();
   const [title, setTitle] = useState(graphTitle);
   const [currentOptions, setCurrentOptions] = useState({});
