@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import OptionsGraph from './OptionsGraph';
 import Graph from './Graph';
+import OptionsGraph from './OptionsGraph';
 import { useStore } from '../../store/Store';
 
 const GraphContainer = ({ graphTitle, onDelete, graphId, switchArguments, switchGraph }) => {
