@@ -15,8 +15,12 @@ import { drawLegend } from './drawLegend'
  */
 export const scpMatrix = function(data, cols, grouper, idBox) {
 	const padding = 20;
-	const width = 670;
-	
+	const width = 660;
+	const margin = { bottom: 10,
+      left: 40,
+      right: 0,
+      top: 40 };
+
 	/* console.log('grafico:')
 	   console.log([data, cols, idBox])*/
 	
@@ -25,8 +29,13 @@ export const scpMatrix = function(data, cols, grouper, idBox) {
 		.text(`circle.hidden { fill: #000; fill-opacity: 1; r: 1px; }`);
 	
 	svg.classed("grafico", true)
-		.attr("viewBox", [-padding * 2, 0, width + padding * 1.5, width + padding * 1.5])
-		.attr("width", width + padding * 1.5);
+		.attr("viewBox", [-20, 0, width + margin.left, width + margin.top])
+		.attr("width", width + margin.left);
+
+	const mainArea = svg
+		.append("g")
+		.attr("transform", `translate(${margin.left},${margin.top})`);
+
 	let filteredCols, size, xScale, yScale;
 	let colors = d3.scaleOrdinal()
 		.domain(data.map(d => d[grouper]))
@@ -37,7 +46,7 @@ export const scpMatrix = function(data, cols, grouper, idBox) {
 
 	// eslint-disable-next-line func-style
 	function updateColumns(columns) {
-		svg.selectAll(".handler").remove();
+		mainArea.selectAll(".handler").remove();
 		svg.selectAll(".legend").remove();
 
 
@@ -56,7 +65,7 @@ export const scpMatrix = function(data, cols, grouper, idBox) {
 			.ticks(6)
 			.tickSize(size * filteredCols.length);
 			
-		svg.append("g")
+		mainArea.append("g")
 			.classed("handler", true)
 			.selectAll("g")
 			.data(xScale)
@@ -74,7 +83,7 @@ export const scpMatrix = function(data, cols, grouper, idBox) {
 			.ticks(6)
 			.tickSize(-size * filteredCols.length);
 		
-		svg.append("g")
+		mainArea.append("g")
 			.classed("handler", true)
 			.selectAll("g")
 			.data(yScale)
@@ -86,7 +95,7 @@ export const scpMatrix = function(data, cols, grouper, idBox) {
 					.attr("x", `0`))
 				.call(g => g.selectAll(".tick line").attr("stroke", "#ddd"));
 		
-		cell = svg
+		cell = mainArea
 		.append("g")
 			.classed("handler", true)
 		.selectAll("g")
@@ -117,7 +126,7 @@ export const scpMatrix = function(data, cols, grouper, idBox) {
 			.attr("fill", d => colors(d[grouper]));
 		
 		
-		svg.append("g")
+		mainArea.append("g")
 			.classed("handler", true)
 			.style("font", "bold 10px sans-serif")
 			.selectAll("text")
