@@ -1,14 +1,18 @@
-import {describe, expect, test } from '@jest/globals';
+import { beforeAll, describe, expect, test } from '@jest/globals';
 import IsomapLleParameters from '../../../store/Parameters/IsomapLleParameters';
 
 describe('Testing concrete method of abstract class Graph', () => {
 
-    const data = [
-        ["sepalLength", "sepalWidth", "petalLength", "petalWidth", "species"],
-        [5.1, 3.5, 1.4, 0.2, "setosa"],
-        [4.9, 3, 1.4, 0.2, "setosa"],
-        [4.7, 3.2, 1.3, 0.2, "setosa"]
-    ];
+    let data;
+
+    beforeAll(() => {    
+        data = [
+            ["sepalLength", "sepalWidth", "petalLength", "petalWidth", "species"],
+            [5.1, 3.5, 1.4, 0.2, "setosa"],
+            [4.9, 3, 1.4, 0.2, "setosa"],
+            [4.7, 3.2, 1.3, 0.2, "setosa"]
+        ];
+    })
 
     describe('Testing contructor', () => {
 

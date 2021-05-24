@@ -1,20 +1,24 @@
 /* eslint-disable object-property-newline */
-import { describe, expect, test } from '@jest/globals';
+import { beforeAll, describe, expect, test } from '@jest/globals';
 import Store from '../../store/Store';
 import UmapController from '../../controller/UmapController';
 
 describe('Testing umapController', () => {
 
-    const store = new Store();
-    const dataTest = [ 
-        ['sepalLength', 'sepalWidth', 'petalLength', 'petalWidth', 'species'],
-        [5.1, 3.5, 1.4, 0.2, 'setosa'],
-        [4.9, 3, 1.4, 0.2, 'setosa'],
-        [4.7, 3.2, 1.3, 0.2, 'setosa'],
-        [4.6, 3.1, 1.5, 0.2, 'setosa'],
-        [5, 3.6, 1.4, 0.2, 'setosa']
-    ];
-    const umapController = new UmapController(store);
+    let dataTest, store, umapController;
+    
+    beforeAll(() => {
+        store = new Store();
+        umapController = new UmapController(store);
+        dataTest = [ 
+            ['sepalLength', 'sepalWidth', 'petalLength', 'petalWidth', 'species'],
+            [5.1, 3.5, 1.4, 0.2, 'setosa'],
+            [4.9, 3, 1.4, 0.2, 'setosa'],
+            [4.7, 3.2, 1.3, 0.2, 'setosa'],
+            [4.6, 3.1, 1.5, 0.2, 'setosa'],
+            [5, 3.6, 1.4, 0.2, 'setosa']
+        ];
+    })
 
     beforeEach(() => {
         store.reset();
