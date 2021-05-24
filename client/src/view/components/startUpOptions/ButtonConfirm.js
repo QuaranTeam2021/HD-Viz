@@ -25,7 +25,7 @@ export default function ButtonConfirm({ onClick, disabled }) {
   const classes = useStyles();
 
   return (
-    <div id="button">
+    <div id="confirm-button">
       <ColorButton variant="contained" color="primary" className={classes.margin} onClick={onClick} disabled={disabled}>
         Conferma
       </ColorButton>

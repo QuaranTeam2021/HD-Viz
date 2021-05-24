@@ -28,7 +28,7 @@ const needsAlgorithm = g => ["scptMat", "malp"].includes(g);
 const needsDistance = e => ["htmp", "frcfld"].includes(e) || ["FASTMAP", "ISOMAP", "T-SNE", "LLE"].includes(e);
 const selectedInsert = i => i.name !== undefined;
 
-export default function BuildGraph({ defineStore }) {
+export default function BuildGraph() {
   const [selectedGraph, setGraph] = useState('');
   const [insert, setInsert] = useState([]);
   const [selectedColumns, setSelectedColumns] = useState([]);
@@ -96,10 +96,6 @@ export default function BuildGraph({ defineStore }) {
   useEffect(() => {
     allOptionsSelected();
   }, [allOptionsSelected]);
-
-  useEffect(() => { // Abilita reindirizzamento da Visualization
-    defineStore(false);
-  }, [defineStore]);
 
   const onChangeGraph = (_e, v) => {
     setGraph(v);
@@ -185,7 +181,6 @@ export default function BuildGraph({ defineStore }) {
       controller.current.createGraph(`${selectedGraph}-${Math.round(Math.random() * 100)}`, selectedGraph, selectedColumns, grouper);
     }
     console.log(formData);
-    defineStore(true);
   });
 
   let showDimMode = {};
@@ -286,7 +281,7 @@ export default function BuildGraph({ defineStore }) {
         <Link to="/visualization" >
             <div id="ButtonConfirm">
               {selectedInsert(insert) && <ButtonConfirm onClick={onClickConfirm} disabled={!confirm} /> } 
-               {selectedInsert(insert) && <TooltipConfirm/>}
+              {selectedInsert(insert) && <TooltipConfirm/>}
             </div>
         </Link>
       </div>

@@ -10,13 +10,15 @@ import LleController, { LleControllerContext } from '../../controller/LleControl
 import LocalLoaderController, { LocalLoaderControllerContext } from '../../controller/LocalLoaderController';
 import React, { useEffect, useState } from 'react';
 import StandardController, { StandardControllerContext } from '../../controller/StandardController';
-import Store, { StoreContext } from '../../store/Store';
+import Store, { StoreContext, useStore } from '../../store/Store';
 import TsneController, { TsneControllerContext } from '../../controller/TsneController';
 import UmapController, { UmapControllerContext } from '../../controller/UmapController';
+import { autorun } from 'mobx';
 import BuildGraph from './BuildGraph';
 import Database from './database/Database';
 import Footer from './Footer';
 import Header from './Header';
+import { observer } from 'mobx-react-lite';
 import Visualization from './Visualization';
 
 const store = new Store();
@@ -30,14 +32,7 @@ const umapController = new UmapController(store);
 const distanceBasedController = new DistanceBasedGraphController(store);
 
 const App = () => {
-  const [storeDefined, setStoreDefined] = useState(false)
-  const i = 1;
-
-  useEffect(() => {
-    // eslint-disable-next-line no-unused-expressions
-    store.graphs.length > 0 ? setStoreDefined(true) : setStoreDefined(false);
-  }, [])
-
+  const [storeDefined, setStoreDefined] = useState(store.graphs.length);
   const defineStore = v => setStoreDefined(v);
 
   return (
@@ -62,10 +57,10 @@ const App = () => {
               </div>
               <Switch>
                 <Route exact path="/">
-                    <BuildGraph defineStore={defineStore} />
+                  <BuildGraph />
                 </Route>
                 <Route path="/visualization">
-                  { storeDefined ? <Visualization onDelete={idx => console.log(`Eliminato ${idx}`)} key={i} index={i} /> : <Redirect to="/" /> }
+                  {storeDefined ? <Visualization /> : <Redirect to="/" /> }
                 </Route>
                 <Route path="/dataset">
                   <Database />
@@ -88,8 +83,23 @@ const App = () => {
         </StandardControllerContext.Provider>
       </DistanceBasedGraphControllerContext.Provider>  
       </LocalLoaderControllerContext.Provider>
+    <StoreObserver defineStore={defineStore} />
     </StoreContext.Provider>
   );
 };
+
+// Forces update of App component to redirect when the store is empty
+const StoreObserver = observer(({ defineStore }) => {
+  const str = useStore();
+
+  useEffect(() => autorun(() => {
+    if (str.graphs.length > 0)
+      defineStore(true);
+    else
+      defineStore(false);
+  }), [defineStore, str.graphs.length]);
+
+  return <React.Fragment />;
+})
 
 export default App;

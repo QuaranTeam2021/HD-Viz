@@ -54,33 +54,33 @@ export default function ForceFieldFeat() {
     <div className={classes.root}>
         <p>Opzioni del grafico FF</p>
         <ChangeDistance />
-        <Typography id="discrete-slider" gutterBottom>Distanza minima</Typography>
-        <Slider
+        <Typography id="min-distance-slider-label" gutterBottom>Distanza minima</Typography>
+        <Slider id="min-distance-slider"
             defaultValue={5}
             // getAriaValueText={valuetext}
-            aria-labelledby="discrete-slider"
+            aria-labelledby="min-distance-slider-label"
             valueLabelDisplay="auto"
             step={1}
             marks={marks}
             min={0}
             max={10}
         />
-        <Typography id="discrete-slider" gutterBottom>Distanza massima</Typography>
-        <Slider id="slider-2"
+        <Typography id="max-distance-slider-label" gutterBottom>Distanza massima</Typography>
+        <Slider id="max-distance-slider"
             defaultValue={5}
             // getAriaValueText={valuetext}
-            aria-labelledby="discrete-slider"
+            aria-labelledby="max-distance-slider-label"
             valueLabelDisplay="auto"
             step={1}
             marks={marks2}
             min={0}
             max={10}
         />
-        <Typography id="discrete-slider" gutterBottom>Forza</Typography>
-        <Slider id="slider-3"
+        <Typography id="force-slider-label" gutterBottom>Forza</Typography>
+        <Slider id="force-slider"
             defaultValue={5}
             // getAriaValueText={valuetext}
-            aria-labelledby="discrete-slider"
+            aria-labelledby="force-slider-label"
             valueLabelDisplay="auto"
             step={1}
             marks={marks3}

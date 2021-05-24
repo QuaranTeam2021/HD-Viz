@@ -21,10 +21,10 @@ export default function SelectVizTable({ onChange, tables, selected }) {
   return (
     <div>
         <FormControl className={classes.formControl}>
-        <InputLabel id="demo-simple-select-label">Tabelle</InputLabel>
+        <InputLabel id="tables-select-label">Tabelle</InputLabel>
         <Select
-          labelId="demo-simple-select-label"
-          id="demo-simple-select"
+          labelId="tables-select-label"
+          id="tables-select"
           value={selected}
           onChange={onChange}>
           { tables && tables.map((v, i) => <MenuItem value={v} key={i}>{v}</MenuItem>) }

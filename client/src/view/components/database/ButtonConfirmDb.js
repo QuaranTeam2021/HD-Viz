@@ -25,7 +25,7 @@ export default function ButtonConfirmDb({ onClick, disabled }) {
   const classes = useStyles();
 
   return (
-    <div id="button">
+    <div id="button-confirm-db">
       <ColorButton variant="contained" color="primary" className={classes.margin} onClick={onClick} disabled={disabled}>
         Scegli questi dati
       </ColorButton>
