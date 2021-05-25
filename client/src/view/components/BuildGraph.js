@@ -102,6 +102,7 @@ export default function BuildGraph({ defineStore }) {
   }, [defineStore]);
 
   const onChangeGraph = (_e, v) => {
+    console.log(_e)
     setGraph(v);
     if (needsDistance(v))
       controller.current = distanceBasedGraphController;
