@@ -3,7 +3,7 @@ import ButtonAddDb from '../../../../view/components/database/ButtonAddDb';
 import { mount } from 'enzyme';
 import React from 'react';
 
-describe('Testing ButtonAddDb', () => {
+describe('Testing ButtonAddDb component', () => {
 
     let wrapper;
     let onChange = jest.fn();

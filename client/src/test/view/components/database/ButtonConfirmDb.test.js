@@ -1,22 +1,22 @@
 import { afterAll, beforeAll, describe, expect, jest, test } from '@jest/globals';
-import ButtonConfirmAddDb from '../../../../view/components/database/ButtonConfirmAddDb';
+import ButtonConfirmDb from '../../../../view/components/database/ButtonConfirmDb';
 import { mount } from 'enzyme';
 import React from 'react';
 
-describe('Testing ButtonConfirmAddDb component', () => {
+describe('Testing ButtonConfirmDb component', () => {
 
     let wrapper;
     let onClick = jest.fn();
 
     beforeAll(() => {
-        wrapper = mount(<ButtonConfirmAddDb onClick={onClick} disabled={false} />);
+        wrapper = mount(<ButtonConfirmDb onClick={onClick} disabled={false} />);
     })
 
     afterAll(() => {
         wrapper.unmount();
     })
 
-    test('ButtonConfirmAddDb must render', () => {
+    test('ButtonConfirmDb must render', () => {
         expect(wrapper).not.toBeNull();
     })
 

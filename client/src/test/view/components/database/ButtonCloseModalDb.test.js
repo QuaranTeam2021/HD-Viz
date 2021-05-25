@@ -4,7 +4,7 @@ import { IconButton } from '@material-ui/core';
 import { mount } from 'enzyme';
 import React from 'react';
 
-describe('Testing ButtonAddDb', () => {
+describe('Testing ButtonCloseModalDb component', () => {
 
     let wrapper;
     let onClick = jest.fn();
@@ -17,11 +17,11 @@ describe('Testing ButtonAddDb', () => {
         wrapper.unmount();
     })
 
-    test('ButtonAddDb must render', () => {
+    test('ButtonCloseModalDb must render', () => {
         expect(wrapper).not.toBeNull();
     })
 
-    test('Must call onChange method', () => {
+    test('Must call onClick method', () => {
         const buttonFile = wrapper.find(IconButton);
         buttonFile.simulate('click');
         expect(onClick).toBeCalledTimes(1);
