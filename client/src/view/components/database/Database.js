@@ -10,7 +10,7 @@ import TextFieldAddDb from './TextFieldAddDb';
 const controllerManager = new DatabaseManagerController();
 const tablesController = new DatabaseTablesController();
 
-const parseName = name => {
+export const parseName = name => {
     if (name === undefined) return name;
     const parsedName = name.replace(/(\.(csv|tsv|json))/giu, "");
     return parsedName;
