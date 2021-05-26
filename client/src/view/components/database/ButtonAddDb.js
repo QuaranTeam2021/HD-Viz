@@ -19,15 +19,15 @@ const Dataset = ({ onChange }) => {
   const classes = useStyles();
 
   return (
-    <div className={classes.root} id="insertdataset">
+    <div className={classes.root} id="insert-dataset">
       <input
         accept=".csv, .json, .tsv"
         className={classes.input}
-        id="contained-button-file"
+        id="dataset-button"
         type="file"
         onChange={onChange}
       />
-      <label htmlFor="contained-button-file">
+      <label htmlFor="dataset-button">
         <IconButton variant="contained" color="primary" component="span" >
           <AddIcon/>
         </IconButton>

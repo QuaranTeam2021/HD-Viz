@@ -39,9 +39,9 @@ export default function RenameFielddd({ title, setTitle }) {
   };
 
   return (
-    <div id="titleGraphdiv">
+    <div className="titleGraphdiv">
       <div style={viewMode}>
-        <h1>{title}</h1>
+        <h2>{title}</h2>
       </div>
       <input
         type="text"
@@ -51,10 +51,10 @@ export default function RenameFielddd({ title, setTitle }) {
         onChange={handleChange}
         onKeyDown={handleEnterUpdate}
       />
-      <Fab style={viewMode} size="small" id="buttonRenameTitle" color="secondary" aria-label="edit" onClick={handleEditing}>
+      <Fab style={viewMode} size="small" className="buttonRenameTitle" color="secondary" aria-label="edit" onClick={handleEditing}>
         <EditIcon />
       </Fab>
-      <Fab style={editMode} size="small" id="buttonConfirmRename"color="primary" aria-label="done" onClick={handleUpdatedDone}>
+      <Fab style={editMode} size="small" className="buttonConfirmRename" color="primary" aria-label="done" onClick={handleUpdatedDone}>
         <DoneIcon />
       </Fab>
     </div>

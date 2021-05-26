@@ -10,7 +10,7 @@
         grid-template-columns: auto;
     }
 
-    .main_menu > li a, .makeStyles-root-8 span, #colonne span, #FeaturesAlgoritm span, .MuiFormLabel-root legend, .MuiFormControl-root legend, .MuiFormControlLabel-root span, #FeaturesAlgorithm p {
+    .main_menu > li a, .makeStyles-root-8 span, #colonne span, #FeaturesAlgoritm span, .MuiFormLabel-root legend, .MuiFormControl-root legend, .MuiFormControlLabel-root span, #FeaturesAlgorithm p, #completeFormInsertDataset p {
         font-size: 12px;
     }
 

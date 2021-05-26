@@ -29,10 +29,10 @@ export default function SliderPerplexity({ perplexity, onChange }) {
 
   return (
     <div className={classes.root}>
-      <Typography id="discrete-slider" gutterBottom>Perplexity</Typography>
-      <Slider
+      <Typography id="perplexity-slider-label" gutterBottom>Perplexity</Typography>
+      <Slider id="perplexity-slider"
         defaultValue={20}
-        aria-labelledby="discrete-slider"
+        aria-labelledby="perplexity-slider-label"
         valueLabelDisplay="auto"
         step={1}
         marks={marks}

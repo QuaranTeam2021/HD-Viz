@@ -29,10 +29,10 @@ export default function SliderNeighbours({ neighbours, onChange }) {
 
   return (
     <div className={classes.root}>
-      <Typography id="discrete-slider" gutterBottom>Neighbors</Typography>
-      <Slider
+      <Typography id="neighbors-slider-label" gutterBottom>Neighbors</Typography>
+      <Slider id="neighbors-slider"
         defaultValue={200}
-        aria-labelledby="discrete-slider"
+        aria-labelledby="neighbors-slider-label"
         valueLabelDisplay="auto"
         step={1}
         marks={marks}

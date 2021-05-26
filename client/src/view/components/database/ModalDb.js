@@ -103,17 +103,17 @@ export default function ModalDb({onSubmit}) {
   
   const onClickTable = () => { 
     setSelectedColumns([]); 
-
   }
+  
   const body = 
-  <div id="db_div" className={classes.paper}>
+  <div id="db-div" className={classes.paper}>
       <ButtonCloseModalDb onClick={onClose}/> 
       <div id="description">
         <SelectVizTable onChange={onChangeTableDb} tables={datasetsDb} selected={selectedTable} />
         <SelectVizColumns onChange={onChangeColumnsDb} columns={tableColumnsDb} selectedColumns={selectedColumns} /> 
         <ButtonConfirmDb onClick={onClickConfirm} disabled={!confirmDb} />
       </div>   
-    </div>
+  </div>
   
 
   return (

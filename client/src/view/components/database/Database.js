@@ -84,11 +84,12 @@ export default function Database() {
     return (
         <div className="dataset_div">
             <div id="completeFormInsertDataset">
+                <p>Aggiungi dataset al database</p>
                 <ButtonAddDb onChange={onChangeInsertDs} />
                 <TextFieldAddDb onChangeName={onChangeName} fileName={parseName(insertDs.name)} nameDs={name} onBlur={onBlurName} disabled={disableName} error={nameError} onSubmit={onClickDs} />
                 {insertDs.name !== undefined && <ButtonConfirmAddDb onClick={onClickDs} fileName={insertDs.name} disabled={nameError[0]} />}
             </div>
-            <div id="dataset">
+            <div id="datasets-container">
                 <>
                     {datasets !== undefined && datasets.map((d, i) => <FormControlLabel key={i} control={<DeleteDb onClickDelete={onClickDelete} value={d} />} label={d} value={d} />)}
                 </>
