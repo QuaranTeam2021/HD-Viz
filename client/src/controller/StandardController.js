@@ -15,10 +15,6 @@ export default class StandardController extends StandardGraphController {
         let graph = new StandardGraph(graphId, type, grouper.toString(), data);
         this.store.addGraph(graph);
     }
-
-    removeGraph(graphId) {
-        this.store.removeGraph(graphId);
-    }
 }
 
 export const StandardControllerContext = createContext(StandardController);
