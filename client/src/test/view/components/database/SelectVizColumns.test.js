@@ -22,13 +22,13 @@ describe('Testing SelectVizColumns component', () => {
 
     test('SelectVizColumns must call onChange', () => {
         expect(onChange).toBeCalledTimes(0);
-        wrapper.find('#demo-mutiple-chip').simulate('change', {target: { value: 'tab2'}});
+        wrapper.find('#columns-select').simulate('change', {target: { value: 'tab2'}});
         expect(onChange).toBeCalledTimes(1);
     })
 
     test('SelectVizColumns must have correct number of chip', () => {
         expect(onChange).toBeCalledTimes(0);
-        wrapper.find('#demo-mutiple-chip').simulate('change', {target: { value: 'tab2'}});
+        wrapper.find('#columns-select').simulate('change', {target: { value: 'tab2'}});
         expect(onChange).toBeCalledTimes(1);
     })
 })

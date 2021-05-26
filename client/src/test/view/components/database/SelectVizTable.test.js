@@ -22,7 +22,7 @@ describe('Testing SelectVizTable component', () => {
 
     test('SelectVizTable must call onChange', () => {
         expect(onChange).toBeCalledTimes(0);
-        wrapper.find('#demo-simple-select').simulate('change', {target: { value: 'tab2'}});
+        wrapper.find('#tables-select').simulate('change', {target: { value: 'tab2'}});
         expect(onChange).toBeCalledTimes(1);
     })
 })

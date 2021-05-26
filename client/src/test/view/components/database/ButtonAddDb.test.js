@@ -22,7 +22,7 @@ describe('Testing ButtonAddDb component', () => {
 
     test('Must call onChange method', () => {
         const testFile = new File([['prova'], [5.1]], 'testFile.csv', { type: 'text/csv' });
-        const buttonFile = wrapper.find('#contained-button-file');
+        const buttonFile = wrapper.find('#dataset-button');
         buttonFile.simulate('change', { target: { file: [testFile] } })
         expect(onChange).toBeCalledTimes(1);
     })
