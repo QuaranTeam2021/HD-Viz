@@ -1,3 +1,4 @@
+/* istanbul ignore file */
 /* eslint-disable prefer-arrow-callback */
 /* eslint-disable func-names */
 /* eslint-disable no-mixed-operators */

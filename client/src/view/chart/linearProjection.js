@@ -1,3 +1,4 @@
+/* istanbul ignore file */
 /* eslint-disable prefer-arrow-callback */
 /* eslint-disable no-shadow */
 /* eslint-disable func-names */

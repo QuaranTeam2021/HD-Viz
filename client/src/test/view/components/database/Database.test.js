@@ -28,5 +28,14 @@ describe('Testing Database component', () => {
         let res = parseName('prova.csv');
         expect(res).toBe('prova');
     })
+
+ /* da sistemare   test('onChangeInsertDs', () => {
+        const testFile = new File([''], 'testFile.csv', { type: 'text/csv' })
+        const setInsertDs = jest.fn();
+        jest.spyOn(React, "useState").mockImplementation(v => [v, setInsertDs]);
+        wrapper = mount(<Database />);
+        wrapper.find('#dataset-button').simulate('change', { target: { files: [testFile] } });
+        expect(setInsertDs).toBeCalledTimes(1);
+    })*/
 })
 
