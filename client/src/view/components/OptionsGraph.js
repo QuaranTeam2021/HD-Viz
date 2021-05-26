@@ -70,7 +70,7 @@ export default function OptionsGraph({ onDelete, graphViz, graphId, graphType, g
           aria-controls={`${graphId}-options`}
           id={`${graphId}-options-header`}
         >
-          <h3 className="graph-title">{graphTitle}</h3>
+          <h3 className="graph-title">{title}</h3>
         </AccordionSummary>
         <AccordionDetails>
           <div id={`${graphId}-options`} className={classes.root}>

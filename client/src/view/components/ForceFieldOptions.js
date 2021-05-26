@@ -1,92 +1,175 @@
-import ChangeDistance from './ChangeDistance';
+import React, { useCallback, useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import React from 'react';
 import Slider from '@material-ui/core/Slider';
 import Typography from '@material-ui/core/Typography';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles(() => ({
+  column: {
+    flexBasis: '25%'
+  },
   root: {
-    width: 200,
+    display: 'flex',
+    justifyContent: 'space-evenly'
   },
-});
+  row: {
+    flexBasis: '25%'
+  }
+}));
 
-/* function valuetext(value) {
-  return `${value}°C`;
-}*/
-
-const marks = [
-  {
-    label: '0',
-    value: 0,
-  },
-  {
-    label: '10',
-    value: 10,
-  },
-];
-
-const marks2 = [
-  {
-    label: '0',
-    value: 0,
-  },
-  {
-    label: '10',
-    value: 10,
-  },
-];
-
-const marks3 = [
-  {
-    label: '0',
-    value: 0,
-  },
-  {
-    label: '10',
-    value: 10,
-  },
-];
-
-export default function ForceFieldOptions() {
+export default function ForceFieldOptions({ position, graphViz, buttonRef, currentOptions, setCurrentOptions }) {
   const classes = useStyles();
+
+  const [distanceMin, setDistanceMin] = useState(0);
+  const [distanceMax, setDistanceMax] = useState(0);
+  const [maxDistanceMax, setMaxDistanceMax] = useState(200);
+  const [maxDistanceMin, setMaxDistanceMin] = useState(200);
+  const [strength, setStrength] = useState(-30);
+  const [threshold, setThreshold] = useState(0);
+  const [maxThreshold, setMaxThreshold] = useState(10);
+
+
+  const commitChanges = useCallback(() => {
+    if (currentOptions.oldDisMax !== distanceMax)
+    graphViz.updateDistanceMax(distanceMax);
+    if (currentOptions.oldDisMin !== distanceMin)
+    graphViz.updateDistanceMin(distanceMin);
+    if (currentOptions.oldStr !== strength)
+    graphViz.updateStrength(strength);
+    if (currentOptions.oldThres !== threshold)
+      graphViz.updateThreshold(threshold);
+
+    setCurrentOptions({
+      oldDisMax: distanceMax,
+      oldDisMin: distanceMin,
+      oldStr: strength,
+      oldThres: threshold,
+    });
+  }, [currentOptions, distanceMax, distanceMin, graphViz, setCurrentOptions, strength, threshold]);
+
+  useEffect(() => {
+    buttonRef.current.onclick = commitChanges;
+    if (graphViz !== null) {
+      const max = graphViz.getMax();
+      const disMax = Math.max(200, max);
+
+      setMaxDistanceMax(disMax);
+      setMaxDistanceMin(disMax);
+      setMaxThreshold(max);
+      
+      marks.distanceMax[1].label = disMax.toString();
+      marks.distanceMax[1].value = disMax;
+      marks.distanceMin[1].label = disMax.toString();
+      marks.distanceMin[1].value = disMax;
+      marks.threshold[1].label = max.toString();
+      marks.threshold[1].value = max;
+    }
+  }, [buttonRef, commitChanges, graphViz]);
+
+  // css nel caso sia verticale o orrizzontale (up, down => orrizzontale; left, right => verticale)
+  classes.direction = ["up", "down"].includes(position) ? classes.column : classes.row;
+
+  const onChangeDistanceMax = (_e, v) => setDistanceMax(v);
+  const onChangeDistanceMin = (_e, v) => setDistanceMin(v);
+  const onChangeThreshold = (_e, v) => setThreshold(v);
+  const onChangeStrength = (_e, v) => setStrength(v);
 
   return (
     <div className={classes.root}>
-        <p>Opzioni del grafico FF</p>
-        <ChangeDistance />
-        <Typography id="min-distance-slider-label" gutterBottom>Distanza minima</Typography>
-        <Slider id="min-distance-slider"
-            defaultValue={5}
-            // getAriaValueText={valuetext}
-            aria-labelledby="min-distance-slider-label"
-            valueLabelDisplay="auto"
-            step={1}
-            marks={marks}
-            min={0}
-            max={10}
+      <div className={classes.direction}>
+        <Typography id="frfd-maxDistance-slider-label" gutterBottom>Distanza massima</Typography>
+        <Slider id="frfd-maxDistance-slider"
+          aria-labelledby="frfd-maxDistance-slider-label"
+          valueLabelDisplay="auto"
+          step={10}
+          marks={marks.distanceMax}
+          min={0}
+          max={maxDistanceMax}
+          value={distanceMax}
+          onChange={onChangeDistanceMax}
         />
-        <Typography id="max-distance-slider-label" gutterBottom>Distanza massima</Typography>
-        <Slider id="max-distance-slider"
-            defaultValue={5}
-            // getAriaValueText={valuetext}
-            aria-labelledby="max-distance-slider-label"
-            valueLabelDisplay="auto"
-            step={1}
-            marks={marks2}
-            min={0}
-            max={10}
+      </div>
+      <div className={classes.direction}>
+        <Typography id="frfd-minDistance-slider-label" gutterBottom>Distanza minima</Typography>
+        <Slider id="frfd-minDistance-slider"
+          aria-labelledby="frfd-minDistance-slider-label"
+          valueLabelDisplay="auto"
+          step={10}
+          marks={marks.distanceMin}
+          min={0}
+          max={maxDistanceMin}
+          value={distanceMin}
+          onChange={onChangeDistanceMin}
         />
-        <Typography id="force-slider-label" gutterBottom>Forza</Typography>
-        <Slider id="force-slider"
-            defaultValue={5}
-            // getAriaValueText={valuetext}
-            aria-labelledby="force-slider-label"
-            valueLabelDisplay="auto"
-            step={1}
-            marks={marks3}
-            min={0}
-            max={10}
+      </div>
+      <div className={classes.direction}>
+        <Typography id="frfd-threshold-slider-label" gutterBottom>Soglia</Typography>
+        <Slider id="frfd-threshold-slider"
+          aria-labelledby="frfd-threshold-slider-label"
+          valueLabelDisplay="auto"
+          step={maxThreshold > 3 ? 1 : 0.1}
+          marks={marks.threshold}
+          min={0}
+          max={maxThreshold}
+          value={threshold}
+          onChange={onChangeThreshold}
         />
+      </div>
+      <div className={classes.direction}>
+        <Typography id="frfd-strength-slider-label" gutterBottom>Intensità forza</Typography>
+        <Slider id="frfd-strength-slider"
+          aria-labelledby="frfd-strength-slider-label"
+          valueLabelDisplay="auto"
+          step={1}
+          marks={marks.strength}
+          min={-150}
+          max={50}
+          value={strength}
+          onChange={onChangeStrength}
+        />
+      </div>
     </div>
   );
 }
+
+const marks = {
+  distanceMax: [
+    {
+      label: '0',
+      value: 0,
+    },
+    {
+      label: '200',
+      value: 200,
+    }
+  ],
+  distanceMin: [
+    {
+      label: '0',
+      value: 0,
+    },
+    {
+      label: '200',
+      value: 200,
+    }
+  ],
+  strength: [
+    {
+      label: '-150',
+      value: -150,
+    },
+    {
+      label: '50',
+      value: 50,
+    }
+  ],
+  threshold: [
+    {
+      label: '0',
+      value: 0,
+    },
+    {
+      label: '10',
+      value: 10,
+    }
+  ],
+};
