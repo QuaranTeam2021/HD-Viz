@@ -1,3 +1,4 @@
+/* eslint-disable sort-keys */
 /* eslint-disable camelcase */
 import { afterAll, beforeAll, describe, expect, jest, test } from '@jest/globals';
 import DatabaseTablesController from '../../controller/DatabaseTablesController';
@@ -24,22 +25,27 @@ describe('Testing DatabaseTableController', () => {
 
     describe('Testing getTablesName method', () => {
 
-        test('fetch must be called 1 time', async () => {
+        test('fetch must be called 2 time', async () => {
+            expect(fetch).toBeCalledTimes(0);
             await dbTablesCtrl.getTablesNames();
-            expect(fetch).toBeCalledTimes(1);
+            expect(fetch).toBeCalledTimes(2);
         })
 
         test('fetch must be called correctly', async () => {
             await dbTablesCtrl.getTablesNames();
-            expect(fetch).toBeCalledWith("http://localhost:5000/api/tableslist", {
-                headers: { "authorization": "Bearer " }
-            });
+            expect(fetch).toHaveBeenNthCalledWith(1, "http://localhost:5000/jwt", {"body": "{\"username\":\"HD-Viz QuaranTeam\"}", "headers": {"Content-Type": "application/json"}, "method": "POST"});
+            expect(fetch).toHaveBeenNthCalledWith(2, "http://localhost:5000/api/tableslist", {"headers": {"authorization": "Bearer null"}});
         })
 
         test('fetch must return correct table', async () => {
-            fetch.mockImplementationOnce(jest.fn(() => {
+            fetch.mockImplementation(jest.fn(() => {
                 return {
                     json: () => Promise.resolve([{ table_name: 'iris_dataset' }])
+                }
+            }))
+            .mockImplementationOnce(jest.fn(() => {
+                return {
+                    json: jest.fn()
                 }
             }));
             let res = await dbTablesCtrl.getTablesNames();
@@ -73,7 +79,7 @@ describe('Testing DatabaseTableController', () => {
             await dbTablesCtrl.getTableColumnsNames('iris_dataset');
             expect(fetch).toBeCalledTimes(1);
             expect(fetch).toBeCalledWith(`http://localhost:5000/api/getcolnames/iris_dataset`, {
-                headers: { "authorization": `Bearer ` }
+                headers: { "authorization": `Bearer null` }
             });
         })
 

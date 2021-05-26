@@ -41,7 +41,7 @@ describe('Testing DatabaseLoaderController', () => {
 
         test('Fetch must be called with correct value', async () => {
             await dbLoaderCtrl.loadTable('iris_dataset');
-            expect(fetch).toBeCalledWith(`http://localhost:5000/api/getcontent/iris_dataset`, {"headers": {"authorization": "Bearer "}});
+            expect(fetch).toBeCalledWith(`http://localhost:5000/api/getcontent/iris_dataset`, {"headers": {"authorization": "Bearer null"}});
         })
 
         test('Must return an Array', async () => {
@@ -80,7 +80,7 @@ describe('Testing DatabaseLoaderController', () => {
                 "body": "{\"features\":\"sepalLength,sepalWidth\"}",
                     "headers": {
                     "Content-Type": "application/json",
-                    "authorization": `Bearer `
+                    "authorization": `Bearer null`
                 },
                 "method": "POST"
             });

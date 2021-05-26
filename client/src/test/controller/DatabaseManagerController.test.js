@@ -45,7 +45,7 @@ describe('Testing DatabaseManagerController', () => {
             formData.append("file", fileCsv);
             expect(fetch).toBeCalledWith(`http://localhost:5000/api/upload/iris_dataset`, {
                 "body": formData,
-                "headers": { "authorization": "Bearer " },
+                "headers": { "authorization": "Bearer null" },
                 "method": "POST"
             });
         })
@@ -79,7 +79,7 @@ describe('Testing DatabaseManagerController', () => {
         test('Fetch must be called correctly', async () => {
             await dbManagerCtrl.deleteTable('iris_dataset');
             expect(fetch).toBeCalledWith(`http://localhost:5000/api/delete/iris_dataset`, { 
-                "headers": { "authorization": "Bearer " },
+                "headers": { "authorization": "Bearer null" },
                 "method": "DELETE"
             });
         })
