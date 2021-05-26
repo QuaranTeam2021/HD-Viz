@@ -23,9 +23,4 @@ describe("BuildGraph component tests", () => {
 	test("Testing render", () => {
 		expect(wrapper).not.toBeNull();
 	})
-
-	test("Testing onChangeGraph method", () => {
-		expect(wrapper.dive()
-			.state()).toBe('');
-	});
 });

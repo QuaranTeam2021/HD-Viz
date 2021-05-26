@@ -20,7 +20,7 @@ const useStyles = makeStyles(theme => ({
   
 }));
 
-export default function FeaturesContainer(onDelete, i) {
+export default function FeaturesContainer() {
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
   const [showOption, setShowOption] = React.useState(true);
