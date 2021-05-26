@@ -1,5 +1,4 @@
 /* eslint-disable consistent-return */
-const token = "";
 
 export default class DatabaseManagerController {
 
@@ -10,6 +9,7 @@ export default class DatabaseManagerController {
     async upload(table, file) {
         if (file.size > 0 && file.size < 50000) {
             try {
+                const token = localStorage.getItem('token');
                 const formData = new FormData();
                 formData.append("file", file);
         
@@ -28,6 +28,7 @@ export default class DatabaseManagerController {
 
     async deleteTable(table) {
         try {
+            const token = localStorage.getItem('token');
             const delTable = await fetch(`http://localhost:${this.port}/api/delete/${table}`, { 
                 headers: { "authorization": `Bearer ${token}` },
                 method: "DELETE"
