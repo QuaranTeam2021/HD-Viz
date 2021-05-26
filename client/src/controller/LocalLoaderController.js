@@ -19,7 +19,8 @@ export default class LocalLoaderController {
                         dynamicTyping: true,
                         error(error) {
                             throw new Error(error);
-                        }
+                        },
+                        skipEmptyLines: true
                     })
                     this.store.loadData(result.data);                 
                 };

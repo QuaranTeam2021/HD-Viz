@@ -1,6 +1,5 @@
 import Papa from 'papaparse';
 
-const token = "";
 
 export default class DatabaseLoaderController {
 
@@ -11,6 +10,7 @@ export default class DatabaseLoaderController {
 
     async loadTable(table) {
         try {
+            const token = localStorage.getItem('token');
             const response = await fetch(`http://localhost:${this.port}/api/getcontent/${table}`, {
                 headers: { "authorization": `Bearer ${token}` }
             });
@@ -37,6 +37,7 @@ export default class DatabaseLoaderController {
         const features = selectedFeatures.toString();
         const body = { features };
         try {
+            const token = localStorage.getItem('token');
             const response = await fetch(`http://localhost:${this.port}/api/getselectedcol/${table}`, {
                 body: JSON.stringify(body),
                 headers: {

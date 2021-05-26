@@ -121,13 +121,10 @@ router.post("/getselectedcol/:table", async (req, res) => {
 });
 
 const createTable = function(header, firstRow, table) {
-    
     let query = '  ';
     for (let i = 0; i < header.length; i++)
         query = query + `${header[i]} ${isNaN(1 * firstRow[i]) ? 'VARCHAR' : 'numeric'}, `;
     query = query.slice(0, -2);
-    console.log("columns type:  ", query);
-
     client.query(`CREATE TABLE ${table} ( ${query} );`);
 }
 
@@ -191,8 +188,8 @@ router.post('/upload/:table', upload.single('file'), async (req, res) => {
                                 });
                             });
 
-                            console.log("table created");
-                            res.send("table created");
+                            console.log(`created table ${table}`);
+                            res.send('table created');
                         }
                     }
                 }); 
