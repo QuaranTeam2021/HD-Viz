@@ -25,15 +25,6 @@ export default class LleController extends StandardGraphController {
         this.store.addGraph(graph);
     }
 
-    calculateReduction(graphId, features) {
-        let parameters = new IsomapLleParameters(this._dimensions, this._neighbors, this._metric);
-        let reducedData = this.store.calculateReduction(features, this.lle, parameters);
-        let updatedGraph = this.store.getGraphById(graphId);
-        updatedGraph.data = reducedData;
-        let index = this.store.getGraphIndexById(graphId);
-        this.store.graphs[index] = updatedGraph;
-    }
-
     set neighbors(neighbors) {
         this._neighbors = neighbors;
     }

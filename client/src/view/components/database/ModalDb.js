@@ -101,10 +101,6 @@ export default function ModalDb({onSubmit}) {
     onSubmit({ name: selectedTable }); 
   });
   
-  const onClickTable = () => { 
-    setSelectedColumns([]); 
-  }
-  
   const body = 
   <div id="db-div" className={classes.paper}>
       <ButtonCloseModalDb onClick={onClose}/> 
