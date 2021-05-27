@@ -28,6 +28,11 @@ describe('Testing concrete method of abstract class Graph', () => {
             graph.grouper = 'Species';
             expect(graph.grouper).toEqual('Species');
         })
+
+        test('Must set selectedFeatures', () => {
+            graph.selectedFeatures = ['sepalLength', 'species'];
+            expect(graph.selectedFeatures).toEqual(['sepalLength', 'species']);
+        })
     })
 
     describe('Testing getters methods', () => {
@@ -48,6 +53,12 @@ describe('Testing concrete method of abstract class Graph', () => {
             graph.grouper = 'Species';
             const getterResult = graph.grouper;
             expect(getterResult).toEqual('Species');
+        })
+
+        test('Must get selectedFeatures', () => {
+            graph.selectedFeatures = ['sepalLength', 'species'];
+            const getterResult = graph.selectedFeatures;
+            expect(getterResult).toEqual(['sepalLength', 'species']);
         })
     })
 })

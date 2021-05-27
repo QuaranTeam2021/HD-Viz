@@ -20,7 +20,7 @@ export default class FastmapController extends StandardGraphController {
         for (let i = 0; i < reducedData.length; ++i) {
             reducedData[i].push(grouperCol[i]);
         }
-        let graph = new StandardGraph(graphId, type, grouper.toString(), reducedData);
+        let graph = new StandardGraph(graphId, type, grouper.toString(), features, reducedData);
         this.store.addGraph(graph);
     }
 
