@@ -36,7 +36,7 @@ describe('Testing Visualization component', () => {
     })
 
 	test('Includes one GraphContainer', () => {
-        expect(wrapper.find(GraphContainer).length).toEqual(1);
+        expect(wrapper.find(GraphContainer).length).toEqual(5);
     })
 
 	test('Must return correct graph type', () => {

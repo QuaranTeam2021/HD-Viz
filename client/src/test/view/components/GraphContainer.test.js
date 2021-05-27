@@ -4,7 +4,6 @@ import GraphContainer from '../../../view/components/GraphContainer';
 import OptionsGraph from '../../../view/components/OptionsGraph';
 import React from 'react';
 import { shallow } from 'enzyme';
-import StandardGraph from '../../../store/Graph/StandardGraph';
 import Store from '../../../store/Store';
 
 describe('Testing GraphContainer component', () => {
@@ -13,12 +12,20 @@ describe('Testing GraphContainer component', () => {
 
     let graphTitle = 'id2';
     let onDelete = jest.fn();
-    let graphId = '';
+    let graphId = 'testId';
     let switchArguments = jest.fn();
     let switchGraph = jest.fn();
 
     beforeAll(() => {
-        jest.spyOn(new Store(), 'getGraphById').mockImplementation(() => new StandardGraph('testId', 'testType', 'testGrouper', ['testData']));
+        const testGraph = {
+            data: [],
+            graphId: 'testId',
+            grouper: '',
+            type: 'scptMat'
+        }
+        Object.defineProperty(Store, 'getGraphById', {
+			value: () => testGraph
+		});
         wrapper = shallow(<GraphContainer graphTitle={graphTitle} onDelete={onDelete} graphId={graphId} switchArguments={switchArguments} switchGraph={switchGraph} />);
     })
 
@@ -31,7 +38,7 @@ describe('Testing GraphContainer component', () => {
     })
 
     test('Includes one div', () => {
-        expect(wrapper.find('#cont-id2 opt-up').length).toEqual(1);
+        expect(wrapper.find('div').length).toEqual(1);
     })
 
     test('Includes one OptionsGraph', () => {
