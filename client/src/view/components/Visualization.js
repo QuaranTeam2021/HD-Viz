@@ -11,7 +11,7 @@ const { heatmap } = htMp;
 const { linearProjection } = linProj;
 const { scpMatrix } = scptMat;
 
-const switchGraph = type => {
+export const switchGraph = type => {
 	switch (type) {
 		case "scptMat":
 			return scpMatrix;
@@ -26,7 +26,7 @@ const switchGraph = type => {
 	}
 }
 
-const switchArguments = graph => {
+export const switchArguments = graph => {
 	const { data, grouper } = graph;
 	switch (graph.type) {
 		case "scptMat":
