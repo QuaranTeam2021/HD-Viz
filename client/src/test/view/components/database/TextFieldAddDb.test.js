@@ -1,6 +1,7 @@
 import { afterAll, beforeAll, describe, expect, jest, test } from '@jest/globals';
 import { mount } from 'enzyme';
 import React from 'react';
+import TextField from '@material-ui/core/TextField';
 import TextFieldAddDb from '../../../../view/components/database/TextFieldAddDb';
 
 describe('Testing TextFieldAddDb component', () => {
@@ -19,8 +20,12 @@ describe('Testing TextFieldAddDb component', () => {
         wrapper.unmount();
     })
 
-    test('DbButton must render', () => {
+    test('Renders correctly', () => {
         expect(wrapper).not.toBeNull();
+    })
+
+    test('Includes one TextField', () => {
+        expect(wrapper.find(TextField)).toHaveLength(1);
     })
 
     test('Must call onChange method', () => {

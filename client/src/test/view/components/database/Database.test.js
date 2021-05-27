@@ -20,7 +20,7 @@ describe('Testing Database component', () => {
         jest.restoreAllMocks();
     })
 
-    test('Database must render', () => {
+    test('Renders correctly', () => {
         expect(wrapper).not.toBeNull();
     })
 

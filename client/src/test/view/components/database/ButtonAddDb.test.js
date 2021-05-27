@@ -1,7 +1,8 @@
 import { afterAll, beforeAll, describe, expect, jest, test } from '@jest/globals';
 import ButtonAddDb from '../../../../view/components/database/ButtonAddDb';
-import { mount } from 'enzyme';
+import IconButton from '@material-ui/core/IconButton';
 import React from 'react';
+import { shallow } from 'enzyme';
 
 describe('Testing ButtonAddDb component', () => {
 
@@ -9,15 +10,23 @@ describe('Testing ButtonAddDb component', () => {
     let onChange = jest.fn();
 
     beforeAll(() => {
-        wrapper = mount(<ButtonAddDb onChange={onChange} />);
+        wrapper = shallow(<ButtonAddDb onChange={onChange} />);
     })
 
     afterAll(() => {
         wrapper.unmount();
     })
 
-    test('ButtonAddDb must render', () => {
+    test('Renders correctly', () => {
         expect(wrapper).not.toBeNull();
+    })
+
+    test('Includes one input', () => {
+        expect(wrapper.find('input')).toHaveLength(1);
+    })
+
+    test('Includes one IconButton', () => {
+        expect(wrapper.find(IconButton)).toHaveLength(1);
     })
 
     test('Must call onChange method', () => {

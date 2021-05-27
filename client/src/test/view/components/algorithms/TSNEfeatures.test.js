@@ -1,6 +1,10 @@
 import { afterAll, beforeAll, describe, expect, jest, test } from '@jest/globals';
 import { mount } from 'enzyme';
 import React from 'react';
+import SliderEpsilon from '../../../../view/components/algorithms/SliderEpsilon';
+import SliderNeighbors from '../../../../view/components/algorithms/SliderNeighbors';
+import SliderPerplexity from '../../../../view/components/algorithms/SliderPerplexity';
+import SliderSize from '../../../../view/components/algorithms/SliderSize';
 import TSNEfeatures from '../../../../view/components/algorithms/TSNEfeatures';
 
 describe('Testing TSNEfeatures component', () => {
@@ -47,8 +51,24 @@ describe('Testing TSNEfeatures component', () => {
         wrapper.unmount();
     })
 
-    test('TSNEfeatures must render', () => {
+    test('Renders correctly', () => {
         expect(wrapper).not.toBeNull();
+    })
+
+    test('Includes SliderNeighbors', () => {
+      expect(wrapper.find(SliderNeighbors)).toHaveLength(1);
+    })
+
+    test('Includes SliderEpsilon', () => {
+      expect(wrapper.find(SliderEpsilon)).toHaveLength(1);
+    })
+
+    test('Includes SliderPerplexity', () => {
+      expect(wrapper.find(SliderPerplexity)).toHaveLength(1);
+    })
+
+    test('Includes SliderSize', () => {
+      expect(wrapper.find(SliderSize)).toHaveLength(1);
     })
 })
 

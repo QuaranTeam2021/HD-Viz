@@ -1,5 +1,6 @@
 import { afterAll, beforeAll, describe, expect, jest, test } from '@jest/globals';
 import React from 'react';
+import Select from '@material-ui/core/Select';
 import SelectVizTable from '../../../../view/components/database/SelectVizTable';
 import { shallow } from 'enzyme';
 
@@ -16,8 +17,12 @@ describe('Testing SelectVizTable component', () => {
         wrapper.unmount();
     })
 
-    test('SelectVizTable must render', () => {
+    test('Renders correctly', () => {
         expect(wrapper).not.toBeNull();
+    })
+
+    test('Includes one Select', () => {
+        expect(wrapper.find(Select)).toHaveLength(1);
     })
 
     test('SelectVizTable must call onChange', () => {

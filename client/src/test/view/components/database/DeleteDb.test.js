@@ -16,8 +16,12 @@ describe('Testing DeleteDb component', () => {
         wrapper.unmount();
     })
 
-    test('DeleteDb must render', () => {
+    test('Renders correctly', () => {
         expect(wrapper).not.toBeNull();
+    })
+
+    test('Include one button', () => {
+        expect(wrapper.find('button')).toHaveLength(1);
     })
 
     test('Must call onClick method', () => {

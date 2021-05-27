@@ -17,8 +17,12 @@ describe('Testing ButtonCloseModalDb component', () => {
         wrapper.unmount();
     })
 
-    test('ButtonCloseModalDb must render', () => {
+    test('Renders correctly', () => {
         expect(wrapper).not.toBeNull();
+    })
+
+    test('Includes one IconButton', () => {
+        expect(wrapper.find(IconButton)).toHaveLength(1);
     })
 
     test('Must call onClick method', () => {

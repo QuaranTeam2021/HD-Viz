@@ -1,5 +1,6 @@
 import { afterAll, beforeAll, describe, expect, jest, test } from '@jest/globals';
 import React from 'react';
+import Select from '@material-ui/core/Select';
 import SelectVizColumns from '../../../../view/components/database/SelectVizColumns';
 import { shallow } from 'enzyme';
 
@@ -16,8 +17,12 @@ describe('Testing SelectVizColumns component', () => {
         wrapper.unmount();
     })
 
-    test('SelectVizColumns must render', () => {
+    test('Renders correctly', () => {
         expect(wrapper).not.toBeNull();
+    })
+
+    test('Includes one Select', () => {
+        expect(wrapper.find(Select)).toHaveLength(1);
     })
 
     test('SelectVizColumns must call onChange', () => {

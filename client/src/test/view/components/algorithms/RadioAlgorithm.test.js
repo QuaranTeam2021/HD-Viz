@@ -16,7 +16,7 @@ describe('Testing RadioAlgorithm component', () => {
         wrapper.unmount();
     })
 
-    test('RadioAlgorithm must render', () => {
+    test('Renders correctly', () => {
         expect(wrapper).not.toBeNull();
     })
 
