@@ -136,8 +136,8 @@ export const heatmap = function (data, idBox) {
       .text(i => nodes[i].id);
 
     updateThreshold(0);
-        
-    drawLegend(svg, categories, width);
+
+    drawLegend(svg, categories, width).drawDistanceColor(distanceColor);
     
     /* for animated transitions:
        let prev; */
@@ -205,7 +205,6 @@ export const heatmap = function (data, idBox) {
 
     /* for animated transitions:
        prev = permutation; */
-       console.log(rows.filter);
     return permutation;
   }
 
