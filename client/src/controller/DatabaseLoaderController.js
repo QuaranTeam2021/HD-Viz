@@ -17,7 +17,6 @@ export default class DatabaseLoaderController {
             const jsonData = await response.json();
             let dataString = Papa.unparse(jsonData);
             let result = Papa.parse(dataString, {
-                delimiter: ',',
                 dynamicTyping: true,
                 error(error) {
                     console.error(error.message);
@@ -49,7 +48,6 @@ export default class DatabaseLoaderController {
             const jsonData = await response.json();
             let dataString = Papa.unparse(jsonData);
             let result = Papa.parse(dataString, {
-                delimiter: ',',
                 dynamicTyping: true,
                 error(error) {
                     console.error(error.message);
