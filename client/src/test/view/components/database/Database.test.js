@@ -1,14 +1,20 @@
 import { afterAll, beforeAll, describe, expect, jest, test } from '@jest/globals';
 import Database, { parseName } from '../../../../view/components/database/Database';
-import { mount } from 'enzyme';
 import React from 'react';
+import { shallow } from 'enzyme';
+import TextFieldAddDb from '../../../../view/components/database/TextFieldAddDb';
+
 
 describe('Testing Database component', () => {
 
     let wrapper;
+    const setState = jest.fn();
 
     beforeAll(() => {
-        wrapper = mount(<Database />);
+        Object.defineProperty(React, 'useState', {
+            value: val => [val, setState]
+        })
+        wrapper = shallow(<Database />);
     })
 
     beforeEach(() => {
@@ -29,13 +35,25 @@ describe('Testing Database component', () => {
         expect(res).toBe('prova');
     })
 
- /* da sistemare   test('onChangeInsertDs', () => {
+    test('Must onChangeInsertDs method', () => {
         const testFile = new File([''], 'testFile.csv', { type: 'text/csv' })
-        const setInsertDs = jest.fn();
-        jest.spyOn(React, "useState").mockImplementation(v => [v, setInsertDs]);
-        wrapper = mount(<Database />);
-        wrapper.find('#dataset-button').simulate('change', { target: { files: [testFile] } });
-        expect(setInsertDs).toBeCalledTimes(1);
-    })*/
+        wrapper.find('Dataset').simulate('change', { target: { files: [testFile] } })
+        expect(setState).toBeCalledTimes(4);
+    })
+
+    test('Must onChangeName method', () => {
+        const onChangeName = wrapper.find(TextFieldAddDb).prop('onChangeName');
+        onChangeName({ target: {value: 'testName'}})
+        expect(setState).toBeCalledTimes(3);
+        setState.mockClear();
+        onChangeName({ target: {value: 'testName.json'}})
+        expect(setState).toBeCalledTimes(1);
+    })
+
+    test('Must onBlurName method', () => {
+        const onBlurName = wrapper.find(TextFieldAddDb).prop('onBlur');
+        onBlurName();
+        expect(setState).toBeCalledTimes(2);
+    })
 })
 
