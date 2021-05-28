@@ -1,9 +1,9 @@
 import { afterAll, beforeAll, describe, expect, jest, test } from '@jest/globals';
 import Database, { parseName } from '../../../../view/components/database/Database';
+import { mount, shallow } from 'enzyme';
+import DeleteDb from '../../../../view/components/database/DeleteDb';
 import React from 'react';
-import { shallow } from 'enzyme';
 import TextFieldAddDb from '../../../../view/components/database/TextFieldAddDb';
-
 
 describe('Testing Database component', () => {
 
@@ -36,7 +36,7 @@ describe('Testing Database component', () => {
     })
 
     test('Must onChangeInsertDs method', () => {
-        const testFile = new File([''], 'testFile.csv', { type: 'text/csv' })
+        let testFile = new File([''], 'testFile.csv', { type: 'text/csv' })
         wrapper.find('Dataset').simulate('change', { target: { files: [testFile] } })
         expect(setState).toBeCalledTimes(4);
     })
@@ -54,6 +54,27 @@ describe('Testing Database component', () => {
         const onBlurName = wrapper.find(TextFieldAddDb).prop('onBlur');
         onBlurName();
         expect(setState).toBeCalledTimes(2);
+    })
+
+    test('Must onClickDs method', async () => {
+        const onClickDs = wrapper.find(TextFieldAddDb).prop('onSubmit');
+        const preventDefaultSpy = jest.fn();
+        const event = {
+            preventDefault: preventDefaultSpy
+        }
+        await onClickDs(event);
+        expect(preventDefaultSpy).toBeCalledTimes(1);
+    })
+
+    test('Must onClickDelete method', async () => {
+        Object.defineProperty(React, 'useState', {
+            value: () => [['testTable'], setState]
+        })
+        wrapper = mount(<Database />);
+        console.log(wrapper.debug())
+        const onClickDelete = wrapper.find(DeleteDb).prop('onClickDelete');
+        await onClickDelete('tableNameToDelete');
+        expect(setState).toBeCalledTimes(1);
     })
 })
 

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import ButtonAddDb from './ButtonAddDb';
 import ButtonConfirmAddDb from './ButtonConfirmAddDb';
 import DatabaseManagerController from '../../../controller/DatabaseManagerController';
@@ -26,9 +26,11 @@ export default function Database() {
 
     const getTabNames = async () => {
         try {
+            console.log('yuyu')
             const tables = await tablesController.getTablesNames();
             setDatasets(tables);
         } catch (err) {
+            console.log('sono qui')
             setDatasets([]);
             console.log(err.message);
         }
