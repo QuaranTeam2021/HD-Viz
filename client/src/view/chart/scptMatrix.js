@@ -182,18 +182,29 @@ export const scpMatrix = function(data, cols, grouper, idBox) {
 			svg.property("value", []).dispatch("input");
 			circle.classed("hidden", false);
 		});
-		
 		drawLegend(svg, categories, width);
 	}
-
+	
+	/**
+	 * Ritorna l'array di colonne presenti nel grafico quando questo è stato creato.
+	 * Ovvero ritorna il parametro cols che è stato passato al grafico al momento della creazione.
+	 * Il valore ritornato non cambia dopo una chiamata a updateColumns
+	 * !! NON RITORNA TUTTE LE COLONNE PRESENTI NEL FILE DI PARTENZA !!
+	 * @return {Array<String>} insieme di colonne plottate inizialmente
+	 */
 	const getAllCols = () => {
 		return cols.filter(d => d !== grouper);
 	}
 	
+	/**
+	 * Ritorna l'array di colonne attualmente visualizzate nel grafico.
+	 * Ovvero ritorna un sottoinsieme del parametro cols che è stato passato al grafico al momento della creazione.
+	 * Il valore ritornato cambia dopo una chiamata a updateColumns
+	 * @return {Array<String>} insieme di colonne attualmente visualizzate
+	 */
 	const getSelectedCols = () => {
 		return selectedCols;
 	}
-	
 	
 	return Object.assign(svg.node(), { getAllCols, 
 		getSelectedCols, 
