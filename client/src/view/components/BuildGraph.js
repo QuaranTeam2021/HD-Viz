@@ -24,9 +24,9 @@ import { useStandardController } from '../../controller/StandardController';
 import { useTsneController } from '../../controller/TsneController';
 import { useUmapController } from '../../controller/UmapController';
 
-const needsAlgorithm = g => ["scptMat", "malp"].includes(g);
-const needsDistance = e => ["htmp", "frcfld"].includes(e) || ["FASTMAP", "ISOMAP", "T-SNE", "LLE"].includes(e);
-const selectedInsert = i => i.name !== undefined;
+export const needsAlgorithm = g => ["scptMat", "malp"].includes(g);
+export const needsDistance = e => ["htmp", "frcfld"].includes(e) || ["FASTMAP", "ISOMAP", "T-SNE", "LLE"].includes(e);
+export const selectedInsert = i => i.name !== undefined;
 
 export default function BuildGraph() {
   const [selectedGraph, setGraph] = useState('');

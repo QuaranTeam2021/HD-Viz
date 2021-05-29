@@ -1,5 +1,4 @@
 import React, { useCallback, useEffect } from 'react';
-import { action } from 'mobx';
 import ButtonCloseModalDb from './ButtonCloseModalDb';
 import ButtonConfirmDb from './ButtonConfirmDb';
 import DatabaseLoaderController from '../../../controller/DatabaseLoaderController';

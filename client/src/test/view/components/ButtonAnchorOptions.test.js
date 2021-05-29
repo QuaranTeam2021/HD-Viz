@@ -2,6 +2,8 @@ import { afterAll, beforeAll, describe, expect, jest, test } from '@jest/globals
 import ButtonAnchorOptions from '../../../view/components/ButtonAnchorOptions';
 import React from 'react';
 import { shallow } from 'enzyme';
+import Button from '@material-ui/core/Button';
+
 
 describe('Testing ButtonAnchorOptions component', () => {
 
@@ -12,8 +14,12 @@ describe('Testing ButtonAnchorOptions component', () => {
         position, 
         setPosition 
     } }
+    let setState = jest.fn();	
 
     beforeAll(() => {
+        Object.defineProperty(React, 'useState', {
+            value: val => [val, setState]
+        })
         wrapper = shallow(<ButtonAnchorOptions optionsPosition={optionProp} />);
     })
 
@@ -35,6 +41,36 @@ describe('Testing ButtonAnchorOptions component', () => {
 
     test('Includes four MenuItem', () => {
         expect(wrapper.find('WithStyles(ForwardRef(MenuItem))').length).toEqual(4);
+    })
+
+    test('handleToggle must work correctly', () => {
+        const handleToggle = wrapper.find(Button).prop('onClick');
+        expect(setState).not.toBeCalled();
+        handleToggle();
+        expect(setState).toBeCalled();
+    })
+
+    test('handleClose must work correctly', () => {
+        const handleClose = wrapper.find('WithStyles(ForwardRef(MenuItem))').first()
+            .prop('onClick');
+            console.log(wrapper.find('WithStyles(ForwardRef(MenuItem))'))
+        expect(setState).not.toBeCalled();
+        handleClose({}, '');
+        expect(setState).toBeCalled();
+    })
+
+    test('handleListKeyDown must work correctly', () => {
+        const handleListKeyDown = wrapper.find('#anchor-options-menu').prop('onKeyDown');
+        const preventDefaultSpy = jest.fn();
+        const event = {
+            key: 'Tab',
+            preventDefault: preventDefaultSpy
+        }
+        expect(preventDefaultSpy).not.toBeCalled();
+        expect(setState).not.toBeCalled();
+        handleListKeyDown(event);
+        expect(preventDefaultSpy).toBeCalled();
+        expect(setState).toBeCalled();
     })
 })
 
