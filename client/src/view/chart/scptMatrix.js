@@ -36,7 +36,7 @@ export const scpMatrix = function(data, cols, grouper, idBox) {
 		.append("g")
 		.attr("transform", `translate(${margin.left},${margin.top})`);
 
-	let filteredCols, size, xScale, yScale;
+	let selectedCols, size, xScale, yScale;
 	let colors = d3.scaleOrdinal()
 		.domain(data.map(d => d[grouper]))
 		.range(d3.schemeCategory10);
@@ -50,20 +50,20 @@ export const scpMatrix = function(data, cols, grouper, idBox) {
 		svg.selectAll(".legend").remove();
 
 
-		filteredCols = columns.filter(d => d !== grouper && typeof data[0][d] === "number");
-		size = (width - (filteredCols.length + 1) * padding) / filteredCols.length + padding;
+		selectedCols = columns.filter(d => d !== grouper && typeof data[0][d] === "number");
+		size = (width - (selectedCols.length + 1) * padding) / selectedCols.length + padding;
 		
-		xScale = filteredCols.map(c => d3.scaleLinear()
+		xScale = selectedCols.map(c => d3.scaleLinear()
 			.domain(d3.extent(data, d => d[c]))
 			.range([padding / 2, size - padding / 2]));
 		
-		yScale = filteredCols.map(c => d3.scaleLinear()
+		yScale = selectedCols.map(c => d3.scaleLinear()
 			.domain(d3.extent(data, d => d[c]))
 			.range([size - padding / 2, padding / 2]));
 		
 		const xAxis = d3.axisBottom()
 			.ticks(6)
-			.tickSize(size * filteredCols.length);
+			.tickSize(size * selectedCols.length);
 			
 		mainArea.append("g")
 			.classed("handler", true)
@@ -74,14 +74,14 @@ export const scpMatrix = function(data, cols, grouper, idBox) {
 			.each((d, i, nodes) => d3.select(nodes[i]).call(xAxis.scale(d)))
 			.call(g => g.select(".domain").remove())
 			.call(g => g.selectAll(".tick text")
-				.attr("transform", `rotate(30 9 ${size * filteredCols.length + 3})`)
+				.attr("transform", `rotate(30 9 ${size * selectedCols.length + 3})`)
 				.style("text-anchor", "middle"))
 			.call(g => g.selectAll(".tick line").attr("stroke", "#ddd"));
 		
 		
 		const yAxis = d3.axisLeft()
 			.ticks(6)
-			.tickSize(-size * filteredCols.length);
+			.tickSize(-size * selectedCols.length);
 		
 		mainArea.append("g")
 			.classed("handler", true)
@@ -99,7 +99,7 @@ export const scpMatrix = function(data, cols, grouper, idBox) {
 		.append("g")
 			.classed("handler", true)
 		.selectAll("g")
-			.data(d3.cross(d3.range(filteredCols.length), d3.range(filteredCols.length)))
+			.data(d3.cross(d3.range(selectedCols.length), d3.range(selectedCols.length)))
 			.join("g")
 			.attr("transform", ([i, j]) => `translate(${i * size},${j * size})`);
 		
@@ -116,8 +116,8 @@ export const scpMatrix = function(data, cols, grouper, idBox) {
 				.selectAll("circle")
 				.data(data)
 				.join("circle")
-				.attr("cx", d => xScale[i](d[filteredCols[i]]))
-				.attr("cy", d => yScale[j](d[filteredCols[j]]))
+				.attr("cx", d => xScale[i](d[selectedCols[i]]))
+				.attr("cy", d => yScale[j](d[selectedCols[j]]))
 		});
 
 		circle = cell.selectAll("circle")
@@ -130,7 +130,7 @@ export const scpMatrix = function(data, cols, grouper, idBox) {
 			.classed("handler", true)
 			.style("font", "bold 10px sans-serif")
 			.selectAll("text")
-			.data(filteredCols)
+			.data(selectedCols)
 			.join("text")
 			.attr("transform", (d, i) => `translate(${i * size},${i * size})`)
 			.attr("x", padding)
@@ -159,17 +159,17 @@ export const scpMatrix = function(data, cols, grouper, idBox) {
 				circle.classed(
 					"hidden",
 				d => {
-					return x0 > xScale[i](d[filteredCols[i]]) ||
-						x1 < xScale[i](d[filteredCols[i]]) ||
-						y0 > yScale[j](d[filteredCols[j]]) ||
-						y1 < yScale[j](d[filteredCols[j]]);
+					return x0 > xScale[i](d[selectedCols[i]]) ||
+						x1 < xScale[i](d[selectedCols[i]]) ||
+						y0 > yScale[j](d[selectedCols[j]]) ||
+						y1 < yScale[j](d[selectedCols[j]]);
 				}
 				);
 				selected = data.filter(d => {
-					return x0 < xScale[i](d[filteredCols[i]]) &&
-						x1 > xScale[i](d[filteredCols[i]]) &&
-						y0 < yScale[j](d[filteredCols[j]]) &&
-						y1 > yScale[j](d[filteredCols[j]]);
+					return x0 < xScale[i](d[selectedCols[i]]) &&
+						x1 > xScale[i](d[selectedCols[i]]) &&
+						y0 < yScale[j](d[selectedCols[j]]) &&
+						y1 > yScale[j](d[selectedCols[j]]);
 				});
 			}
 			svg.property("value", selected).dispatch("input");
@@ -182,8 +182,31 @@ export const scpMatrix = function(data, cols, grouper, idBox) {
 			svg.property("value", []).dispatch("input");
 			circle.classed("hidden", false);
 		});
-		
 		drawLegend(svg, categories, width);
 	}
-	return Object.assign(svg.node(), { updateColumns });
+	
+	/**
+	 * Ritorna l'array di colonne presenti nel grafico quando questo è stato creato.
+	 * Ovvero ritorna il parametro cols che è stato passato al grafico al momento della creazione.
+	 * Il valore ritornato non cambia dopo una chiamata a updateColumns
+	 * !! NON RITORNA TUTTE LE COLONNE PRESENTI NEL FILE DI PARTENZA !!
+	 * @return {Array<String>} insieme di colonne plottate inizialmente
+	 */
+	const getAllCols = () => {
+		return cols.filter(d => d !== grouper);
+	}
+	
+	/**
+	 * Ritorna l'array di colonne attualmente visualizzate nel grafico.
+	 * Ovvero ritorna un sottoinsieme del parametro cols che è stato passato al grafico al momento della creazione.
+	 * Il valore ritornato cambia dopo una chiamata a updateColumns
+	 * @return {Array<String>} insieme di colonne attualmente visualizzate
+	 */
+	const getSelectedCols = () => {
+		return selectedCols;
+	}
+	
+	return Object.assign(svg.node(), { getAllCols, 
+		getSelectedCols, 
+		updateColumns });
 };

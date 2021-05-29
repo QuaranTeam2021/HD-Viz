@@ -94,7 +94,7 @@ export const linearProjection = function (data, cols, grouper, idBox) {
         .append("g")
         .attr("transform", `translate(${margin.left},${margin.top})`);
    
-        
+    let selectedCols;
     const PC1AxisHandler = svg.append("g");
     const PC2AxisHandler = svg.append("g");
     const gridHandler = svg.append("g");
@@ -160,7 +160,7 @@ export const linearProjection = function (data, cols, grouper, idBox) {
         contentHandler.selectAll("*").remove();
 
 
-        const filteredcols = columns.filter(d => d !== grouper && typeof data[0][d] === "number");
+        const filteredcols = columns.filter(itm => itm !== grouper && typeof data[0][itm] === "number");
         let rawData = data.map(d => filteredcols.map(dim => d[dim]));
         rawData = scale(rawData, true, true);
         let eigvecs = getEigenvalues(rawData, 2);
@@ -179,7 +179,7 @@ export const linearProjection = function (data, cols, grouper, idBox) {
                 pc_2: isNaN(eigvecs[i][1]) ? 0 : eigvecs[i][1] * 4,
                 value: key
             }));
-        const dims = dims_unfiltered.filter(p => p.value !== "pc_1" && p.value !== "pc_2")
+        selectedCols = dims_unfiltered.filter(p => p.value !== "pc_1" && p.value !== "pc_2")
 
 
         PC1AxisHandler.call(PC1Axis);
@@ -196,7 +196,7 @@ export const linearProjection = function (data, cols, grouper, idBox) {
         drawDots(contentHandler, xScale, yScale);
 
         contentHandler.selectAll(".line")
-            .data(dims)
+            .data(selectedCols)
             .join("line")
             .attr("id", d => `${d.value}_line`)
             .attr("x1", xScale(0))
@@ -207,7 +207,7 @@ export const linearProjection = function (data, cols, grouper, idBox) {
             .style("stroke", "black");
             
         contentHandler.selectAll("text.end-axis")
-            .data(dims)
+            .data(selectedCols)
             .join("text")
             .attr("class", "label-end-axis")
             .attr("id", d => `${d.value}_label`)
@@ -216,7 +216,7 @@ export const linearProjection = function (data, cols, grouper, idBox) {
             .text(d => d.value);
             
         contentHandler.selectAll("circle.end-axis")
-            .data(dims)
+            .data(selectedCols)
             .join("circle")
             .attr("r", 7)
             .attr("class", "circle-end-axis")
@@ -226,12 +226,35 @@ export const linearProjection = function (data, cols, grouper, idBox) {
             .attr("stroke-width", 3)
             .style("stroke", "black")
             .call(drag());
-        
-        drawLegend(svg, categories, width);
+            drawLegend(svg, categories, width);
+            
+        }
 
-    }
+        /**
+         * Ritorna l'array di colonne presenti nel grafico quando questo è stato creato.
+         * Ovvero ritorna il parametro cols che è stato passato al grafico al momento della creazione.
+         * Il valore ritornato non cambia dopo una chiamata a updateColumns.
+         * NON RITORNA TUTTE LE COLONNE PRESENTI NEL FILE DI PARTENZA.
+         * @return {Array<String>} insieme di colonne plottate inizialmente.
+         */
+        const getAllCols = () => {
+            return cols.filter(d => d !== grouper && d !== "pc_1" && d !== "pc_2");
+        }
 
-	return Object.assign(svg.node(), { updateColumns });
+        /**
+         * Ritorna l'array di colonne attualmente visualizzate nel grafico.
+         * Ovvero ritorna un sottoinsieme del parametro cols che è stato passato al grafico al momento della creazione.
+         * Il valore ritornato cambia dopo una chiamata a updateColumns
+         * NON RITORNA TUTTE LE COLONNE PRESENTI NEL FILE DI PARTENZA.
+         * @return {Array<String>} insieme di colonne attualmente visualizzate
+         */
+        const getSelectedCols = () => {
+            return selectedCols.map(i => i.value);
+        }
+
+	return Object.assign(svg.node(), { getAllCols,
+        getSelectedCols, 
+		updateColumns });
 
 };
 
