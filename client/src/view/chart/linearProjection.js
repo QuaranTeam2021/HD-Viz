@@ -1,3 +1,4 @@
+/* eslint-disable max-lines */
 /* eslint-disable camelcase */
 /* eslint-disable no-extra-parens */
 /* eslint-disable prefer-arrow-callback */
@@ -24,9 +25,32 @@ export const linearProjection = function (data, cols, grouper, idBox) {
         right: 20,
         top: 20
     };
-    const height = 700 - margin.top - margin.bottom,
-        width = 700 - margin.left - margin.right;
-        
+    const totalHeight = 700,
+        totalWidth = 700;
+    const height = totalHeight - margin.top - margin.bottom,
+        width = totalWidth - margin.left - margin.right;
+    let notNullData = [];
+    let nanFound = data.length;
+    // eslint-disable-next-line guard-for-in
+
+    for (let i = 0; i < data.length; ++i) {
+        let nan = false;
+
+        for (const [key, value] of Object.entries(data[i])) {
+            if (key !== grouper) {
+                if (typeof value !== 'number' || (typeof value === 'number' && isNaN(value))) {
+                    nan = true;
+                    break;
+                } 
+            }
+        }
+
+        if (!nan) {
+            notNullData.push(data[i]); 
+        }
+    }
+
+    nanFound = nanFound - notNullData.length;
     const xScale = d3.scaleLinear([0, width]);
     const yScale = d3.scaleLinear([0, height]);
         
@@ -55,7 +79,7 @@ export const linearProjection = function (data, cols, grouper, idBox) {
             .attr("y", 10)
             .attr("fill", "currentColor")
             .attr("text-anchor", "start")
-            .text("↑ Principal Component 2"));
+            .text("🠗 Principal Component 2"));
 
         
     const grid = g => g
@@ -83,9 +107,8 @@ export const linearProjection = function (data, cols, grouper, idBox) {
                 .attr("x1", 0)
                 .attr("x2", width));
                 
-    const totalWidth = width + margin.left + margin.right;
-    const totalHeight = height + margin.top + margin.bottom;
-    const palette = d3.scaleOrdinal(d3.schemeCategory10).domain(new Set(data.map(d => d[grouper])));
+
+    const palette = d3.scaleOrdinal(d3.schemeCategory10).domain(new Set(notNullData.map(d => d[grouper])));
     const svg = d3.select(`#${idBox}`)
         .append("svg")
         .attr("class", "grafico")
@@ -94,6 +117,7 @@ export const linearProjection = function (data, cols, grouper, idBox) {
         .append("g")
         .attr("transform", `translate(${margin.left},${margin.top})`);
    
+    let legend;
     let selectedCols;
     const PC1AxisHandler = svg.append("g");
     const PC2AxisHandler = svg.append("g");
@@ -101,7 +125,7 @@ export const linearProjection = function (data, cols, grouper, idBox) {
     const contentHandler = svg.append("g");
     contentHandler.classed("contentHandler", true);
 
-    const categories = [...new Set(data.map(item => item[grouper]))]; 
+    const categories = [...new Set(notNullData.map(item => item[grouper]))]; 
 
 
     updateColumns(cols);
@@ -143,7 +167,7 @@ export const linearProjection = function (data, cols, grouper, idBox) {
                 eigvecs[d.id] = [xScale.invert(d.x) / 4, yScale.invert(d.y) / 4];
 
                 const newPcaCoordinates = computeCoordinates(rawData, eigvecs);
-                setDotAttributes(newPcaCoordinates, data);
+                setDotAttributes(newPcaCoordinates, notNullData);
                 drawDots(svg, xScale, yScale);
             }
             function dragended() {
@@ -160,18 +184,11 @@ export const linearProjection = function (data, cols, grouper, idBox) {
         contentHandler.selectAll("*").remove();
 
 
-        const filteredcols = columns.filter(itm => itm !== grouper && typeof data[0][itm] === "number");
-        let rawData = data.map(d => filteredcols.map(dim => d[dim]));
+        const filteredcols = columns.filter(itm => itm !== grouper && typeof notNullData[0][itm] === "number");
+        let rawData = notNullData.map(d => filteredcols.map(dim => d[dim]));
         rawData = scale(rawData, true, true);
         let eigvecs = getEigenvalues(rawData, 2);
         let initMat = initProjection(rawData, 2);
-        
-        let { max, min } = getMaxMinDots(initMat, eigvecs);
-
-        xScale.domain([1.1 * min, 1.1 * max]).nice();
-        yScale.domain([1.1 * min, 1.1 * max]).nice();
-
-        setDotAttributes(initMat, data);
         const dims_unfiltered = filteredcols
             .map((key, i) => ({
                 id: i,
@@ -180,6 +197,13 @@ export const linearProjection = function (data, cols, grouper, idBox) {
                 value: key
             }));
         selectedCols = dims_unfiltered.filter(p => p.value !== "pc_1" && p.value !== "pc_2")
+        
+        let { max, min } = getMaxMinDots(initMat, eigvecs);
+
+        xScale.domain([1.2 * min, 1.2 * max]).nice();
+        yScale.domain([1.2 * min, 1.2 * max]).nice();
+
+        setDotAttributes(initMat, notNullData);
 
 
         PC1AxisHandler.call(PC1Axis);
@@ -187,7 +211,7 @@ export const linearProjection = function (data, cols, grouper, idBox) {
         gridHandler.call(grid);
             
         contentHandler.selectAll(".dot")
-            .data(data)
+            .data(notNullData)
             .join("circle")
             .attr("class", "dot")
             .attr("r", 2.5)
@@ -226,35 +250,37 @@ export const linearProjection = function (data, cols, grouper, idBox) {
             .attr("stroke-width", 3)
             .style("stroke", "black")
             .call(drag());
-            drawLegend(svg, categories, width);
-            
+        legend = drawLegend(svg, categories, width);
+        if (nanFound > 0) {
+            legend.displayMessage(`warn: ${nanFound} NaN found`);
         }
+    }
 
-        /**
-         * Ritorna l'array di colonne presenti nel grafico quando questo è stato creato.
-         * Ovvero ritorna il parametro cols che è stato passato al grafico al momento della creazione.
-         * Il valore ritornato non cambia dopo una chiamata a updateColumns.
-         * NON RITORNA TUTTE LE COLONNE PRESENTI NEL FILE DI PARTENZA.
-         * @return {Array<String>} insieme di colonne plottate inizialmente.
-         */
-        const getAllCols = () => {
-            return cols.filter(d => d !== grouper && d !== "pc_1" && d !== "pc_2");
-        }
+    /**
+     * Ritorna l'array di colonne presenti nel grafico quando questo è stato creato.
+     * Ovvero ritorna il parametro cols che è stato passato al grafico al momento della creazione.
+     * Il valore ritornato non cambia dopo una chiamata a updateColumns.
+     * NON RITORNA TUTTE LE COLONNE PRESENTI NEL FILE DI PARTENZA.
+     * @return {Array<String>} insieme di colonne plottate inizialmente.
+     */
+    const getAllCols = () => {
+        return cols.filter(d => d !== grouper && d !== "pc_1" && d !== "pc_2");
+    }
 
-        /**
-         * Ritorna l'array di colonne attualmente visualizzate nel grafico.
-         * Ovvero ritorna un sottoinsieme del parametro cols che è stato passato al grafico al momento della creazione.
-         * Il valore ritornato cambia dopo una chiamata a updateColumns
-         * NON RITORNA TUTTE LE COLONNE PRESENTI NEL FILE DI PARTENZA.
-         * @return {Array<String>} insieme di colonne attualmente visualizzate
-         */
-        const getSelectedCols = () => {
-            return selectedCols.map(i => i.value);
-        }
+    /**
+     * Ritorna l'array di colonne attualmente visualizzate nel grafico.
+     * Ovvero ritorna un sottoinsieme del parametro cols che è stato passato al grafico al momento della creazione.
+     * Il valore ritornato cambia dopo una chiamata a updateColumns
+     * NON RITORNA TUTTE LE COLONNE PRESENTI NEL FILE DI PARTENZA.
+     * @return {Array<String>} insieme di colonne attualmente visualizzate
+     */
+    const getSelectedCols = () => {
+        return selectedCols.map(i => i.value);
+    }
 
-	return Object.assign(svg.node(), { getAllCols,
+    return Object.assign(svg.node(), { getAllCols,
         getSelectedCols, 
-		updateColumns });
+        updateColumns });
 
 };
 
