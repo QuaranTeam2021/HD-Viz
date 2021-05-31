@@ -1,3 +1,4 @@
+/* istanbul ignore file */
 /* eslint-disable camelcase */
 /* eslint-disable no-extra-parens */
 /* eslint-disable prefer-arrow-callback */

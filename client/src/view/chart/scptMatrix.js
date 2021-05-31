@@ -1,3 +1,4 @@
+/* istanbul ignore file */
 /* eslint-disable no-mixed-operators */
 /* eslint-disable no-invalid-this */
 /* eslint-disable prefer-arrow-callback */

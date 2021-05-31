@@ -1,3 +1,4 @@
+/* istanbul ignore file */
 /* eslint-disable no-confusing-arrow */
 /* eslint-disable func-names */
 /* eslint-disable no-invalid-this */
