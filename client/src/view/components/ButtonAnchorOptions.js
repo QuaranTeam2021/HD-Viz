@@ -17,6 +17,7 @@ export default function ButtonAnchorOptions({ optionsPosition: { position, setPo
 
   const handleClose = (e, v) => {
     if (v && v !== position) {
+      console.log('wut')
       setPosition(v);
     }
     setOpen(false);

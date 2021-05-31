@@ -1,20 +1,19 @@
 import { afterAll, beforeAll, describe, expect, jest, test } from '@jest/globals';
+import Button from '@material-ui/core/Button';
 import ButtonAnchorOptions from '../../../view/components/ButtonAnchorOptions';
 import React from 'react';
 import { shallow } from 'enzyme';
-import Button from '@material-ui/core/Button';
-
 
 describe('Testing ButtonAnchorOptions component', () => {
 
     let wrapper;
-    let position = '';
-    let setPosition = jest.fn();
-    let optionProp = { optionsPosition: { 
+    const position = '';
+    const setPosition = jest.fn();
+    const optionProp = { optionsPosition: { 
         position, 
         setPosition 
     } }
-    let setState = jest.fn();	
+    const setState = jest.fn();	
 
     beforeAll(() => {
         Object.defineProperty(React, 'useState', {
@@ -53,7 +52,6 @@ describe('Testing ButtonAnchorOptions component', () => {
     test('handleClose must work correctly', () => {
         const handleClose = wrapper.find('WithStyles(ForwardRef(MenuItem))').first()
             .prop('onClick');
-            console.log(wrapper.find('WithStyles(ForwardRef(MenuItem))'))
         expect(setState).not.toBeCalled();
         handleClose({}, '');
         expect(setState).toBeCalled();

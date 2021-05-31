@@ -10,14 +10,23 @@ import { shallow } from 'enzyme';
 describe('Testing RenameTitleGraph component', () => {
 
 	let wrapper;
-    let setTitle = jest.fn();
+    const setTitle = jest.fn();
+    let setState = jest.fn();	
 
     beforeAll(() => {
+        Object.defineProperty(React, 'useState', {
+            value: val => [val, setState]
+        })
         wrapper = shallow(<RenameTitleGraph title={''} setTitle={setTitle} />);
+    })
+
+    beforeEach(() => {
+        jest.clearAllMocks();
     })
 
     afterAll(() => {
         wrapper.unmount();
+        jest.restoreAllMocks();
     })
 
     test('Renders correctly', () => {
@@ -38,6 +47,42 @@ describe('Testing RenameTitleGraph component', () => {
 
     test('Includes one EditIcon', () => {
         expect(wrapper.find(EditIcon).length).toEqual(1);
+    })
+
+    test('handleEditing must work correctly', () => {
+        Object.defineProperty(React, 'useState', {
+            value: () => [{ editing: true }, setState]
+        })
+        wrapper = shallow(<RenameTitleGraph title={''} setTitle={setTitle} />);
+        const handleEditing = wrapper.find(Fab).first()
+            .prop('onClick');
+        expect(setState).not.toBeCalled();
+        handleEditing();
+        expect(setState).toBeCalled();
+    })
+
+    test('handleChange must work correctly', () => {
+        const handleChange = wrapper.find('input').prop('onChange');
+        const event = { target: { value: '' } };
+        expect(setState).not.toBeCalled();
+        handleChange(event);
+        expect(setState).toBeCalled();
+    })
+
+    test('handleEnterUpdate must work correctly', () => {
+        const handleEnterUpdate = wrapper.find('input').prop('onKeyDown');
+        const event = { key: 'Enter' };
+        expect(setState).not.toBeCalled();
+        handleEnterUpdate(event);
+        expect(setState).toBeCalled();
+    })
+
+    test('handleUpdatedDone must work correctly', () => {
+        const handleUpdatedDone = wrapper.find(Fab).last()
+            .prop('onClick');
+        expect(setState).not.toBeCalled();
+        handleUpdatedDone();
+        expect(setState).toBeCalled();
     })
 })
 
