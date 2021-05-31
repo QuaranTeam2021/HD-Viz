@@ -14,6 +14,9 @@ import { purple } from '@material-ui/core/colors'
 import RemoveIcon from '@material-ui/icons/Delete';
 import RenameTitleGraph from './RenameTitleGraph';
 import SaveIcon from '@material-ui/icons/Save';
+import SPMOptions from './SPMOptions';
+import Store from '../../store/Store';
+
 
 const useStyles = makeStyles(theme => ({
   button: {
@@ -38,29 +41,38 @@ export default function OptionsGraph({ onDelete, graphViz, graphId, graphType, g
   const [title, setTitle] = useState(graphTitle);
   const [currentOptions, setCurrentOptions] = useState({});
   const confirmButtonRef = useRef(null);
+  const [selectedCol, setSelectedCol] = useState(() => Store.getGraph); 
+  const [disabled, setDisabled] = useState(true); 
+
 
   const switchOptions = useCallback((type, position, viz) => {
     let optProps = {
       buttonRef: confirmButtonRef,
       currentOptions,
       data: graphData,
+      disabled,
       graphViz: viz,
       position,
+      selectedCol,
       setCurrentOptions,
-    };
+      setDisabled,
+      setSelectedCol,
+      
+          };
     switch (type) {
-      /* case "scptMat":
-        return <ScptMat {...optProps} />; */
+       case "scptMat":
+        return <SPMOptions {...optProps} />; 
       case "htmp":
         return <HeatmapOptions {...optProps} />;
       case "frcfld":
         return <ForceFieldOptions {...optProps} />;
       case "malp":
         return <MALPOptions {...optProps} />;
+     
       default:
         return null;
     }
-  }, [currentOptions, graphData]);
+  }, [currentOptions, disabled, selectedCol, graphData]);
 
   return (
     <div className="options-container" id={`options-${graphId}`}>
@@ -96,6 +108,7 @@ export default function OptionsGraph({ onDelete, graphViz, graphId, graphType, g
             className={classes.button}
             startIcon={<SaveIcon />}
             size="small"
+            disabled={setDisabled}
           >
             Conferma
           </Button>

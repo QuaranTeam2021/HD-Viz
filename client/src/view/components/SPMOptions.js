@@ -2,10 +2,10 @@ import React, { useCallback, useEffect, useState } from 'react';
 import SelectVizColumns from './database/SelectVizColumns';
 
 
-export default function MALPOptions({ graphViz, buttonRef, setCurrentOptions, setDisabled}) {
+export default function SPMOptions({ graphViz, buttonRef, setCurrentOptions, setDisabled}) {
 
   const [allCols, setAllCols] = useState([]);
-  const [selected, setSelected] = useState([]);
+const [selected, setSelected] = useState([]);
 
 
   const commitChanges = useCallback(() => {
