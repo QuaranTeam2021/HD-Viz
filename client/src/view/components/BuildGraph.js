@@ -27,6 +27,7 @@ import { useUmapController } from '../../controller/UmapController';
 const needsAlgorithm = g => ["scptMat", "malp"].includes(g);
 const needsDistance = e => ["htmp", "frcfld"].includes(e) || ["FASTMAP", "ISOMAP", "T-SNE", "LLE"].includes(e);
 const selectedInsert = i => i.name !== undefined;
+const maxColumns = s => s === "scptMat";
 
 export default function BuildGraph() {
   const [selectedGraph, setGraph] = useState('');
@@ -82,6 +83,9 @@ export default function BuildGraph() {
     allSelected = insert !== "";
     allSelected = allSelected && selectedGraph !== "";
     allSelected = allSelected && selectedColumns.length > 0;
+    if (maxColumns(selectedGraph)) {
+      allSelected = allSelected && selectedColumns.length < 6;
+    }
     if (needsDistance(selectedGraph) || needsDistance(selectedAlgorithm))
       allSelected = allSelected && distanza !== "";
     if (needsAlgorithm(selectedGraph)) {
