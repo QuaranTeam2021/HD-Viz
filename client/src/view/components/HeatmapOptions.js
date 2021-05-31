@@ -1,4 +1,3 @@
-import * as htmp from '../chart/heatmap';
 import React, { useCallback, useEffect, useState } from 'react';
 import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
@@ -21,7 +20,7 @@ const useStyles = makeStyles(() => ({
   }
 }));
 
-export default function HeatmapOptions({ position, graphViz, data, buttonRef, currentOptions, setCurrentOptions }) {
+export default function HeatmapOptions({ position, graphViz, buttonRef, currentOptions, setCurrentOptions }) {
   const classes = useStyles();
   
   const [ordinamento, setOrdinamento] = useState('none');
@@ -30,15 +29,15 @@ export default function HeatmapOptions({ position, graphViz, data, buttonRef, cu
   
   const commitChanges = useCallback(() => {
     if (currentOptions.oldOrd !== ordinamento)
-      graphViz.updateOrder(htmp.orders(data, ordinamento));
-      if (currentOptions.oldThres !== threshold)
+      graphViz.updateOrder(ordinamento);
+    if (currentOptions.oldThres !== threshold)
       graphViz.updateThreshold(threshold);
     
       setCurrentOptions({
         oldOrd: ordinamento,
         oldThres: threshold
     });
-  }, [currentOptions, data, graphViz, ordinamento, setCurrentOptions, threshold]);
+  }, [currentOptions, graphViz, ordinamento, setCurrentOptions, threshold]);
   
   useEffect(() => {
     buttonRef.current.onclick = commitChanges;

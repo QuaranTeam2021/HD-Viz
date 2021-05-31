@@ -14,7 +14,7 @@ import { purple } from '@material-ui/core/colors'
 import RemoveIcon from '@material-ui/icons/Delete';
 import RenameTitleGraph from './RenameTitleGraph';
 import SaveIcon from '@material-ui/icons/Save';
-import SPMOptions from './SPMOptions';
+import SCPMOptions from './SCPMOptions';
 import Store from '../../store/Store';
 
 
@@ -41,8 +41,7 @@ export default function OptionsGraph({ onDelete, graphViz, graphId, graphType, g
   const [title, setTitle] = useState(graphTitle);
   const [currentOptions, setCurrentOptions] = useState({});
   const confirmButtonRef = useRef(null);
-  const [selectedCol, setSelectedCol] = useState(() => Store.getGraph); 
-  const [disabled, setDisabled] = useState(true); 
+  const [selectedCol, setSelectedCol] = useState(() => Store.getGraph);
 
 
   const switchOptions = useCallback((type, position, viz) => {
@@ -50,18 +49,16 @@ export default function OptionsGraph({ onDelete, graphViz, graphId, graphType, g
       buttonRef: confirmButtonRef,
       currentOptions,
       data: graphData,
-      disabled,
       graphViz: viz,
       position,
       selectedCol,
       setCurrentOptions,
-      setDisabled,
       setSelectedCol,
       
-          };
+    };
     switch (type) {
        case "scptMat":
-        return <SPMOptions {...optProps} />; 
+        return <SCPMOptions {...optProps} />; 
       case "htmp":
         return <HeatmapOptions {...optProps} />;
       case "frcfld":
@@ -72,7 +69,7 @@ export default function OptionsGraph({ onDelete, graphViz, graphId, graphType, g
       default:
         return null;
     }
-  }, [currentOptions, disabled, selectedCol, graphData]);
+  }, [currentOptions, selectedCol, graphData]);
 
   return (
     <div className="options-container" id={`options-${graphId}`}>
@@ -108,7 +105,6 @@ export default function OptionsGraph({ onDelete, graphViz, graphId, graphType, g
             className={classes.button}
             startIcon={<SaveIcon />}
             size="small"
-            disabled={setDisabled}
           >
             Conferma
           </Button>
