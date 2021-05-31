@@ -160,7 +160,7 @@ export const linearProjection = function (data, cols, grouper, idBox) {
         contentHandler.selectAll("*").remove();
 
 
-        const filteredcols = columns.filter(d => d !== grouper && typeof data[0][d] === "number");
+        const filteredcols = columns.filter(itm => itm !== grouper && typeof data[0][itm] === "number");
         let rawData = data.map(d => filteredcols.map(dim => d[dim]));
         rawData = scale(rawData, true, true);
         let eigvecs = getEigenvalues(rawData, 2);
@@ -226,17 +226,32 @@ export const linearProjection = function (data, cols, grouper, idBox) {
             .attr("stroke-width", 3)
             .style("stroke", "black")
             .call(drag());
-        
-        drawLegend(svg, categories, width);
+            drawLegend(svg, categories, width);
+            
+        }
 
-    }
-    const getAllCols = () => {
-		return cols.filter(d => d !== grouper);
-	}
-	
-	const getSelectedCols = () => {
-		return selectedCols.map(i => i.value);
-	}
+        /**
+         * Ritorna l'array di colonne presenti nel grafico quando questo è stato creato.
+         * Ovvero ritorna il parametro cols che è stato passato al grafico al momento della creazione.
+         * Il valore ritornato non cambia dopo una chiamata a updateColumns.
+         * NON RITORNA TUTTE LE COLONNE PRESENTI NEL FILE DI PARTENZA.
+         * @return {Array<String>} insieme di colonne plottate inizialmente.
+         */
+        const getAllCols = () => {
+            return cols.filter(d => d !== grouper && d !== "pc_1" && d !== "pc_2");
+        }
+
+        /**
+         * Ritorna l'array di colonne attualmente visualizzate nel grafico.
+         * Ovvero ritorna un sottoinsieme del parametro cols che è stato passato al grafico al momento della creazione.
+         * Il valore ritornato cambia dopo una chiamata a updateColumns
+         * NON RITORNA TUTTE LE COLONNE PRESENTI NEL FILE DI PARTENZA.
+         * @return {Array<String>} insieme di colonne attualmente visualizzate
+         */
+        const getSelectedCols = () => {
+            return selectedCols.map(i => i.value);
+        }
+
 	return Object.assign(svg.node(), { getAllCols,
         getSelectedCols, 
 		updateColumns });
