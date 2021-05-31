@@ -4,6 +4,7 @@
 /* eslint-disable no-mixed-operators */
 /* eslint-disable operator-assignment */
 const d3 = require('d3');
+import { tooltip, tooltipTemplate } from './tooltip';
 import { drawLegend } from './drawLegend'
 import { orders } from './reorderGraph'
 
@@ -27,10 +28,14 @@ export const heatmap = function (data, idBox) {
   let orderMode = "none";
   const c = d3.scaleOrdinal(d3.range(10), d3.schemeCategory10);
 
-  /* let x = d3
-       .scaleBand()
-       .domain(nodeIds)
-       .range([0, width]); */
+	let tooltipDiv = d3.select(`#${idBox}`)
+		.append("div")
+		.classed("tooltip", true);
+
+	tooltipDiv.append("div")
+		.classed("tooltip-contents", true);
+
+	tooltipDiv.call(tooltipTemplate);
 
   const svg = d3
     .select(`#${idBox}`)
@@ -53,7 +58,7 @@ export const heatmap = function (data, idBox) {
   const rectHandler = g.append("g");
 
   rectHandler.append("style")
-    .text(`.rect-handler>rect { stroke: #d62333; stroke-width: 0px; } .rect-handler>rect:hover { stroke-width: 1px; }`);
+    .text(`.rect-handler>rect { stroke: #d62333; stroke-width: 0px; } .rect-handler>rect:hover { stroke-width: 1px; } text:hover{font-weight: bold;}`);
   rectHandler.classed("rect-handler", true);
 
   let columns, rects, rows;
@@ -114,7 +119,7 @@ export const heatmap = function (data, idBox) {
 
     let colNames = columnsHandler
       .selectAll(".column")
-      .data(nodeIds);
+      .data(nodes);
   
     columns = colNames
       .join("g")
@@ -125,11 +130,12 @@ export const heatmap = function (data, idBox) {
       .append("text")
       .attr("dx", 2)
       .attr("dy", x.bandwidth() / 2)
-      .text(i => nodes[i].id);
+      .text(d => d.id)
+      .call(tooltip, tooltipDiv);
     
     rows = rowsHandler
       .selectAll()
-      .data(nodeIds)
+      .data(nodes)
       .join("g");
 
     rows
@@ -137,7 +143,8 @@ export const heatmap = function (data, idBox) {
       .attr("text-anchor", "end")
       .attr("dx", -2)
       .attr("dy", x.bandwidth() / 2)
-      .text(i => nodes[i].id);
+      .text(d => d.id)
+      .call(tooltip, tooltipDiv);
 
     updateThreshold(0);
 
@@ -187,12 +194,12 @@ export const heatmap = function (data, idBox) {
       .transition()
       .delay(delay)
       .duration(duration)
-      .attr("transform", i => `translate(0, ${x(i)})`);
+      .attr("transform", d => `translate(0, ${x(d.index)})`);
     rows
       .transition()
       .delay(delay)
       .duration(duration)
-      .attr("transform", i => `translate(0, ${x(i)})`);
+      .attr("transform", d => `translate(0, ${x(d.index)})`);
     rects
       .transition()
       .delay(delay2)

@@ -1,6 +1,7 @@
 /* eslint-disable no-confusing-arrow */
 /* eslint-disable func-style */
 const d3 = require('d3');
+import { tooltip, tooltipTemplate } from './tooltip';
 import { drawLegend} from './drawLegend'
 
 /**
@@ -38,7 +39,15 @@ let links = data.links;
 		}
 	}
 	const nodeRadius = 5;
-	
+
+	let tooltipDiv = d3.select(`#${idBox}`)
+		.append("div")
+		.classed("tooltip", true);
+
+	tooltipDiv.append("div")
+		.classed("tooltip-contents", true);
+
+	tooltipDiv.call(tooltipTemplate);
 	let svg = d3
 		.select(`#${idBox}`)
 		.append("svg")
@@ -82,17 +91,15 @@ let links = data.links;
 		legend.drawDistanceTrapezoid(scaleThickness);
 
 		updateThreshold(0);
-
 		node = nodeHandler
 			.selectAll("circle")
 			.data(nodes, d => d.id)
 			.join("circle")
 			.attr("r", nodeRadius)
 			.attr("fill", d => scale(d.group))
-			.call(drag(simulation));
+			.call(tooltip, tooltipDiv)
+			.call(drag(simulation, tooltipDiv));
 		
-		node.append("title")
-				.text(d => d.id);
 
 		simulation.on("tick", () => {
 			link
@@ -148,7 +155,7 @@ let links = data.links;
 			.selectAll("line")
 			.data(links.filter(l => l.value > threshold))
 			.join("line");
-		// console.log(d3.min(threshold, 12));
+
 		// eslint-disable-next-line no-unused-expressions
 		threshold < getMin() ? scaleThickness.domain([getMin(), getMax()]) : scaleThickness.domain([threshold, getMax()]);
 		legend.updateTicks(scaleThickness);
@@ -165,10 +172,10 @@ let links = data.links;
 		updateThreshold
 	});
 }
-
-const drag = sim => {
+const drag = (sim, tooltipDiv) => {
 	
 	const dragstarted = function(event) {
+		tooltipDiv.style("opacity", 0);
 		if (!event.active) {
 			sim.alphaTarget(0.3).restart();
 		}
@@ -189,6 +196,7 @@ const drag = sim => {
 	}
 	
 	const dragended = function(event) {
+		tooltipDiv.style("opacity", 1);
 		if (!event.active) {
 			sim.alphaTarget(0);
 		}
