@@ -11,6 +11,8 @@ describe('Testing Database component', () => {
     const setState = jest.fn();
 
     beforeAll(() => {
+        global.fetch = jest.fn();
+        jest.spyOn(console, 'error');
         Object.defineProperty(React, 'useState', {
             value: val => [val, setState]
         })
@@ -67,11 +69,8 @@ describe('Testing Database component', () => {
     })
 
     test('Must onClickDelete method', async () => {
-        Object.defineProperty(React, 'useState', {
-            value: () => [['testTable'], setState]
-        })
+        jest.spyOn(React, 'useState').mockImplementationOnce(() => [['testTable'], setState])
         wrapper = mount(<Database />);
-        console.log(wrapper.debug())
         const onClickDelete = wrapper.find(DeleteDb).prop('onClickDelete');
         await onClickDelete('tableNameToDelete');
         expect(setState).toBeCalledTimes(1);

@@ -26,7 +26,6 @@ export default function Database() {
 
     const getTabNames = async () => {
         try {
-            console.log('yuyu')
             const tables = await tablesController.getTablesNames();
             setDatasets(tables);
         } catch (err) {
