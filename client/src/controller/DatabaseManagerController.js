@@ -1,4 +1,4 @@
-const token = "";
+/* eslint-disable consistent-return */
 
 export default class DatabaseManagerController {
 
@@ -6,12 +6,12 @@ export default class DatabaseManagerController {
         this.port = 5000;
     }
 
-// eslint-disable-next-line consistent-return
     async upload(table, file) {
         if (file.size > 0 && file.size < 50000) {
             try {
+                const token = localStorage.getItem('token');
                 const formData = new FormData();
-                formData.append("uploadedFile", file);
+                formData.append("file", file);
         
                 const response = await fetch(`http://localhost:${this.port}/api/upload/${table}`, {
                     body: formData,
@@ -19,7 +19,6 @@ export default class DatabaseManagerController {
                     method: "POST"
                 });
                 const jsonData = await response.json();
-                console.log(jsonData);
                 return jsonData;
             } catch (err) {
                 console.error(err.message);
@@ -29,6 +28,7 @@ export default class DatabaseManagerController {
 
     async deleteTable(table) {
         try {
+            const token = localStorage.getItem('token');
             const delTable = await fetch(`http://localhost:${this.port}/api/delete/${table}`, { 
                 headers: { "authorization": `Bearer ${token}` },
                 method: "DELETE"
@@ -36,7 +36,7 @@ export default class DatabaseManagerController {
             const jsonData = await delTable.json();
             return jsonData;
         } catch (err) {
-            return err.message;
+            console.error(err.message);
         }
     }
 }

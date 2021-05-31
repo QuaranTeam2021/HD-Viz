@@ -22,17 +22,8 @@ export default class TsneController extends StandardGraphController {
         for (let i = 0; i < reducedData.length; ++i) {
             reducedData[i].push(grouperCol[i]);
         }
-        let graph = new StandardGraph(graphId, type, grouper.toString(), reducedData);
+        let graph = new StandardGraph(graphId, type, grouper.toString(), features, reducedData);
         this.store.addGraph(graph);
-    }
-
-    calculateReduction(graphId, features) {
-        let parameters = new TsneParameters(this._dimensions, this._perplexity, this._epsilon, this._metric);
-        let reducedData = this.store.calculateReduction(features, this.tsne, parameters);
-        let updatedGraph = this.store.getGraphById(graphId);
-        updatedGraph.data = reducedData;
-        let index = this.store.getGraphIndexById(graphId);
-        this.store.graphs[index] = updatedGraph;
     }
     
     set perplexity(perplexity) {

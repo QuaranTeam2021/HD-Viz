@@ -12,12 +12,8 @@ export default class StandardController extends StandardGraphController {
     createGraph(graphId, type, features, grouper) {
         features.push(grouper[0]);
         let data = this.store.calculateSelectedData(features);
-        let graph = new StandardGraph(graphId, type, grouper.toString(), data);
+        let graph = new StandardGraph(graphId, type, grouper.toString(), features, data);
         this.store.addGraph(graph);
-    }
-
-    removeGraph(graphId) {
-        this.store.removeGraph(graphId);
     }
 }
 

@@ -1,14 +1,14 @@
 const Client = require("pg").Client;
 require("dotenv").config();
 
-const connectionString = `postgresql://${process.env.USER}:${process.env.PASSWORD}@${process.env.HOST}:${process.env.PORT}/${process.env.DATABASE}`;
+const connectionString = `postgresql://${process.env.HDVIZ_USER}:${process.env.HDVIZ_PASSWORD}@${process.env.HDVIZ_HOST}:${process.env.HDVIZ_PORT}/${process.env.HDVIZ_DATABASE}`;
 
 const client = new Client({ connectionString });
 
 client
     .connect()
     .then(() => console.log('connected with the DB'))
-    .catch(err => console.error('connection error with the DB', err.stack));
+    .catch(err => console.error('connection error with the DB:', err.message));
 
 /*   CHIUDERE LA CONNESSIONE
 client

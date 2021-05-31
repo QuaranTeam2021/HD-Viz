@@ -1,9 +1,9 @@
+/* istanbul ignore file */
 import DistanceBasedGraphController, { DistanceBasedGraphControllerContext } from '../controller/DistanceBasedGraphController';
 import FastmapController, { FastmapControllerContext } from '../controller/FastmapController';
 import IsomapController, { IsomapControllerContext } from '../controller/IsomapController';
 import LleController, { LleControllerContext } from '../controller/LleController';
 import LocalLoaderController, { LocalLoaderControllerContext } from '../controller/LocalLoaderController';
-import PcaController, { PcaControllerContext } from '../controller/PcaController';
 import StandardController, { StandardControllerContext } from '../controller/StandardController';
 import Store, { StoreContext } from '../store/Store';
 import TsneController, { TsneControllerContext } from '../controller/TsneController';
@@ -17,7 +17,6 @@ const standardController = new StandardController(store);
 const fastmapController = new FastmapController(store);
 const isomapController = new IsomapController(store);
 const lleController = new LleController(store);
-const pcaController = new PcaController(store);
 const tsneController = new TsneController(store);
 const umapController = new UmapController(store);
 const distanceBasedController = new DistanceBasedGraphController(store);
@@ -31,13 +30,11 @@ const AllTheProviders = ({ children }) => {
 				<FastmapControllerContext.Provider value={fastmapController}>
 				<IsomapControllerContext.Provider value={isomapController}>
 				<LleControllerContext.Provider value={lleController}>
-				<PcaControllerContext.Provider value={pcaController}>
 				<TsneControllerContext.Provider value={tsneController}>
 				<UmapControllerContext.Provider value={umapController}>
           {children}
         </UmapControllerContext.Provider>
         </TsneControllerContext.Provider>
-        </PcaControllerContext.Provider>
         </LleControllerContext.Provider>
         </IsomapControllerContext.Provider>
         </FastmapControllerContext.Provider>

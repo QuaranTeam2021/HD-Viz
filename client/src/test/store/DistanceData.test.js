@@ -1,7 +1,14 @@
-import { describe, expect, test } from '@jest/globals';
+import { beforeAll, describe, expect, test } from '@jest/globals';
 import DistanceData from '../../store/DistanceData';
 
 describe('Testing for DistanceData class', () => {
+
+    let links, nodes;
+
+    beforeAll(() => {
+        nodes = [1, 2, 3, 4, 5, 6];
+        links = [4, 5, 6, 7, 8, 9];
+    }) 
 
     describe('Testing constructor', () => {
 
@@ -16,8 +23,6 @@ describe('Testing for DistanceData class', () => {
         })
 
         test('Must construct a DistanceData', () => {
-            const nodes = [1, 2, 3, 4, 5, 6];
-            const links = [4, 5, 6, 7, 8, 9];
             const data = new DistanceData(nodes, links);
             expect(data).toBeInstanceOf(DistanceData);
         })
@@ -53,32 +58,24 @@ describe('Testing for DistanceData class', () => {
     describe('Testing getters methods', () => {
 
         test('Must get correct nodes', () => {
-            const nodes = [1, 2, 3, 4, 5, 6];
-            const links = [4, 5, 6, 7, 8, 9];
             const data = new DistanceData(nodes, links);
             const getterResult = data.nodes;
             expect(getterResult).toEqual([1, 2, 3, 4, 5, 6]);
         })
 
         test('Must get correct links', () => {
-            const nodes = [1, 2, 3, 4, 5, 6];
-            const links = [4, 5, 6, 7, 8, 9];
             const data = new DistanceData(nodes, links);
             const getterResult = data.links;
             expect(getterResult).toEqual([4, 5, 6, 7, 8, 9]);
         })
 
         test('Nodes must be an array', () => {
-            const nodes = [1, 2, 3, 4, 5, 6];
-            const links = [4, 5, 6, 7, 8, 9];
             const data = new DistanceData(nodes, links);
             const getterResult = data.nodes;
             expect(getterResult).toBeInstanceOf(Array);
         })
 
         test('Links must be an array', () => {
-            const nodes = [1, 2, 3, 4, 5, 6];
-            const links = [4, 5, 6, 7, 8, 9];
             const data = new DistanceData(nodes, links);
             const getterResult = data.links;
             expect(getterResult).toBeInstanceOf(Array);

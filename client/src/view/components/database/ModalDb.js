@@ -1,5 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { action } from 'mobx';
+import React, { useCallback, useEffect } from 'react';
 import ButtonCloseModalDb from './ButtonCloseModalDb';
 import ButtonConfirmDb from './ButtonConfirmDb';
 import DatabaseLoaderController from '../../../controller/DatabaseLoaderController';
@@ -22,13 +21,13 @@ const useStyles = makeStyles(theme => ({
 
 export default function ModalDb({onSubmit}) {
   const classes = useStyles();
-  const [open, setOpen] = useState(false);
-  const [selectedColumns, setSelectedColumns] = useState([]);
-  const [selectedTable, setSelectedTable] = useState(''); 
-  const [confirmDb, setConfirmDb] = useState([]); 
+  const [open, setOpen] = React.useState(false);
+  const [selectedColumns, setSelectedColumns] = React.useState([]);
+  const [selectedTable, setSelectedTable] = React.useState(''); 
+  const [confirmDb, setConfirmDb] = React.useState([]); 
 
-  const [datasetsDb, setDatasetsDb] = useState();
-  const [tableColumnsDb, setTableColumnsDb] = useState();
+  const [datasetsDb, setDatasetsDb] = React.useState();
+  const [tableColumnsDb, setTableColumnsDb] = React.useState();
   const store = useStore();
   const loaderController = new DatabaseLoaderController(store);
   const tablesController = new DatabaseTablesController();
@@ -72,7 +71,6 @@ export default function ModalDb({onSubmit}) {
   const onChangeTableDb = e => {
     setSelectedTable(e.target.value);
     getColsNames(e.target.value); 
-
   }
   
   const optionsSelected = useCallback(() => {
@@ -86,7 +84,7 @@ export default function ModalDb({onSubmit}) {
     optionsSelected();
   }, [optionsSelected]); 
 
-  const onClickConfirm = action(() => {
+  const onClickConfirm = () => {
     let formData = {
       selectedColumns,
       selectedTable 
@@ -99,21 +97,17 @@ export default function ModalDb({onSubmit}) {
       loaderController.loadTableCols(selectedTable, selectedColumns);
     onClose(); 
     onSubmit({ name: selectedTable }); 
-  });
+  };
   
-  const onClickTable = () => { 
-    setSelectedColumns([]); 
-
-  }
   const body = 
-  <div id="db_div" className={classes.paper}>
+  <div id="db-div" className={classes.paper}>
       <ButtonCloseModalDb onClick={onClose}/> 
       <div id="description">
         <SelectVizTable onChange={onChangeTableDb} tables={datasetsDb} selected={selectedTable} />
         <SelectVizColumns onChange={onChangeColumnsDb} columns={tableColumnsDb} selectedColumns={selectedColumns} /> 
         <ButtonConfirmDb onClick={onClickConfirm} disabled={!confirmDb} />
       </div>   
-    </div>
+  </div>
   
 
   return (

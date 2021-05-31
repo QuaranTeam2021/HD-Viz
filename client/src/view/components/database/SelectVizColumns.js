@@ -7,7 +7,6 @@ import MenuItem from '@material-ui/core/MenuItem';
 import React from 'react';
 import Select from '@material-ui/core/Select';
 
-
 const useStyles = makeStyles(theme => ({
  
   chip: {
@@ -44,14 +43,14 @@ export default function SelectVizColumns({ onChange, columns, selectedColumns })
   
   return (
       <FormControl className={classes.formControl}>
-      <InputLabel id="demo-mutiple-chip-label">Colonne</InputLabel>
+      <InputLabel id="columns-select-label">Colonne</InputLabel>
       <Select
-        labelId="demo-mutiple-chip-label"
-        id="demo-mutiple-chip"
+        labelId="columns-select-label"
+        id="columns-select"
         multiple
         value={selectedColumns}
         onChange={onChange}
-        input={<Input id="select-multiple-chip" />}
+        input={<Input id="columns-chip" />}
         renderValue={selected => <div className={classes.chips}>
             {selected.map(value => <Chip key={value} label={value} className={classes.chip} />)}
           </div>

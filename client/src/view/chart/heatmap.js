@@ -1,3 +1,4 @@
+/* istanbul ignore file */
 /* eslint-disable prefer-arrow-callback */
 /* eslint-disable func-names */
 /* eslint-disable no-mixed-operators */
@@ -15,11 +16,11 @@ import { drawLegend} from './drawLegend'
 
 export const heatmap = function (data, idBox) {
   const margin = { bottom: 10,
-      left: 40,
+      left: 50,
       right: 0,
-      top: 40 };
-  const width = 700;
-  const height = 700;
+      top: 50 };
+  const width = 600;
+  const height = 600;
 
   // let nodeIds = d3.range(graph.nodes.length);
   const c = d3.scaleOrdinal(d3.range(10), d3.schemeCategory10);
@@ -33,8 +34,9 @@ export const heatmap = function (data, idBox) {
     .select(`#${idBox}`)
     .append("svg")
     .classed("grafico", true)
-    .attr("width", width + margin.left + margin.right)
-    .attr("height", height + margin.top + margin.bottom);
+    .classed("heatmap", true)
+    .attr("viewBox", [0, 0, width + margin.left, height + margin.top])
+    .attr("width", width + margin.left + margin.right);
 
   const g = svg
     .append("g")
@@ -42,30 +44,40 @@ export const heatmap = function (data, idBox) {
 
   g.append("rect")
     .style("fill", "white")
+    .attr("stroke", "#000000")
+    .attr("stroke-width", "0.5")
     .attr("width", width)
     .attr("height", height);
-  const rectHandler = g.append("g").attr("transform", "translate(1,1)");
+  const rectHandler = g.append("g")
+    .classed("rect-handler", true);
 
   let columns, rects, rows;
   let x = d3.scaleBand();
 
-  const labels = g
+  let labelsHandler = g
     .append("g")
-    .style("font-size", "7px")
-    .style("font-family", "sans-serif")
+    .style("font-family", "sans-serif");
+  let columnsHandler = labelsHandler
     .append("g")
     .classed("columns-handler", true)
+    .attr("transform", "translate(0.5, 0)");
+
+  let rowsHandler = labelsHandler
     .append("g")
-    .classed("rows-handler", true);
+    .classed("rows-handler", true)
+    .attr("transform", "translate(0, 0.5)");
 
-
+  let matrix;
+  let distanceColor;
+  let nodeIds;
+  let fontSize;
   updateData(data)
   
   // eslint-disable-next-line func-style
   function updateData({nodes, links}) {
     const categories = [...new Set(nodes.map(item => item.group))]; 
 		svg.selectAll(".legend").remove();
-    let nodeIds = d3.range(nodes.length);
+    nodeIds = d3.range(nodes.length);
 
 
     x.domain(nodeIds)
@@ -76,7 +88,7 @@ export const heatmap = function (data, idBox) {
         idToNode[n.id] = n;
         n.index = i;
       })
-    const matrix = links
+    matrix = links
       .flatMap(function ({ source, target, value }) {
         const src = idToNode[source],
          tgt = idToNode[target];
@@ -86,64 +98,48 @@ export const heatmap = function (data, idBox) {
         ]
       }).concat(nodes.map(n => [n, n, 0]));
     
-    const distanceColor = d3.scaleSequential(d3.interpolatePurples)
+    distanceColor = d3.scaleSequential(d3.interpolatePurples)
       .domain(d3.extent(matrix, ([, , v]) => v));
+      
+    columnsHandler.selectAll("g").remove();
+    rowsHandler.selectAll("g").remove();
+    fontSize = x.bandwidth() > 8 ? 8 : x.bandwidth().toFixed(1);
+    labelsHandler.style("font-size", `${fontSize}px`)
 
-    labels.selectAll(".col").remove();
-    labels.selectAll(".row").remove();
-    
-    let colNames = labels
+    let colNames = columnsHandler
       .selectAll(".column")
       .data(nodeIds);
   
     columns = colNames
       .join("g")
-      .classed("col", true)
       .attr("transform", "rotate(-90)")
       .append("g");
-    columns
-      .append("line")
-      .attr("x2", -width)
-      .style("stroke", "white");
+
     columns
       .append("text")
       .attr("dx", 2)
-      .attr("dy", x.bandwidth() / 2 + 2)
+      .attr("dy", x.bandwidth() / 2)
       .text(i => nodes[i].id);
     
-    rows = labels
+    rows = rowsHandler
       .selectAll()
       .data(nodeIds)
-      .join("g")
-      .classed("row", true);
-    rows
-      .append("line")
-      .attr("x2", width)
-      .style("stroke", "white");
+      .join("g");
+
     rows
       .append("text")
       .attr("text-anchor", "end")
       .attr("dx", -2)
-      .attr("dy", x.bandwidth() / 2 + 2)
+      .attr("dy", x.bandwidth() / 2)
       .text(i => nodes[i].id);
-    
-    rects = rectHandler
-      .selectAll("rect")
-      .data(matrix)
-      .join("rect")
-      .attr("width", x.bandwidth() - 2)
-      .attr("height", x.bandwidth() - 2)
-      // eslint-disable-next-line no-confusing-arrow
-      .attr("fill", ([s, t, v]) => s.index === t.index
-          ? c(s.group)
-          : distanceColor(v));
+
+    updateThreshold(0);
         
     drawLegend(svg, categories, width);
     
     /* for animated transitions:
        let prev; */
     
-    updateOrder(nodeIds);
   }
     // eslint-disable-next-line func-style
   function updateOrder(permutation) {
@@ -157,6 +153,24 @@ export const heatmap = function (data, idBox) {
     const delay = 0;
     const delay2 = 0;
     const duration = 0;
+    
+    const highlight = d => {
+
+      const colIndex = d.target.__data__[0].index;
+      const rowIndex = d.target.__data__[1].index;
+
+      d3.select(columns.nodes()[colIndex])
+          .style('fill', '#d62333')
+          .style('font-weight', 'bold')
+          .style('font-size', `${fontSize < 3 ? 2.5 * fontSize : 1.2 * fontSize}px`);
+
+      d3.select(rows.nodes()[rowIndex])
+          .style('fill', '#d62333')
+          .style('font-weight', 'bold')
+          .style('font-size', `${fontSize < 3 ? 2.5 * fontSize : 1.2 * fontSize}px`);
+    
+  }
+
 
     columns
       .transition()
@@ -172,26 +186,69 @@ export const heatmap = function (data, idBox) {
       .transition()
       .delay(delay2)
       .duration(duration)
-      .attr("x", ([s]) => x(s.index))
-      .attr("y", ([, t]) => x(t.index));
+      .attr("x", d => x(d[0].index))
+      .attr("y", d => x(d[1].index));
+    rects
+      .on("mouseover", highlight)
+      .on('mouseout', function () {
+        rows
+          .style('fill', null)
+          .style('font-size', `${fontSize}px`)
+          .style('font-weight', null);
+        columns
+          .style('fill', null)
+          .style('font-size', `${fontSize}px`)
+          .style('font-weight', null);
+
+      })
 
     /* for animated transitions:
        prev = permutation; */
+       console.log(rows.filter);
     return permutation;
   }
+
+  // eslint-disable-next-line func-style
+  function getMin() {
+    return d3.min(data.links, d => d.value);
+  }
+  
+  // eslint-disable-next-line func-style
+  function getMax() {
+    return d3.max(data.links, d => d.value);
+  }
+
   // eslint-disable-next-line func-style
   function updateThreshold(threshold) {
-    rects
-      .filter(d => d[2] < threshold && d[0].index !== d[1].index)
-      .attr("fill", "rgb(249, 247, 251)");
+    rects = rectHandler
+      .selectAll("rect")
+      .data(matrix.filter(l => l[2] >= threshold || l[0] === l[1]))
+      .join("rect")
+
+      .attr("width", x.bandwidth())
+      .attr("height", x.bandwidth())
+      // eslint-disable-next-line no-confusing-arrow
+      .attr("fill", function ([s, t, v]) {
+          return s.index === t.index
+            ? c(s.group)
+            : distanceColor(v);
+        });
+        updateOrder(nodeIds);
     }
 
-  /* add zoom capabilities
-     let zoomHandler = d3.zoom()
-       .on("zoom", ({ transform }) => g.attr("transform", transform)); */
+  /*  add zoom capabilities
+       let zoomHandler = d3.zoom()
+         .on("zoom", ({ transform }) => g.attr("transform", transform)); */
 
-  // // zoomHandler(svg);
-  return Object.assign(svg.node(), { updateOrder }, { updateThreshold }, {updateData});
+    // zoomHandler(svg);
+  return Object.assign(
+    svg.node(),
+    {getMax},
+    {getMin},
+    {updateData},
+    {updateOrder},
+    {updateThreshold}
+  );
 }
 
 /**

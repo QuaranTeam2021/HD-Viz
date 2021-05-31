@@ -25,11 +25,9 @@ export default function DbButton({ onClick, disabled }) {
   const classes = useStyles();
 
   return (
-    <div id="button">
-      <ColorButton variant="contained" color="primary" className={classes.margin} onClick={onClick} disabled={disabled}>
-        DataBase
-      </ColorButton>
-    </div>
+    <ColorButton variant="contained" color="primary" className={classes.margin} onClick={onClick} disabled={disabled}>
+      DataBase
+    </ColorButton>
   );
 }
 

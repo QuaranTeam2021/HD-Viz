@@ -33,14 +33,14 @@ const Insert = ({ fileName, onChange }) => {
       <input
         accept=".csv, .json, .tsv"
         className={classes.input}
-        id="contained-button-file"
+        id="insert-button-file"
         type="file"
         onChange={onChange}
       />
 
-      <label htmlFor="contained-button-file">
+      <label htmlFor="insert-button-file">
         <ColorButton variant="contained" color="primary" component="span" >
-          {fileName === undefined ? "Importa" : fileName}
+          {fileName === undefined ? "File locale" : fileName}
         </ColorButton>
       </label>
     </div>

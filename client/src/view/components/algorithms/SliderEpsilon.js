@@ -28,10 +28,10 @@ export default function SliderEpsilon({ epsilon, onChange }) {
 
 	return (
 		<div className={classes.root}>
-			<Typography id="discrete-slider" gutterBottom>Epsilon</Typography>
-			<Slider
+			<Typography id="epsilon-slider-label" gutterBottom>Epsilon</Typography>
+			<Slider id="epsilon-slider"
 				defaultValue={20}
-				aria-labelledby="discrete-slider"
+				aria-labelledby="epsilon-slider-label"
 				valueLabelDisplay="auto"
 				step={1}
 				marks={marks}

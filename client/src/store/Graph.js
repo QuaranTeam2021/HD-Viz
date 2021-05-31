@@ -1,11 +1,13 @@
 
 export default class Graph {
 
-    graphId = null;
+    _graphId = null;
 
-    type = null;
+    _type = null;
 
-    grouper = null;
+    _grouper = null;
+
+    _selectedFeatures = [];
 
     constructor() {
         if (this.constructor === Graph) 
@@ -34,5 +36,13 @@ export default class Graph {
 
     get grouper() {
         return this._grouper;
+    }
+
+    set selectedFeatures(sel) {
+        this._selectedFeatures = sel;
+    }
+
+    get selectedFeatures() {
+        return this._selectedFeatures;
     }
 }

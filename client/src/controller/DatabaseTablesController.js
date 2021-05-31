@@ -1,4 +1,3 @@
-const token = "";
 
 export default class DatabaseTablesController {
 
@@ -6,8 +5,28 @@ export default class DatabaseTablesController {
         this.port = 5000;
     }
 
+    async getToken() {
+        const username = 'HD-Viz QuaranTeam';
+        const body = { username };
+        try {          
+            const response = await fetch(`http://localhost:${this.port}/jwt`, {
+                body: JSON.stringify(body),
+                headers: { "Content-Type": "application/json" },
+                method: "POST"
+            });
+            if (response.ok) {
+                const data = await response.json();
+                localStorage.setItem('token', data.token);
+            }
+        } catch (err) {
+            console.error(err.message);
+        }
+    }
+
     async getTablesNames() {
+        await this.getToken();
         try {
+            const token = localStorage.getItem('token');
             const response = await fetch(`http://localhost:${this.port}/api/tableslist`, {
                 headers: { "authorization": `Bearer ${token}` }
             });
@@ -17,13 +36,14 @@ export default class DatabaseTablesController {
             if (tables.length !== 0) tables = tables.flat();
             return tables;
         } catch (err) {
-            console.log(err.message);
+            console.error(err.message);
             return [];
         }
     }
 
     async getTableColumnsNames(table) {
         try {
+            const token = localStorage.getItem('token');
             const response = await fetch(`http://localhost:${this.port}/api/getcolnames/${table}`, {
                 headers: { "authorization": `Bearer ${token}` }
             });
@@ -39,9 +59,8 @@ export default class DatabaseTablesController {
                 return columns;
             }
             return [];
-
         } catch (err) {
-            console.log(err.message);
+            console.error(err.message);
             return [];
         }
     }

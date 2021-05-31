@@ -1,3 +1,6 @@
+/* istanbul ignore file */
+/* eslint-disable camelcase */
+/* eslint-disable no-extra-parens */
 /* eslint-disable prefer-arrow-callback */
 /* eslint-disable no-shadow */
 /* eslint-disable func-names */
@@ -17,7 +20,7 @@ import { drawLegend } from './drawLegend'
 export const linearProjection = function (data, cols, grouper, idBox) {
 
     const margin = {
-        bottom: 35,
+        bottom: 30,
         left: 40,
         right: 20,
         top: 20
@@ -31,49 +34,56 @@ export const linearProjection = function (data, cols, grouper, idBox) {
     const PC1Axis = g => g
         .attr("transform", `translate(0,${height})`)
         .attr("class", "PC1-axis")
-        .call(d3.axisBottom(xScale).ticks(6))
+        .call(d3.axisBottom(xScale))
         .call(g => g.select(".domain").remove())
         .call(g => g.append("text")
-        .attr("x", width)
-        .attr("y", margin.bottom)
-        .attr("fill", "currentColor")
-        .attr("text-anchor", "end")
-        .text("Principal Component 1 →"));
-        
-        
+            .classed("domain", true)
+            .attr("x", width)
+            .attr("y", 0)
+            .attr("fill", "currentColor")
+            .attr("text-anchor", "end")
+            .text("Principal Component 1 →"));
+            
+            
     const PC2Axis = g => g
         .attr("transform", `translate(0,0)`)
         .attr("class", "PC2-axis")
-        .call(d3.axisLeft(yScale).ticks(6))
+        .call(d3.axisLeft(yScale))
         .call(g => g.select(".domain").remove())
         .call(g => g.append("text")
-        .attr("x", -margin.left)
-        .attr("y", 10)
-        .attr("fill", "currentColor")
-        .attr("text-anchor", "start")
-        .text("↑ Principal Component 2"));
-        
+            .classed("domain", true)
+            .attr("x", 0)
+            .attr("y", 10)
+            .attr("fill", "currentColor")
+            .attr("text-anchor", "start")
+            .text("↑ Principal Component 2"));
+
         
     const grid = g => g
+        .classed("grid", true)
         .attr("stroke", "currentColor")
         .attr("stroke-opacity", 0.1)
         .call(g => g.append("g")
-        .selectAll("line")
-        .data(xScale.ticks())
-        .join("line")
-        .attr("x1", d => 0.5 + xScale(d))
-        .attr("x2", d => 0.5 + xScale(d))
-        .attr("y1", margin.top)
-        .attr("y2", height))
+            .attr("transform", `translate(0,0)`)
+            .attr("class", "grid-lines")
+            .selectAll("line")
+            .data(xScale.ticks())
+            .join("line")
+                .attr("x1", d => 0.5 + xScale(d))
+                .attr("x2", d => 0.5 + xScale(d))
+                .attr("y1", 0)
+                .attr("y2", height))
         .call(g => g.append("g")
-        .selectAll("line")
-        .data(yScale.ticks())
-        .join("line")
-        .attr("y1", d => 0.5 + yScale(d))
-        .attr("y2", d => 0.5 + yScale(d))
-        .attr("x1", 0)
-        .attr("x2", width));
-        
+            .attr("transform", `translate(0,0)`)
+            .attr("class", "grid-lines")
+            .selectAll("line")
+            .data(yScale.ticks())
+            .join("line")
+                .attr("y1", d => 0.5 + yScale(d))
+                .attr("y2", d => 0.5 + yScale(d))
+                .attr("x1", 0)
+                .attr("x2", width));
+                
     const totalWidth = width + margin.left + margin.right;
     const totalHeight = height + margin.top + margin.bottom;
     const palette = d3.scaleOrdinal(d3.schemeCategory10).domain(new Set(data.map(d => d[grouper])));
@@ -84,12 +94,11 @@ export const linearProjection = function (data, cols, grouper, idBox) {
         .attr("width", totalWidth)
         .append("g")
         .attr("transform", `translate(${margin.left},${margin.top})`);
-    svg.append("g")
-        .classed("grid", true)
-        .call(grid);
-    
+   
+    let selectedCols;
     const PC1AxisHandler = svg.append("g");
     const PC2AxisHandler = svg.append("g");
+    const gridHandler = svg.append("g");
     const contentHandler = svg.append("g");
     contentHandler.classed("contentHandler", true);
 
@@ -98,117 +107,155 @@ export const linearProjection = function (data, cols, grouper, idBox) {
 
     updateColumns(cols);
 	function updateColumns(columns) {
-    const drag = () => {
 
-        function dragstarted() {
-            d3.select(this).style("cursor", "grabbing");
-        }
+        const drag = () => {
 
-        // eslint-disable-next-line func-style
-        function dragged(event, d) {
-            d.x = event.x;
-            d.y = event.y;
+            function dragstarted() {
+                d3.select(this).style("cursor", "grabbing");
+            }
 
-            d3.select(this)
-                .attr("cx", d.x)
-                .attr("cy", d.y);
-            svg.select(`#${d.value}_line`)
-                .attr("x2", d.x)
-                .attr("y2", d.y);
-            svg.select(`#${d.value}_label`)
-                .attr("x", d.x + 10)
-                .attr("y", d.y);
+            // eslint-disable-next-line func-style
+            function dragged(event, d) {
+                d.x = event.x;
+                if (d.x > width) {
+                     d.x = width;
+                } 
+                else if (d.x < 0) {
+                    d.x = 0;
+                }
 
-            eigvecs[d.id] = [xScale.invert(event.x) / 4, yScale.invert(event.y) / 4];
+                d.y = event.y;
+                if (d.y > height) {
+                    d.y = height;
+                } 
+                else if (d.y < 0) {
+                    d.y = 0;
+                }
+                
+                d3.select(this)
+                    .attr("cx", d.x)
+                    .attr("cy", d.y);
+                svg.select(`#${d.value}_line`)
+                    .attr("x2", d.x)
+                    .attr("y2", d.y);
+                svg.select(`#${d.value}_label`)
+                    .attr("x", d.x + 10)
+                    .attr("y", d.y);
+                eigvecs[d.id] = [xScale.invert(d.x) / 4, yScale.invert(d.y) / 4];
 
-            const newPcaCoordinates = computeCoordinates(rawData, eigvecs);
-            setDotAttributes(newPcaCoordinates, data);
-            drawDots(svg, xScale, yScale);
-        }
-        function dragended() {
-            d3.select(this).style("cursor", "default");
-        }
-        return d3.drag()
-            .on("start", dragstarted)
-            .on("drag", dragged)
-            .on("end", dragended);
-    };
+                const newPcaCoordinates = computeCoordinates(rawData, eigvecs);
+                setDotAttributes(newPcaCoordinates, data);
+                drawDots(svg, xScale, yScale);
+            }
+            function dragended() {
+                d3.select(this).style("cursor", "default");
+            }
+            return d3.drag()
+                .on("start", dragstarted)
+                .on("drag", dragged)
+                .on("end", dragended);
+        };
+    
+        svg.selectAll(".legend").remove();
+        svg.selectAll(".grid-lines").remove();
+        contentHandler.selectAll("*").remove();
+
+
+        const filteredcols = columns.filter(itm => itm !== grouper && typeof data[0][itm] === "number");
+        let rawData = data.map(d => filteredcols.map(dim => d[dim]));
+        rawData = scale(rawData, true, true);
+        let eigvecs = getEigenvalues(rawData, 2);
+        let initMat = initProjection(rawData, 2);
         
-        
-    const filteredcols = columns.filter(d => d !== grouper && typeof data[0][d] === "number");
-    let rawData = data.map(d => filteredcols.map(dim => d[dim]));
-    rawData = scale(rawData, true, true);
-    let eigvecs = getEigenvalues(rawData, 2);
-    let initMat = initProjection(rawData, 2);
+        let { max, min } = getMaxMinDots(initMat, eigvecs);
 
-    let { max, min } = getMaxMinDots(initMat, eigvecs);
+        xScale.domain([1.1 * min, 1.1 * max]).nice();
+        yScale.domain([1.1 * min, 1.1 * max]).nice();
 
-    xScale.domain([1.2 * min, 1.2 * max]).nice();
-    yScale.domain([1.2 * min, 1.2 * max]).nice();
+        setDotAttributes(initMat, data);
+        const dims_unfiltered = filteredcols
+            .map((key, i) => ({
+                id: i,
+                pc_1: isNaN(eigvecs[i][0]) ? 0 : eigvecs[i][0] * 4,
+                pc_2: isNaN(eigvecs[i][1]) ? 0 : eigvecs[i][1] * 4,
+                value: key
+            }));
+        selectedCols = dims_unfiltered.filter(p => p.value !== "pc_1" && p.value !== "pc_2")
 
-    setDotAttributes(initMat, data);
-    let dims = filteredcols
-        .map((key, i) => ({
-            id: i,
-            // eslint-disable-next-line camelcase
-            pc_1: isNaN(eigvecs[i][0]) ? 0 : eigvecs[i][0] * 4,
-            // eslint-disable-next-line camelcase
-            pc_2: isNaN(eigvecs[i][1]) ? 0 : eigvecs[i][1] * 4,
-            value: key
-        }));
+
+        PC1AxisHandler.call(PC1Axis);
+        PC2AxisHandler.call(PC2Axis);
+        gridHandler.call(grid);
             
-    
-    PC1AxisHandler.call(PC1Axis);
-    PC2AxisHandler.call(PC2Axis);
-    
-    svg.selectAll(".legend").remove();
-    contentHandler.selectAll("*").remove();
-    contentHandler.selectAll("text.end-axis")
-        .data(dims)
-        .join("text")
-        .attr("class", "label-end-axis")
-        .attr("id", d => `${d.value}_label`)
-        .attr("x", d => xScale(d.pc_1) + 10)
-        .attr("y", d => yScale(d.pc_2) + 0)
-        .text(d => d.value);
-        
-    contentHandler.selectAll(".dot")
-        .data(data)
-        .join("circle")
-        .attr("class", "dot")
-        .attr("r", 4)
-        .style("fill", d => palette(d[grouper]));
+        contentHandler.selectAll(".dot")
+            .data(data)
+            .join("circle")
+            .attr("class", "dot")
+            .attr("r", 2.5)
+            .style("fill", d => palette(d[grouper]));
 
-    drawDots(contentHandler, xScale, yScale);
+        drawDots(contentHandler, xScale, yScale);
 
-    contentHandler.selectAll(".line")
-        .data(dims)
-        .join("line")
-        .attr("id", d => `${d.value}_line`)
-        .attr("x1", xScale(0))
-        .attr("y1", yScale(0))
-        .attr("x2", d => xScale(d.pc_1))
-        .attr("y2", d => yScale(d.pc_2))
-        .attr("stroke-width", 3)
-        .style("stroke", "black");
-        
-        
-    contentHandler.selectAll("circle.end-axis")
-        .data(dims)
-        .join("circle")
-        .attr("r", 7)
-        .attr("class", "circle-end-axis")
-        .attr("cx", d => xScale(d.pc_1))
-        .attr("cy", d => yScale(d.pc_2))
-        .style("fill", "red")
-        .attr("stroke-width", 3)
-        .style("stroke", "black")
-        .call(drag());
-    
-    drawLegend(svg, categories, width);
-    }
+        contentHandler.selectAll(".line")
+            .data(selectedCols)
+            .join("line")
+            .attr("id", d => `${d.value}_line`)
+            .attr("x1", xScale(0))
+            .attr("y1", yScale(0))
+            .attr("x2", d => xScale(d.pc_1))
+            .attr("y2", d => yScale(d.pc_2))
+            .attr("stroke-width", 3)
+            .style("stroke", "black");
+            
+        contentHandler.selectAll("text.end-axis")
+            .data(selectedCols)
+            .join("text")
+            .attr("class", "label-end-axis")
+            .attr("id", d => `${d.value}_label`)
+            .attr("x", d => xScale(d.pc_1) + 10)
+            .attr("y", d => yScale(d.pc_2) + 0)
+            .text(d => d.value);
+            
+        contentHandler.selectAll("circle.end-axis")
+            .data(selectedCols)
+            .join("circle")
+            .attr("r", 7)
+            .attr("class", "circle-end-axis")
+            .attr("cx", d => xScale(d.pc_1))
+            .attr("cy", d => yScale(d.pc_2))
+            .style("fill", "red")
+            .attr("stroke-width", 3)
+            .style("stroke", "black")
+            .call(drag());
+            drawLegend(svg, categories, width);
+            
+        }
 
-	return Object.assign(svg.node(), { updateColumns });
+        /**
+         * Ritorna l'array di colonne presenti nel grafico quando questo è stato creato.
+         * Ovvero ritorna il parametro cols che è stato passato al grafico al momento della creazione.
+         * Il valore ritornato non cambia dopo una chiamata a updateColumns.
+         * NON RITORNA TUTTE LE COLONNE PRESENTI NEL FILE DI PARTENZA.
+         * @return {Array<String>} insieme di colonne plottate inizialmente.
+         */
+        const getAllCols = () => {
+            return cols.filter(d => d !== grouper && d !== "pc_1" && d !== "pc_2");
+        }
+
+        /**
+         * Ritorna l'array di colonne attualmente visualizzate nel grafico.
+         * Ovvero ritorna un sottoinsieme del parametro cols che è stato passato al grafico al momento della creazione.
+         * Il valore ritornato cambia dopo una chiamata a updateColumns
+         * NON RITORNA TUTTE LE COLONNE PRESENTI NEL FILE DI PARTENZA.
+         * @return {Array<String>} insieme di colonne attualmente visualizzate
+         */
+        const getSelectedCols = () => {
+            return selectedCols.map(i => i.value);
+        }
+
+	return Object.assign(svg.node(), { getAllCols,
+        getSelectedCols, 
+		updateColumns });
 
 };
 

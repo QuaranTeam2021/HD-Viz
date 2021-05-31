@@ -1,4 +1,3 @@
-import { Link } from 'react-router-dom';
 import logo from '../../HDViz_logo.jpg';
 import React from 'react';
 

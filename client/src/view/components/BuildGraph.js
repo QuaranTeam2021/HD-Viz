@@ -24,11 +24,11 @@ import { useStandardController } from '../../controller/StandardController';
 import { useTsneController } from '../../controller/TsneController';
 import { useUmapController } from '../../controller/UmapController';
 
-const needsAlgorithm = g => ["scptMat", "malp"].includes(g);
-const needsDistance = e => ["htmp", "frcfld"].includes(e) || ["FASTMAP", "ISOMAP", "T-SNE", "LLE"].includes(e);
-const selectedInsert = i => i.name !== undefined;
+export const needsAlgorithm = g => ["scptMat", "malp"].includes(g);
+export const needsDistance = e => ["htmp", "frcfld"].includes(e) || ["FASTMAP", "ISOMAP", "T-SNE", "LLE"].includes(e);
+export const selectedInsert = i => i.name !== undefined;
 
-export default function BuildGraph({ defineStore }) {
+export default function BuildGraph() {
   const [selectedGraph, setGraph] = useState('');
   const [insert, setInsert] = useState([]);
   const [selectedColumns, setSelectedColumns] = useState([]);
@@ -97,11 +97,8 @@ export default function BuildGraph({ defineStore }) {
     allOptionsSelected();
   }, [allOptionsSelected]);
 
-  useEffect(() => { // Abilita reindirizzamento da Visualization
-    defineStore(false);
-  }, [defineStore]);
-
   const onChangeGraph = (_e, v) => {
+    console.log(_e)
     setGraph(v);
     if (needsDistance(v))
       controller.current = distanceBasedGraphController;
@@ -185,7 +182,6 @@ export default function BuildGraph({ defineStore }) {
       controller.current.createGraph(`${selectedGraph}-${Math.round(Math.random() * 100)}`, selectedGraph, selectedColumns, grouper);
     }
     console.log(formData);
-    defineStore(true);
   });
 
   let showDimMode = {};
@@ -197,9 +193,11 @@ export default function BuildGraph({ defineStore }) {
   return (
 
     <div className="BuildGraph" >
-      <div id="inserimento"> {!selectedInsert(insert) && <p>Inserisci qui i tuoi dati</p>}
-        <Insert onChange={onChangeInsert} fileName={insert.name} />
-        <ModalDb onSubmit={insertTab => setInsert(insertTab)}/>
+      <div id="inserimento"> {!selectedInsert(insert) && <p>Importa qui i tuoi dati</p>}
+        <div className="uploadButton">
+          <Insert onChange={onChangeInsert} fileName={insert.name} />
+          <ModalDb onSubmit={insertTab => setInsert(insertTab)}/>
+        </div>
       </div>
       <div id="selezione">
         <div id="impostazioni">
@@ -284,7 +282,7 @@ export default function BuildGraph({ defineStore }) {
         <Link to="/visualization" >
             <div id="ButtonConfirm">
               {selectedInsert(insert) && <ButtonConfirm onClick={onClickConfirm} disabled={!confirm} /> } 
-               {selectedInsert(insert) && <TooltipConfirm/>}
+              {selectedInsert(insert) && <TooltipConfirm/>}
             </div>
         </Link>
       </div>

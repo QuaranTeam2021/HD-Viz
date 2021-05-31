@@ -11,7 +11,7 @@ const { heatmap } = htMp;
 const { linearProjection } = linProj;
 const { scpMatrix } = scptMat;
 
-const switchGraph = type => {
+export const switchGraph = type => {
 	switch (type) {
 		case "scptMat":
 			return scpMatrix;
@@ -26,9 +26,8 @@ const switchGraph = type => {
 	}
 }
 
-const switchArguments = graph => {
+export const switchArguments = graph => {
 	const { data, grouper } = graph;
-	console.log(data);
 	switch (graph.type) {
 		case "scptMat":
 			return [
@@ -59,13 +58,12 @@ const switchArguments = graph => {
 	}
 }
 
-export default function Visualization({ algoritmoGrafico, tipoGrafico, distanzaGrafico, onDelete, index }) {
+export default function Visualization() {
 	const store = useStore();
 	
 	return (
-		<div id="visualization">
+		<div className="visualization">
 			{store.graphs.map(g => {
-				console.log(g.graphId);
 				let title = "";
 				switch (g.type) {
 					case "scptMat":
@@ -85,8 +83,10 @@ export default function Visualization({ algoritmoGrafico, tipoGrafico, distanzaG
 						title = `Graph ${g.graphId}`;
 						break;
 				}
-				return <GraphContainer graphId={g.graphId} key={g.graphId} graphTitle={title} onDelete={onDelete} switchGraph={switchGraph} switchArguments={switchArguments}/>
+				console.log("viz");
+
+				return <GraphContainer key={g.graphId} graphId={g.graphId} graphTitle={title} onDelete={id => store.removeGraph(id)} switchGraph={switchGraph} switchArguments={switchArguments} />;
 			})}
-        </div>
-	)
+		</div>
+	);
 }

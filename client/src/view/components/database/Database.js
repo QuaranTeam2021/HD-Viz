@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import ButtonAddDb from './ButtonAddDb';
 import ButtonConfirmAddDb from './ButtonConfirmAddDb';
 import DatabaseManagerController from '../../../controller/DatabaseManagerController';
@@ -10,25 +10,26 @@ import TextFieldAddDb from './TextFieldAddDb';
 const controllerManager = new DatabaseManagerController();
 const tablesController = new DatabaseTablesController();
 
-const parseName = name => {
+export const parseName = name => {
     if (name === undefined) return name;
     const parsedName = name.replace(/(\.(csv|tsv|json))/giu, "");
     return parsedName;
 }
 
 export default function Database() {
-    const [datasets, setDatasets] = useState([]);
-    const [tableName, setTableName] = useState(''); // tableName e name ridondanti, probabilmente se ne puó togliere uno
-    const [name, setName] = useState("");
-    const [insertDs, setInsertDs] = useState({});
-    const [disableName, setDisableName] = useState(true);
-    const [nameError, setNameError] = useState(false);
+    const [datasets, setDatasets] = React.useState([]);
+    const [tableName, setTableName] = React.useState(''); // tableName e name ridondanti, probabilmente se ne puó togliere uno
+    const [name, setName] = React.useState("");
+    const [insertDs, setInsertDs] = React.useState({});
+    const [disableName, setDisableName] = React.useState(true);
+    const [nameError, setNameError] = React.useState(false);
 
     const getTabNames = async () => {
         try {
             const tables = await tablesController.getTablesNames();
             setDatasets(tables);
         } catch (err) {
+            console.log('sono qui')
             setDatasets([]);
             console.log(err.message);
         }
@@ -59,6 +60,7 @@ export default function Database() {
     const onChangeName = e => {
         let n = e.target.value;
         let parsedN = parseName(n);
+        console.log(parsedN)
         if (n === parsedN) {
             setName(n);
             setTableName(n);
@@ -84,11 +86,12 @@ export default function Database() {
     return (
         <div className="dataset_div">
             <div id="completeFormInsertDataset">
+                <p>Aggiungi dataset al database</p>
                 <ButtonAddDb onChange={onChangeInsertDs} />
                 <TextFieldAddDb onChangeName={onChangeName} fileName={parseName(insertDs.name)} nameDs={name} onBlur={onBlurName} disabled={disableName} error={nameError} onSubmit={onClickDs} />
                 {insertDs.name !== undefined && <ButtonConfirmAddDb onClick={onClickDs} fileName={insertDs.name} disabled={nameError[0]} />}
             </div>
-            <div id="dataset">
+            <div id="datasets-container">
                 <>
                     {datasets !== undefined && datasets.map((d, i) => <FormControlLabel key={i} control={<DeleteDb onClickDelete={onClickDelete} value={d} />} label={d} value={d} />)}
                 </>
