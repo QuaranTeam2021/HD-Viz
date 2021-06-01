@@ -26,10 +26,11 @@ export const drawLegend = function (svg, data, width) {
 	const btnX = width - 50;
 	const btnY = 35;
 	const legRectWidth = 210;
-	let legRectHeight = 35 + 20 * (1 + data.length);
+	let legRectHeight = 40 + 18 * data.length;
 	const legRectX = width - 245;
 	const legRectY = 20;
-	let nPreceding = 0;
+	let nMessage = 0,
+		nPreceding = 0;
 	
 	const legendHandler = svg.append("g")
 		.classed("legend", true);
@@ -51,7 +52,7 @@ export const drawLegend = function (svg, data, width) {
 		.data(data)
 		.join("g")
 		.classed("legend-entry", true)
-		.attr("transform", (d, i) => `translate(0,${(i + 1) * 20})`);
+		.attr("transform", (d, i) => `translate(0,${(i + 1) * 18})`);
 	
 	legendEntries.append("circle")
 		.attr("cx", 0)
@@ -65,6 +66,7 @@ export const drawLegend = function (svg, data, width) {
 		.attr("x", 10)
 		.attr("y", 5)
 		.style("fill", "black")
+		.style("font-size", '14px')
 		.text(d => d === undefined ? "sconosciuto" : d)
 		.style("font-style", d => d === undefined ? "italic" : "");
 
@@ -96,7 +98,7 @@ export const drawLegend = function (svg, data, width) {
 			}
 		});
 	const distanceColor = legendContent.append("g")
-		.classed("legend-distance", true)
+		.classed("legend-message", true)
 		.attr("transform", `translate(${width - legRectWidth},50)`);
 
 	legendBtn.append("circle")
@@ -176,13 +178,8 @@ export const drawLegend = function (svg, data, width) {
 			.ticks(3)
 			.tickSize(-10));
 	
-			nPreceding += 1;
-		legendCategories
-			.attr("transform", `translate(${width - legRectWidth},${40 + nPreceding * 70})`);
-	
-		legRectHeight += 70;
-		legendRect
-			.attr("height", legRectHeight)
+		nPreceding += 1;
+		updateSize(70);
 		
 		distanceColor.append("text")
 			.attr("pointer-events", "none")
@@ -220,32 +217,48 @@ export const drawLegend = function (svg, data, width) {
 		
 		
 		nPreceding += 1;
-		legendCategories
-		.attr("transform", `translate(${width - legRectWidth},${40 + nPreceding * 70})`);
-		
-		legRectHeight += 70;
-		legendRect
-		.attr("height", legRectHeight)
+		updateSize(70);
 		
 		distanceColor.append("text")
-		.attr("pointer-events", "none")
-		.style("user-select", "none")
-		.attr("class", "legend-title")
-		.style("font-size", 20)
-		.text("Distanza");
+			.attr("pointer-events", "none")
+			.style("user-select", "none")
+			.attr("class", "legend-title")
+			.style("font-size", 20)
+			.text("Distanza");
 		
 		distanceColor.append('polygon')
-		.attr("points", `0 2.75, ${0.7 * legRectWidth} 0, ${0.7 * legRectWidth} 6, 0 3.25`)
-		.attr("transform", `translate(0, 7)`)
-		.attr("fill", `#000`);
+			.attr("points", `0 2.75, ${0.7 * legRectWidth} 0, ${0.7 * legRectWidth} 6, 0 3.25`)
+			.attr("transform", `translate(0, 7)`)
+			.attr("fill", `#000`);
 		
 		updateTicks(strokeScale);
 	}
+		// eslint-disable-next-line func-style
+	function displayMessage(message) {
+		nMessage += 1;
+		updateSize(40);
+		distanceColor.append("text")
+		.attr("pointer-events", "none")
+		.style("user-select", "none")
+		.style("font-size", '14px')
+		.text(message);
+		
+	}
+	// eslint-disable-next-line func-style
+	function updateSize(sizeIncrement) {
+		legRectHeight += sizeIncrement;
+		legendRect
+			.attr("height", legRectHeight);
+		legendCategories
+			.attr("transform", `translate(${width - legRectWidth},${40 + nPreceding * 70 + nMessage * 35})`);
+	}
+	
 	maximize();
 	
 	return Object.assign(
 		legendHandler.node(),
 		{
+			displayMessage,
 			drawDistanceColor, 
 			drawDistanceTrapezoid,
 			updateTicks

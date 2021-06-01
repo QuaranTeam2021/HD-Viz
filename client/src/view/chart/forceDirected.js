@@ -1,7 +1,7 @@
-/* istanbul ignore file */
 /* eslint-disable no-confusing-arrow */
 /* eslint-disable func-style */
 const d3 = require('d3');
+import { tooltip, tooltipTemplate } from './tooltip';
 import { drawLegend} from './drawLegend'
 
 /**
@@ -39,7 +39,15 @@ let links = data.links;
 		}
 	}
 	const nodeRadius = 5;
-	
+
+	let tooltipDiv = d3.select(`#${idBox}`)
+		.append("div")
+		.classed("tooltip", true);
+
+	tooltipDiv.append("div")
+		.classed("tooltip-contents", true);
+
+	tooltipDiv.call(tooltipTemplate);
 	let svg = d3
 		.select(`#${idBox}`)
 		.append("svg")
@@ -60,11 +68,11 @@ let links = data.links;
 		.attr("stroke-width", 1.5);
 
 	const [minDist, maxVal] = [getMin(), getMax()];
-
+	let legend;
 	const scaleThickness = d3
 			.scaleLinear()
 			.domain([minDist, maxVal])
-			.range([0.5, nodeRadius + 4]);
+			.range([0.5, nodeRadius + 1]);
 	
 	updateData(data);
 	// reset setting to default
@@ -79,19 +87,19 @@ let links = data.links;
 			.force("charge", d3.forceManyBody())
 			.force("center", d3.forceCenter(width / 2, height / 2));
 
+		legend = drawLegend(svg, categories, width);
+		legend.drawDistanceTrapezoid(scaleThickness);
 
 		updateThreshold(0);
-
 		node = nodeHandler
 			.selectAll("circle")
 			.data(nodes, d => d.id)
 			.join("circle")
 			.attr("r", nodeRadius)
 			.attr("fill", d => scale(d.group))
-			.call(drag(simulation));
+			.call(tooltip, tooltipDiv)
+			.call(drag(simulation, tooltipDiv));
 		
-		node.append("title")
-				.text(d => d.id);
 
 		simulation.on("tick", () => {
 			link
@@ -105,7 +113,6 @@ let links = data.links;
 				.attr("cy", d => d.y)
 				.attr("stroke", d => d.fx ? "#333" : "#fff");
 		});
-		drawLegend(svg, categories, width);
 	}
 
 	function updateForces() {
@@ -149,7 +156,10 @@ let links = data.links;
 			.data(links.filter(l => l.value > threshold))
 			.join("line");
 
-		link.attr("stroke-width", d => scaleThickness(d.value - threshold));
+		// eslint-disable-next-line no-unused-expressions
+		threshold < getMin() ? scaleThickness.domain([getMin(), getMax()]) : scaleThickness.domain([threshold, getMax()]);
+		legend.updateTicks(scaleThickness);
+		link.attr("stroke-width", d => scaleThickness(d.value));
 	}
 	
 	return Object.assign(svg.node(), { 
@@ -162,10 +172,10 @@ let links = data.links;
 		updateThreshold
 	});
 }
-
-const drag = sim => {
+const drag = (sim, tooltipDiv) => {
 	
 	const dragstarted = function(event) {
+		tooltipDiv.style("opacity", 0);
 		if (!event.active) {
 			sim.alphaTarget(0.3).restart();
 		}
@@ -186,6 +196,7 @@ const drag = sim => {
 	}
 	
 	const dragended = function(event) {
+		tooltipDiv.style("opacity", 1);
 		if (!event.active) {
 			sim.alphaTarget(0);
 		}
