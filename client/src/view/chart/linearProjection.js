@@ -184,7 +184,7 @@ export const linearProjection = function (data, cols, grouper, idBox) {
         contentHandler.selectAll("*").remove();
 
 
-        const filteredcols = columns.filter(itm => itm !== grouper && typeof notNullData[0][itm] === "number");
+        const filteredcols = columns.filter(itm => itm !== grouper);
         let rawData = notNullData.map(d => filteredcols.map(dim => d[dim]));
         rawData = scale(rawData, true, true);
         let eigvecs = getEigenvalues(rawData, 2);

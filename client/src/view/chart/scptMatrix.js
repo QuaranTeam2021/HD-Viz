@@ -73,7 +73,7 @@ export const scpMatrix = function(data, cols, grouper, idBox) {
 		svg.selectAll(".legend").remove();
 
 
-		selectedCols = columns.filter(d => d !== grouper && typeof notNullData[0][d] === "number");
+		selectedCols = columns.filter(d => d !== grouper);
 		size = (width - (selectedCols.length + 1) * padding) / selectedCols.length + padding;
 		
 		xScale = selectedCols.map(c => d3.scaleLinear()
