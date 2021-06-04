@@ -203,7 +203,7 @@ export default function BuildGraph() {
         <div id="impostazioni">
           {selectedInsert(insert) && <RadioGraphType onChange={onChangeGraph} />}
           <div id="colonne">
-            {selectedInsert(insert) && <Columns onChangeUploaded={onChangeColumns} onChangeGrouper={onChangeGrouper}/>}
+          {selectedInsert(insert) && <Columns onChangeUploaded={onChangeColumns} onChangeGrouper={onChangeGrouper}/>}
             <div id="question">
               {needsDistance(selectedGraph) && <TooltipDistColumns />}
               {needsAlgorithm(selectedGraph) && <TooltipVizColumns />}

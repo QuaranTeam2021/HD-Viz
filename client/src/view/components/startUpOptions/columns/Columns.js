@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { autorun } from 'mobx';
 import CheckboxColumns from './CheckboxColumns';
 import { observer } from 'mobx-react-lite';
@@ -9,8 +9,8 @@ const Columns = observer(({ onChangeUploaded, onChangeGrouper }) => {
 
   const store = useStore();
 
-  const [uploadedColumns, setUploadedColumns] = useState([]);
-  const [grouperColumns, setGrouperColumns] = useState([]);
+  const [uploadedColumns, setUploadedColumns] = React.useState([]);
+  const [grouperColumns, setGrouperColumns] = React.useState([]);
 
   useEffect(() => autorun(() => {
     setUploadedColumns(store.getNumericFeatures());

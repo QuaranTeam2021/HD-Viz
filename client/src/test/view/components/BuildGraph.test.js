@@ -1,11 +1,19 @@
+import * as FastmapController from '../../../controller/FastmapController';
+import * as IsomapController from '../../../controller/IsomapController';
+import * as LleController from '../../../controller/LleController';
 import * as LocalLoaderController from '../../../controller/LocalLoaderController';
 import * as Store from '../../../store/Store';
+import * as TsneController from '../../../controller/TsneController';
+import * as UmapController from '../../../controller/UmapController';
 import { afterAll, beforeAll, describe, expect, jest, test } from '@jest/globals';
 import BuildGraph, { needsAlgorithm, needsDistance, selectedInsert } from '../../../view/components/BuildGraph';
 import { act } from 'react-dom/test-utils';
 import Insert from '../../../view/components/startUpOptions/chooseDataset/Insert';
 import { MemoryRouter } from 'react-router-dom';
 import { mount } from 'enzyme';
+import RadioAlgorithm from '../../../view/components/algorithms/RadioAlgorithm';
+import RadioDistance from '../../../view/components/startUpOptions/RadioDistance';
+import RadioGraphType from '../../../view/components/startUpOptions/RadioGraphType';
 import React from 'react';
 
 describe("BuildGraph component tests", () => {
@@ -13,12 +21,50 @@ describe("BuildGraph component tests", () => {
 	let wrapper;
 	const parseSpy = jest.fn();
 	const setState = jest.fn();
-	const defineStore = jest.fn();
 
 	beforeAll(() => {
 		jest.spyOn(LocalLoaderController, "useLocalLoaderController").mockImplementation(() => {
 			return {
-				parse: parseSpy
+				parse: parseSpy 
+			}
+		})
+		jest.spyOn(TsneController, "useTsneController").mockImplementation(() => {
+			return {
+				createGraph: jest.fn(),
+				dimensions: '',
+				epsilon: '',
+				metric: '',
+				perplexity: ''
+			}
+		})
+		jest.spyOn(IsomapController, "useIsomapController").mockImplementation(() => {
+			return {
+				createGraph: jest.fn(),
+				dimensions: '',
+				metric: '',
+				neighbors: ''
+			}
+		})
+		jest.spyOn(FastmapController, "useFastmapController").mockImplementation(() => {
+			return {
+				createGraph: jest.fn(),
+				dimensions: '',
+				metric: ''
+			}
+		})
+		jest.spyOn(LleController, "useLleController").mockImplementation(() => {
+			return {
+				createGraph: jest.fn(),
+				dimensions: '',
+				metric: '',
+				neighbors: ''
+			}
+		})
+		jest.spyOn(UmapController, "useUmapController").mockImplementation(() => {
+			return {
+				createGraph: jest.fn(),
+				dimensions: '',
+				neighbors: ''
 			}
 		})
 		jest.spyOn(Store, "useStore").mockImplementation(() => {
@@ -29,12 +75,19 @@ describe("BuildGraph component tests", () => {
 		})
 		Object.defineProperty(React, 'useRef', {
             value: () => {
-				return { current: ''};
+				return { current: {
+					createGraph: jest.fn(),
+					dimensions: '',
+					epsilon: '',
+					metric: '',
+					neighbors: '',
+					perplexity: '',
+				}};
 			}
         })
 		jest.spyOn(React, "useState")
-			.mockImplementationOnce(() => 'scptMat')
-			.mockImplementationOnce(() => [{ name: 'test'}, setState])
+			.mockImplementationOnce(() => ['scptMat', setState])
+			.mockImplementationOnce(() => [{ name: undefined}, setState])
 			.mockImplementationOnce(() => [['testcol1', 'testcol2'], setState])
 			.mockImplementationOnce(() => ['species', setState])
 			.mockImplementationOnce(() => [false, setState])
@@ -50,7 +103,9 @@ describe("BuildGraph component tests", () => {
 			.mockImplementationOnce(val => [val, setState])
 			.mockImplementationOnce(val => [val, setState])
 			.mockImplementationOnce(val => [val, setState])
-		wrapper = mount(<MemoryRouter><BuildGraph defineStore={defineStore}/></MemoryRouter>);	
+			.mockImplementationOnce(val => [val, setState])
+			.mockImplementationOnce(val => [val, setState])
+		wrapper = mount(<MemoryRouter><BuildGraph defineStore={jest.fn(() => true)}/></MemoryRouter>);
 	})
 
 	beforeEach(() => {
@@ -97,7 +152,56 @@ describe("BuildGraph component tests", () => {
 		})
 	})
 
-	test('onChangeGraph must call setState', () => {
-	//	console.log(wrapper.debug())
+/*	test('onChangeGraph must call setState', () => {
+		const onChangeGraph = wrapper.find(RadioGraphType).prop('onChange');
+		expect(setState).not.toBeCalled();
+		onChangeGraph('htmp');
+		expect(setState).toBeCalledTimes(1);
+	}) */
+
+	/*	test('onChangeColumns must call setState', () => {
+	}) */
+
+	/*	test('onChangeGrouper must call setState', () => {
+	}) */
+
+	test('onChangeAlgorithm must call setState', () => {
+		const onChangeAlgorithm = wrapper.find(RadioAlgorithm).prop('onChange');
+		expect(setState).not.toBeCalled();
+		onChangeAlgorithm('FASTMAP');
+		onChangeAlgorithm('ISOMAP');
+		onChangeAlgorithm('T-SNE');
+		onChangeAlgorithm('LLE');
+		onChangeAlgorithm('UMAP');
+		expect(setState).toBeCalledTimes(5);
+	}) 
+
+	test('onChangeDistanza must call setState', () => {
+		jest.spyOn(React, "useState")
+		.mockImplementationOnce(() => ['htmp', setState])
+		.mockImplementationOnce(() => [{ name: undefined}, setState])
+		.mockImplementationOnce(() => [['testcol1', 'testcol2'], setState])
+		.mockImplementationOnce(() => ['species', setState])
+		.mockImplementationOnce(() => [false, setState])
+		.mockImplementationOnce(val => [val, setState])
+		.mockImplementationOnce(val => [val, setState])
+		.mockImplementationOnce(val => [val, setState])
+		.mockImplementationOnce(val => [val, setState])
+		.mockImplementationOnce(val => [val, setState])
+		.mockImplementationOnce(() => ['FASTMAP', setState])
+		.mockImplementationOnce(() => [true, setState])
+		.mockImplementationOnce(() => [['testcol1', 'testcol2'], setState])
+		.mockImplementationOnce(() => ['', setState])
+		.mockImplementationOnce(val => [val, setState])
+		.mockImplementationOnce(val => [val, setState])
+		.mockImplementationOnce(val => [val, setState])
+		.mockImplementationOnce(val => [val, setState])
+		.mockImplementationOnce(val => [val, setState])
+		wrapper = mount(<MemoryRouter><BuildGraph defineStore={jest.fn(() => true)}/></MemoryRouter>);
+		const onChangeDistanza = wrapper.find(RadioDistance).prop('onChange');
+		setState.mockClear();
+		expect(setState).not.toBeCalled();
+		onChangeDistanza('euclidean');
+		expect(setState).toBeCalledTimes(1);
 	})
 });
