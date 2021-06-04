@@ -17,25 +17,11 @@ let links = data.links;
 	const height = 600;
 	const width = 600;
 	let forceProperties = {
-		center: {
-			x: 0.5,
-			y: 0.5
-		},
 		charge: {
-			distanceMax: 2000,
+			distanceMax: 200,
 			distanceMin: 0,
 			enabled: true,
 			strength: -30
-		},
-		collide: {
-			enabled: true,
-			radius: 5,
-			strength: 0.7
-		},
-		link: {
-			distance: 30,
-			enabled: true,
-			iterations: 1
 		}
 	}
 	const nodeRadius = 5;
@@ -72,104 +58,91 @@ let links = data.links;
 	const scaleThickness = d3
 			.scaleLinear()
 			.domain([minDist, maxVal])
-			.range([0.5, nodeRadius + 1]);
+			.range([0.5, nodeRadius]);
 	
 	updateData(data);
-	// reset setting to default
 	function updateData(newData) {
 		nodes = newData.nodes;
 		links = newData.links;
 		const categories = [...new Set(nodes.map(item => item.group))]; 
+	
 		svg.selectAll(".legend").remove();
-		
-		simulation = d3.forceSimulation(nodes)
-			.force("link", d3.forceLink(links).id(d => d.id))
-			.force("charge", d3.forceManyBody())
-			.force("center", d3.forceCenter(width / 2, height / 2));
-
 		legend = drawLegend(svg, categories, width);
 		legend.drawDistanceTrapezoid(scaleThickness);
-
-		updateThreshold(0);
+	
 		node = nodeHandler
 			.selectAll("circle")
 			.data(nodes, d => d.id)
 			.join("circle")
 			.attr("r", nodeRadius)
 			.attr("fill", d => scale(d.group))
-			.call(tooltip, tooltipDiv)
-			.call(drag(simulation, tooltipDiv));
-		
+			.call(tooltip, tooltipDiv);
 
-		simulation.on("tick", () => {
+		updateDistStr(forceProperties.charge.distanceMin, forceProperties.charge.distanceMax, forceProperties.charge.strength);
+
+	}
+
+	function getMin() {
+		return Math.floor(d3.min(links, d => d.value) * 100) / 100;
+	}
+	
+	function getMax() {
+		return Math.ceil(d3.max(links, d => d.value) * 100) / 100;
+	}
+	
+	function updateStrength(strength) {
+		forceProperties.charge.strength = strength;
+		simulation.force("charge")
+			.strength(forceProperties.charge.strength * forceProperties.charge.enabled);
+		simulation.alpha(1).restart();
+	}
+	
+	function updateDistStr(distanceMin, distanceMax, strength) {
+		forceProperties.charge.distanceMin = distanceMin;
+		forceProperties.charge.distanceMax = distanceMax;
+		forceProperties.charge.strength = strength;
+		const linksToShow = links.filter(l => l.value >= distanceMin && l.value <= distanceMax);
+		console.log(linksToShow);
+		link = linkHandler
+		.selectAll("line")
+		.data(linksToShow)
+		.join("line");
+		
+		scaleThickness.domain([Math.max(getMin(), distanceMin), Math.min(getMax(), distanceMax)])
+		legend.updateTicks(scaleThickness);
+		link.attr("stroke-width", d => 5.5 - scaleThickness(d.value));
+		
+		if (simulation) simulation.stop();
+		simulation = d3.forceSimulation(nodes)
+		.force("link", d3.forceLink(linksToShow)
+			.id(d => d.id))
+		.force("charge", d3.forceManyBody()
+			.strength(forceProperties.charge.strength * forceProperties.charge.enabled))
+		.force("center", d3.forceCenter(width / 2, height / 2))
+		.tick(40)
+		.on("tick", () => {
 			link
 				.attr("x1", d => d.source.x)
 				.attr("y1", d => d.source.y)
 				.attr("x2", d => d.target.x)
-				.attr("y2", d => d.target.y);
-	
+				.attr("y2", d => d.target.y);			
 			node
 				.attr("cx", d => d.x)
 				.attr("cy", d => d.y)
-				.attr("stroke", d => d.fx ? "#333" : "#fff");
+				.attr("stroke", d => d.fx ? "#333" : "#fff");				
 		});
-	}
-
-	function updateForces() {
-		simulation.force("charge")
-			.strength(forceProperties.charge.strength * forceProperties.charge.enabled)
-			.distanceMin(forceProperties.charge.distanceMin)
-			.distanceMax(forceProperties.charge.distanceMax);
-
-		/* updates ignored until this is run
-		   restarts the simulation (important if simulation has already slowed down) */
-		simulation.alpha(1).restart();
-	}
-
-	function getMin() {
-		return d3.min(links, d => d.value);
-	}
-	
-	function getMax() {
-		return d3.max(links, d => d.value);
-	}
-	
-	function updateDistanceMax(value) {
-		forceProperties.charge.distanceMax = value;
-		updateForces();
-	}
-	
-	function updateDistanceMin(value) {
-		forceProperties.charge.distanceMin = value;
-		updateForces();
-	}
-	
-	function updateStrength(value) {
-		forceProperties.charge.strength = value;
-		updateForces();
-	}
-	
-	function updateThreshold(threshold) {
-
-		link = linkHandler
-			.selectAll("line")
-			.data(links.filter(l => l.value > threshold))
-			.join("line");
-
-		// eslint-disable-next-line no-unused-expressions
-		threshold < getMin() ? scaleThickness.domain([getMin(), getMax()]) : scaleThickness.domain([threshold, getMax()]);
-		legend.updateTicks(scaleThickness);
-		link.attr("stroke-width", d => scaleThickness(d.value));
+		
+		node
+			.call(drag(simulation, tooltipDiv));
+		simulation.restart();
 	}
 	
 	return Object.assign(svg.node(), { 
 		getMax,
 		getMin,
 		updateData,
-		updateDistanceMax,
-		updateDistanceMin,
-		updateStrength,
-		updateThreshold
+		updateDistStr,
+		updateStrength
 	});
 }
 const drag = (sim, tooltipDiv) => {
@@ -177,7 +150,7 @@ const drag = (sim, tooltipDiv) => {
 	const dragstarted = function(event) {
 		tooltipDiv.style("opacity", 0);
 		if (!event.active) {
-			sim.alphaTarget(0.3).restart();
+			sim.alphaTarget(1).restart();
 		}
 		// eslint-disable-next-line no-negated-condition
 		if (!event.subject.fx) {
@@ -200,6 +173,9 @@ const drag = (sim, tooltipDiv) => {
 		if (!event.active) {
 			sim.alphaTarget(0);
 		}
+
+			/* event.subject.fx = null;
+			   event.subject.fy = null; */
 	}
 	
 	return d3.drag()

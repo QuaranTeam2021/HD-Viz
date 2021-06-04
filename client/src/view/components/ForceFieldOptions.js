@@ -20,7 +20,7 @@ export default function ForceFieldOptions({ position, graphViz, buttonRef, curre
   const classes = useStyles();
 
   const [distanceMin, setDistanceMin] = useState(0);
-  const [distanceMax, setDistanceMax] = useState(0);
+  const [distanceMax, setDistanceMax] = useState(200);
   const [maxDistanceMax, setMaxDistanceMax] = useState(200);
   const [maxDistanceMin, setMaxDistanceMin] = useState(200);
   const [strength, setStrength] = useState(-30);
@@ -29,14 +29,21 @@ export default function ForceFieldOptions({ position, graphViz, buttonRef, curre
 
 
   const commitChanges = useCallback(() => {
-    if (currentOptions.oldDisMax !== distanceMax)
-    graphViz.updateDistanceMax(distanceMax);
-    if (currentOptions.oldDisMin !== distanceMin)
-    graphViz.updateDistanceMin(distanceMin);
-    if (currentOptions.oldStr !== strength)
-    graphViz.updateStrength(strength);
-    if (currentOptions.oldThres !== threshold)
-      graphViz.updateThreshold(threshold);
+    
+    if (currentOptions.oldDisMax !== distanceMax || currentOptions.oldDisMin !== distanceMin) {
+      graphViz.updateDistStr(distanceMin, distanceMax, strength);
+    } 
+    else if (currentOptions.oldStr !== strength) {
+      graphViz.updateStrength(strength);
+    }
+    /* if (currentOptions.oldDisMax !== distanceMax)
+       graphViz.updateDistanceMax(distanceMax);
+       if (currentOptions.oldDisMin !== distanceMin)
+       graphViz.updateDistanceMin(distanceMin);
+       if (currentOptions.oldStr !== strength)
+       graphViz.updateStrength(strength);
+       if (currentOptions.oldThres !== threshold)
+         graphViz.updateThreshold(threshold); */
 
     setCurrentOptions({
       oldDisMax: distanceMax,

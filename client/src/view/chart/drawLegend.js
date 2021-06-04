@@ -162,7 +162,6 @@ export const drawLegend = function (svg, data, width) {
 
 	// eslint-disable-next-line func-style
 	function drawDistanceColor(colorScale) {
-		
 		let lgnMarg = {
 			bottom: 30,
 			left: 40,
@@ -227,7 +226,7 @@ export const drawLegend = function (svg, data, width) {
 			.text("Distanza");
 		
 		distanceColor.append('polygon')
-			.attr("points", `0 2.75, ${0.7 * legRectWidth} 0, ${0.7 * legRectWidth} 6, 0 3.25`)
+			.attr("points", `0 0, ${0.7 * legRectWidth} 2.25, ${0.7 * legRectWidth} 2.75, 0 5`)
 			.attr("transform", `translate(0, 7)`)
 			.attr("fill", `#000`);
 		
@@ -238,10 +237,10 @@ export const drawLegend = function (svg, data, width) {
 		nMessage += 1;
 		updateSize(40);
 		distanceColor.append("text")
-		.attr("pointer-events", "none")
-		.style("user-select", "none")
-		.style("font-size", '14px')
-		.text(message);
+			.attr("pointer-events", "none")
+			.style("user-select", "none")
+			.style("font-size", '14px')
+			.text(message);
 		
 	}
 	// eslint-disable-next-line func-style
