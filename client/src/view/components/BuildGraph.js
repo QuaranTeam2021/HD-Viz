@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { action } from 'mobx';
 import ButtonConfirm from './startUpOptions/ButtonConfirm';
 import Columns from './startUpOptions/columns/Columns';
@@ -29,17 +29,17 @@ export const needsDistance = e => ["htmp", "frcfld"].includes(e) || ["FASTMAP", 
 export const selectedInsert = i => i.name !== undefined;
 
 export default function BuildGraph() {
-  const [selectedGraph, setGraph] = useState('');
-  const [insert, setInsert] = useState([]);
-  const [selectedColumns, setSelectedColumns] = useState([]);
-  const [grouper, setGrouper] = useState('');
-  const [confirm, setConfirm] = useState(false);
-  const [size, setSize] = useState(5);
-  const [distanza, setDistanza] = useState('');
-  const [neighbours, setNeighbours] = useState(200);
-  const [perplexity, setPerplexity] = useState(20);
-  const [epsilon, setEpsilon] = useState(20);
-  const [selectedAlgorithm, setAlgorithm] = useState('');
+  const [selectedGraph, setGraph] = React.useState('');
+  const [insert, setInsert] = React.useState([]);
+  const [selectedColumns, setSelectedColumns] = React.useState([]);
+  const [grouper, setGrouper] = React.useState('');
+  const [confirm, setConfirm] = React.useState(false);
+  const [size, setSize] = React.useState(5);
+  const [distanza, setDistanza] = React.useState('');
+  const [neighbours, setNeighbours] = React.useState(200);
+  const [perplexity, setPerplexity] = React.useState(20);
+  const [epsilon, setEpsilon] = React.useState(20);
+  const [selectedAlgorithm, setAlgorithm] = React.useState('');
 
   /* Controller
      Quelli degli algoritmi sono spostabili in RadioAlgorithm */
@@ -53,7 +53,7 @@ export default function BuildGraph() {
 
   const distanceBasedGraphController = useDistanceBasedGraphController();
 
-  const controller = useRef(standardController);
+  const controller = React.useRef(standardController);
   const setAlgorithmController = useCallback(alg => {
     switch (alg) {
       case "UMAP":

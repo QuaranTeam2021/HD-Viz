@@ -18,10 +18,5 @@ describe('Testing ChangeDistance component', () => {
     test('ChangeDistance must render', () => {
         expect(wrapper).not.toBeNull();
     })
-
-/*    test('Must call handleClick method', () => {
-        wrapper.find('#demo-simple-select3').at(0)
-            .simulate('change', { target: { value: 'test' } });
-    })*/
 })
 
