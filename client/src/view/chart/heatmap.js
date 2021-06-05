@@ -146,7 +146,7 @@ export const heatmap = function (data, idBox) {
       .text(d => d.id)
       .call(tooltip, tooltipDiv);
 
-    updateThreshold(0);
+    updateDist(0, getMax(), orderMode);
 
     drawLegend(svg, categories, width).drawDistanceColor(distanceColor);
     
@@ -226,19 +226,20 @@ export const heatmap = function (data, idBox) {
 
   // eslint-disable-next-line func-style
   function getMin() {
-    return d3.min(data.links, d => d.value);
-  }
-  
-  // eslint-disable-next-line func-style
-  function getMax() {
-    return d3.max(data.links, d => d.value);
-  }
+		return Math.floor(d3.min(links, d => d.value) * 100) / 100;
+	}
+	// eslint-disable-next-line func-style
+	function getMax() {
+		return Math.ceil(d3.max(links, d => d.value) * 100) / 100;
+	}
 
   // eslint-disable-next-line func-style
-  function updateThreshold(threshold) {
+  function updateDist(distMin, distMax, ordering) {
+    console.log(distMin, distMax);
+    orderMode = ordering;
     rects = rectHandler
       .selectAll("rect")
-      .data(matrix.filter(l => l[2] >= threshold || l[0] === l[1]))
+      .data(matrix.filter(l => l[2] >= distMin && l[2] <= distMax || l[0] === l[1]))
       .join("rect")
       .attr("width", x.bandwidth())
       .attr("height", x.bandwidth())
@@ -262,7 +263,7 @@ export const heatmap = function (data, idBox) {
     {getMin},
     {updateData},
     {updateOrder},
-    {updateThreshold}
+    {updateDist}
   );
 }
 

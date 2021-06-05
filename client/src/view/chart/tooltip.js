@@ -49,33 +49,20 @@ export const tooltip = (selectionGroup, tooltipDiv) => {
 	function setContents(datum) {
 		// customize this function to set the tooltip's contents however you see fit
 		divHeight = 16;
-		if (datum.group === null) {
-			divHeight = divHeight + 15;
-			tooltipDiv
-				.selectAll("p")
-				.remove();
-			tooltipDiv
-				.append("p")
-				.text(`Ìnfo non disponibili`);
-
+		const tmp = {};
+		
+		for (let key in datum) {
+			if (key !== "x" && key !== "y" && key !== "fx" && key !== "fy" && key !== "vx" && key !== "vy" && key !== "index") {
+				tmp[key] = String(datum[key]);
+				divHeight = divHeight + 15;
+			}
 		}
-		else {
-			const tmp = {};
-				for (let key in datum) {
-				if (key !== "x" && key !== "y" && key !== "fx" && key !== "fy" && key !== "vx" && key !== "vy" && key !== "index") {
-					tmp[key] = datum[key];
-					divHeight = divHeight + 15;
-				}
-			}
 
-			tooltipDiv
-				.selectAll("p")
-				.data(Object.entries(tmp))
-				.join("p")
-				.html(([key, value]) => `<strong>${key}</strong>: ${typeof value === 'object' ? value.toLocaleString("en-US") : value}`);
-
-
-			}
+		tooltipDiv
+			.selectAll("p")
+			.data(Object.entries(tmp))
+			.join("p")
+			.html(([key, value]) => `<strong>${key}</strong>: ${typeof value === 'object' ? value.toLocaleString("en-US") : value}`);
 	}
 };
 

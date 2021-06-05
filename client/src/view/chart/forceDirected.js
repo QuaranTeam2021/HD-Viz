@@ -43,13 +43,16 @@ let links = data.links;
 	let link,
 		node,
 		simulation;
-	
+
+	const g = svg
+		.append("g")
+		.attr("transform", `translate(0,0)`);
 	const scale = d3.scaleOrdinal(d3.schemeCategory10);
-	const linkHandler = svg.append("g")
+	const linkHandler = g.append("g")
 		.attr("stroke", "#999")
 		.attr("stroke-opacity", 0.6);
 	
-	const nodeHandler = svg.append("g")
+	const nodeHandler = g.append("g")
 		.attr("stroke", "#fff")
 		.attr("stroke-width", 1.5);
 
@@ -78,6 +81,7 @@ let links = data.links;
 			.attr("fill", d => scale(d.group))
 			.call(tooltip, tooltipDiv);
 
+
 		updateDistStr(forceProperties.charge.distanceMin, forceProperties.charge.distanceMax, forceProperties.charge.strength);
 
 	}
@@ -92,9 +96,10 @@ let links = data.links;
 	
 	function updateStrength(strength) {
 		forceProperties.charge.strength = strength;
-		simulation.force("charge")
-			.strength(forceProperties.charge.strength * forceProperties.charge.enabled);
-		simulation.alpha(1).restart();
+		simulation.stop();
+		simulation.force("charge", d3.forceManyBody()
+			.strength(forceProperties.charge.strength * forceProperties.charge.enabled));
+		simulation.restart();
 	}
 	
 	function updateDistStr(distanceMin, distanceMax, strength) {
@@ -102,11 +107,10 @@ let links = data.links;
 		forceProperties.charge.distanceMax = distanceMax;
 		forceProperties.charge.strength = strength;
 		const linksToShow = links.filter(l => l.value >= distanceMin && l.value <= distanceMax);
-		console.log(linksToShow);
 		link = linkHandler
-		.selectAll("line")
-		.data(linksToShow)
-		.join("line");
+			.selectAll("line")
+			.data(linksToShow)
+			.join("line");
 		
 		scaleThickness.domain([Math.max(getMin(), distanceMin), Math.min(getMax(), distanceMax)])
 		legend.updateTicks(scaleThickness);
@@ -114,27 +118,27 @@ let links = data.links;
 		
 		if (simulation) simulation.stop();
 		simulation = d3.forceSimulation(nodes)
-		.force("link", d3.forceLink(linksToShow)
-			.id(d => d.id))
-		.force("charge", d3.forceManyBody()
-			.strength(forceProperties.charge.strength * forceProperties.charge.enabled))
-		.force("center", d3.forceCenter(width / 2, height / 2))
-		.tick(40)
-		.on("tick", () => {
-			link
-				.attr("x1", d => d.source.x)
-				.attr("y1", d => d.source.y)
-				.attr("x2", d => d.target.x)
-				.attr("y2", d => d.target.y);			
-			node
-				.attr("cx", d => d.x)
-				.attr("cy", d => d.y)
-				.attr("stroke", d => d.fx ? "#333" : "#fff");				
-		});
-		
+			.force("link", d3.forceLink(linksToShow)
+				.id(d => d.id)
+				.distance(d => d.value))
+			.force("charge", d3.forceManyBody()
+				.strength(strength))
+			.force("center", d3.forceCenter(width / 2, height / 2))
+			.tick(40)
+			.on("tick", () => {
+				link
+					.attr("x1", d => d.source.x)
+					.attr("y1", d => d.source.y)
+					.attr("x2", d => d.target.x)
+					.attr("y2", d => d.target.y);			
+				node
+					.attr("cx", d => d.x)
+					.attr("cy", d => d.y)
+					.attr("stroke", d => d.fx ? "#333" : "#fff");
+			})			
 		node
 			.call(drag(simulation, tooltipDiv));
-		simulation.restart();
+		simulation.alpha(1).restart();
 	}
 	
 	return Object.assign(svg.node(), { 
@@ -150,7 +154,7 @@ const drag = (sim, tooltipDiv) => {
 	const dragstarted = function(event) {
 		tooltipDiv.style("opacity", 0);
 		if (!event.active) {
-			sim.alphaTarget(1).restart();
+			sim.alphaTarget(0.3).restart();
 		}
 		// eslint-disable-next-line no-negated-condition
 		if (!event.subject.fx) {
