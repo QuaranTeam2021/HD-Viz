@@ -39,7 +39,7 @@ const Insert = ({ fileName, onChange }) => {
       />
 
       <label htmlFor="insert-button-file">
-        <ColorButton variant="insert" color="primary" component="span" >
+        <ColorButton variant="contained" color="primary" component="span" >
           {fileName === undefined ? "File locale" : fileName}
         </ColorButton>
       </label>

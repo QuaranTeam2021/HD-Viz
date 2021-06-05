@@ -31,7 +31,7 @@ const useStyles = makeStyles(theme => ({
   },
   root: {
     backgroundColor: theme.palette.background.paper,
-    minWidth: '100%'
+    width: '100%'
   },
 
 }));
@@ -79,7 +79,7 @@ export default function OptionsGraph({ onDelete, graphViz, graphId, graphType, g
           aria-controls={`${graphId}-options`}
           id={`${graphId}-options-header`}
         >
-          <h3 className="graph-title">{title}</h3>
+          <h3 className="graph-title">Opzioni - {title}</h3>
         </AccordionSummary>
         <AccordionDetails>
           <div id={`${graphId}-options`} className={classes.root}>
