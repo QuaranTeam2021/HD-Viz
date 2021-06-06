@@ -1,8 +1,8 @@
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
+import { Link } from 'react-router-dom';
 import { purple } from '@material-ui/core/colors';
 import React from 'react';
-
 
 const ColorButton = withStyles(theme => ({
   root: {
@@ -25,11 +25,10 @@ export default function ButtonConfirm({ onClick, disabled }) {
   const classes = useStyles();
 
   return (
-    <div id="confirm-button">
+    <Link to="/visualization">
       <ColorButton variant="contained" color="primary" className={classes.margin} onClick={onClick} disabled={disabled}>
         Conferma
       </ColorButton>
-    </div>
+    </Link>
   );
 }
-

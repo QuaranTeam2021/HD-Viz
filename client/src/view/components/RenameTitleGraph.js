@@ -88,7 +88,7 @@ export default function RenameTitle({ title, setTitle }) {
   return (
     <TextField
       fullWidth
-      style={{ width: '200px' }}
+      style={{ width: '80%' }}
       label={editing ? "Modifica titolo grafico" : undefined}
       variant={editing ? "outlined" : "standard"}
       placeholder={title}

@@ -21,10 +21,12 @@ export default function TooltipDistColumns() {
 
   return (
     <div>
-      <Tooltip title="Colonne per il calcolo della distanza">
-        <IconButton aria-label="Colonne">
-          <HelpIcon />
-        </IconButton>
+      <Tooltip title="Colonne per il calcolo della distanza" placement="top-end">
+        <span>
+          <IconButton disabled aria-label="Colonne">
+            <HelpIcon />
+          </IconButton>
+        </span>
       </Tooltip>
     </div>
   );

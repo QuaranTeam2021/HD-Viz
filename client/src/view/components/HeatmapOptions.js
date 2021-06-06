@@ -8,16 +8,11 @@ import Slider from '@material-ui/core/Slider';
 import Typography from '@material-ui/core/Typography';
 
 const useStyles = makeStyles(() => ({
-  column: {
-    flexBasis: '50%'
-  },
   root: { // dovrebbe renderlo largo quanto GraphContainer a seconda del grafico
     display: 'flex',
-    justifyContent: 'space-evenly',
+    gridGap: '5em',
+    padding: '2em',
   },
-  row: {
-    flexBasis: '50%'
-  }
 }));
 
 export default function HeatmapOptions({ position, graphViz, buttonRef, currentOptions, setCurrentOptions }) {
@@ -71,7 +66,7 @@ export default function HeatmapOptions({ position, graphViz, buttonRef, currentO
   return (
     <div className={classes.root}>
       <div className={classes.direction}>
-        <Typography id="htmp-minDist-slider-label" gutterBottom>Distanza Minima</Typography>
+        <Typography id="htmp-minDist-slider-label" gutterBottom>Distanza minima</Typography>
         <Slider id="htmp-minDist-slider"
           aria-labelledby="htmp-minDist-slider-label"
           valueLabelDisplay="auto"
@@ -84,7 +79,7 @@ export default function HeatmapOptions({ position, graphViz, buttonRef, currentO
           />
       </div>
       <div className={classes.direction}>
-        <Typography id="htmp-maxDist-slider-label" gutterBottom>Distanza Massima</Typography>
+        <Typography id="htmp-maxDist-slider-label" gutterBottom>Distanza massima</Typography>
         <Slider id="htmp-maxDist-slider"
           aria-labelledby="htmp-maxDist-slider-label"
           valueLabelDisplay="auto"

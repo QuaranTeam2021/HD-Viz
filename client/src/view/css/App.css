@@ -29,13 +29,17 @@ body {
   background-color: black;
   text-align: center;
   padding: 0.5em;
-  position:fixed;
+  position: fixed;
   bottom: 0;
   width: 100%;
 }
 
 .App-footer, #push {
   height: 40px; 
+}
+
+.App-footer {
+  max-height: 45px;
 }
 
 .App-footer p {
@@ -99,6 +103,7 @@ body {
 .visualization {
   display: grid;
   grid-template-columns: auto auto;
+  margin-bottom: 2em;
   /*display: flex;
   flex-wrap: wrap;
   justify-content: center;*/
@@ -183,6 +188,7 @@ body {
 
 .options-container {
   display: inline-block;
+  margin: 1em;
 }
 
 .FeaturesCont {
@@ -211,17 +217,25 @@ body {
   width: 60%;
 }
 
+.grafico {
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  border-radius: 4px;
+  padding: 0 2em 1em 0;
+  width: 90%
+}
+
 .MenuBG {
   text-align: right;
+  display: none;
 }
 
 /* colori slider */
-#slider-2 {
-  color: orange;
+.MuiSlider-root.MuiSlider-colorPrimary{
+  color: #9c27b0;
 }
 
-#slider-3 {
-  color: rgb(0, 173, 0);
+.MuiButtonBase-root.MuiAccordionSummary-root div{
+  margin: 0.2em;
 }
 
 /* bottone inserimento */
@@ -240,14 +254,14 @@ body {
 /*colonne grid*/ 
 #impostazioni {
   display: inline-grid;
-  grid-template-columns: auto auto auto auto;
-  grid-gap: 1em 3em;
+  grid-template-columns: auto auto auto auto auto;
+  grid-gap: 2em;
 }
 
-/*colonne*/
-#colonne { 
+.colonne {
   display: flex;
   grid-template-columns: auto auto;
+  grid-gap: 2em;
 }
 
 .colonne fieldset {
@@ -326,7 +340,7 @@ body {
 /* posizione del box select del db colonne e tab */
 .MuiPaper-root.MuiMenu-paper.MuiPopover-paper.MuiPaper-elevation8.MuiPaper-rounded {
   margin-left: 9.5em;
-  max-width: 150px;
+  max-width: auto;
 }
 
 #button-confirm-db, #button {
@@ -338,12 +352,12 @@ body {
   height: 5em;
 }
 
-.buttonRenameTitle {
+.MuiButtonBase-root.MuiFab-root.buttonRenameTitle.MuiFab-sizeSmall.MuiFab-secondary {
   background-color: #9c27b0;
-  margin: 1.8em;
+  margin: 1.2em;
 }
 
-.buttonConfirmRename {
+.MuiButtonBase-root.MuiFab-root.buttonConfirmRename.MuiFab-sizeSmall.MuiFab-primary {
   background-color: #51A800;
   margin: 1.6em;
 }
@@ -359,10 +373,6 @@ body {
 
 #completeFormInsertDataset p {
   margin: 0.6em;
-}
-
-.MuiFormControl-root.MuiTextField-root {
-  width: 28%;
 }
 
 #insert-dataset, #formInsertDataset, #buttonConfirmAddDb {

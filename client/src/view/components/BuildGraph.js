@@ -6,7 +6,6 @@ import Columns from './startUpOptions/columns/Columns';
 import FASTMAPfeatures from './algorithms/FASTMAPfeatures';
 import Insert from './startUpOptions/chooseDataset/Insert';
 import ISOMAPLLEfeatures from './algorithms/ISOMAPLLEfeatures';
-import { Link } from 'react-router-dom';
 import ModalDb from './database/ModalDb';
 import RadioAlgorithm from './algorithms/RadioAlgorithm';
 import RadioDistance from './startUpOptions/RadioDistance';
@@ -213,13 +212,10 @@ export default function BuildGraph() {
       <div id="selezione">
         <div id="impostazioni">
           {selectedInsert(insert) && <RadioGraphType onChange={onChangeGraph} />}
-          <div id="colonne">
-            {selectedInsert(insert) && <Columns onChangeUploaded={onChangeColumns} onChangeGrouper={onChangeGrouper}/>}
-            <div id="question">
-              {needsDistance(selectedGraph) && <TooltipDistColumns />}
-              {needsAlgorithm(selectedGraph) && <TooltipVizColumns />}
-            </div>
-          </div>
+          
+          {selectedInsert(insert) && <Columns onChangeUploaded={onChangeColumns} onChangeGrouper={onChangeGrouper}/>}
+          {needsDistance(selectedGraph) && <TooltipDistColumns />}
+          {needsAlgorithm(selectedGraph) && <TooltipVizColumns />}
 
           {["scptMat", "malp"].includes(selectedGraph) && <RadioAlgorithm onChange={onChangeAlgorithm} />}
           {needsDistance(selectedGraph) && <RadioDistance onChange={onChangeDistanza} distanza={distanza} />}
@@ -290,12 +286,10 @@ export default function BuildGraph() {
             </div>
           </div>
         </div>
-        <Link to="/visualization" >
-            <div id="ButtonConfirm">
-              {selectedInsert(insert) && <ButtonConfirm onClick={onClickConfirm} disabled={!confirm} /> } 
-              {selectedInsert(insert) && <TooltipConfirm/>}
-            </div>
-        </Link>
+        <div id="ButtonConfirm">
+          {selectedInsert(insert) && <ButtonConfirm onClick={onClickConfirm} disabled={!confirm} /> } 
+          {selectedInsert(insert) && <TooltipConfirm />}
+        </div>
       </div>
     </div>
   );

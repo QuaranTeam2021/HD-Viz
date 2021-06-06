@@ -21,10 +21,12 @@ export default function TooltipVizColumns() {
 
   return (
     <div>
-      <Tooltip title="Colonne di dati da visualizzare">
-        <IconButton aria-label="Colonne">
-          <HelpIcon />
-        </IconButton>
+      <Tooltip title="Colonne di dati da visualizzare" placement="top-end">
+        <span>
+          <IconButton disabled aria-label="Colonne">
+            <HelpIcon />
+          </IconButton>
+        </span>
       </Tooltip>
     </div>
   );

@@ -4,16 +4,11 @@ import Slider from '@material-ui/core/Slider';
 import Typography from '@material-ui/core/Typography';
 
 const useStyles = makeStyles(() => ({
-  column: {
-    flexBasis: '25%'
-  },
   root: {
     display: 'flex',
-    justifyContent: 'space-evenly'
+    gridGap: '5em',
+    padding: '2em',
   },
-  row: {
-    flexBasis: '25%'
-  }
 }));
 
 export default function ForceFieldOptions({ position, graphViz, buttonRef, currentOptions, setCurrentOptions }) {
