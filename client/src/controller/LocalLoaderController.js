@@ -1,3 +1,4 @@
+/* eslint-disable prefer-promise-reject-errors */
 import { createContext, useContext } from 'react';
 import Papa from 'papaparse';
 
@@ -23,17 +24,17 @@ export default class LocalLoaderController {
                                 },
                                 skipEmptyLines: true
                             })
-                            if (result.data.length === 0) success = [false, "File is empty"];
+                            if (result.data.length === 0) {
+                                reject("File is empty");
+                            }
                             else {
                                 this.store.loadData(result.data);     
-                                success = [true, "File succesfully uploaded"];         
+                                resolve("File succesfully uploaded");         
                             }  
-                            resolve(success);
                         }
                     reader.onerror = () => {
                         console.error(`Error reading file: ${reader.error}`);
-                        success = [false, `Error reading file: ${reader.error}`];
-                        reject(success);
+                        reject(`Error reading file: ${reader.error}`);
                     };
                     reader.readAsText(file, "utf-8");
                 })
