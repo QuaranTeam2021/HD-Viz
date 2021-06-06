@@ -31,7 +31,7 @@ export default function SliderNeighbours({ neighbours, onChange }) {
     <div className={classes.root}>
       <Typography id="neighbors-slider-label" gutterBottom>Neighbors</Typography>
       <Slider id="neighbors-slider"
-        defaultValue={200}
+        defaultValue={20}
         aria-labelledby="neighbors-slider-label"
         valueLabelDisplay="auto"
         step={1}

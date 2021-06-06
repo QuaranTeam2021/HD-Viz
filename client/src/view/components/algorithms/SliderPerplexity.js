@@ -31,13 +31,13 @@ export default function SliderPerplexity({ perplexity, onChange }) {
     <div className={classes.root}>
       <Typography id="perplexity-slider-label" gutterBottom>Perplexity</Typography>
       <Slider id="perplexity-slider"
-        defaultValue={20}
+        defaultValue={50}
         aria-labelledby="perplexity-slider-label"
         valueLabelDisplay="auto"
         step={1}
         marks={marks}
-        min={10}
-        max={50}
+        min={2}
+        max={100}
         onChangeCommitted={onChange}
       />
     </div>
