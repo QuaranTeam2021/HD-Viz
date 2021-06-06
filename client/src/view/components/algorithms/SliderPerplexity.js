@@ -12,12 +12,12 @@ const useStyles = makeStyles({
 
 const marks = [
   {
-    label: '10',
-    value: 10,
+    label: '2',
+    value: 2,
   },
   {
-    label: '50',
-    value: 50,
+    label: '100',
+    value: 100,
   },
 ];
 export default function SliderPerplexity({ perplexity, onChange }) {

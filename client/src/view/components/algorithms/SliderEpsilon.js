@@ -11,12 +11,12 @@ const useStyles = makeStyles({
 
 const marks = [
 	{
-		label: '10',
-		value: 10,
+		label: '1',
+		value: 1,
 	},
 	{
-		label: '50',
-		value: 50,
+		label: '100',
+		value: 100,
 	},
 ];
 export default function SliderEpsilon({ epsilon, onChange }) {
