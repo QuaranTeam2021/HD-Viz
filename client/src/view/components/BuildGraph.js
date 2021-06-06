@@ -1,3 +1,4 @@
+/* eslint-disable max-lines */
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { action } from 'mobx';
 import ButtonConfirm from './startUpOptions/ButtonConfirm';
@@ -41,6 +42,7 @@ export default function BuildGraph() {
   const [perplexity, setPerplexity] = useState(20);
   const [epsilon, setEpsilon] = useState(20);
   const [selectedAlgorithm, setAlgorithm] = useState('');
+  const [parseResult, setParseResult] = useState();
 
   /* Controller
      Quelli degli algoritmi sono spostabili in RadioAlgorithm */
@@ -108,11 +110,16 @@ export default function BuildGraph() {
       controller.current = distanceBasedGraphController;
   };
 
-  const onChangeInsert = e => {
+  const onChangeInsert = async e => {
     let v = e.target.files[0];
     if (v !== undefined) {
       setInsert(v);
-      localLoaderController.parse(v);
+      try {
+        let res = await localLoaderController.parse(v);
+        console.log(res);
+      } catch (error) {
+        console.warn(error);
+      }
     }
   };
 
