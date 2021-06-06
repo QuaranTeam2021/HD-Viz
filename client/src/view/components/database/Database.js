@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import ButtonAddDb from './ButtonAddDb';
 import ButtonConfirmAddDb from './ButtonConfirmAddDb';
+import Card from '@material-ui/core/Card';
+import CardContent from '@material-ui/core/CardContent';
 import DatabaseManagerController from '../../../controller/DatabaseManagerController';
 import DatabaseTablesController from '../../../controller/DatabaseTablesController';
 import DeleteDb from './DeleteDb';
@@ -23,14 +25,25 @@ export default function Database() {
     const [insertDs, setInsertDs] = useState({});
     const [disableName, setDisableName] = useState(true);
     const [nameError, setNameError] = useState(false);
+    const [dbStatus, setDbStatus] = useState({
+        message: "",
+        value: null
+    });
 
     const getTabNames = async () => {
         try {
             const tables = await tablesController.getTablesNames();
             setDatasets(tables);
+            setDbStatus({
+                message: "",
+                value: null
+            })
         } catch (err) {
             setDatasets([]);
-            console.log(err.message);
+            setDbStatus({
+                message: err,
+                value: false
+            })
         }
     }
 
@@ -47,13 +60,29 @@ export default function Database() {
         setName(parseName(isUndef ? insertDs.name : v.name));
         setTableName(parseName(isUndef ? insertDs.name : v.name));
         setDisableName(isUndef);
+        setDbStatus({
+            message: "",
+            value: null
+        })
     };
 
     const onClickDelete = async dsName => {
-        await controllerManager.deleteTable(dsName);
-        setDatasets(list => list.filter(d => {
-            return d !== dsName;
-        }));
+        try {
+            let res = await controllerManager.deleteTable(dsName);
+            setDbStatus({
+                message: res,
+                value: true
+            });
+            setDatasets(list => list.filter(d => {
+                return d !== dsName;
+            }));
+        }
+        catch (err) {
+            setDbStatus({
+                message: err,
+                value: false
+            })
+        }
     };
 
     const onChangeName = e => {
@@ -77,8 +106,20 @@ export default function Database() {
 
     const onClickDs = async e => {
         e.preventDefault();
-        await controllerManager.upload(tableName ? tableName : parseName(insertDs.name), insertDs);
-        getTabNames();
+        try {
+            let res = await controllerManager.upload(tableName ? tableName : parseName(insertDs.name), insertDs);
+            setDbStatus({
+                messsage: res,
+                value: true
+            })
+            getTabNames();
+        }
+        catch (err) {
+            setDbStatus({
+                message: err,
+                value: false
+            });
+        }
     };
 
     return (
@@ -88,6 +129,12 @@ export default function Database() {
                 <ButtonAddDb onChange={onChangeInsertDs} />
                 <TextFieldAddDb onChangeName={onChangeName} fileName={parseName(insertDs.name)} nameDs={name} onBlur={onBlurName} disabled={disableName} error={nameError} onSubmit={onClickDs} />
                 {insertDs.name !== undefined && <ButtonConfirmAddDb onClick={onClickDs} fileName={insertDs.name} disabled={nameError[0]} />}
+                {(dbStatus.value === false || dbStatus.value === true) &&
+                    <Card variant="outlined" className={`${dbStatus ? "sucess" : "error"} message`}>
+                        <CardContent>
+                            {dbStatus.message}
+                        </CardContent>
+                    </Card>}
             </div>
             <div id="datasets-container">
                 <>

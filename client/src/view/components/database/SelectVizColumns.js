@@ -37,6 +37,7 @@ const MenuProps = {
     },
   },
 };
+const none = "Nessuna colonna disponibile";
 
 export default function SelectVizColumns({ onChange, columns, selectedColumns }) {
   const classes = useStyles();
@@ -48,16 +49,17 @@ export default function SelectVizColumns({ onChange, columns, selectedColumns })
         labelId="columns-select-label"
         id="columns-select"
         multiple
-        value={selectedColumns}
+        value={columns.length > 0 ? selectedColumns : ["none"]}
         onChange={onChange}
         input={<Input id="columns-chip" />}
         renderValue={selected => <div className={classes.chips}>
-            {selected.map(value => <Chip key={value} label={value} className={classes.chip} />)}
+            {selected.map(value => <Chip key={value} label={value === "none" ? none : value} className={classes.chip} />)}
           </div>
         }
         MenuProps={MenuProps}
       >
-        {columns && columns.map((column, i) => <MenuItem key={i} value={column}> {column} </MenuItem>)}
+        {columns ? columns.map((column, i) => <MenuItem key={i} value={column}> {column} </MenuItem>)
+          : <MenuItem value="none" disabled>{none}</MenuItem>}
       </Select>
     </FormControl>
   );

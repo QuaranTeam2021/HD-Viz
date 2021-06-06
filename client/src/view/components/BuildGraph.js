@@ -2,6 +2,8 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { action } from 'mobx';
 import ButtonConfirm from './startUpOptions/ButtonConfirm';
+import Card from '@material-ui/core/Card';
+import CardContent from '@material-ui/core/CardContent';
 import Columns from './startUpOptions/columns/Columns';
 import FASTMAPfeatures from './algorithms/FASTMAPfeatures';
 import Insert from './startUpOptions/chooseDataset/Insert';
@@ -41,7 +43,7 @@ export default function BuildGraph() {
   const [perplexity, setPerplexity] = useState(20);
   const [epsilon, setEpsilon] = useState(20);
   const [selectedAlgorithm, setAlgorithm] = useState('');
-  const [parseResult, setParseResult] = useState();
+  const [parseResult, setParseResult] = useState(null);
 
   /* Controller
      Quelli degli algoritmi sono spostabili in RadioAlgorithm */
@@ -83,27 +85,22 @@ export default function BuildGraph() {
     let allSelected;
     allSelected = insert !== "";
     allSelected = allSelected && selectedGraph !== "";
+    allSelected = allSelected && selectedAlgorithm !== "";
     allSelected = allSelected && selectedColumns.length > 0;
-    if (maxColumns(selectedGraph)) {
+    if (maxColumns(selectedGraph) && selectedAlgorithm === "none") {
       allSelected = allSelected && selectedColumns.length < 6;
     }
     if (needsDistance(selectedGraph) || needsDistance(selectedAlgorithm))
       allSelected = allSelected && distanza !== "";
-    if (needsAlgorithm(selectedGraph)) {
-      if (["UMAP", "ISOMAP", "LLE", "FASTMAP", "T-SNE", "none"].includes(selectedAlgorithm))
-        allSelected = allSelected && size >= 2 && size <= 10;
-      else
-        allSelected = false;
-    }
     setConfirm(allSelected);
-  }, [insert, selectedGraph, selectedColumns.length, distanza, selectedAlgorithm, size]);
+  }, [insert, selectedGraph, selectedColumns.length, distanza, selectedAlgorithm]);
 
   useEffect(() => {
     allOptionsSelected();
   }, [allOptionsSelected]);
 
   const onChangeGraph = (_e, v) => {
-    console.log(_e)
+    console.log(_e);
     setGraph(v);
     if (needsDistance(v))
       controller.current = distanceBasedGraphController;
@@ -114,10 +111,11 @@ export default function BuildGraph() {
     if (v !== undefined) {
       setInsert(v);
       try {
-        let res = await localLoaderController.parse(v);
-        console.log(res);
+        await localLoaderController.parse(v);
+        setParseResult(null);
       } catch (error) {
-        console.warn(error);
+        setInsert({ name: undefined });
+        setParseResult("Il file è vuoto");
       }
     }
   };
@@ -145,7 +143,7 @@ export default function BuildGraph() {
   const onChangeEpsilon = (_e, v) => {
     setEpsilon(v);
     controller.current.epsilon = v;
-  }
+  };
 
   const onChangeDistanza = (_e, v) => {
     setDistanza(v);
@@ -171,27 +169,10 @@ export default function BuildGraph() {
   });
 
   const onClickConfirm = action(() => {
-    let formData = {
-      insert,
-      selectedColumns,
-      selectedGraph
-    };
-    if (needsDistance(selectedGraph)) {
-      formData.distanza = distanza;
+    if (needsDistance(selectedGraph))
       controller.current.createGraph(`${selectedGraph}-${Math.round(Math.random() * 100)}`, selectedGraph, distanza, selectedColumns, grouper);
-    }
-    if (needsAlgorithm(selectedGraph)) {
-      if (["UMAP", "ISOMAP", "LLE", "FASTMAP", "T-SNE"].includes(selectedAlgorithm))
-        formData.distanza = distanza;
-      if (["UMAP", "ISOMAP", "LLE", "T-SNE"].includes(selectedAlgorithm))
-        formData.neighbours = neighbours;
-      if (["T-SNE"].includes(selectedAlgorithm)) {
-        formData.perplexity = perplexity;
-        formData.epsilon = epsilon;
-      }
+    if (needsAlgorithm(selectedGraph))
       controller.current.createGraph(`${selectedGraph}-${Math.round(Math.random() * 100)}`, selectedGraph, selectedColumns, grouper);
-    }
-    console.log(formData);
   });
 
   let showDimMode = {};
@@ -206,91 +187,97 @@ export default function BuildGraph() {
       <div id="inserimento"> {!selectedInsert(insert) && <p>Importa qui i tuoi dati</p>}
         <div className="uploadButton">
           <Insert onChange={onChangeInsert} fileName={insert.name} />
-          <ModalDb onSubmit={insertTab => setInsert(insertTab)}/>
+          <ModalDb onSubmit={insertTab => setInsert(insertTab)} />
         </div>
       </div>
-      <div id="selezione">
-        <div id="impostazioni">
-          {selectedInsert(insert) && <RadioGraphType onChange={onChangeGraph} />}
-          
-          {selectedInsert(insert) && <Columns onChangeUploaded={onChangeColumns} onChangeGrouper={onChangeGrouper}/>}
-          {needsDistance(selectedGraph) && <TooltipDistColumns />}
-          {needsAlgorithm(selectedGraph) && <TooltipVizColumns />}
-
-          {["scptMat", "malp"].includes(selectedGraph) && <RadioAlgorithm onChange={onChangeAlgorithm} />}
-          {needsDistance(selectedGraph) && <RadioDistance onChange={onChangeDistanza} distanza={distanza} />}
-          <div id="FeaturesAlgorithm">
-            <div id="FeaturesAlgorithm2">
-              {needsAlgorithm(selectedGraph) && ["ISOMAP", "LLE"].includes(selectedAlgorithm) && <ISOMAPLLEfeatures attributes={{
-                d: {
-                  distanza,
-                  onChangeDistanza
-                },
-                n: {
-                  neighbours,
-                  onChangeNeighbours
-                },
-                s: {
-                  onChangeSize,
-                  size
-                }
-              }} />}
-            </div>
-            <div id="FeaturesAlgorithm3">
-              {needsAlgorithm(selectedGraph) && ["FASTMAP"].includes(selectedAlgorithm) && <FASTMAPfeatures attributes={{
-                d: {
-                  distanza,
-                  onChangeDistanza
-                },
-                s: {
-                  onChangeSize,
-                  size
-                }
-              }} />}
-            </div>
-            <div id="FeaturesAlgorithm4">
-              {needsAlgorithm(selectedGraph) && ["T-SNE"].includes(selectedAlgorithm) && <TSNEfeatures attributes={{
-                d: {
-                  distanza,
-                  onChangeDistanza
-                },
-                e: {
-                  epsilon,
-                  onChangeEpsilon
-                },
-                n: {
-                  neighbours,
-                  onChangeNeighbours
-                },
-                p: {
-                  onChangePerplexity,
-                  perplexity
-                },
-                s: {
-                  onChangeSize,
-                  size
-                }
-              }} />}
-            </div>
-            <div id="FeaturesAlgorithm5">
-              {needsAlgorithm(selectedGraph) && ["UMAP"].includes(selectedAlgorithm) && <UMAPfeatures attributes={{
-                n: {
-                  neighbours,
-                  onChangeNeighbours
-                },
-                s: {
-                  onChangeSize,
-                  size
-                }
-              }} />}
+      {selectedInsert(insert) ? // eslint-disable-line operator-linebreak
+        <div id="selezione">
+          <div id="impostazioni">
+            <RadioGraphType onChange={onChangeGraph} />
+            <Columns onChangeUploaded={onChangeColumns} onChangeGrouper={onChangeGrouper} />
+            {needsDistance(selectedGraph) && <TooltipDistColumns />}
+            {needsAlgorithm(selectedGraph) && <TooltipVizColumns />}
+            {["scptMat", "malp"].includes(selectedGraph) && <RadioAlgorithm onChange={onChangeAlgorithm} />}
+            {needsDistance(selectedGraph) && <RadioDistance onChange={onChangeDistanza} distanza={distanza} />}
+            <div id="FeaturesAlgorithm">
+              <div id="FeaturesAlgorithm2">
+                {needsAlgorithm(selectedGraph) && ["ISOMAP", "LLE"].includes(selectedAlgorithm) && <ISOMAPLLEfeatures attributes={{
+                  d: {
+                    distanza,
+                    onChangeDistanza
+                  },
+                  n: {
+                    neighbours,
+                    onChangeNeighbours
+                  },
+                  s: {
+                    onChangeSize,
+                    size
+                  }
+                }} />}
+              </div>
+              <div id="FeaturesAlgorithm3">
+                {needsAlgorithm(selectedGraph) && ["FASTMAP"].includes(selectedAlgorithm) && <FASTMAPfeatures attributes={{
+                  d: {
+                    distanza,
+                    onChangeDistanza
+                  },
+                  s: {
+                    onChangeSize,
+                    size
+                  }
+                }} />}
+              </div>
+              <div id="FeaturesAlgorithm4">
+                {needsAlgorithm(selectedGraph) && ["T-SNE"].includes(selectedAlgorithm) && <TSNEfeatures attributes={{
+                  d: {
+                    distanza,
+                    onChangeDistanza
+                  },
+                  e: {
+                    epsilon,
+                    onChangeEpsilon
+                  },
+                  n: {
+                    neighbours,
+                    onChangeNeighbours
+                  },
+                  p: {
+                    onChangePerplexity,
+                    perplexity
+                  },
+                  s: {
+                    onChangeSize,
+                    size
+                  }
+                }} />}
+              </div>
+              <div id="FeaturesAlgorithm5">
+                {needsAlgorithm(selectedGraph) && ["UMAP"].includes(selectedAlgorithm) && <UMAPfeatures attributes={{
+                  n: {
+                    neighbours,
+                    onChangeNeighbours
+                  },
+                  s: {
+                    onChangeSize,
+                    size
+                  }
+                }} />}
+              </div>
             </div>
           </div>
+            <div id="ButtonConfirm">
+              {selectedInsert(insert) && <ButtonConfirm onClick={onClickConfirm} disabled={!confirm} />}
+              {selectedInsert(insert) && <TooltipConfirm />}
+            </div>
         </div>
-        <div id="ButtonConfirm">
-          {selectedInsert(insert) && <ButtonConfirm onClick={onClickConfirm} disabled={!confirm} /> } 
-          {selectedInsert(insert) && <TooltipConfirm />}
-        </div>
-      </div>
+        : parseResult &&
+        <Card variant="outlined" className="error message">
+          <CardContent>
+            {parseResult}
+          </CardContent>
+        </Card>
+      }
     </div>
   );
 }

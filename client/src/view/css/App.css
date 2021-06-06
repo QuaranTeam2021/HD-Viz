@@ -387,3 +387,15 @@ body {
 #buttonConfirmAddDb button {
   padding: 14px;
 }
+
+.MuiCard-root.error {
+  background-color: lightcoral;
+  color: #750a02;
+  border-color: #750a02;
+}
+
+.MuiCard-root.success {
+  background-color: lightgreen;
+  color: #206c45;
+  border-color: #206c45;
+}
