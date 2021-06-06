@@ -38,6 +38,7 @@ let links = data.links;
 		.select(`#${idBox}`)
 		.append("svg")
 		.classed("grafico", true)
+		.classed("force-directed", true)
 		.attr("viewBox", [0, 0, width, height])
 		.attr("width", width);
 	let link,
@@ -93,7 +94,12 @@ let links = data.links;
 	function getMax() {
 		return Math.ceil(d3.max(links, d => d.value) * 100) / 100;
 	}
-	
+
+	/**
+	 * Update strength only.
+	 * Mantains current simulation.
+	 * @param{number} strength strength value in [-150, 50]
+	 */
 	function updateStrength(strength) {
 		forceProperties.charge.strength = strength;
 		simulation.stop();
@@ -101,7 +107,15 @@ let links = data.links;
 			.strength(forceProperties.charge.strength * forceProperties.charge.enabled));
 		simulation.restart();
 	}
-	
+
+	/**
+	 * Update min & max distance and strength all toghether.
+	 * Erase from visualization links \notin [@distanceMin,@distanceMax]
+	 * Replace current simulation with a new one.
+	 * @param{number} distanceMin min distance
+	 * @param{number} distanceMax max distance
+	 * @param{number} strength strength value in [-150, 50]
+	 */
 	function updateDistStr(distanceMin, distanceMax, strength) {
 		forceProperties.charge.distanceMin = distanceMin;
 		forceProperties.charge.distanceMax = distanceMax;
