@@ -36,23 +36,23 @@ export default function HeatmapOptions({ position, graphViz, buttonRef, currentO
       setCurrentOptions({
         oldMaxDist: maxDist,
         oldMinDist: minDist,
-        oldOrd: ordinamento
+        oldOrd: ordinamento,
     });
-  }, [currentOptions, graphViz, ordinamento, setCurrentOptions, minDist, maxDist]);
+  }, [currentOptions, graphViz, maxDist, minDist, ordinamento, setCurrentOptions]);
   
   useEffect(() => {
     buttonRef.current.onclick = commitChanges;
     if (graphViz !== null) {
-      const disMax = graphViz.getMax(),
-        disMin = graphViz.getMin();
+      const disMax = graphViz.getMax();
+      const disMin = graphViz.getMin();
 
       setMinForDistances(disMin);
       setMaxForDistances(disMax);
       
-      marks[0].label = disMin.toString();
-      marks[0].value = disMin;
-      marks[1].label = disMax.toString();
-      marks[1].value = disMax;
+      marks.distance[0].label = disMin.toString();
+      marks.distance[0].value = disMin;
+      marks.distance[1].label = disMax.toString();
+      marks.distance[1].value = disMax;
     }
   }, [buttonRef, commitChanges, graphViz]);
   
@@ -66,29 +66,29 @@ export default function HeatmapOptions({ position, graphViz, buttonRef, currentO
   return (
     <div className={classes.root}>
       <div className={classes.direction}>
-        <Typography id="htmp-minDist-slider-label" gutterBottom>Distanza minima</Typography>
-        <Slider id="htmp-minDist-slider"
-          aria-labelledby="htmp-minDist-slider-label"
-          valueLabelDisplay="auto"
-          step={10 ** Math.floor(Math.log(maxForDistances / 10) / Math.LN10)}
-          marks={marks}
-          min={minForDistances}
-          max={maxForDistances}
-          value={minDist}
-          onChange={onChangeMinDist}
-          />
-      </div>
-      <div className={classes.direction}>
         <Typography id="htmp-maxDist-slider-label" gutterBottom>Distanza massima</Typography>
         <Slider id="htmp-maxDist-slider"
           aria-labelledby="htmp-maxDist-slider-label"
           valueLabelDisplay="auto"
           step={10 ** Math.floor(Math.log(maxForDistances / 10) / Math.LN10)}
-          marks={marks}
-          min={minForDistances}
+          marks={marks.distance}
+          min={0}
           max={maxForDistances}
           value={maxDist}
           onChange={onChangeMaxDist}
+          />
+      </div>
+      <div className={classes.direction}>
+        <Typography id="htmp-minDist-slider-label" gutterBottom>Distanza minima</Typography>
+        <Slider id="htmp-minDist-slider"
+          aria-labelledby="htmp-minDist-slider-label"
+          valueLabelDisplay="auto"
+          step={10 ** Math.floor(Math.log(maxForDistances / 10) / Math.LN10)}
+          marks={marks.distance}
+          min={0}
+          max={maxForDistances}
+          value={minDist}
+          onChange={onChangeMinDist}
           />
       </div>
       <div className={classes.direction}>
@@ -104,13 +104,15 @@ export default function HeatmapOptions({ position, graphViz, buttonRef, currentO
   );
 }
 
-const marks = [
-  {
-    label: '0',
-    value: 0,
-  },
-  {
-    label: '10',
-    value: 10,
-  },
-];
+const marks = {
+  distance: [
+    {
+      label: '0',
+      value: 0
+    },
+    {
+      label: '10',
+      value: 10
+    }
+  ]
+};

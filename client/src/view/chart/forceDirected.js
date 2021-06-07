@@ -1,3 +1,4 @@
+/* eslint-disable func-names */
 /* eslint-disable no-confusing-arrow */
 /* eslint-disable func-style */
 const d3 = require('d3');
@@ -14,31 +15,28 @@ import { drawLegend} from './drawLegend'
 export const forceDirected = function (data, idBox) {
 let nodes = data.nodes;
 let links = data.links;
-	const height = 600;
-	const width = 600;
+	const height = 900;
+	const width = 900;
 	let forceProperties = {
-		charge: {
-			distanceMax: 200,
-			distanceMin: 0,
-			enabled: true,
-			strength: -30
-		}
+		distanceMax: 200,
+		distanceMin: 0,
+		enabled: true,
+		strength: -30
 	}
 	const nodeRadius = 5;
 
 	let tooltipDiv = d3.select(`#${idBox}`)
 		.append("div")
 		.classed("tooltip", true);
-
 	tooltipDiv.append("div")
-		.classed("tooltip-contents", true);
-
+		.classed("tooltip-contents", true);	
 	tooltipDiv.call(tooltipTemplate);
+
 	let svg = d3
 		.select(`#${idBox}`)
 		.append("svg")
 		.classed("grafico", true)
-		.classed("force-directed", true)
+		.classed("force-field", true)
 		.attr("viewBox", [0, 0, width, height])
 		.attr("width", width);
 	let link,
@@ -51,7 +49,7 @@ let links = data.links;
 	const scale = d3.scaleOrdinal(d3.schemeCategory10);
 	const linkHandler = g.append("g")
 		.attr("stroke", "#999")
-		.attr("stroke-opacity", 0.6);
+		.attr("stroke-opacity", 0.5);
 	
 	const nodeHandler = g.append("g")
 		.attr("stroke", "#fff")
@@ -62,7 +60,7 @@ let links = data.links;
 	const scaleThickness = d3
 			.scaleLinear()
 			.domain([minDist, maxVal])
-			.range([0.5, nodeRadius]);
+			.range([0.5, nodeRadius - 1]);
 	
 	updateData(data);
 	function updateData(newData) {
@@ -83,7 +81,7 @@ let links = data.links;
 			.call(tooltip, tooltipDiv);
 
 
-		updateDistStr(forceProperties.charge.distanceMin, forceProperties.charge.distanceMax, forceProperties.charge.strength);
+		updateDistStr(forceProperties.distanceMin, forceProperties.distanceMax, forceProperties.strength);
 
 	}
 
@@ -94,17 +92,12 @@ let links = data.links;
 	function getMax() {
 		return Math.ceil(d3.max(links, d => d.value) * 100) / 100;
 	}
-
-	/**
-	 * Update strength only.
-	 * Mantains current simulation.
-	 * @param{number} strength strength value in [-150, 50]
-	 */
+	
 	function updateStrength(strength) {
-		forceProperties.charge.strength = strength;
+		forceProperties.strength = strength;
 		simulation.stop();
 		simulation.force("charge", d3.forceManyBody()
-			.strength(forceProperties.charge.strength * forceProperties.charge.enabled));
+			.strength(forceProperties.strength * forceProperties.enabled));
 		simulation.restart();
 	}
 
@@ -117,20 +110,25 @@ let links = data.links;
 	 * @param{number} strength strength value in [-150, 50]
 	 */
 	function updateDistStr(distanceMin, distanceMax, strength) {
-		forceProperties.charge.distanceMin = distanceMin;
-		forceProperties.charge.distanceMax = distanceMax;
-		forceProperties.charge.strength = strength;
+		forceProperties.distanceMin = distanceMin;
+		forceProperties.distanceMax = distanceMax;
+		forceProperties.strength = strength;
 		const linksToShow = links.filter(l => l.value >= distanceMin && l.value <= distanceMax);
 		link = linkHandler
 			.selectAll("line")
 			.data(linksToShow)
 			.join("line");
+
+		legend.clearMessageBoard();
+		legend.displayMessage("# of links in range:");
+		legend.displayMessage(`${linksToShow.length}/${links.length}`);
 		
 		scaleThickness.domain([Math.max(getMin(), distanceMin), Math.min(getMax(), distanceMax)])
 		legend.updateTicks(scaleThickness);
 		link.attr("stroke-width", d => 5.5 - scaleThickness(d.value));
-		
-		if (simulation) simulation.stop();
+		if (simulation) {
+			simulation.stop();
+		}
 		simulation = d3.forceSimulation(nodes)
 			.force("link", d3.forceLink(linksToShow)
 				.id(d => d.id)
@@ -140,19 +138,24 @@ let links = data.links;
 			.force("center", d3.forceCenter(width / 2, height / 2))
 			.tick(40)
 			.on("tick", () => {
+				node
+					// eslint-disable-next-line prefer-arrow-callback
+					.attr("cx", function(d) { d.x = Math.max(nodeRadius, Math.min(width - nodeRadius, d.x)); 
+						return d.x; })
+					// eslint-disable-next-line prefer-arrow-callback
+					.attr("cy", function(d) { d.y = Math.max(nodeRadius, Math.min(height - nodeRadius, d.y)); 
+						return d.y; })
+					.attr("stroke", d => d.fx ? "#333" : "#fff");
 				link
 					.attr("x1", d => d.source.x)
 					.attr("y1", d => d.source.y)
 					.attr("x2", d => d.target.x)
-					.attr("y2", d => d.target.y);			
-				node
-					.attr("cx", d => d.x)
-					.attr("cy", d => d.y)
-					.attr("stroke", d => d.fx ? "#333" : "#fff");
+					.attr("y2", d => d.target.y);
+					// .attr("stroke", d => d.source.fx || d.source.fy || d.target.fx || d.target.fy ? "#101010" : "#999999");			
 			})			
 		node
 			.call(drag(simulation, tooltipDiv));
-		simulation.alpha(1).restart();
+		simulation.restart();
 	}
 	
 	return Object.assign(svg.node(), { 
@@ -164,7 +167,7 @@ let links = data.links;
 	});
 }
 const drag = (sim, tooltipDiv) => {
-	
+	// eslint-disable-next-line no-undef
 	const dragstarted = function(event) {
 		tooltipDiv.style("opacity", 0);
 		if (!event.active) {
@@ -191,9 +194,6 @@ const drag = (sim, tooltipDiv) => {
 		if (!event.active) {
 			sim.alphaTarget(0);
 		}
-
-			/* event.subject.fx = null;
-			   event.subject.fy = null; */
 	}
 	
 	return d3.drag()
