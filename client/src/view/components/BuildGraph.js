@@ -85,11 +85,12 @@ export default function BuildGraph() {
     let allSelected;
     allSelected = insert !== "";
     allSelected = allSelected && selectedGraph !== "";
-    allSelected = allSelected && selectedAlgorithm !== "";
     allSelected = allSelected && selectedColumns.length > 0;
     if (maxColumns(selectedGraph) && selectedAlgorithm === "none") {
       allSelected = allSelected && selectedColumns.length < 6;
     }
+    if (needsAlgorithm(selectedGraph))
+      allSelected = allSelected && selectedAlgorithm !== "";
     if (needsDistance(selectedGraph) || needsDistance(selectedAlgorithm))
       allSelected = allSelected && distanza !== "";
     setConfirm(allSelected);
