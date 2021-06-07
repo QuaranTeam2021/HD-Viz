@@ -1,41 +1,46 @@
 {
-  "name": "hd-viz",
-  "version": "0.2.2-react",
-  "description": "",
+  "name": "hdviz",
+  "version": "0.8.0",
+  "description": "Progetto di Ingegneria del Software 2020/2021, HD-Viz, proposto da Zucchetti S.p.A.",
   "main": "server/server.js",
   "scripts": {
-    "start": "cd server && npm start",
-    "dev": "cd server && npm run dev",
-    "lint": "npx eslint server",
+    "start-server": "node server/server.js",
+    "dev-server": "nodemon server/server.js",
+    "start-client": "cd client && npm start",
+    "lint-server": "npx eslint server",
     "lint-client": "npx eslint client",
-    "test": "mocha --recursive -r core-js -r regenerator-runtime -r @babel/register"
+    "build-client": "cd client && npm build",
+    "start": "npm run build-client && npm run start-server",
+    "dev": "concurrently \"npm run start-server\" \"npm run start-client\"",
+    "test": "cd client && npm test",
+    "lint": "npm run lint-server && npm run lint-client"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "QuaranTeam",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/QuaranTeam2021/HD-Viz.git"
+  },
   "devDependencies": {
     "@babel/core": "^7.14.0",
     "@babel/preset-env": "^7.14.1",
     "@babel/preset-react": "^7.13.13",
     "@babel/register": "^7.13.16",
-    "chai": "^4.3.0",
+    "concurrently": "^6.2.0",
     "core-js": "^3.12.0",
     "eslint": "^7.23.0",
-    "eslint-plugin-mocha": "^8.0.0",
-    "esm": "^3.2.25",
-    "mocha": "^8.2.1",
     "nodemon": "^2.0.7",
     "regenerator-runtime": "^0.13.7"
   },
   "dependencies": {
-    "@saehrimnir/druidjs": "^0.3.10",
+    "cors": "^2.8.5",
     "d3": "^6.5.0",
+    "dotenv": "^8.2.0",
     "express": "^4.17.1",
-    "express-fileupload": "^1.2.1",
-    "jsdom": "^16.4.0",
-    "mathjs": "^9.2.0",
-    "mobx": "^6.1.8",
-    "mobx-react": "^7.1.0",
-    "mobx-react-lite": "^3.2.0",
-    "numeric": "^1.2.6"
+    "express-jwt": "^6.0.0",
+    "jsonwebtoken": "^8.5.1",
+    "multer": "^1.4.2",
+    "papaparse": "^5.3.0",
+    "pg": "^8.6.0"
   }
 }
