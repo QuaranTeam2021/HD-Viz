@@ -24,16 +24,19 @@ export default class LocalLoaderController {
                                 skipEmptyLines: true
                             })
                             if (result.data.length === 0) {
-                                reject("File is empty");
+                                reject("Il file caricato è vuoto");
+                            }
+                            if (result.data.length > 2000) {
+                                reject("Il file caricato è troppo grande");
                             }
                             else {
                                 this.store.loadData(result.data);     
-                                resolve("File succesfully uploaded");         
+                                resolve("Il file è stato caricato correttamente");         
                             }  
                         }
                     reader.onerror = () => {
                         console.error(`Error reading file: ${reader.error}`);
-                        reject(`Error reading file: ${reader.error}`);
+                        reject(`Errore nella lettura del file: ${reader.error}`);
                     };
                     reader.readAsText(file, "utf-8");
                 })
