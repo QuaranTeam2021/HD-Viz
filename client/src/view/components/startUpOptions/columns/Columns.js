@@ -19,8 +19,8 @@ const Columns = observer(({ onChangeUploaded, onChangeGrouper }) => {
 
   return (
     <div className="colonne">
-      <CheckboxColumns uploadedColumns={uploadedColumns} onChange={onChangeUploaded} />
-      <RadioColumns grouperColumns={grouperColumns} onChange={onChangeGrouper} />
+        <CheckboxColumns uploadedColumns={uploadedColumns} onChange={onChangeUploaded} />
+        <RadioColumns grouperColumns={grouperColumns} onChange={onChangeGrouper} />
     </div>
   );
 

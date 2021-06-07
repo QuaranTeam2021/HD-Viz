@@ -14,6 +14,9 @@ import { purple } from '@material-ui/core/colors'
 import RemoveIcon from '@material-ui/icons/Delete';
 import RenameTitleGraph from './RenameTitleGraph';
 import SaveIcon from '@material-ui/icons/Save';
+import SCPMOptions from './SCPMOptions';
+import Store from '../../store/Store';
+
 
 const useStyles = makeStyles(theme => ({
   button: {
@@ -28,7 +31,7 @@ const useStyles = makeStyles(theme => ({
   },
   root: {
     backgroundColor: theme.palette.background.paper,
-    minWidth: '100%'
+    width: '100%'
   },
 
 }));
@@ -38,6 +41,8 @@ export default function OptionsGraph({ onDelete, graphViz, graphId, graphType, g
   const [title, setTitle] = useState(graphTitle);
   const [currentOptions, setCurrentOptions] = useState({});
   const confirmButtonRef = useRef(null);
+  const [selectedCol, setSelectedCol] = useState(() => Store.getGraph);
+
 
   const switchOptions = useCallback((type, position, viz) => {
     let optProps = {
@@ -46,21 +51,25 @@ export default function OptionsGraph({ onDelete, graphViz, graphId, graphType, g
       data: graphData,
       graphViz: viz,
       position,
+      selectedCol,
       setCurrentOptions,
+      setSelectedCol,
+      
     };
     switch (type) {
-      /* case "scptMat":
-        return <ScptMat {...optProps} />; */
+       case "scptMat":
+        return <SCPMOptions {...optProps} />; 
       case "htmp":
         return <HeatmapOptions {...optProps} />;
       case "frcfld":
         return <ForceFieldOptions {...optProps} />;
       case "malp":
         return <MALPOptions {...optProps} />;
+     
       default:
         return null;
     }
-  }, [currentOptions, graphData]);
+  }, [currentOptions, selectedCol, graphData]);
 
   return (
     <div className="options-container" id={`options-${graphId}`}>
@@ -70,7 +79,7 @@ export default function OptionsGraph({ onDelete, graphViz, graphId, graphType, g
           aria-controls={`${graphId}-options`}
           id={`${graphId}-options-header`}
         >
-          <h3 className="graph-title">{title}</h3>
+          <h3 className="graph-title">Opzioni - {title}</h3>
         </AccordionSummary>
         <AccordionDetails>
           <div id={`${graphId}-options`} className={classes.root}>

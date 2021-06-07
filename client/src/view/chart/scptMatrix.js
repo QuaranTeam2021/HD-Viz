@@ -19,12 +19,10 @@ export const scpMatrix = function(data, cols, grouper, idBox) {
 	const width = 660;
 	const margin = { bottom: 10,
       left: 40,
-      right: 0,
       top: 40 };
+	const newGrouper = grouper === "" ? "undefined" : grouper;
 
-	/* console.log('grafico:')
-	   console.log([data, cols, idBox])*/
-	
+	let legend;
 	let svg = d3.select(`#${idBox}`).append("svg");
 	svg.append("style")
 		.text(`circle.hidden { fill: #000; fill-opacity: 1; r: 1px; }`);
@@ -37,12 +35,36 @@ export const scpMatrix = function(data, cols, grouper, idBox) {
 		.append("g")
 		.attr("transform", `translate(${margin.left},${margin.top})`);
 
+	let notNullData = [];
+    let nanFound = data.length;
+    // eslint-disable-next-line guard-for-in
+
+    for (let i = 0; i < data.length; ++i) {
+        let nan = false;
+
+        for (const [key, value] of Object.entries(data[i])) {
+            if (key !== newGrouper) {
+                if (typeof value !== 'number' || typeof value === 'number' && isNaN(value)) {
+                    nan = true;
+                    break;
+                } 
+            }
+        }
+
+        if (!nan) {
+            notNullData.push(data[i]); 
+        }
+    }
+
+    nanFound = nanFound - notNullData.length;
+
+
 	let selectedCols, size, xScale, yScale;
 	let colors = d3.scaleOrdinal()
-		.domain(data.map(d => d[grouper]))
+		.domain(notNullData.map(d => d[newGrouper]))
 		.range(d3.schemeCategory10);
 	let cell, circle;
-	const categories = [...new Set(data.map(item => item[grouper]))]; 
+	const categories = [...new Set(notNullData.map(item => item[newGrouper]))]; 
 	updateColumns(cols);
 
 	// eslint-disable-next-line func-style
@@ -50,16 +72,16 @@ export const scpMatrix = function(data, cols, grouper, idBox) {
 		mainArea.selectAll(".handler").remove();
 		svg.selectAll(".legend").remove();
 
+		selectedCols = columns.filter(d => d !== newGrouper);
 
-		selectedCols = columns.filter(d => d !== grouper && typeof data[0][d] === "number");
 		size = (width - (selectedCols.length + 1) * padding) / selectedCols.length + padding;
 		
 		xScale = selectedCols.map(c => d3.scaleLinear()
-			.domain(d3.extent(data, d => d[c]))
+			.domain(d3.extent(notNullData, d => d[c]))
 			.range([padding / 2, size - padding / 2]));
 		
 		yScale = selectedCols.map(c => d3.scaleLinear()
-			.domain(d3.extent(data, d => d[c]))
+			.domain(d3.extent(notNullData, d => d[c]))
 			.range([size - padding / 2, padding / 2]));
 		
 		const xAxis = d3.axisBottom()
@@ -115,7 +137,7 @@ export const scpMatrix = function(data, cols, grouper, idBox) {
 		cell.each(([i, j], idx, nodes) => {
 			d3.select(nodes[idx])
 				.selectAll("circle")
-				.data(data)
+				.data(notNullData)
 				.join("circle")
 				.attr("cx", d => xScale[i](d[selectedCols[i]]))
 				.attr("cy", d => yScale[j](d[selectedCols[j]]))
@@ -124,7 +146,7 @@ export const scpMatrix = function(data, cols, grouper, idBox) {
 		circle = cell.selectAll("circle")
 			.attr("r", 3.5)
 			.attr("fill-opacity", 0.7)
-			.attr("fill", d => colors(d[grouper]));
+			.attr("fill", d => colors(d[newGrouper]));
 		
 		
 		mainArea.append("g")
@@ -166,7 +188,7 @@ export const scpMatrix = function(data, cols, grouper, idBox) {
 						y1 < yScale[j](d[selectedCols[j]]);
 				}
 				);
-				selected = data.filter(d => {
+				selected = notNullData.filter(d => {
 					return x0 < xScale[i](d[selectedCols[i]]) &&
 						x1 > xScale[i](d[selectedCols[i]]) &&
 						y0 < yScale[j](d[selectedCols[j]]) &&
@@ -183,7 +205,10 @@ export const scpMatrix = function(data, cols, grouper, idBox) {
 			svg.property("value", []).dispatch("input");
 			circle.classed("hidden", false);
 		});
-		drawLegend(svg, categories, width);
+		legend = drawLegend(svg, categories, width);
+        if (nanFound > 0) {
+            legend.displayMessage(`warn: ${nanFound} NaN found`);
+        }
 	}
 	
 	/**
@@ -194,7 +219,7 @@ export const scpMatrix = function(data, cols, grouper, idBox) {
 	 * @return {Array<String>} insieme di colonne plottate inizialmente
 	 */
 	const getAllCols = () => {
-		return cols.filter(d => d !== grouper);
+		return cols.filter(d => d !== newGrouper);
 	}
 	
 	/**

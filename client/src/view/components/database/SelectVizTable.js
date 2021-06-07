@@ -14,6 +14,7 @@ const useStyles = makeStyles(theme => ({
     marginTop: theme.spacing(2),
   },
 }));
+const none = "Nessuna tabella disponibile";
 
 export default function SelectVizTable({ onChange, tables, selected }) {
   const classes = useStyles();
@@ -25,9 +26,11 @@ export default function SelectVizTable({ onChange, tables, selected }) {
         <Select
           labelId="tables-select-label"
           id="tables-select"
-          value={selected}
-          onChange={onChange}>
-          { tables && tables.map((v, i) => <MenuItem value={v} key={i}>{v}</MenuItem>) }
+          value={tables.length > 0 ? selected : "none"}
+          onChange={onChange}
+        >
+          {tables.length > 0 ? tables.map((v, i) => <MenuItem value={v} key={i}>{v}</MenuItem>)
+            : <MenuItem value="none" disabled>{none}</MenuItem> }
         </Select>
       </FormControl>
     </div>

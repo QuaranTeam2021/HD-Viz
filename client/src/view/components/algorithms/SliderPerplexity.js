@@ -12,12 +12,12 @@ const useStyles = makeStyles({
 
 const marks = [
   {
-    label: '10',
-    value: 10,
+    label: '2',
+    value: 2,
   },
   {
-    label: '50',
-    value: 50,
+    label: '100',
+    value: 100,
   },
 ];
 export default function SliderPerplexity({ perplexity, onChange }) {
@@ -31,13 +31,13 @@ export default function SliderPerplexity({ perplexity, onChange }) {
     <div className={classes.root}>
       <Typography id="perplexity-slider-label" gutterBottom>Perplexity</Typography>
       <Slider id="perplexity-slider"
-        defaultValue={20}
+        defaultValue={50}
         aria-labelledby="perplexity-slider-label"
         valueLabelDisplay="auto"
         step={1}
         marks={marks}
-        min={10}
-        max={50}
+        min={2}
+        max={100}
         onChangeCommitted={onChange}
       />
     </div>

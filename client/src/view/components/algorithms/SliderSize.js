@@ -16,8 +16,8 @@ const marks = [
     value: 2,
   },
   {
-    label: '10',
-    value: 10,
+    label: '5',
+    value: 5,
   },
 ];
 export default function SliderSize({ size, onChange }) {
@@ -31,13 +31,13 @@ export default function SliderSize({ size, onChange }) {
     <div className={classes.root}>
       <Typography id="discrete-slider" gutterBottom>Dimensione</Typography>
       <Slider
-        defaultValue={5}
+        defaultValue={2}
         aria-labelledby="discrete-slider"
         valueLabelDisplay="auto"
         step={1}
         marks={marks}
         min={2}
-        max={10}
+        max={5}
         onChangeCommitted={onChange}
       />
     </div>

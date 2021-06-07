@@ -1,3 +1,4 @@
+/* eslint-disable prefer-promise-reject-errors */
 /* eslint-disable consistent-return */
 
 export default class DatabaseManagerController {
@@ -19,9 +20,11 @@ export default class DatabaseManagerController {
                     method: "POST"
                 });
                 const jsonData = await response.json();
-                return jsonData;
+                if (response.ok) Promise.resolve(jsonData);
+                else Promise.reject(jsonData);
             } catch (err) {
                 console.error(err.message);
+                Promise.reject(`Si è verificato un errore: ${err.message}`);
             }
         }
     }
@@ -34,9 +37,11 @@ export default class DatabaseManagerController {
                 method: "DELETE"
             });
             const jsonData = await delTable.json();
-            return jsonData;
+            if (delTable.ok) Promise.resolve(jsonData);
+            else Promise.reject(jsonData);
         } catch (err) {
             console.error(err.message);
+            Promise.reject(`Si è verificato un errore: ${err.message}`);
         }
     }
 }

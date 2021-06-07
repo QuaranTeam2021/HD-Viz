@@ -22,9 +22,11 @@ export default function TooltipConfirm() {
   return (
     <div>
       <Tooltip title="Il calcolo della riduzione potrebbe richiedere tempo">
-        <IconButton aria-label="Riduzione">
-          <ErrorOutlineIcon />
-        </IconButton>
+        <span>
+          <IconButton disabled aria-label="Riduzione">
+            <ErrorOutlineIcon />
+          </IconButton>
+        </span>
       </Tooltip>
     </div>
   );

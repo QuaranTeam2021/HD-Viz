@@ -4,16 +4,11 @@ import Slider from '@material-ui/core/Slider';
 import Typography from '@material-ui/core/Typography';
 
 const useStyles = makeStyles(() => ({
-  column: {
-    flexBasis: '25%'
-  },
   root: {
     display: 'flex',
-    justifyContent: 'space-evenly'
+    gridGap: '5em',
+    padding: '2em',
   },
-  row: {
-    flexBasis: '25%'
-  }
 }));
 
 export default function ForceFieldOptions({ position, graphViz, buttonRef, currentOptions, setCurrentOptions }) {
@@ -24,44 +19,43 @@ export default function ForceFieldOptions({ position, graphViz, buttonRef, curre
   const [maxDistanceMax, setMaxDistanceMax] = React.useState(200);
   const [maxDistanceMin, setMaxDistanceMin] = React.useState(200);
   const [strength, setStrength] = React.useState(-30);
-  const [threshold, setThreshold] = React.useState(0);
-  const [maxThreshold, setMaxThreshold] = React.useState(10);
-
 
   const commitChanges = useCallback(() => {
-    if (currentOptions.oldDisMax !== distanceMax)
-    graphViz.updateDistanceMax(distanceMax);
-    if (currentOptions.oldDisMin !== distanceMin)
-    graphViz.updateDistanceMin(distanceMin);
-    if (currentOptions.oldStr !== strength)
-    graphViz.updateStrength(strength);
-    if (currentOptions.oldThres !== threshold)
-      graphViz.updateThreshold(threshold);
+    
+    if (currentOptions.oldDisMax !== distanceMax ||
+        currentOptions.oldDisMin !== distanceMin ||
+        currentOptions.oldStr !== strength) {
+      graphViz.updateDistStr(distanceMin, distanceMax, strength);
+    } 
+    /* else {
+         graphViz.updateStrength(strength);
+       } */
 
     setCurrentOptions({
       oldDisMax: distanceMax,
       oldDisMin: distanceMin,
       oldStr: strength,
-      oldThres: threshold,
     });
-  }, [currentOptions, distanceMax, distanceMin, graphViz, setCurrentOptions, strength, threshold]);
+  }, [currentOptions, distanceMax, distanceMin, graphViz, setCurrentOptions, strength]);
 
   useEffect(() => {
     buttonRef.current.onclick = commitChanges;
     if (graphViz !== null) {
-      const max = graphViz.getMax();
-      const disMax = Math.max(200, max);
+      const disMax = graphViz.getMax();
+      const disMin = graphViz.getMin();
 
       setMaxDistanceMax(disMax);
       setMaxDistanceMin(disMax);
-      setMaxThreshold(max);
-      
+
+      marks.distanceMax[0].label = disMin.toString();
+      marks.distanceMax[0].value = disMin;
+      marks.distanceMin[0].label = disMin.toString();
+      marks.distanceMin[0].value = disMin;
       marks.distanceMax[1].label = disMax.toString();
       marks.distanceMax[1].value = disMax;
       marks.distanceMin[1].label = disMax.toString();
       marks.distanceMin[1].value = disMax;
-      marks.threshold[1].label = max.toString();
-      marks.threshold[1].value = max;
+
     }
   }, [buttonRef, commitChanges, graphViz]);
 
@@ -70,7 +64,6 @@ export default function ForceFieldOptions({ position, graphViz, buttonRef, curre
 
   const onChangeDistanceMax = (_e, v) => setDistanceMax(v);
   const onChangeDistanceMin = (_e, v) => setDistanceMin(v);
-  const onChangeThreshold = (_e, v) => setThreshold(v);
   const onChangeStrength = (_e, v) => setStrength(v);
 
   return (
@@ -80,7 +73,7 @@ export default function ForceFieldOptions({ position, graphViz, buttonRef, curre
         <Slider id="frfd-maxDistance-slider"
           aria-labelledby="frfd-maxDistance-slider-label"
           valueLabelDisplay="auto"
-          step={10}
+          step={10 ** Math.floor(Math.log(maxDistanceMax / 10) / Math.LN10)}
           marks={marks.distanceMax}
           min={0}
           max={maxDistanceMax}
@@ -93,7 +86,7 @@ export default function ForceFieldOptions({ position, graphViz, buttonRef, curre
         <Slider id="frfd-minDistance-slider"
           aria-labelledby="frfd-minDistance-slider-label"
           valueLabelDisplay="auto"
-          step={10}
+          step={10 ** Math.floor(Math.log(maxDistanceMax / 10) / Math.LN10)}
           marks={marks.distanceMin}
           min={0}
           max={maxDistanceMin}
@@ -102,24 +95,11 @@ export default function ForceFieldOptions({ position, graphViz, buttonRef, curre
         />
       </div>
       <div className={classes.direction}>
-        <Typography id="frfd-threshold-slider-label" gutterBottom>Soglia</Typography>
-        <Slider id="frfd-threshold-slider"
-          aria-labelledby="frfd-threshold-slider-label"
-          valueLabelDisplay="auto"
-          step={maxThreshold > 3 ? 1 : 0.1}
-          marks={marks.threshold}
-          min={0}
-          max={maxThreshold}
-          value={threshold}
-          onChange={onChangeThreshold}
-        />
-      </div>
-      <div className={classes.direction}>
         <Typography id="frfd-strength-slider-label" gutterBottom>Intensità forza</Typography>
         <Slider id="frfd-strength-slider"
           aria-labelledby="frfd-strength-slider-label"
           valueLabelDisplay="auto"
-          step={1}
+          step={10}
           marks={marks.strength}
           min={-150}
           max={50}
@@ -161,15 +141,5 @@ const marks = {
       label: '50',
       value: 50,
     }
-  ],
-  threshold: [
-    {
-      label: '0',
-      value: 0,
-    },
-    {
-      label: '10',
-      value: 10,
-    }
-  ],
+  ]
 };

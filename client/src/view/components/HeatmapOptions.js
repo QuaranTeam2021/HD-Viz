@@ -1,4 +1,3 @@
-import * as htmp from '../chart/heatmap';
 import React, { useCallback, useEffect, useState } from 'react';
 import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
@@ -9,65 +8,87 @@ import Slider from '@material-ui/core/Slider';
 import Typography from '@material-ui/core/Typography';
 
 const useStyles = makeStyles(() => ({
-  column: {
-    flexBasis: '50%'
-  },
   root: { // dovrebbe renderlo largo quanto GraphContainer a seconda del grafico
     display: 'flex',
-    justifyContent: 'space-evenly',
+    gridGap: '5em',
+    padding: '2em',
   },
-  row: {
-    flexBasis: '50%'
-  }
 }));
 
-export default function HeatmapOptions({ position, graphViz, data, buttonRef, currentOptions, setCurrentOptions }) {
+export default function HeatmapOptions({ position, graphViz, buttonRef, currentOptions, setCurrentOptions }) {
   const classes = useStyles();
   
   const [ordinamento, setOrdinamento] = useState('none');
-  const [threshold, setThreshold] = useState(0);
-  const [maxThreshold, setMaxThreshold] = useState(10);
+  const [minDist, setMinDist] = useState(0);
+  const [maxDist, setMaxDist] = useState(10);
+  const [minForDistances, setMinForDistances] = useState(0);
+  const [maxForDistances, setMaxForDistances] = useState(10);
   
   const commitChanges = useCallback(() => {
-    if (currentOptions.oldOrd !== ordinamento)
-      graphViz.updateOrder(htmp.orders(data, ordinamento));
-      if (currentOptions.oldThres !== threshold)
-      graphViz.updateThreshold(threshold);
+    
+    if (currentOptions.oldMinDist !== minDist || currentOptions.oldMaxDist !== maxDist) {
+      graphViz.updateDist(minDist, maxDist, ordinamento);
+    } 
+    else if (currentOptions.oldOrd !== ordinamento) {
+      graphViz.updateOrder(ordinamento);
+    }
     
       setCurrentOptions({
+        oldMaxDist: maxDist,
+        oldMinDist: minDist,
         oldOrd: ordinamento,
-        oldThres: threshold
     });
-  }, [currentOptions, data, graphViz, ordinamento, setCurrentOptions, threshold]);
+  }, [currentOptions, graphViz, maxDist, minDist, ordinamento, setCurrentOptions]);
   
   useEffect(() => {
     buttonRef.current.onclick = commitChanges;
     if (graphViz !== null) {
-      setMaxThreshold(graphViz.getMax());
-      marks[1].label = graphViz.getMax().toString();
-      marks[1].value = graphViz.getMax();
+      const disMax = graphViz.getMax();
+      const disMin = graphViz.getMin();
+
+      setMinForDistances(disMin);
+      setMaxForDistances(disMax);
+      
+      marks.distance[0].label = disMin.toString();
+      marks.distance[0].value = disMin;
+      marks.distance[1].label = disMax.toString();
+      marks.distance[1].value = disMax;
     }
   }, [buttonRef, commitChanges, graphViz]);
   
-  // css nel caso sia verticale o orrizzontale (up, down => orrizzontale; left, right => verticale)
+  // css nel caso sia verticale o orizzontale (up, down => orrizzontale; left, right => verticale)
   classes.direction = ["up", "down"].includes(position) ? classes.column : classes.row;
   
   const onChangeOrdinamento = e => setOrdinamento(e.target.value);
-  const onChangeThreshold = (_e, v) => setThreshold(v);
+  const onChangeMinDist = (_e, v) => setMinDist(v);
+  const onChangeMaxDist = (_e, v) => setMaxDist(v);
   
   return (
     <div className={classes.root}>
       <div className={classes.direction}>
-        <Typography id="htmp-threshold-slider-label" gutterBottom>Soglia</Typography>
-        <Slider id="htmp-threshold-slider"
-          aria-labelledby="htmp-threshold-slider-label"
+        <Typography id="htmp-maxDist-slider-label" gutterBottom>Distanza massima</Typography>
+        <Slider id="htmp-maxDist-slider"
+          aria-labelledby="htmp-maxDist-slider-label"
           valueLabelDisplay="auto"
-          step={maxThreshold > 3 ? 1 : 0.1}
-          marks={marks}
+          step={10 ** Math.floor(Math.log(maxForDistances / 10) / Math.LN10)}
+          marks={marks.distance}
           min={0}
-          max={maxThreshold}
-          value={threshold}
-          onChange={onChangeThreshold}
+          max={maxForDistances}
+          value={maxDist}
+          onChange={onChangeMaxDist}
+          />
+      </div>
+      <div className={classes.direction}>
+        <Typography id="htmp-minDist-slider-label" gutterBottom>Distanza minima</Typography>
+        <Slider id="htmp-minDist-slider"
+          aria-labelledby="htmp-minDist-slider-label"
+          valueLabelDisplay="auto"
+          step={10 ** Math.floor(Math.log(maxForDistances / 10) / Math.LN10)}
+          marks={marks.distance}
+          min={0}
+          max={maxForDistances}
+          value={minDist}
+          onChange={onChangeMinDist}
           />
       </div>
       <div className={classes.direction}>
@@ -83,13 +104,15 @@ export default function HeatmapOptions({ position, graphViz, data, buttonRef, cu
   );
 }
 
-const marks = [
-  {
-    label: '0',
-    value: 0,
-  },
-  {
-    label: '10',
-    value: 10,
-  },
-];
+const marks = {
+  distance: [
+    {
+      label: '0',
+      value: 0
+    },
+    {
+      label: '10',
+      value: 10
+    }
+  ]
+};

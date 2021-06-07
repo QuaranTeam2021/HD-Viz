@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import SelectVizColumns from './database/SelectVizColumns';
 
 
-export default function MALPOptions({ graphViz, buttonRef, currentOptions, setCurrentOptions, setDisabled }) {
+export default function SCPMOptions({ graphViz, buttonRef, currentOptions, setCurrentOptions, setDisabled }) {
 
   const [allCols, setAllCols] = useState([]);
   const [selected, setSelected] = useState([]);
@@ -35,3 +35,5 @@ export default function MALPOptions({ graphViz, buttonRef, currentOptions, setCu
     </div>
   );
 }
+
+

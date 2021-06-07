@@ -2,6 +2,8 @@ import '../css/App.css';
 import '../css/Resp_1023px.css';
 import '../css/Resp_768px.css';
 import '../css/Resp_600px.css';
+import '@react-pdf-viewer/core/lib/styles/index.css';
+import '@react-pdf-viewer/default-layout/lib/styles/index.css';
 import DistanceBasedGraphController, { DistanceBasedGraphControllerContext } from '../../controller/DistanceBasedGraphController';
 import FastmapController, { FastmapControllerContext } from '../../controller/FastmapController';
 import IsomapController, { IsomapControllerContext } from '../../controller/IsomapController';
@@ -13,11 +15,14 @@ import StandardController, { StandardControllerContext } from '../../controller/
 import Store, { StoreContext, useStore } from '../../store/Store';
 import TsneController, { TsneControllerContext } from '../../controller/TsneController';
 import UmapController, { UmapControllerContext } from '../../controller/UmapController';
+import { Viewer, Worker } from '@react-pdf-viewer/core';
 import { autorun } from 'mobx';
 import BuildGraph from './BuildGraph';
 import Database from './database/Database';
+import { defaultLayoutPlugin } from '@react-pdf-viewer/default-layout';
 import Footer from './Footer';
 import Header from './Header';
+import ManualeUtente from '../../manualeUtente.pdf'
 import { observer } from 'mobx-react-lite';
 import Visualization from './Visualization';
 
@@ -34,6 +39,7 @@ const distanceBasedController = new DistanceBasedGraphController(store);
 const App = () => {
   const [storeDefined, setStoreDefined] = useState(store.graphs.length);
   const defineStore = v => setStoreDefined(v);
+  const defaultLayoutPluginInstance = defaultLayoutPlugin();
 
   return (
     <StoreContext.Provider value={store}>
@@ -66,7 +72,11 @@ const App = () => {
                   <Database />
                 </Route>
                 <Route path="/help">
-                  <div id="ManUt">Manuale</div>
+                  <div className="ManUt">
+                    <Worker workerUrl="https://unpkg.com/pdfjs-dist@2.6.347/build/pdf.worker.min.js">
+                      <Viewer fileUrl={ManualeUtente} plugins={[defaultLayoutPluginInstance]} />
+                    </Worker>
+                  </div>
                 </Route>
               </Switch>
             </Router>
@@ -89,7 +99,7 @@ const App = () => {
 };
 
 // Forces update of App component to redirect when the store is empty
-export const StoreObserver = observer(({ defineStore }) => {
+const StoreObserver = observer(({ defineStore }) => {
   const str = useStore();
 
   useEffect(() => autorun(() => {

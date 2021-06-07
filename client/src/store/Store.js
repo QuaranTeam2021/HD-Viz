@@ -137,7 +137,7 @@ export default class Store {
                 node[header[idx]] = el;
             })
             node.id = "nodo_"+i;
-            node.group = groups[i];
+            node.group = String(groups[i]);
             nodes.push(node);
             for (let j = i+1; j < data.length; j++) {
                 let link = {
