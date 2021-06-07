@@ -124,7 +124,7 @@ export default function ModalDb({onSubmit}) {
         <Card variant="elevation" className="message" id="modaldb-info">
           <CardContent>
             <InfoIcon fontSize="small"/>
-            Con nessuna colonna specificata verranno selezionate tutte le colonne nel db
+            Con nessuna colonna specificata verranno selezionate tutte le colonne nel dataset.
           </CardContent>
         </Card>
         <ButtonConfirmDb onClick={onClickConfirm} disabled={!confirmDb} />
