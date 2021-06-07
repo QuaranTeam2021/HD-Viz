@@ -7,7 +7,6 @@ import MenuItem from '@material-ui/core/MenuItem';
 import React from 'react';
 import Select from '@material-ui/core/Select';
 
-
 const useStyles = makeStyles(theme => ({
  
   chip: {
@@ -38,27 +37,29 @@ const MenuProps = {
     },
   },
 };
+const none = "Nessuna colonna disponibile";
 
 export default function SelectVizColumns({ onChange, columns, selectedColumns }) {
   const classes = useStyles();
   
   return (
       <FormControl className={classes.formControl}>
-      <InputLabel id="demo-mutiple-chip-label">Colonne</InputLabel>
+      <InputLabel id="columns-select-label">Colonne</InputLabel>
       <Select
-        labelId="demo-mutiple-chip-label"
-        id="demo-mutiple-chip"
+        labelId="columns-select-label"
+        id="columns-select"
         multiple
-        value={selectedColumns}
+        value={columns.length > 0 ? selectedColumns : ["none"]}
         onChange={onChange}
-        input={<Input id="select-multiple-chip" />}
+        input={<Input id="columns-chip" />}
         renderValue={selected => <div className={classes.chips}>
-            {selected.map(value => <Chip key={value} label={value} className={classes.chip} />)}
+            {selected.map(value => <Chip key={value} label={value === "none" ? none : value} className={classes.chip} />)}
           </div>
         }
         MenuProps={MenuProps}
       >
-        {columns && columns.map((column, i) => <MenuItem key={i} value={column}> {column} </MenuItem>)}
+        {columns ? columns.map((column, i) => <MenuItem key={i} value={column}> {column} </MenuItem>)
+          : <MenuItem value="none" disabled>{none}</MenuItem>}
       </Select>
     </FormControl>
   );

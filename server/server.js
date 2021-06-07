@@ -1,65 +1,38 @@
 const cors = require("cors");
 const express = require("express");
-const fileUpload = require('express-fileupload');
-const jwt = require("jsonwebtoken");
+const jwt = require("express-jwt");
+const jsonwebtoken = require("jsonwebtoken");
 const router = require("./route");
 
 const app = express();
 const PORT = 5000;
+const jwtSecret = 'multidimensional';
 
 // middleware
 app.use(cors());
 app.use(express.json());
 
-// enable files upload
-app.use(fileUpload({
-    createParentPath: true
-}));
+app.use(jwt({ secret: jwtSecret, algorithms: ['HS256'] }).unless({ path: ['/jwt'] }));
 
-app.get('/server/up', (req, res) => {
-    console.log('still alive')
-    res.send('still alive')
-})
-
-/*
-const checkDBConnection = function(req, res, next) {
-    const connection = false;
-    if(connection) {
-        return res.status(500).send('DB non configurato correttamente');
+app.use((err, req, res, next) => {
+    if(err.name === 'UnauthorizedError') {
+        console.error(err.message);
+        return res.status(err.status).send({ message: err.message });
     }
     next();
-}
-*/
-
-// app.use('/api', authenticateToken, router);
-app.use('/api', router);
-
-
-app.post('/login', (req, res) => {
-    // Authentication Mock User
-
-    const username = req.body.username;
-    const user = { name: username };
-
-    console.log(user);
-    const accessToken = jwt.sign(user, "secret");
-    res.json({ accessToken })
 });
 
-/*
-function authenticateToken(req, res, next) {
-    // Bearer TOKEN
-    const authHeader = req.headers["authorization"];
-    const token = authHeader && authHeader.split(' ')[1];
-    if (token === null) return res.sendStatus(401);
+app.post('/jwt', (req, res) => {
+    const username = req.body.username;
+    if (username !== 'HD-Viz QuaranTeam')
+        res.status(403).send('Unauthorized user');
+    else {
+        const user = { name: username };
+        res.json({ token: jsonwebtoken.sign(user, jwtSecret, { expiresIn: '30m' }) });
+    }
+});
 
-    jwt.verify(token, "secret", (err, user) => {
-        if (err) return res.sendStatus(403);
-        req.user = user;
-        next();
-    });
-}
-*/
+app.use('/api', router);
 
 app.listen(
     PORT,

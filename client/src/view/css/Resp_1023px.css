@@ -3,7 +3,7 @@
     grid-template-columns: auto auto auto;
   }
 
-  #visualization {
+  .visualization {
     grid-template-columns: auto;
   }
 }

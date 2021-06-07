@@ -7,50 +7,50 @@ describe('Testing StandardGraph class', () => {
     describe('Testing attribute to not be undefined', () => {
         
         test('graphId must not be undefined', () => {
-            const graph = new StandardGraph('idTest', 'forceField', 'Species', []);
+            const graph = new StandardGraph('idTest', 'forceField', 'Species', ['sepalLength', 'species'], []);
             expect(graph.graphId).not.toBeUndefined();
         })
 
         test('type must not be undefined ', () => {
-            const graph = new StandardGraph('idTest', 'forceField', 'Species', []);
+            const graph = new StandardGraph('idTest', 'forceField', 'Species', ['sepalLength', 'species'], []);
             expect(graph.type).not.toBeUndefined();
         })
 
         test('grouper must not be undefined', () => {
-            const graph = new StandardGraph('idTest', 'forceField', 'Species', []);
+            const graph = new StandardGraph('idTest', 'forceField', 'Species', ['sepalLength', 'species'], []);
             expect(graph.grouper).not.toBeUndefined();
         })
 
         test('Data must be type of DistanceData', () => {
-            const graph = new StandardGraph('idTest', 'forceField', 'Species', [['prova1', 'prova2'], [34, 67]]);
+            const graph = new StandardGraph('idTest', 'forceField', 'Species', ['sepalLength', 'species'], [['prova1', 'prova2'], [34, 67]]);
             expect(graph.data).not.toBeUndefined();
         })
     })
         
     test('Must not be undefined', () => {
-        const graph = new StandardGraph('idTest', 'forceField', 'Species', []);
+        const graph = new StandardGraph('idTest', 'forceField', 'Species', ['sepalLength', 'species'], []);
         expect(graph).not.toBeUndefined();
     })
 
     test('Must be instance of StandardGraph', () => {
-        const graph = new StandardGraph('idTest', 'forceField', 'Species', []);
+        const graph = new StandardGraph('idTest', 'forceField', 'Species', ['sepalLength', 'species'], []);
         expect(graph).toBeInstanceOf(StandardGraph);
     })
 
     describe('Testing correct attributes value', () => {
         
         test('Must pass', () => {
-            const graph = new StandardGraph('idTest', 'forceField', 'Species', []);
+            const graph = new StandardGraph('idTest', 'forceField', 'Species', ['sepalLength', 'species'], []);
             expect(graph.graphId).toEqual('idTest');
         })
 
         test('Must pass', () => {
-            const graph = new StandardGraph('idTest', 'forceField', 'Species', []);
+            const graph = new StandardGraph('idTest', 'forceField', 'Species', ['sepalLength', 'species'], []);
             expect(graph.type).toEqual('forceField');
         })
 
         test('Must pass', () => {
-            const graph = new StandardGraph('idTest', 'forceField', 'Species', []);
+            const graph = new StandardGraph('idTest', 'forceField', 'Species', ['sepalLength', 'species'], []);
             expect(graph.grouper).toEqual('Species');
         })
 
@@ -61,7 +61,7 @@ describe('Testing StandardGraph class', () => {
                 [4.9, 3, 1.4, 0.2, "setosa"],
                 [4.7, 3.2, 1.3, 0.2, "setosa"]
             ];
-            const graph = new StandardGraph('idTest', 'forceField', 'Species', data);
+            const graph = new StandardGraph('idTest', 'forceField', 'Species', ['sepalLength', 'species'], data);
             expect(graph.data).toBeInstanceOf(Array);
         })
 
@@ -88,7 +88,7 @@ describe('Testing StandardGraph class', () => {
                   "species": "setosa"
                 }
             ];
-            const graph = new StandardGraph('idTest', 'forceField', 'Species', data);
+            const graph = new StandardGraph('idTest', 'forceField', 'Species', ['sepalLength', 'species'], data);
             expect(graph.data).toEqual(result);
         })
     })
@@ -127,19 +127,19 @@ describe('Testing StandardGraph class', () => {
         ];
 
         test('Must set data attribute correctly', () => {            
-            const graph = new StandardGraph('idTest', 'forceField', 'Species', []);
+            const graph = new StandardGraph('idTest', 'forceField', 'Species', ['sepalLength', 'species'], []);
             graph.data = data;
             expect(graph.data).toEqual(result);
         })
 
         test('Data must not be undefined', () => {
-            const graph = new StandardGraph('idTest', 'forceField', 'Species', []);
+            const graph = new StandardGraph('idTest', 'forceField', 'Species', ['sepalLength', 'species'], []);
             graph.data = data;
             expect(graph.data).not.toBeUndefined();
         })
 
         test('Data must be instance of DistanceData', () => {
-            const graph = new StandardGraph('idTest', 'forceField', 'Species', []);
+            const graph = new StandardGraph('idTest', 'forceField', 'Species', ['sepalLength', 'species'], []);
             graph.data = data;
             expect(graph.data).toBeInstanceOf(Array);
         })
@@ -179,17 +179,17 @@ describe('Testing StandardGraph class', () => {
         ];
 
         test('Must return data attribute correctly', () => {
-            const graph = new StandardGraph('idTest', 'forceField', 'Species', data);
+            const graph = new StandardGraph('idTest', 'forceField', 'Species', ['sepalLength', 'species'], data);
             expect(graph.data).toEqual(result);
         })
 
         test('Data must not be undefined', () => {
-            const graph = new StandardGraph('idTest', 'forceField', 'Species', data);
+            const graph = new StandardGraph('idTest', 'forceField', 'Species', ['sepalLength', 'species'], data);
             expect(graph.data).not.toBeUndefined();
         })
 
         test('Data must be instance of DistanceData', () => {
-            const graph = new StandardGraph('idTest', 'forceField', 'Species', data);
+            const graph = new StandardGraph('idTest', 'forceField', 'Species', ['sepalLength', 'species'], data);
             expect(graph.data).toBeInstanceOf(Array);
         })
     })

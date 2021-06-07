@@ -11,8 +11,7 @@ export const orders = ({nodes, links}, mode) => {
   const n = nodes.length;
   switch (mode) {
     case "id": return d3.range(n).sort((a, b) => d3.ascending(nodes[a].id, nodes[b].id));
-    case "group": return d3.range(n).sort((a, b) => d3.ascending(nodes[a].group, nodes[b].group) ||
-        d3.ascending(nodes[a].id, nodes[b].id));
+    case "group": return d3.range(n).sort((a, b) => d3.ascending(nodes[a].group, nodes[b].group));
     case "none":
     default: return d3.range(n);
   }

@@ -1,25 +1,26 @@
-/* eslint-disable prefer-arrow-callback */
-/* eslint-disable func-names */
+import { afterAll, beforeAll, describe, expect, jest, test } from '@jest/globals';
+import { mount, render, shallow } from 'enzyme';
+import React, { useRef } from 'react';
 import { act } from 'react-dom/test-utils';
 import BuildGraph from '../../../view/components/BuildGraph';
-import { expect } from 'chai';
 import { MemoryRouter } from 'react-router-dom';
-import React from 'react';
-import { render } from '../../testUtils';
 
-let container;
+describe("BuildGraph component tests", () => {
 
-beforeEach(() => {
-	container = document.createElement("div");
-	document.body.appendChild(container);
-});
+	let wrapper;
+	let component;
 
-describe("BuildGraph component tests", function () {
-	it("Render BuildGraph component", function () {
-		act(() => {
-			render(<MemoryRouter>
-					<BuildGraph defineStore={() => ''}/>
-				</MemoryRouter>);
-		});
-	});
+	beforeAll(() => {
+		const defineStore = jest.fn();
+		// eslint-disable-next-line no-extra-parens
+		wrapper = shallow(<MemoryRouter><BuildGraph/></MemoryRouter>);	
+	})
+
+	afterAll(() => {
+		wrapper.unmount();
+	})
+
+	test("Testing render", () => {
+		expect(wrapper).not.toBeNull();
+	})
 });

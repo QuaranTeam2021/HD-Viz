@@ -32,12 +32,13 @@ export const linearProjection = function (data, cols, grouper, idBox) {
     let notNullData = [];
     let nanFound = data.length;
     // eslint-disable-next-line guard-for-in
+    const newGrouper = grouper === "" ? "undefined" : grouper;
 
     for (let i = 0; i < data.length; ++i) {
         let nan = false;
 
         for (const [key, value] of Object.entries(data[i])) {
-            if (key !== grouper) {
+            if (key !== newGrouper) {
                 if (typeof value !== 'number' || (typeof value === 'number' && isNaN(value))) {
                     nan = true;
                     break;
@@ -106,9 +107,8 @@ export const linearProjection = function (data, cols, grouper, idBox) {
                 .attr("y2", d => 0.5 + yScale(d))
                 .attr("x1", 0)
                 .attr("x2", width));
-                
 
-    const palette = d3.scaleOrdinal(d3.schemeCategory10).domain(new Set(notNullData.map(d => d[grouper])));
+    const palette = d3.scaleOrdinal(d3.schemeCategory10).domain(new Set(notNullData.map(d => d[newGrouper])));
     const svg = d3.select(`#${idBox}`)
         .append("svg")
         .attr("class", "grafico")
@@ -124,9 +124,8 @@ export const linearProjection = function (data, cols, grouper, idBox) {
     const gridHandler = svg.append("g");
     const contentHandler = svg.append("g");
     contentHandler.classed("contentHandler", true);
-
-    const categories = [...new Set(notNullData.map(item => item[grouper]))]; 
-
+  
+    const categories = [...new Set(notNullData.map(item => item[newGrouper]))]; 
 
     updateColumns(cols);
 	function updateColumns(columns) {
@@ -182,9 +181,9 @@ export const linearProjection = function (data, cols, grouper, idBox) {
         svg.selectAll(".legend").remove();
         svg.selectAll(".grid-lines").remove();
         contentHandler.selectAll("*").remove();
+    
+        const filteredcols = columns.filter(itm => itm !== newGrouper);
 
-
-        const filteredcols = columns.filter(itm => itm !== grouper);
         let rawData = notNullData.map(d => filteredcols.map(dim => d[dim]));
         rawData = scale(rawData, true, true);
         let eigvecs = getEigenvalues(rawData, 2);
@@ -215,7 +214,7 @@ export const linearProjection = function (data, cols, grouper, idBox) {
             .join("circle")
             .attr("class", "dot")
             .attr("r", 2.5)
-            .style("fill", d => palette(d[grouper]));
+            .style("fill", d => palette(d[newGrouper]));
 
         drawDots(contentHandler, xScale, yScale);
 
@@ -264,7 +263,7 @@ export const linearProjection = function (data, cols, grouper, idBox) {
      * @return {Array<String>} insieme di colonne plottate inizialmente.
      */
     const getAllCols = () => {
-        return cols.filter(d => d !== grouper && d !== "pc_1" && d !== "pc_2");
+        return cols.filter(d => d !== newGrouper && d !== "pc_1" && d !== "pc_2");
     }
 
     /**

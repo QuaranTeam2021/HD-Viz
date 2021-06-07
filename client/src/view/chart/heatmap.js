@@ -47,6 +47,7 @@ export const heatmap = function (data, idBox) {
 
   const g = svg
     .append("g")
+    .classed("hm-wrapper", true)
     .attr("transform", `translate(${margin.left},${margin.top})`);
 
   g.append("rect")
@@ -58,7 +59,8 @@ export const heatmap = function (data, idBox) {
   const rectHandler = g.append("g");
 
   rectHandler.append("style")
-    .text(`.rect-handler>rect { stroke: #d62333; stroke-width: 0px; } .rect-handler>rect:hover { stroke-width: 1px; } text:hover{font-weight: bold;}`);
+    .text(`.rect-handler>rect { stroke: #d62333; stroke-width: 0px; } .rect-handler>rect:hover { stroke-width: 1px; } g.columns-hanlder text:hover, .hm-wrapper text:hover{font-weight: bold;}`);
+
   rectHandler.classed("rect-handler", true);
 
   let columns, rects, rows;
@@ -80,6 +82,7 @@ export const heatmap = function (data, idBox) {
   let matrix;
   let distanceColor;
   let fontSize;
+  let legend;
   updateData(data)
   
   // eslint-disable-next-line func-style
@@ -145,10 +148,10 @@ export const heatmap = function (data, idBox) {
       .attr("dy", x.bandwidth() / 2)
       .text(d => d.id)
       .call(tooltip, tooltipDiv);
+    legend = drawLegend(svg, categories, width);
+    legend.drawDistanceColor(distanceColor);
 
-    updateThreshold(0);
-
-    drawLegend(svg, categories, width).drawDistanceColor(distanceColor);
+    updateDist(0, getMax(), orderMode);
     
     /* for animated transitions:
        let prev; */
@@ -226,19 +229,24 @@ export const heatmap = function (data, idBox) {
 
   // eslint-disable-next-line func-style
   function getMin() {
-    return d3.min(data.links, d => d.value);
-  }
-  
-  // eslint-disable-next-line func-style
-  function getMax() {
-    return d3.max(data.links, d => d.value);
-  }
+		return Math.floor(d3.min(links, d => d.value) * 100) / 100;
+	}
+	// eslint-disable-next-line func-style
+	function getMax() {
+		return Math.ceil(d3.max(links, d => d.value) * 100) / 100;
+	}
 
   // eslint-disable-next-line func-style
-  function updateThreshold(threshold) {
+  function updateDist(distMin, distMax, ordering) {
+    console.log(distMin, distMax);
+    orderMode = ordering;
+    const linksToShow = matrix.filter(l => l[2] >= distMin && l[2] <= distMax || l[0] === l[1])
+    legend.clearMessageBoard();
+		legend.displayMessage("# of links in range:");
+		legend.displayMessage(`${(linksToShow.length - nodes.length) / 2}/${links.length}`);
     rects = rectHandler
       .selectAll("rect")
-      .data(matrix.filter(l => l[2] >= threshold || l[0] === l[1]))
+      .data(matrix.filter(l => l[2] >= distMin && l[2] <= distMax || l[0] === l[1]))
       .join("rect")
       .attr("width", x.bandwidth())
       .attr("height", x.bandwidth())
@@ -262,7 +270,7 @@ export const heatmap = function (data, idBox) {
     {getMin},
     {updateData},
     {updateOrder},
-    {updateThreshold}
+    {updateDist}
   );
 }
 

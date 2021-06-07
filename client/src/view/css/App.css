@@ -29,13 +29,17 @@ body {
   background-color: black;
   text-align: center;
   padding: 0.5em;
-  position:fixed;
+  position: fixed;
   bottom: 0;
   width: 100%;
 }
 
 .App-footer, #push {
   height: 40px; 
+}
+
+.App-footer {
+  max-height: 45px;
 }
 
 .App-footer p {
@@ -51,8 +55,18 @@ body {
   display: inline;
 }
 
-.BuildGraph, .dataset_div, #ManUt, #visualization {
+.BuildGraph, .dataset_div, .ManUt, .visualization {
   min-height: 42em;
+}
+
+.ManUt {
+  width: 90%;
+  height: 800px;
+  overflow-y: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 3em;
 }
 
 .App-header {
@@ -86,9 +100,10 @@ body {
   border: 1px solid#61dafb;
 }
 
-#visualization {
+.visualization {
   display: grid;
   grid-template-columns: auto auto;
+  margin-bottom: 2em;
   /*display: flex;
   flex-wrap: wrap;
   justify-content: center;*/
@@ -171,8 +186,9 @@ body {
     margin-top: 10rem;
 }
 
-.FeatContainer {
+.options-container {
   display: inline-block;
+  margin: 1em;
 }
 
 .FeaturesCont {
@@ -201,17 +217,25 @@ body {
   width: 60%;
 }
 
+.grafico {
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  border-radius: 4px;
+  padding: 0 2em 1em 0;
+  width: 90%
+}
+
 .MenuBG {
   text-align: right;
+  display: none;
 }
 
 /* colori slider */
-#slider-2 {
-  color: orange;
+.MuiSlider-root.MuiSlider-colorPrimary{
+  color: #9c27b0;
 }
 
-#slider-3 {
-  color: rgb(0, 173, 0);
+.MuiButtonBase-root.MuiAccordionSummary-root div{
+  margin: 0.2em;
 }
 
 /* bottone inserimento */
@@ -230,14 +254,14 @@ body {
 /*colonne grid*/ 
 #impostazioni {
   display: inline-grid;
-  grid-template-columns: auto auto auto auto;
-  grid-gap: 1em 3em;
+  grid-template-columns: auto auto auto auto auto;
+  grid-gap: 2em;
 }
 
-/*colonne*/
-#colonne { 
+.colonne {
   display: flex;
   grid-template-columns: auto auto;
+  grid-gap: 2em;
 }
 
 .colonne fieldset {
@@ -268,31 +292,31 @@ body {
 }
 
 /* Gestione dataset*/
-#dataset {
+.datasets-container {
   display: grid;
   grid-template-columns: auto;
   margin-top: 1.2em;
 } 
 
-#dataset label {
+.datasets-container label {
   text-align: center;
   cursor: default;
 }
 
-#dataset button {
+.datasets-container button {
   cursor: pointer;
 }
 
 /* Lista dataset */
-#dataset label span {
+.datasets-container label span {
   margin-left: 8%;
 }
 
-#dataset label div {
+.datasets-container label div {
   margin-left: 40%;
 }
 
-#db_div {
+#db-div {
   top: 30%;
   left: 30%;
   width: 35%;
@@ -316,24 +340,24 @@ body {
 /* posizione del box select del db colonne e tab */
 .MuiPaper-root.MuiMenu-paper.MuiPopover-paper.MuiPaper-elevation8.MuiPaper-rounded {
   margin-left: 9.5em;
-  max-width: 150px;
+  max-width: auto;
 }
 
-#button {
+#button-confirm-db, #button {
   text-align: center;
 }
 
-#titleGraphdiv {
+.titleGraphdiv {
   display: inline-flex;
   height: 5em;
 }
 
-#buttonRenameTitle {
+.MuiButtonBase-root.MuiFab-root.buttonRenameTitle.MuiFab-sizeSmall.MuiFab-secondary {
   background-color: #9c27b0;
-  margin: 1.8em;
+  margin: 1.2em;
 }
 
-#buttonConfirmRename {
+.MuiButtonBase-root.MuiFab-root.buttonConfirmRename.MuiFab-sizeSmall.MuiFab-primary {
   background-color: #51A800;
   margin: 1.6em;
 }
@@ -351,19 +375,27 @@ body {
   margin: 0.6em;
 }
 
-.MuiFormControl-root.MuiTextField-root {
-  width: 28%;
-}
-
-#insertdataset, #formInsertDataset, #buttonConfirmAddDb {
+#insert-dataset, #formInsertDataset, #buttonConfirmAddDb {
   display: inline;
 }
 
-#insertdataset label {
+#insert-dataset label {
   padding: 0.8em;
   display: table-cell;
 }
 
 #buttonConfirmAddDb button {
   padding: 14px;
+}
+
+.MuiCard-root.error {
+  background-color: lightcoral;
+  color: #750a02;
+  border-color: #750a02;
+}
+
+.MuiCard-root.success {
+  background-color: lightgreen;
+  color: #206c45;
+  border-color: #206c45;
 }

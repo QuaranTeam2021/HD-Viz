@@ -6,6 +6,6 @@ export default function Graph({ graphId }) {
 	}, [graphId])
 
 	return (
-		<div id={graphId}/>
+		<div id={graphId} className="graph-svg-render" />
 	)
 }

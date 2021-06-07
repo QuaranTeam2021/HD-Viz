@@ -19,9 +19,8 @@ export const scpMatrix = function(data, cols, grouper, idBox) {
 	const margin = { bottom: 10,
       left: 40,
       top: 40 };
+	const newGrouper = grouper === "" ? "undefined" : grouper;
 
-	/* console.log('grafico:')
-	   console.log([data, cols, idBox])*/
 	let legend;
 	let svg = d3.select(`#${idBox}`).append("svg");
 	svg.append("style")
@@ -43,7 +42,7 @@ export const scpMatrix = function(data, cols, grouper, idBox) {
         let nan = false;
 
         for (const [key, value] of Object.entries(data[i])) {
-            if (key !== grouper) {
+            if (key !== newGrouper) {
                 if (typeof value !== 'number' || typeof value === 'number' && isNaN(value)) {
                     nan = true;
                     break;
@@ -61,10 +60,10 @@ export const scpMatrix = function(data, cols, grouper, idBox) {
 
 	let selectedCols, size, xScale, yScale;
 	let colors = d3.scaleOrdinal()
-		.domain(notNullData.map(d => d[grouper]))
+		.domain(notNullData.map(d => d[newGrouper]))
 		.range(d3.schemeCategory10);
 	let cell, circle;
-	const categories = [...new Set(notNullData.map(item => item[grouper]))]; 
+	const categories = [...new Set(notNullData.map(item => item[newGrouper]))]; 
 	updateColumns(cols);
 
 	// eslint-disable-next-line func-style
@@ -72,8 +71,8 @@ export const scpMatrix = function(data, cols, grouper, idBox) {
 		mainArea.selectAll(".handler").remove();
 		svg.selectAll(".legend").remove();
 
+		selectedCols = columns.filter(d => d !== newGrouper);
 
-		selectedCols = columns.filter(d => d !== grouper);
 		size = (width - (selectedCols.length + 1) * padding) / selectedCols.length + padding;
 		
 		xScale = selectedCols.map(c => d3.scaleLinear()
@@ -146,7 +145,7 @@ export const scpMatrix = function(data, cols, grouper, idBox) {
 		circle = cell.selectAll("circle")
 			.attr("r", 3.5)
 			.attr("fill-opacity", 0.7)
-			.attr("fill", d => colors(d[grouper]));
+			.attr("fill", d => colors(d[newGrouper]));
 		
 		
 		mainArea.append("g")
@@ -219,7 +218,7 @@ export const scpMatrix = function(data, cols, grouper, idBox) {
 	 * @return {Array<String>} insieme di colonne plottate inizialmente
 	 */
 	const getAllCols = () => {
-		return cols.filter(d => d !== grouper);
+		return cols.filter(d => d !== newGrouper);
 	}
 	
 	/**

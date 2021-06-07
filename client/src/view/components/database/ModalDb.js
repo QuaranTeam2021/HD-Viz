@@ -2,9 +2,12 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { action } from 'mobx';
 import ButtonCloseModalDb from './ButtonCloseModalDb';
 import ButtonConfirmDb from './ButtonConfirmDb';
+import Card from '@material-ui/core/Card';
+import CardContent from '@material-ui/core/CardContent';
 import DatabaseLoaderController from '../../../controller/DatabaseLoaderController';
 import DatabaseTablesController from '../../../controller/DatabaseTablesController';
-import DbButton from './DbButton'; 
+import DbButton from './DbButton';
+import InfoIcon from '@material-ui/icons/InfoOutlined';
 import { makeStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
 import SelectVizColumns from './SelectVizColumns';
@@ -27,8 +30,9 @@ export default function ModalDb({onSubmit}) {
   const [selectedTable, setSelectedTable] = useState(''); 
   const [confirmDb, setConfirmDb] = useState([]); 
 
-  const [datasetsDb, setDatasetsDb] = useState();
-  const [tableColumnsDb, setTableColumnsDb] = useState();
+  const [datasetsDb, setDatasetsDb] = useState([]);
+  const [tableColumnsDb, setTableColumnsDb] = useState([]);
+  const [dbError, setDbError] = useState(null);
   const store = useStore();
   const loaderController = new DatabaseLoaderController(store);
   const tablesController = new DatabaseTablesController();
@@ -37,19 +41,22 @@ export default function ModalDb({onSubmit}) {
     try {
       const tables = await tablesController.getTablesNames();
       setDatasetsDb(tables);
+      setDbError(null);
     } catch (err) {
       setDatasetsDb([]);
-      console.log(err.message);
+      setDbError(err);
     }
   }
 
   const getColsNames = async table => {
     try {
-        const cols = await tablesController.getTableColumnsNames(table);
-        setTableColumnsDb(cols);
-        console.log(cols)
+      const cols = await tablesController.getTableColumnsNames(table);
+      setTableColumnsDb(cols);
+      // setSelectedColumns(cols);
+      setDbError(null);
     } catch (err) {
-      console.log(err.message);
+      setDbError(err);
+      setSelectedColumns([]);
     }
   }
 
@@ -78,7 +85,7 @@ export default function ModalDb({onSubmit}) {
   const optionsSelected = useCallback(() => {
     let select; 
     select = selectedTable !== "";  
-    select = select && selectedColumns.length > 0;
+    select = select && selectedColumns.length >= 0;
     setConfirmDb(select);
   }, [selectedColumns, selectedTable]);  
   
@@ -101,16 +108,25 @@ export default function ModalDb({onSubmit}) {
     onSubmit({ name: selectedTable }); 
   });
   
-  const onClickTable = () => { 
-    setSelectedColumns([]); 
-  }
   
   const body = 
-  <div id="db_div" className={classes.paper}>
+    <div id="db-div" className={classes.paper}>
       <ButtonCloseModalDb onClick={onClose}/> 
       <div id="description">
         <SelectVizTable onChange={onChangeTableDb} tables={datasetsDb} selected={selectedTable} />
         <SelectVizColumns onChange={onChangeColumnsDb} columns={tableColumnsDb} selectedColumns={selectedColumns} /> 
+        {dbError &&
+          <Card variant="outlined" className="error message">
+            <CardContent>
+              {dbError}
+            </CardContent>
+          </Card>}
+        <Card variant="elevation" className="message" id="modaldb-info">
+          <CardContent>
+            <InfoIcon fontSize="small"/>
+            Con nessuna colonna specificata verranno selezionate tutte le colonne nel db
+          </CardContent>
+        </Card>
         <ButtonConfirmDb onClick={onClickConfirm} disabled={!confirmDb} />
       </div>   
   </div>

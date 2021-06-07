@@ -2,6 +2,8 @@ import '../css/App.css';
 import '../css/Resp_1023px.css';
 import '../css/Resp_768px.css';
 import '../css/Resp_600px.css';
+import '@react-pdf-viewer/core/lib/styles/index.css';
+import '@react-pdf-viewer/default-layout/lib/styles/index.css';
 import DistanceBasedGraphController, { DistanceBasedGraphControllerContext } from '../../controller/DistanceBasedGraphController';
 import FastmapController, { FastmapControllerContext } from '../../controller/FastmapController';
 import IsomapController, { IsomapControllerContext } from '../../controller/IsomapController';
@@ -10,13 +12,18 @@ import LleController, { LleControllerContext } from '../../controller/LleControl
 import LocalLoaderController, { LocalLoaderControllerContext } from '../../controller/LocalLoaderController';
 import React, { useEffect, useState } from 'react';
 import StandardController, { StandardControllerContext } from '../../controller/StandardController';
-import Store, { StoreContext } from '../../store/Store';
+import Store, { StoreContext, useStore } from '../../store/Store';
 import TsneController, { TsneControllerContext } from '../../controller/TsneController';
 import UmapController, { UmapControllerContext } from '../../controller/UmapController';
+import { Viewer, Worker } from '@react-pdf-viewer/core';
+import { autorun } from 'mobx';
 import BuildGraph from './BuildGraph';
 import Database from './database/Database';
+import { defaultLayoutPlugin } from '@react-pdf-viewer/default-layout';
 import Footer from './Footer';
 import Header from './Header';
+import ManualeUtente from '../../manualeUtente.pdf'
+import { observer } from 'mobx-react-lite';
 import Visualization from './Visualization';
 
 const store = new Store();
@@ -30,15 +37,9 @@ const umapController = new UmapController(store);
 const distanceBasedController = new DistanceBasedGraphController(store);
 
 const App = () => {
-  const [storeDefined, setStoreDefined] = useState(false)
-  const i = 1;
-
-  useEffect(() => {
-    // eslint-disable-next-line no-unused-expressions
-    store.graphs.length > 0 ? setStoreDefined(true) : setStoreDefined(false);
-  }, [])
-
+  const [storeDefined, setStoreDefined] = useState(store.graphs.length);
   const defineStore = v => setStoreDefined(v);
+  const defaultLayoutPluginInstance = defaultLayoutPlugin();
 
   return (
     <StoreContext.Provider value={store}>
@@ -55,23 +56,27 @@ const App = () => {
               <Header />
               <div className="menu_div">
                   <ul className="main_menu">
-                    <li className="item_home"><Link to="/">Inserisci grafico</Link></li>
+                    <li className="item_home"><Link to="/">{storeDefined ? 'Aggiungi ' : 'Nuovo ' }grafico</Link></li>
                     <li><Link to="/dataset">Gestisci database</Link></li>
                     <li><Link to="/help">Aiuto</Link></li>
                   </ul>
               </div>
               <Switch>
                 <Route exact path="/">
-                    <BuildGraph defineStore={defineStore} />
+                  <BuildGraph />
                 </Route>
                 <Route path="/visualization">
-                  { storeDefined ? <Visualization onDelete={idx => console.log(`Eliminato ${idx}`)} key={i} index={i} /> : <Redirect to="/" /> }
+                  {storeDefined ? <Visualization /> : <Redirect to="/" /> }
                 </Route>
                 <Route path="/dataset">
                   <Database />
                 </Route>
                 <Route path="/help">
-                  <div id="ManUt">Manuale</div>
+                  <div className="ManUt">
+                    <Worker workerUrl="https://unpkg.com/pdfjs-dist@2.6.347/build/pdf.worker.min.js">
+                      <Viewer fileUrl={ManualeUtente} plugins={[defaultLayoutPluginInstance]} />
+                    </Worker>
+                  </div>
                 </Route>
               </Switch>
             </Router>
@@ -88,8 +93,23 @@ const App = () => {
         </StandardControllerContext.Provider>
       </DistanceBasedGraphControllerContext.Provider>  
       </LocalLoaderControllerContext.Provider>
+    <StoreObserver defineStore={defineStore} />
     </StoreContext.Provider>
   );
 };
+
+// Forces update of App component to redirect when the store is empty
+const StoreObserver = observer(({ defineStore }) => {
+  const str = useStore();
+
+  useEffect(() => autorun(() => {
+    if (str.graphs.length > 0)
+      defineStore(true);
+    else
+      defineStore(false);
+  }), [defineStore, str.graphs.length]);
+
+  return <React.Fragment />;
+})
 
 export default App;

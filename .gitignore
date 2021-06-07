@@ -1,4 +1,4 @@
 node_modules/
 src/main.js
 server/.env
-server/uploads/
+server/tmp/upload/

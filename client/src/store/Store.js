@@ -69,13 +69,14 @@ export default class Store {
         return this.graphs.find(g => g.graphId === graphId);
     }
 
+    // eslint-disable-next-line consistent-return
     getGraphIndexById(graphId) {
         for (let i = 0; i < this.graphs.length; ++i) {
             let g = this.graphs[i];
             if (g.graphId === graphId) 
                 return i;
         }
-        throw new Error('Id non presente');
+        console.error('Id non presente');
     }
 
     removeGraph(graphId) {
@@ -136,7 +137,7 @@ export default class Store {
                 node[header[idx]] = el;
             })
             node.id = "nodo_"+i;
-            node.group = groups[i];
+            node.group = String(groups[i]);
             nodes.push(node);
             for (let j = i+1; j < data.length; j++) {
                 let link = {
