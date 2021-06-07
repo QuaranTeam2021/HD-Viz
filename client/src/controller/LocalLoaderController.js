@@ -14,7 +14,6 @@ export default class LocalLoaderController {
             let reader = new FileReader();
             if (file && file.size > 0) {
                 return new Promise((resolve, reject) => {
-                        let success;
                         reader.onload = () => {
                             let dataString = file.name.split('.')[1] === 'json' ? Papa.unparse(reader.result) : reader.result;
                             let result = Papa.parse(dataString, {
