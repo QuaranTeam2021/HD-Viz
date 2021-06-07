@@ -87,7 +87,7 @@ export default function ForceFieldOptions({ position, graphViz, buttonRef, curre
         <Slider id="frfd-minDistance-slider"
           aria-labelledby="frfd-minDistance-slider-label"
           valueLabelDisplay="auto"
-          step={10 ** Math.floor(Math.log(maxDistanceMax / 100) / Math.LN10)}
+          step={10 ** Math.floor(Math.log(maxDistanceMax / 10) / Math.LN10)}
           marks={marks.distanceMin}
           min={0}
           max={maxDistanceMin}

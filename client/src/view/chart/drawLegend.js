@@ -98,6 +98,9 @@ export const drawLegend = function (svg, data, width) {
 			}
 		});
 	const distanceColor = legendContent.append("g")
+		.classed("legend-color", true)
+		.attr("transform", `translate(${width - legRectWidth},50)`);
+	const messageBoard = legendContent.append("g")
 		.classed("legend-message", true)
 		.attr("transform", `translate(${width - legRectWidth},50)`);
 
@@ -179,7 +182,8 @@ export const drawLegend = function (svg, data, width) {
 	
 		nPreceding += 1;
 		updateSize(70);
-		
+	
+
 		distanceColor.append("text")
 			.attr("pointer-events", "none")
 			.style("user-select", "none")
@@ -229,17 +233,17 @@ export const drawLegend = function (svg, data, width) {
 			.attr("points", `0 0, ${0.7 * legRectWidth} 2.25, ${0.7 * legRectWidth} 2.75, 0 5`)
 			.attr("transform", `translate(0, 7)`)
 			.attr("fill", `#000`);
-		
 		updateTicks(strokeScale);
 	}
-		// eslint-disable-next-line func-style
+	// eslint-disable-next-line func-style
 	function displayMessage(message) {
 		nMessage += 1;
-		updateSize(40);
-		distanceColor.append("text")
+		updateColorBoard(40);
+		messageBoard.append("text")
 			.attr("pointer-events", "none")
 			.style("user-select", "none")
 			.style("font-size", '14px')
+			.attr("transform", `translate(0,${10 + (nMessage - 1) * 25})`)
 			.text(message);
 		
 	}
@@ -251,12 +255,25 @@ export const drawLegend = function (svg, data, width) {
 		legendCategories
 			.attr("transform", `translate(${width - legRectWidth},${40 + nPreceding * 70 + nMessage * 35})`);
 	}
-	
+	// eslint-disable-next-line func-style
+	function updateColorBoard(sizeIncrement) {
+		distanceColor
+			.attr("transform", `translate(${width - legRectWidth},${40 + nMessage * 35})`);
+		updateSize(sizeIncrement);
+	}
+	// eslint-disable-next-line func-style
+	function clearMessageBoard() {
+		messageBoard.selectAll("text").remove();
+		const sizeDifference = -nMessage * 35 - 10;
+		nMessage = 0;
+		updateSize(sizeDifference);
+	}
 	maximize();
 	
 	return Object.assign(
 		legendHandler.node(),
 		{
+			clearMessageBoard,
 			displayMessage,
 			drawDistanceColor, 
 			drawDistanceTrapezoid,
