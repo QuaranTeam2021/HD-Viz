@@ -59,7 +59,6 @@ export default function ButtonAnchorOptions({ optionsPosition: { position, setPo
             </MenuList>
           </ClickAwayListener>
         </Paper>
-
       </Popper>
     </div>
   );

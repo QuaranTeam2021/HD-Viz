@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Slider from '@material-ui/core/Slider';
 import Typography from '@material-ui/core/Typography';
@@ -14,12 +14,11 @@ const useStyles = makeStyles(() => ({
 export default function ForceFieldOptions({ position, graphViz, buttonRef, currentOptions, setCurrentOptions }) {
   const classes = useStyles();
 
-  const [distanceMin, setDistanceMin] = useState(0);
-  const [distanceMax, setDistanceMax] = useState(200);
-  const [maxDistanceMax, setMaxDistanceMax] = useState(200);
-  const [maxDistanceMin, setMaxDistanceMin] = useState(200);
-  const [strength, setStrength] = useState(-30);
-
+  const [distanceMin, setDistanceMin] = React.useState(0);
+  const [distanceMax, setDistanceMax] = React.useState(0);
+  const [maxDistanceMax, setMaxDistanceMax] = React.useState(200);
+  const [maxDistanceMin, setMaxDistanceMin] = React.useState(200);
+  const [strength, setStrength] = React.useState(-30);
 
   const commitChanges = useCallback(() => {
     

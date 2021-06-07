@@ -1,3 +1,4 @@
+/* istanbul ignore file */
 /* eslint-disable max-lines */
 /* eslint-disable camelcase */
 /* eslint-disable no-extra-parens */

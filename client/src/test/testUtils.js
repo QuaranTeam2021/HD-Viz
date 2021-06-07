@@ -1,3 +1,4 @@
+/* istanbul ignore file */
 import DistanceBasedGraphController, { DistanceBasedGraphControllerContext } from '../controller/DistanceBasedGraphController';
 import FastmapController, { FastmapControllerContext } from '../controller/FastmapController';
 import IsomapController, { IsomapControllerContext } from '../controller/IsomapController';

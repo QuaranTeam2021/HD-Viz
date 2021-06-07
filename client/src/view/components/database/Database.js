@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import ButtonAddDb from './ButtonAddDb';
 import ButtonConfirmAddDb from './ButtonConfirmAddDb';
 import Card from '@material-ui/core/Card';
@@ -19,12 +19,12 @@ export const parseName = name => {
 }
 
 export default function Database() {
-    const [datasets, setDatasets] = useState([]);
-    const [tableName, setTableName] = useState(''); // tableName e name ridondanti, probabilmente se ne puó togliere uno
-    const [name, setName] = useState("");
-    const [insertDs, setInsertDs] = useState({});
-    const [disableName, setDisableName] = useState(true);
-    const [nameError, setNameError] = useState(false);
+    const [datasets, setDatasets] = React.useState([]);
+    const [tableName, setTableName] = React.useState(''); // tableName e name ridondanti, probabilmente se ne puó togliere uno
+    const [name, setName] = React.useState("");
+    const [insertDs, setInsertDs] = React.useState({});
+    const [disableName, setDisableName] = React.useState(true);
+    const [nameError, setNameError] = React.useState(false);
     const [dbStatus, setDbStatus] = useState({
         message: "",
         value: null
@@ -39,6 +39,7 @@ export default function Database() {
                 value: null
             })
         } catch (err) {
+            console.log('sono qui')
             setDatasets([]);
             setDbStatus({
                 message: err,
@@ -88,6 +89,7 @@ export default function Database() {
     const onChangeName = e => {
         let n = e.target.value;
         let parsedN = parseName(n);
+        console.log(parsedN)
         if (n === parsedN) {
             setName(n);
             setTableName(n);

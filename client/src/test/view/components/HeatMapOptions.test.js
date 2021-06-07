@@ -8,8 +8,6 @@ import { shallow } from 'enzyme';
 import Slider from '@material-ui/core/Slider';
 import Typography from '@material-ui/core/Typography';
 
-
-
 describe('Testing HeatmapOptions component', () => {
 
     let wrapper;
