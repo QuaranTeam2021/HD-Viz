@@ -158,6 +158,7 @@ router.post('/upload/:table', upload.single('file'), async (req, res) => {
             else {
                 const file = fs.createReadStream(req.file.path);
                 papa.parse(file, {
+                    skipEmptyLines: true,
                     complete: (results) => {   
 
                         let csvData = results.data;
@@ -165,6 +166,13 @@ router.post('/upload/:table', upload.single('file'), async (req, res) => {
                         if(csvData === undefined) {
                             console.log(`upload: csvData is undefined`)
                             res.status(500).json(`Undefined content`);
+                        }
+                        if (csvData.length === 0) {
+                            console.log(`upload: file is empty`)
+                            res.status(400).json(`Il file caricato è vuoto`);
+                        }
+                        if (csvData.length > 2000) {
+                            res.status(400).json(`Il file caricato è troppo grande`);
                         }
                         else {
 

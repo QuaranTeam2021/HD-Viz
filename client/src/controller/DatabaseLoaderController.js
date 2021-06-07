@@ -1,3 +1,4 @@
+/* eslint-disable prefer-promise-reject-errors */
 import Papa from 'papaparse';
 
 
@@ -23,9 +24,15 @@ export default class DatabaseLoaderController {
                     console.error(error.message);
                 }
             })
-            this.store.loadData(result.data);
+            if (result.data.length === 0) Promise.reject('La tabella selezionata non contiene dati');
+            if (result.data.length > 2000) Promise.reject('La tabella selezionata è troppo grande');
+            else { 
+                this.store.loadData(result.data);
+                Promise.resolve('Il caricamento è terminato con successo');
+            }
         } catch (err) {
             console.error(err.message);
+            Promise.reject(`Si è verificato un errore: ${err.message}`);
         }
     }
 
@@ -55,10 +62,16 @@ export default class DatabaseLoaderController {
                     console.error(error.message);
                 }
             })
-            this.store.loadData(result.data);
+            if (result.data.length === 0) Promise.reject('La tabella selezionata non contiene dati');
+            if (result.data.length > 2000) Promise.reject('La tabella selezionata è troppo grande');
+            else { 
+                this.store.loadData(result.data);
+                Promise.resolve('Il caricamento è terminato con successo');
+            }
         } 
         catch (err) {
             console.error(err.message);
+            Promise.reject(`Si è verificato un errore: ${err.message}`);
         }
     }
 
