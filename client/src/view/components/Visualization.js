@@ -2,8 +2,10 @@ import * as forceDir from '../chart/forceDirected';
 import * as htMp from '../chart/heatmap';
 import * as linProj from '../chart/linearProjection';
 import * as scptMat from '../chart/scptMatrix';
+import React, { useEffect } from 'react';
+import { autorun } from 'mobx';
 import GraphContainer from './GraphContainer';
-import React from 'react';
+import { observer } from 'mobx-react-lite';
 import { useStore } from '../../store/Store';
 
 const { forceDirected } = forceDir;
@@ -58,9 +60,13 @@ export const switchArguments = graph => {
 	}
 }
 
-export default function Visualization() {
+const Visualization = observer(() => {
 	const store = useStore();
 	
+	useEffect(() => autorun(() => {
+		// 
+	}), [])
+
 	return (
 		<div className="visualization">
 			{store.graphs.map(g => {
@@ -89,4 +95,6 @@ export default function Visualization() {
 			})}
 		</div>
 	);
-}
+});
+
+export default Visualization;
