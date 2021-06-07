@@ -20,7 +20,6 @@ export const scpMatrix = function(data, cols, grouper, idBox) {
       left: 40,
       top: 40 };
 	const newGrouper = grouper === "" ? "undefined" : grouper;
-
 	let legend;
 	let svg = d3.select(`#${idBox}`).append("svg");
 	svg.append("style")
@@ -71,8 +70,8 @@ export const scpMatrix = function(data, cols, grouper, idBox) {
 		mainArea.selectAll(".handler").remove();
 		svg.selectAll(".legend").remove();
 
-		selectedCols = columns.filter(d => d !== newGrouper);
 
+		selectedCols = columns.filter(d => d !== newGrouper);
 		size = (width - (selectedCols.length + 1) * padding) / selectedCols.length + padding;
 		
 		xScale = selectedCols.map(c => d3.scaleLinear()

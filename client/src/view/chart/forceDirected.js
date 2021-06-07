@@ -28,11 +28,10 @@ let links = data.links;
 	let tooltipDiv = d3.select(`#${idBox}`)
 		.append("div")
 		.classed("tooltip", true);
-  
 	tooltipDiv.append("div")
 		.classed("tooltip-contents", true);	
 	tooltipDiv.call(tooltipTemplate);
-  
+
 	let svg = d3
 		.select(`#${idBox}`)
 		.append("svg")
@@ -72,7 +71,7 @@ let links = data.links;
 		svg.selectAll(".legend").remove();
 		legend = drawLegend(svg, categories, width);
 		legend.drawDistanceTrapezoid(scaleThickness);
-
+	
 		node = nodeHandler
 			.selectAll("circle")
 			.data(nodes, d => d.id)
@@ -80,6 +79,7 @@ let links = data.links;
 			.attr("r", nodeRadius)
 			.attr("fill", d => scale(d.group))
 			.call(tooltip, tooltipDiv);
+
 
 		updateDistStr(forceProperties.distanceMin, forceProperties.distanceMax, forceProperties.strength);
 

@@ -60,7 +60,6 @@ export const heatmap = function (data, idBox) {
 
   rectHandler.append("style")
     .text(`.rect-handler>rect { stroke: #d62333; stroke-width: 0px; } .rect-handler>rect:hover { stroke-width: 1px; } g.columns-hanlder text:hover, .hm-wrapper text:hover{font-weight: bold;}`);
-
   rectHandler.classed("rect-handler", true);
 
   let columns, rects, rows;
@@ -152,6 +151,7 @@ export const heatmap = function (data, idBox) {
     legend.drawDistanceColor(distanceColor);
 
     updateDist(0, getMax(), orderMode);
+
     
     /* for animated transitions:
        let prev; */
