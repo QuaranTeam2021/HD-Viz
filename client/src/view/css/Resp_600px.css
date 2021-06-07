@@ -1,0 +1,26 @@
+@media screen and (max-width:600px) { 
+    #intestazione h2{
+        font-size: 1em;
+    }
+
+    #inserimento, .MuiButton-label, #button {
+        font-size: 12px;
+    }
+    
+    #impostazioni {
+        grid-template-columns: auto;
+    }
+
+    .colonne {
+        display: contents;
+    }
+
+    .main_menu > li a, .makeStyles-root-8 span, #colonne span, #FeaturesAlgoritm span, .MuiFormLabel-root legend, .MuiFormControl-root legend, .MuiFormControlLabel-root span, #FeaturesAlgorithm p, #completeFormInsertDataset p {
+        font-size: 12px;
+    }
+
+    .makeStyles-paper-4 {
+        left: 20%;
+        width: 50%;
+    }
+}

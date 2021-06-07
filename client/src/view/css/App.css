@@ -1,0 +1,401 @@
+/** { 
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}*/
+
+html, body {
+  height: 100%;
+} 
+
+body {
+  height: 100%;
+}
+
+.App {
+  text-align: center;
+  height: auto !important;
+  height: 100%;
+  margin: 0 auto -40px; 
+}
+
+.App-logo {
+  height: 6rem;
+  pointer-events: none;
+  display: inline;
+}
+
+.App-footer {
+  background-color: black;
+  text-align: center;
+  padding: 0.5em;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}
+
+.App-footer, #push {
+  height: 40px; 
+}
+
+.App-footer {
+  max-height: 45px;
+}
+
+.App-footer p {
+  color: white;
+  display: inline;
+  position: relative;
+  bottom: 0.8em;
+}
+
+.QT-logo {
+  width: 6em;
+  margin-left: 0.5em;
+  display: inline;
+}
+
+.BuildGraph, .dataset_div, .ManUt, .visualization {
+  min-height: 42em;
+}
+
+.ManUt {
+  width: 90%;
+  height: 800px;
+  overflow-y: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 3em;
+}
+
+.App-header {
+  background-color: black;
+  align-items: center;
+}
+
+.menu_div {
+  background-color: black;
+  padding: 0.6em;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+.App-import-form {
+  background-color: #222;
+  min-height: 3em;
+  max-width: 75%;
+  margin: 2em 10% 2em 10%;
+  font-size: 1.1em;
+  color: #ddd;
+  border-radius: 10px;
+  font-family: 'Open Gothic', 'Franklin Gothic', 'Arial', sans-serif;
+}
+
+.App-import-form fieldset {
+  border-radius: 5px;
+  margin: 1% 15%;
+  border: 1px solid#61dafb;
+}
+
+.visualization {
+  display: grid;
+  grid-template-columns: auto auto;
+  margin-bottom: 2em;
+  /*display: flex;
+  flex-wrap: wrap;
+  justify-content: center;*/
+}
+
+.uploadButton {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.GraphCont {
+  padding-bottom: 2em;
+  /*flex: 1 1 150px;  Stretching:
+  flex: 0 1 150px;  No stretching: 
+  margin: 5px;*/
+}
+
+#visualizzazione {
+  display: flex;
+  justify-content: space-evenly;
+  justify-self: center;
+}
+
+.App-import-form2 {
+  display: none;
+}
+
+.App-import-form select {
+  background-color: #ddd;
+  padding: 0.5em;
+  border-radius: 5px;
+}
+
+.main_menu {
+  list-style-type: none;
+  text-align: center;
+  padding-inline-start: 0px;
+}
+
+.main_menu > li {
+  display: inline-block;
+  padding: 0.5em;
+}
+
+.main_menu > li a {
+  background-color: rgb(101, 101, 187);
+  color: white;
+  padding: 10px 20px;
+  text-decoration: none;
+  border-radius: 10px;
+}
+
+.main_menu > li a:hover {
+  background-color: rgb(144, 169, 223);
+}
+
+.item_home a {
+  background-color: rgb(109, 47, 109);
+  color: white;
+}
+
+.main_menu > li a:focus {
+  background-color: rgb(109, 47, 109);
+  color: white;
+}
+
+.button {
+  font-size: 1em;
+  padding: 0.5em 1em;
+  border-radius: 5px;
+  margin: 0.2em;
+}
+
+#insert{
+  margin: 8px;
+}
+
+#columns{
+    margin-top: 10rem;
+}
+
+.options-container {
+  display: inline-block;
+  margin: 1em;
+}
+
+.FeaturesCont {
+  background-color: #eee;
+  text-align: left;
+  padding: 1em;
+}
+
+.titleGraph ul {
+  list-style-type: none;
+}
+
+.MuiFormGroup-row {
+  margin-top: 3em;
+  flex-direction: column;
+}
+
+.textInput {
+  margin-top: 0.8em;
+  margin-left: 5%;
+  padding: 5px;
+  border: 2px solid black;
+  font-weight: bold;
+  font-size: x-large;
+  height: 1.5em;
+  width: 60%;
+}
+
+.grafico {
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  border-radius: 4px;
+  padding: 0 2em 1em 0;
+  width: 90%
+}
+
+.MenuBG {
+  text-align: right;
+  display: none;
+}
+
+/* colori slider */
+.MuiSlider-root.MuiSlider-colorPrimary{
+  color: #9c27b0;
+}
+
+.MuiButtonBase-root.MuiAccordionSummary-root div{
+  margin: 0.2em;
+}
+
+/* bottone inserimento */
+#inserimento{ 
+  margin-top: 0.8em;
+}
+
+#inserimento p {
+  margin: 0.4em;
+}
+
+#selezione {
+  padding: 2em;
+}
+
+/*colonne grid*/ 
+#impostazioni {
+  display: inline-grid;
+  grid-template-columns: auto auto auto auto auto;
+  grid-gap: 2em;
+}
+
+.colonne {
+  display: flex;
+  grid-template-columns: auto auto;
+  grid-gap: 2em;
+}
+
+.colonne fieldset {
+  margin-top: 1.5em;
+  margin-bottom: 0.5em;
+}
+
+/*algoritmi*/ 
+.dimensione{ 
+  display: none;
+  padding: 0.5em;
+}  
+
+/*Bottone conferma*/
+#ButtonConfirm{
+  display: flex;
+  justify-content: center;
+}
+
+#ButtonConfirm button {
+  pointer-events: auto;
+}
+
+#selezione a {
+  text-decoration: none;
+  display: block;
+  pointer-events: none;
+}
+
+/* Gestione dataset*/
+.datasets-container {
+  display: grid;
+  grid-template-columns: auto;
+  margin-top: 1.2em;
+} 
+
+.datasets-container label {
+  text-align: center;
+  cursor: default;
+}
+
+.datasets-container button {
+  cursor: pointer;
+}
+
+/* Lista dataset */
+.datasets-container label span {
+  margin-left: 8%;
+}
+
+.datasets-container label div {
+  margin-left: 40%;
+}
+
+#db-div {
+  top: 30%;
+  left: 30%;
+  width: 35%;
+  padding: 5px 15px;
+}
+
+#buttonCloseDb {
+  text-align: right;
+  float: right;
+}
+
+.MuiButtonBase-root.MuiIconButton-root.MuiIconButton-colorPrimary {
+  padding: 0.4em;
+}
+
+.MuiIconButton-root {
+  margin: 0px;
+  padding: 0;
+}
+
+/* posizione del box select del db colonne e tab */
+.MuiPaper-root.MuiMenu-paper.MuiPopover-paper.MuiPaper-elevation8.MuiPaper-rounded {
+  margin-left: 9.5em;
+  max-width: auto;
+}
+
+#button-confirm-db, #button {
+  text-align: center;
+}
+
+.titleGraphdiv {
+  display: inline-flex;
+  height: 5em;
+}
+
+.MuiButtonBase-root.MuiFab-root.buttonRenameTitle.MuiFab-sizeSmall.MuiFab-secondary {
+  background-color: #9c27b0;
+  margin: 1.2em;
+}
+
+.MuiButtonBase-root.MuiFab-root.buttonConfirmRename.MuiFab-sizeSmall.MuiFab-primary {
+  background-color: #51A800;
+  margin: 1.6em;
+}
+
+/* div aggiungi dataset */
+.dataset_div {
+  margin-top: 0.8em;
+}
+
+#completeFormInsertDataset {
+  height: 6em;
+}
+
+#completeFormInsertDataset p {
+  margin: 0.6em;
+}
+
+#insert-dataset, #formInsertDataset, #buttonConfirmAddDb {
+  display: inline;
+}
+
+#insert-dataset label {
+  padding: 0.8em;
+  display: table-cell;
+}
+
+#buttonConfirmAddDb button {
+  padding: 14px;
+}
+
+.MuiCard-root.error {
+  background-color: lightcoral;
+  color: #750a02;
+  border-color: #750a02;
+}
+
+.MuiCard-root.success {
+  background-color: lightgreen;
+  color: #206c45;
+  border-color: #206c45;
+}

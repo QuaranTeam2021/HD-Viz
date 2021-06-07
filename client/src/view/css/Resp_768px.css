@@ -1,0 +1,9 @@
+@media screen and (max-width:768px) { 
+  #impostazioni {
+    grid-template-columns: auto auto auto;
+  }
+
+  .makeStyles-paper-4 {
+    top: 20%;
+  }
+}
