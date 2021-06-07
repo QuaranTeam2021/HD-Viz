@@ -1,5 +1,6 @@
 const Client = require("pg").Client;
-require("dotenv").config();
+const path = require("path");
+require("dotenv").config({ path: path.join(__dirname, '.env') });
 
 const connectionString = `postgresql://${process.env.HDVIZ_USER}:${process.env.HDVIZ_PASSWORD}@${process.env.HDVIZ_HOST}:${process.env.HDVIZ_PORT}/${process.env.HDVIZ_DATABASE}`;
 
