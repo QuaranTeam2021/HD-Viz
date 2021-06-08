@@ -116,6 +116,26 @@ export default class Store {
         res = transpose(res);
         return res;
     }
+    
+    /**
+     * Return normalized data, WITH HEADERS IN LINE 0
+     * @param {Array<string>} cols set of columns to normalize data
+     * @return {Array<Object>} normalized data, WITH HEADERS IN LINE 0
+     */
+    normalizeData(cols) {
+
+        let result = this.calculateSelectedData(cols);
+        let numericData = result.slice(1,);
+
+        for (let col = 0; col < cols.length; ++col) {
+            const factor = Math.max(...numericData.map(el => el[col]));
+            for (let i = 0; i < numericData.length; ++i) {
+                let row = numericData[i];
+                row[col] = row[col] / factor;
+            }
+        }
+        return result;
+    }
 
      /**
         * Calculate distance matrix.
@@ -125,7 +145,11 @@ export default class Store {
         * @return {Object} DistanceData instance
         */
     calculateDistanceData(distFunc, cols, grouper) {
-        let data = this.calculateSelectedData(cols);
+        
+        // TO DO: inserire variabile boolNormalize tra campi dati o passarlo come parametro a questa funzione
+        const boolNormalize = true;
+        let data = boolNormalize ? this.normalizeData(cols) : this.calculateSelectedData(cols);
+        
         let groups = this.calculateSelectedData(grouper).flat();
         let header = data[0];
         let matrix = new DistanceData();
