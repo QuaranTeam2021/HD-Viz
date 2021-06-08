@@ -5,8 +5,7 @@ import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import DatabaseManagerController from '../../../controller/DatabaseManagerController';
 import DatabaseTablesController from '../../../controller/DatabaseTablesController';
-import DeleteDb from './DeleteDb';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
+import DatasetEntry from './DatasetEntry';
 import TextFieldAddDb from './TextFieldAddDb';
 
 const controllerManager = new DatabaseManagerController();
@@ -33,6 +32,7 @@ export default function Database() {
     const getTabNames = async () => {
         try {
             const tables = await tablesController.getTablesNames();
+            console.log(tables);
             setDatasets(tables);
             setDbStatus({
                 message: "",
@@ -125,7 +125,7 @@ export default function Database() {
     return (
         <div className="dataset_div">
             <div id="completeFormInsertDataset">
-                <p>Aggiungi dataset al database</p>
+                <h2>Aggiungi dataset al database</h2>
                 <ButtonAddDb onChange={onChangeInsertDs} />
                 <TextFieldAddDb onChangeName={onChangeName} fileName={parseName(insertDs.name)} nameDs={name} onBlur={onBlurName} disabled={disableName} error={nameError} onSubmit={onClickDs} />
                 {insertDs.name !== undefined && <ButtonConfirmAddDb onClick={onClickDs} fileName={insertDs.name} disabled={nameError[0]} />}
@@ -138,7 +138,7 @@ export default function Database() {
             </div>
             <div id="datasets-container">
                 <>
-                    {datasets !== undefined && datasets.map((d, i) => <FormControlLabel key={i} control={<DeleteDb onClickDelete={onClickDelete} value={d} />} label={d} value={d} />)}
+                    {datasets !== undefined && datasets.map((d, i) => <DatasetEntry key={i} onClickDelete={onClickDelete} dsName={d} />)}
                 </>
             </div>
 
