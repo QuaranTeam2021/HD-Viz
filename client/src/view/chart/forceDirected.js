@@ -67,7 +67,11 @@ let links = data.links;
 		nodes = newData.nodes;
 		links = newData.links;
 		const categories = [...new Set(nodes.map(item => item.group))]; 
-	
+		nodes.forEach(el => {
+			if (typeof el.fx !== "undefined") {
+				el.fy = null; 
+				el.fx = null;
+			} });
 		svg.selectAll(".legend").remove();
 		legend = drawLegend(svg, categories, width);
 		legend.drawDistanceTrapezoid(scaleThickness);
