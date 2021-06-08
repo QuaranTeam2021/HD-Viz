@@ -35,11 +35,11 @@ describe('Testing HeatmapOptions component', () => {
     })
 
     test('Includes one Typography', () => {
-        expect(wrapper.find(Typography).length).toEqual(1);
+        expect(wrapper.find(Typography).length).toEqual(2);
     })
 
     test('Includes one Slider', () => {
-        expect(wrapper.find(Slider).length).toEqual(1);
+        expect(wrapper.find(Slider).length).toEqual(2);
     })
 
     test('Includes one Select', () => {

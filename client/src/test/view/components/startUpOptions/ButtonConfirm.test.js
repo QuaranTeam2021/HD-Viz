@@ -1,5 +1,6 @@
 import { afterAll, beforeAll, describe, expect, jest, test } from '@jest/globals';
 import ButtonConfirm from '../../../../view/components/startUpOptions/ButtonConfirm';
+import { MemoryRouter } from 'react-router-dom';
 import { mount } from 'enzyme';
 import React from 'react';
 
@@ -9,7 +10,7 @@ describe('Testing ButtonConfirm component', () => {
     let onClick = jest.fn();
 
     beforeAll(() => {
-        wrapper = mount(<ButtonConfirm onClick={onClick} />);
+        wrapper = mount(<MemoryRouter><ButtonConfirm onClick={onClick} /></MemoryRouter>);
     })
 
     afterAll(() => {

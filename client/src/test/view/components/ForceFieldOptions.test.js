@@ -31,11 +31,11 @@ describe('Testing ForceFieldOptions component', () => {
     })
 
     test('Includes four Typography', () => {
-        expect(wrapper.find(Typography).length).toEqual(4);
+        expect(wrapper.find(Typography).length).toEqual(3);
     })
 
     test('Includes four Slider', () => {
-        expect(wrapper.find(Slider).length).toEqual(4);
+        expect(wrapper.find(Slider).length).toEqual(3);
     })
 
     test('onChangeDistanceMax must work correctly', () => {
