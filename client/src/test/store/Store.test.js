@@ -447,6 +447,35 @@ describe('Testing Store class', () => {
             })
         })
 
+        describe('Tetsing normalizeData', () => {
+
+            test('Must not return undefined', () => {
+                let data = [
+                    ['sepalLength', 'sepalWidth', 'petalLength', 'petalWidth', 'species'],
+                    [5.1, 3.5, 1.4, 0.2, 'setosa'],
+                    [4.9, 3, 1.4, 0.2, 'setosa']
+                ];
+                store.loadData(data);
+                console.log(store.normalizeData(['sepalLength', 'sepalWidth', 'petalLength', 'petalWidth']))
+                expect(store.normalizeData(['sepalLength', 'sepalWidth', 'petalLength', 'petalWidth'])).not.toBeUndefined();
+            })
+
+            test('Must return correct result', () => {
+                let data = [
+                    ['sepalLength', 'sepalWidth', 'petalLength', 'petalWidth', 'species'],
+                    [5.1, 3.5, 1.4, 0.2, 'setosa'],
+                    [4.9, 3, 1.4, 0.2, 'setosa']
+                ];
+                store.loadData(data);
+                const expected = [
+                    ['sepalLength', 'sepalWidth', 'petalLength', 'petalWidth'],
+                    [1, 1, 1, 1],
+                    [0.9607843137254903, 0.8571428571428571, 1, 1]
+                  ]
+                expect(store.normalizeData(['sepalLength', 'sepalWidth', 'petalLength', 'petalWidth'])).toEqual(expected);
+            })
+        })
+
         describe('Testing calculateDistanceData', () => {
 
             test('Testing euclidean distance', () => {
