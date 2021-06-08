@@ -40,22 +40,23 @@ export default function ModalDb({onSubmit}) {
   const getTabNames = async () => {
     try {
       const tables = await tablesController.getTablesNames();
-      setDatasetsDb(tables);
+      setDatasetsDb(typeof tables === "string" ? [] : tables);
       setDbError(null);
     } catch (err) {
       setDatasetsDb([]);
-      setDbError(err);
+      setDbError(err.message ? err.message : err);
     }
   }
 
   const getColsNames = async table => {
     try {
-      const cols = await tablesController.getTableColumnsNames(table);
+      let cols = await tablesController.getTableColumnsNames(table);
+      cols = typeof cols === "string" ? [] : cols;
       setTableColumnsDb(cols);
-      // setSelectedColumns(cols);
+      setSelectedColumns(cols);
       setDbError(null);
     } catch (err) {
-      setDbError(err);
+      setDbError(err.message ? err.message : err);
       setSelectedColumns([]);
     }
   }
