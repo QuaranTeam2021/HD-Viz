@@ -97,13 +97,14 @@ describe("BuildGraph component tests", () => {
 			.mockImplementationOnce(val => [val, setState])
 			.mockImplementationOnce(val => [val, setState])
 			.mockImplementationOnce(() => ['FASTMAP', setState])
+			.mockImplementationOnce(val => [val, setState])
+
 			.mockImplementationOnce(() => [true, setState])
 			.mockImplementationOnce(() => [['testcol1', 'testcol2'], setState])
 			.mockImplementationOnce(() => ['', setState])
 			.mockImplementationOnce(val => [val, setState])
-			.mockImplementationOnce(val => [val, setState])
-			.mockImplementationOnce(val => [val, setState])
-			.mockImplementationOnce(val => [val, setState])
+			.mockImplementationOnce(() => [['test', 'test'], setState])
+			.mockImplementationOnce(() => [['coltest', 'coltest'], setState])
 			.mockImplementationOnce(val => [val, setState])
 		wrapper = mount(<MemoryRouter><BuildGraph defineStore={jest.fn(() => true)}/></MemoryRouter>);
 	})
