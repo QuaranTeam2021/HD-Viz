@@ -144,12 +144,8 @@ export default class Store {
         * @param {string} grouper grouping column
         * @return {Object} DistanceData instance
         */
-    calculateDistanceData(distFunc, cols, grouper) {
-        
-        // TO DO: inserire variabile boolNormalize tra campi dati o passarlo come parametro a questa funzione
-        const boolNormalize = true;
-        let data = boolNormalize ? this.normalizeData(cols) : this.calculateSelectedData(cols);
-        
+    calculateDistanceData(distFunc, cols, grouper, boolNormalize) {
+        let data = boolNormalize ? this.normalizeData(cols) : this.calculateSelectedData(cols);       
         let groups = this.calculateSelectedData(grouper).flat();
         let header = data[0];
         let matrix = new DistanceData();
@@ -177,8 +173,8 @@ export default class Store {
         return matrix;
     }
 
-    calculateReduction(features, strategy, parameters) {
-        let data = this.calculateSelectedData(features);
+    calculateReduction(features, strategy, parameters, boolNormalize) {
+        let data = boolNormalize ? this.normalizeData(features) : this.calculateSelectedData(features);  
         data = data.slice(1);
         parameters.data = data;
         return strategy.compute(parameters);
