@@ -6,18 +6,16 @@ import { makeStyles } from '@material-ui/core/styles';
 import React from 'react';
 
 const useStyles = makeStyles(theme => ({
-	root: {
-		'& > *': {
-			margin: theme.spacing(1),
-		},
+	content: {
+		padding: '20px',
 	},
 }));
 
 export default function DatasetEntry({ dsName, onClickDelete }) {
 	const classes = useStyles();
 	return (
-		<Card variant="outlined" elevation="0" className={classes.root}>
-			<CardContent>
+		<Card variant="outlined" elevation="0">
+			<CardContent className={classes.content}>
 				{dsName}
 			</CardContent>
 			<CardActions>

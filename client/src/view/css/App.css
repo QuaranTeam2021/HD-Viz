@@ -220,13 +220,7 @@ body {
 .grafico {
   border: 1px solid rgba(0, 0, 0, 0.12);
   border-radius: 4px;
-  padding: 0 2em 1em 0;
   width: 90%
-}
-
-.MenuBG {
-  text-align: right;
-  display: none;
 }
 
 /* colori slider */
@@ -291,29 +285,17 @@ body {
   pointer-events: none;
 }
 
+#datasets-container {
+  margin: 2em;
+  display: inline-grid;
+  grid-template-columns: auto auto auto auto;
+  grid-gap: 4em;
+}
+
 /* Gestione dataset*/
-.datasets-container {
-  display: grid;
-  grid-template-columns: auto;
-  margin-top: 1.2em;
-} 
-
-.datasets-container label {
-  text-align: center;
-  cursor: default;
-}
-
-.datasets-container button {
-  cursor: pointer;
-}
-
-/* Lista dataset */
-.datasets-container label span {
-  margin-left: 8%;
-}
-
-.datasets-container label div {
-  margin-left: 40%;
+#datasets-container div {
+  display: inline-grid;
+  grid-template-columns: auto auto;
 }
 
 #db-div {
@@ -362,19 +344,6 @@ body {
   margin: 1.6em;
 }
 
-/* div aggiungi dataset */
-.dataset_div {
-  margin-top: 0.8em;
-}
-
-#completeFormInsertDataset {
-  height: 6em;
-}
-
-#completeFormInsertDataset p {
-  margin: 0.6em;
-}
-
 #insert-dataset, #formInsertDataset, #buttonConfirmAddDb {
   display: inline;
 }
@@ -392,10 +361,20 @@ body {
   background-color: lightcoral;
   color: #750a02;
   border-color: #750a02;
+  width: auto;
+  text-align: center;
+  display: inline-block;
+  font-weight: bold;
+  margin-top: 2em;
 }
 
 .MuiCard-root.success {
   background-color: lightgreen;
   color: #206c45;
   border-color: #206c45;
+  width: auto;
+  text-align: center;
+  display: inline-block;
+  font-weight: bold;
+  margin-top: 2em;
 }

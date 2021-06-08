@@ -6,4 +6,8 @@
   .makeStyles-paper-4 {
     top: 20%;
   }
+
+  #datasets-container {
+    grid-template-columns: auto auto;
+  }
 }

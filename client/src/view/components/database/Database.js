@@ -136,10 +136,11 @@ export default function Database() {
                         </CardContent>
                     </Card>}
             </div>
-            <div id="datasets-container">
-                <>
+            <div>
+                <h3>Elimina dataset</h3>
+                <div id="datasets-container">
                     {datasets !== undefined && datasets.map((d, i) => <DatasetEntry key={i} onClickDelete={onClickDelete} dsName={d} />)}
-                </>
+                </div>
             </div>
 
         </div>

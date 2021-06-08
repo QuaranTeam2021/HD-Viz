@@ -23,4 +23,8 @@
         left: 20%;
         width: 50%;
     }
+
+    #datasets-container {
+        grid-template-columns: auto;
+    }
 }
