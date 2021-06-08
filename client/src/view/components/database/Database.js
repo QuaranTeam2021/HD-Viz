@@ -25,7 +25,7 @@ export default function Database() {
     const [insertDs, setInsertDs] = React.useState({});
     const [disableName, setDisableName] = React.useState(true);
     const [nameError, setNameError] = React.useState(false);
-    const [dbStatus, setDbStatus] = useState({
+    const [dbStatus, setDbStatus] = React.useState({
         message: "",
         value: null
     });
