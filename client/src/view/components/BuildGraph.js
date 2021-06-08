@@ -37,7 +37,7 @@ export default function BuildGraph() {
   const [selectedColumns, setSelectedColumns] = useState([]);
   const [grouper, setGrouper] = useState('');
   const [confirm, setConfirm] = useState(false);
-  const [size, setSize] = useState(5);
+  const [size, setSize] = useState(2);
   const [distanza, setDistanza] = useState('');
   const [neighbours, setNeighbours] = useState(200);
   const [perplexity, setPerplexity] = useState(20);
