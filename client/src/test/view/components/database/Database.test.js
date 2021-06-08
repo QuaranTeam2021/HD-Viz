@@ -39,23 +39,26 @@ describe('Testing Database component', () => {
 
     test('Must onChangeInsertDs method', () => {
         let testFile = new File([''], 'testFile.csv', { type: 'text/csv' })
+        expect(setState).not.toBeCalled();
         wrapper.find('Dataset').simulate('change', { target: { files: [testFile] } })
-        expect(setState).toBeCalledTimes(4);
+        expect(setState).toBeCalled();
     })
 
     test('Must onChangeName method', () => {
         const onChangeName = wrapper.find(TextFieldAddDb).prop('onChangeName');
+        expect(setState).not.toBeCalled();
         onChangeName({ target: {value: 'testName'}})
-        expect(setState).toBeCalledTimes(3);
+        expect(setState).toBeCalled();
         setState.mockClear();
         onChangeName({ target: {value: 'testName.json'}})
-        expect(setState).toBeCalledTimes(1);
+        expect(setState).toBeCalled();
     })
 
     test('Must onBlurName method', () => {
         const onBlurName = wrapper.find(TextFieldAddDb).prop('onBlur');
+        expect(setState).not.toBeCalled();
         onBlurName();
-        expect(setState).toBeCalledTimes(2);
+        expect(setState).toBeCalled();
     })
 
     test('Must onClickDs method', async () => {
@@ -72,8 +75,9 @@ describe('Testing Database component', () => {
         jest.spyOn(React, 'useState').mockImplementationOnce(() => [['testTable'], setState])
         wrapper = mount(<Database />);
         const onClickDelete = wrapper.find(DeleteDb).prop('onClickDelete');
+        expect(setState).not.toBeCalled();
         await onClickDelete('tableNameToDelete');
-        expect(setState).toBeCalledTimes(1);
+        expect(setState).toBeCalled();
     })
 })
 

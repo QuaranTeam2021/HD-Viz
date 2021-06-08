@@ -126,7 +126,8 @@ describe('Testing DatabaseManagerController', () => {
 
         test('deleteTable must return', async () => {
             fetch.mockImplementationOnce(() => Promise.resolve({
-                json: () => Promise.resolve("The table iris_dataset was successfully deleted")
+                json: () => Promise.resolve("The table iris_dataset was successfully deleted"),
+                ok: true
             }));
             let res;
             try {
