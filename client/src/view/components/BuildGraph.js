@@ -37,7 +37,7 @@ export default function BuildGraph() {
   const [selectedColumns, setSelectedColumns] = useState([]);
   const [grouper, setGrouper] = useState('');
   const [confirm, setConfirm] = useState(false);
-  const [size, setSize] = useState(5);
+  const [size, setSize] = useState(2);
   const [distanza, setDistanza] = useState('');
   const [neighbours, setNeighbours] = useState(200);
   const [perplexity, setPerplexity] = useState(20);
@@ -114,9 +114,9 @@ export default function BuildGraph() {
       try {
         await localLoaderController.parse(v);
         setParseResult(null);
-      } catch (error) {
+      } catch (err) {
         setInsert({ name: undefined });
-        setParseResult("Il file è vuoto");
+        setParseResult(err.message ? err.message : err);
       }
     }
   };
@@ -185,7 +185,8 @@ export default function BuildGraph() {
   return (
 
     <div className="BuildGraph" >
-      <div id="inserimento"> {!selectedInsert(insert) && <p>Importa qui i tuoi dati</p>}
+      <div id="inserimento">
+        <h2>Importa qui i tuoi dati</h2>
         <div className="uploadButton">
           <Insert onChange={onChangeInsert} fileName={insert.name} />
           <ModalDb onSubmit={insertTab => setInsert(insertTab)} />
@@ -194,10 +195,10 @@ export default function BuildGraph() {
       {selectedInsert(insert) ? // eslint-disable-line operator-linebreak
         <div id="selezione">
           <div id="impostazioni">
-            <RadioGraphType onChange={onChangeGraph} />
             <Columns onChangeUploaded={onChangeColumns} onChangeGrouper={onChangeGrouper} />
             {needsDistance(selectedGraph) && <TooltipDistColumns />}
             {needsAlgorithm(selectedGraph) && <TooltipVizColumns />}
+            <RadioGraphType onChange={onChangeGraph} />
             {["scptMat", "malp"].includes(selectedGraph) && <RadioAlgorithm onChange={onChangeAlgorithm} />}
             {needsDistance(selectedGraph) && <RadioDistance onChange={onChangeDistanza} distanza={distanza} />}
             <div id="FeaturesAlgorithm">

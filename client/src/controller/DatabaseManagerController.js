@@ -20,12 +20,16 @@ export default class DatabaseManagerController {
                     method: "POST"
                 });
                 const jsonData = await response.json();
-                if (response.ok) Promise.resolve(jsonData);
-                else Promise.reject(jsonData);
+                if (response.ok) return Promise.resolve(`Aggiunto dataset ${table}`);
+                return Promise.reject(jsonData);
             } catch (err) {
                 console.error(err.message);
-                Promise.reject(`Si è verificato un errore: ${err.message}`);
+                err.message = `Si è verificato un errore: ${err.message}`;
+                return Promise.reject(err);
             }
+        }
+        else {
+            return Promise.reject(new Error("Il file è troppo grande"));
         }
     }
 
@@ -37,11 +41,12 @@ export default class DatabaseManagerController {
                 method: "DELETE"
             });
             const jsonData = await delTable.json();
-            if (delTable.ok) Promise.resolve(jsonData);
-            else Promise.reject(jsonData);
+            if (delTable.ok) return Promise.resolve(`Dataset ${table} eliminato`);
+            Promise.reject(jsonData);
         } catch (err) {
             console.error(err.message);
-            Promise.reject(`Si è verificato un errore: ${err.message}`);
+            err.message = `Si è verificato un errore: ${err.message}`;
+            return Promise.reject(err);
         }
     }
 }

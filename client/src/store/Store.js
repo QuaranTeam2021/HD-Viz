@@ -129,9 +129,11 @@ export default class Store {
 
         for (let col = 0; col < cols.length; ++col) {
             const factor = Math.max(...numericData.map(el => el[col]));
-            for (let i = 0; i < numericData.length; ++i) {
-                let row = numericData[i];
-                row[col] = row[col] / factor;
+            if (factor !== 0) {
+                for (let i = 0; i < numericData.length; ++i) {
+                    let row = numericData[i];
+                    row[col] = row[col] / factor;
+                }
             }
         }
         return result;
@@ -145,22 +147,30 @@ export default class Store {
         * @return {Object} DistanceData instance
         */
     calculateDistanceData(distFunc, cols, grouper, boolNormalize) {
-        let data = boolNormalize ? this.normalizeData(cols) : this.calculateSelectedData(cols);       
-        let groups = this.calculateSelectedData(grouper).flat();
-        let header = data[0];
-        let matrix = new DistanceData();
-        let links = [], 
-            nodes = [];
-        for (let i = 1; i < data.length; i++) {
-            let node = {};
+
+        let data = this.calculateSelectedData(cols),
+            groups = this.calculateSelectedData(grouper).flat(),
+            header = data[0],
+            links = [], 
+            nodes = []; 
+        for (let i = 1; i < data.length; ++i) {
+            let node = {id: "nodo_"+i};
             data[i].forEach((el, idx) => {
                 node[header[idx]] = el;
             })
-            node.id = "nodo_"+i;
+            // node.id = "nodo_"+i;
             node.group = String(groups[i]);
             nodes.push(node);
-            for (let j = i+1; j < data.length; j++) {
-                let link = {
+        }
+
+        if (boolNormalize) {
+            data = this.normalizeData(cols);
+        }
+
+        let matrix = new DistanceData();
+        for (let i = 1; i < data.length; ++i) {
+            for (let j = i+1; j < data.length; ++j) {
+                const link = {
                     source: "nodo_"+i,
                     target: "nodo_"+j,
                     value: distFunc(data[i], data[j])
@@ -168,6 +178,7 @@ export default class Store {
                 links.push(link);
             }
         }
+
         matrix.nodes = nodes;
         matrix.links = links;
         return matrix;

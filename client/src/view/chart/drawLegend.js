@@ -193,7 +193,7 @@ export const drawLegend = function (svg, data, width) {
 		const defs = distanceColor.append("defs");
 
 		const linearGradient = defs.append("linearGradient")
-		.attr("id", "linear-gradient");
+			.attr("id", "linear-gradient");
 
 		linearGradient.selectAll("stop")
 			.data(colorScale.ticks().map((t, i, n) => ({ 
@@ -268,6 +268,7 @@ export const drawLegend = function (svg, data, width) {
 		nMessage = 0;
 		updateSize(sizeDifference);
 	}
+	
 	maximize();
 	
 	return Object.assign(

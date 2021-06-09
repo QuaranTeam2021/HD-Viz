@@ -32,16 +32,11 @@ export default function Database() {
     const getTabNames = async () => {
         try {
             const tables = await tablesController.getTablesNames();
-            console.log(tables);
-            setDatasets(tables);
-            setDbStatus({
-                message: "",
-                value: null
-            })
+            setDatasets(typeof tables === "string" ? [] : tables);
         } catch (err) {
             setDatasets([]);
             setDbStatus({
-                message: err,
+                message: err.message ? err.message : err,
                 value: false
             })
         }
@@ -79,7 +74,7 @@ export default function Database() {
         }
         catch (err) {
             setDbStatus({
-                message: err,
+                message: err.message ? err.message : err,
                 value: false
             })
         }
@@ -109,14 +104,14 @@ export default function Database() {
         try {
             let res = await controllerManager.upload(tableName ? tableName : parseName(insertDs.name), insertDs);
             setDbStatus({
-                messsage: res,
+                message: res,
                 value: true
             })
             getTabNames();
         }
         catch (err) {
             setDbStatus({
-                message: err,
+                message: err.message ? err.message : err,
                 value: false
             });
         }
@@ -129,13 +124,13 @@ export default function Database() {
                 <ButtonAddDb onChange={onChangeInsertDs} />
                 <TextFieldAddDb onChangeName={onChangeName} fileName={parseName(insertDs.name)} nameDs={name} onBlur={onBlurName} disabled={disableName} error={nameError} onSubmit={onClickDs} />
                 {insertDs.name !== undefined && <ButtonConfirmAddDb onClick={onClickDs} fileName={insertDs.name} disabled={nameError[0]} />}
-                {(dbStatus.value === false || dbStatus.value === true) &&
-                    <Card variant="outlined" className={`${dbStatus ? "sucess" : "error"} message`}>
-                        <CardContent>
-                            {dbStatus.message}
-                        </CardContent>
-                    </Card>}
             </div>
+            {dbStatus.value !== null &&
+                <Card variant="outlined" className={`${dbStatus.value ? "success" : "error"} message`}>
+                    <CardContent>
+                        {dbStatus.message}
+                    </CardContent>
+                </Card>}
             <div>
                 <h3>Elimina dataset</h3>
                 <div id="datasets-container">

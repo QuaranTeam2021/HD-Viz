@@ -1,4 +1,5 @@
-import React, { useCallback, useEffect, useState } from 'react';
+/* eslint-disable no-extra-parens */
+import React, { useCallback, useEffect } from 'react';
 import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
 import { makeStyles } from '@material-ui/core/styles';
@@ -18,11 +19,11 @@ const useStyles = makeStyles(() => ({
 export default function HeatmapOptions({ position, graphViz, buttonRef, currentOptions, setCurrentOptions }) {
   const classes = useStyles();
   
-  const [ordinamento, setOrdinamento] = useState('none');
-  const [minDist, setMinDist] = useState(0);
-  const [maxDist, setMaxDist] = useState(10);
-  const [minForDistances, setMinForDistances] = useState(0);
-  const [maxForDistances, setMaxForDistances] = useState(10);
+  const [ordinamento, setOrdinamento] = React.useState('none');
+  const [minDist, setMinDist] = React.useState(0);
+  const [maxDist, setMaxDist] = React.useState(Number.MAX_VALUE);
+  const [minForDistances, setMinForDistances] = React.useState(0);
+  const [maxForDistances, setMaxForDistances] = React.useState(200);
   
   const commitChanges = useCallback(() => {
     
@@ -48,11 +49,6 @@ export default function HeatmapOptions({ position, graphViz, buttonRef, currentO
 
       setMinForDistances(disMin);
       setMaxForDistances(disMax);
-      
-      marks.distance[0].label = disMin.toString();
-      marks.distance[0].value = disMin;
-      marks.distance[1].label = disMax.toString();
-      marks.distance[1].value = disMax;
     }
   }, [buttonRef, commitChanges, graphViz]);
   
@@ -70,9 +66,14 @@ export default function HeatmapOptions({ position, graphViz, buttonRef, currentO
         <Slider id="htmp-maxDist-slider"
           aria-labelledby="htmp-maxDist-slider-label"
           valueLabelDisplay="auto"
-          step={10 ** Math.floor(Math.log(maxForDistances / 10) / Math.LN10)}
-          marks={marks.distance}
-          min={0}
+          step={0.5 * (10 ** Math.floor(Math.log(maxForDistances / 10) / Math.LN10))}
+          marks={[
+              {label: minForDistances,
+                value: minForDistances},
+              {label: maxForDistances,
+                value: maxForDistances}
+            ]}
+          min={minForDistances}
           max={maxForDistances}
           value={maxDist}
           onChange={onChangeMaxDist}
@@ -83,9 +84,14 @@ export default function HeatmapOptions({ position, graphViz, buttonRef, currentO
         <Slider id="htmp-minDist-slider"
           aria-labelledby="htmp-minDist-slider-label"
           valueLabelDisplay="auto"
-          step={10 ** Math.floor(Math.log(maxForDistances / 10) / Math.LN10)}
-          marks={marks.distance}
-          min={0}
+          step={0.5 * (10 ** Math.floor(Math.log(maxForDistances / 10) / Math.LN10))}
+          marks={[
+              {label: minForDistances,
+                value: minForDistances},
+              {label: maxForDistances,
+                value: maxForDistances}
+            ]}
+          min={minForDistances}
           max={maxForDistances}
           value={minDist}
           onChange={onChangeMinDist}
@@ -103,16 +109,3 @@ export default function HeatmapOptions({ position, graphViz, buttonRef, currentO
     </div>
   );
 }
-
-const marks = {
-  distance: [
-    {
-      label: '0',
-      value: 0
-    },
-    {
-      label: '10',
-      value: 10
-    }
-  ]
-};
