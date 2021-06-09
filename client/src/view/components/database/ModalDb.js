@@ -29,8 +29,8 @@ export default function ModalDb({onSubmit}) {
   const [selectedTable, setSelectedTable] = React.useState(''); 
   const [confirmDb, setConfirmDb] = React.useState([]); 
 
-  const [datasetsDb, setDatasetsDb] = React.useState();
-  const [tableColumnsDb, setTableColumnsDb] = React.useState();
+  const [datasetsDb, setDatasetsDb] = React.useState([]);
+  const [tableColumnsDb, setTableColumnsDb] = React.useState([]);
   const [dbError, setDbError] = React.useState(null);
   const store = useStore();
   const loaderController = new DatabaseLoaderController(store);

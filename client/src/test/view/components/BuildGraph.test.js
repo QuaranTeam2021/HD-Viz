@@ -13,7 +13,6 @@ import { MemoryRouter } from 'react-router-dom';
 import { mount } from 'enzyme';
 import RadioAlgorithm from '../../../view/components/algorithms/RadioAlgorithm';
 import RadioDistance from '../../../view/components/startUpOptions/RadioDistance';
-import RadioGraphType from '../../../view/components/startUpOptions/RadioGraphType';
 import React from 'react';
 
 describe("BuildGraph component tests", () => {

@@ -85,7 +85,7 @@ let links = data.links;
 			.attr("fill", d => scale(d.group))
 			.call(tooltip, tooltipDiv);
 
-
+		forceProperties.distanceMax = getMax();
 		updateDistStr(forceProperties.distanceMin, forceProperties.distanceMax, forceProperties.strength);
 
 	}

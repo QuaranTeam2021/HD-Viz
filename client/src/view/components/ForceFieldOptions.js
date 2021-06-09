@@ -15,7 +15,7 @@ export default function ForceFieldOptions({ position, graphViz, buttonRef, curre
   const classes = useStyles();
 
   const [minDist, setMinDist] = React.useState(0);
-  const [maxDist, setMaxDist] = React.useState(200);
+  const [maxDist, setMaxDist] = React.useState(Number.MAX_VALUE);
   const [minForDistances, setMinForDistances] = React.useState(0);
   const [maxForDistances, setMaxForDistances] = React.useState(200);
   const [strength, setStrength] = React.useState(-30);
@@ -63,7 +63,7 @@ export default function ForceFieldOptions({ position, graphViz, buttonRef, curre
         <Slider id="frfd-maxDistance-slider"
           aria-labelledby="frfd-maxDistance-slider-label"
           valueLabelDisplay="auto"
-          step={0.5 * (10 ** Math.floor(Math.log(maxForDistances / 10) / Math.LN10))}
+          step={0.5 * 10 ** Math.floor(Math.log(maxForDistances / 10) / Math.LN10)}
           marks={[
               {label: minForDistances,
                 value: minForDistances},
@@ -81,7 +81,7 @@ export default function ForceFieldOptions({ position, graphViz, buttonRef, curre
         <Slider id="frfd-minDistance-slider"
           aria-labelledby="frfd-minDistance-slider-label"
           valueLabelDisplay="auto"
-          step={0.5 * (10 ** Math.floor(Math.log(maxForDistances / 10) / Math.LN10))}
+          step={0.5 * 10 ** Math.floor(Math.log(maxForDistances / 10) / Math.LN10)}
           marks={[
               {label: minForDistances,
                 value: minForDistances},
