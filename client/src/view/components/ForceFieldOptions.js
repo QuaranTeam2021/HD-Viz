@@ -16,7 +16,7 @@ export default function ForceFieldOptions({ position, graphViz, buttonRef, curre
   const classes = useStyles();
 
   const [minDist, setMinDist] = useState(0);
-  const [maxDist, setMaxDist] = useState(200);
+  const [maxDist, setMaxDist] = useState(Number.MAX_VALUE);
   const [minForDistances, setMinForDistances] = useState(0);
   const [maxForDistances, setMaxForDistances] = useState(200);
   const [strength, setStrength] = useState(-30);

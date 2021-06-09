@@ -21,7 +21,7 @@ export default function HeatmapOptions({ position, graphViz, buttonRef, currentO
   
   const [ordinamento, setOrdinamento] = useState('none');
   const [minDist, setMinDist] = useState(0);
-  const [maxDist, setMaxDist] = useState(200);
+  const [maxDist, setMaxDist] = useState((Number.MAX_VALUE);
   const [minForDistances, setMinForDistances] = useState(0);
   const [maxForDistances, setMaxForDistances] = useState(200);
   

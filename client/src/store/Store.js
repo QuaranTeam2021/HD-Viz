@@ -129,9 +129,11 @@ export default class Store {
 
         for (let col = 0; col < cols.length; ++col) {
             const factor = Math.max(...numericData.map(el => el[col]));
-            for (let i = 0; i < numericData.length; ++i) {
-                let row = numericData[i];
-                row[col] = row[col] / factor;
+            if (factor !== 0) {
+                for (let i = 0; i < numericData.length; ++i) {
+                    let row = numericData[i];
+                    row[col] = row[col] / factor;
+                }
             }
         }
         return result;
