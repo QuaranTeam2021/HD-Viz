@@ -1,12 +1,10 @@
 import React, { useCallback, useEffect } from 'react';
 import SelectVizColumns from './database/SelectVizColumns';
 
-
 export default function SCPMOptions({ graphViz, buttonRef, currentOptions, setCurrentOptions, setDisabled }) {
 
   const [allCols, setAllCols] = React.useState([]);
   const [selected, setSelected] = React.useState([]);
-
 
   const commitChanges = useCallback(() => {
     if (currentOptions.oldSel !== selected)
