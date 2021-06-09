@@ -104,7 +104,7 @@ export default function Database() {
         try {
             let res = await controllerManager.upload(tableName ? tableName : parseName(insertDs.name), insertDs);
             setDbStatus({
-                messsage: res,
+                message: res,
                 value: true
             })
             getTabNames();
