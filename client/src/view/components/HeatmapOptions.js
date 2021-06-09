@@ -1,5 +1,5 @@
 /* eslint-disable no-extra-parens */
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
 import { makeStyles } from '@material-ui/core/styles';
@@ -19,11 +19,11 @@ const useStyles = makeStyles(() => ({
 export default function HeatmapOptions({ position, graphViz, buttonRef, currentOptions, setCurrentOptions }) {
   const classes = useStyles();
   
-  const [ordinamento, setOrdinamento] = useState('none');
-  const [minDist, setMinDist] = useState(0);
-  const [maxDist, setMaxDist] = useState((Number.MAX_VALUE);
-  const [minForDistances, setMinForDistances] = useState(0);
-  const [maxForDistances, setMaxForDistances] = useState(200);
+  const [ordinamento, setOrdinamento] = React.useState('none');
+  const [minDist, setMinDist] = React.useState(0);
+  const [maxDist, setMaxDist] = React.useState(Number.MAX_VALUE);
+  const [minForDistances, setMinForDistances] = React.useState(0);
+  const [maxForDistances, setMaxForDistances] = React.useState(200);
   
   const commitChanges = useCallback(() => {
     
