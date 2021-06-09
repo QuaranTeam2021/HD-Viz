@@ -24,6 +24,7 @@ describe('Testing Visualization component', () => {
 		Object.defineProperty(Store, 'graphs', {
 			get: jest.fn(() => [scptGraph, malpGraph, heatGraph, frcfldGraph, noneGraph])
 		});
+		jest.spyOn(console, 'log');
         wrapper = shallow(<Visualization />);
     })
 

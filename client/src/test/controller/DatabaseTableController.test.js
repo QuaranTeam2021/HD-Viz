@@ -11,6 +11,7 @@ describe('Testing DatabaseTableController', () => {
     beforeAll(() => {
         global.fetch = jest.fn();
         jest.spyOn(console, 'error').mockImplementation(err => console.error(err));
+        jest.spyOn(console, 'log');
     })
 
     beforeEach(() => {

@@ -12,6 +12,7 @@ describe('Testing DatabaseLoaderController', () => {
     beforeAll(() => {
         global.fetch = jest.fn();
         jest.spyOn(console, 'error').mockImplementation(err => console.error(err));
+        jest.spyOn(console, 'log');
         Object.defineProperty(global, 'Papa', {
             parse: jest.fn((data, props) => { 
                 console.log(data);

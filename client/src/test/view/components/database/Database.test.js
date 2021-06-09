@@ -11,6 +11,7 @@ describe('Testing Database component', () => {
     const setState = jest.fn();
 
     beforeAll(() => {
+        jest.spyOn(console, 'log');
         global.fetch = jest.fn();
         jest.spyOn(console, 'error');
         Object.defineProperty(React, 'useState', {

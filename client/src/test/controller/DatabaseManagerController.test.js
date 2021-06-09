@@ -9,6 +9,7 @@ describe('Testing DatabaseManagerController', () => {
 
     beforeAll(() => {
         jest.spyOn(console, 'error').mockImplementation(err => console.error(err));
+        jest.spyOn(console, 'log');
         global.fetch = jest.fn(() => {
             Promise.resolve({
                 json: () => Promise.resolve({ tableName: 'iris_dataset' })
