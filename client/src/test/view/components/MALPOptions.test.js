@@ -19,9 +19,5 @@ describe('Testing MALPOptions component', () => {
     test('renders correctly', () => {
         expect(wrapper).not.toBeNull();
     })
-
-    test('Includes two buttons', () => {
-        expect(wrapper.find(Button).length).toEqual(2);
-    })
 })
 

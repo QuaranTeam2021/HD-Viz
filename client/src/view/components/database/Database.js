@@ -33,13 +33,12 @@ export default function Database() {
     const getTabNames = async () => {
         try {
             const tables = await tablesController.getTablesNames();
-            setDatasets(tables);
+            setDatasets(typeof tables === "string" ? [] : tables);
             setDbStatus({
                 message: "",
                 value: null
             })
         } catch (err) {
-            console.log('sono qui')
             setDatasets([]);
             setDbStatus({
                 message: err,
@@ -111,7 +110,7 @@ export default function Database() {
         try {
             let res = await controllerManager.upload(tableName ? tableName : parseName(insertDs.name), insertDs);
             setDbStatus({
-                messsage: res,
+                message: res,
                 value: true
             })
             getTabNames();

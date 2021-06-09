@@ -39,7 +39,7 @@ export default function ModalDb({onSubmit}) {
   const getTabNames = async () => {
     try {
       const tables = await tablesController.getTablesNames();
-      setDatasetsDb(tables);
+      setDatasetsDb(typeof tables === "string" ? [] : tables);
       setDbError(null);
     } catch (err) {
       setDatasetsDb([]);
@@ -50,8 +50,8 @@ export default function ModalDb({onSubmit}) {
   const getColsNames = async table => {
     try {
       const cols = await tablesController.getTableColumnsNames(table);
-      setTableColumnsDb(cols);
-      // setSelectedColumns(cols);
+      setTableColumnsDb(typeof cols === "string" ? [] : cols);
+      // setSelectedColumns(typeof cols === "string" ? [] : cols);
       setDbError(null);
     } catch (err) {
       setDbError(err);
@@ -99,9 +99,17 @@ export default function ModalDb({onSubmit}) {
     formData.table = selectedTable; 
     formData.columns = selectedColumns; 
     if (selectedColumns.length === 0 || selectedColumns.length === tableColumnsDb.length)
-      loaderController.loadTable(selectedTable);
+      try {
+        loaderController.loadTable(selectedTable);
+      } catch (e) {
+        console.error(e.message)
+      }
     else
-      loaderController.loadTableCols(selectedTable, selectedColumns);
+      try {
+        loaderController.loadTableCols(selectedTable, selectedColumns);
+      } catch (e) {
+        console.error(e.message)
+      }
     onClose(); 
     onSubmit({ name: selectedTable }); 
   };
