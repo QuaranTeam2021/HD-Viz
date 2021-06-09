@@ -13,9 +13,9 @@ export default class UmapController extends StandardGraphController {
         this.neighbors = null;
     }
 
-    createGraph(graphId, type, features, grouper) {
+    createGraph(graphId, type, features, grouper, normalize = true) {
         let parameters = new UmapParameters(this._dimensions, this._neighbors);
-        let reducedData = this.store.calculateReduction(features, this.umap, parameters);
+        let reducedData = this.store.calculateReduction(features, this.umap, parameters, normalize);
         let grouperCol = this.store.calculateSelectedData(grouper).flat();
         for (let i = 0; i < reducedData.length; ++i) {
             reducedData[i].push(grouperCol[i]);

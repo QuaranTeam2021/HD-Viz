@@ -110,7 +110,7 @@ export const drawLegend = function (svg, data, width) {
 		.attr("cy", btnY)
 		.attr("r", 10)
 		.attr("fill", "#013220");
-  
+
 	const plusSignVLine = legendBtn.append("line")
 		.attr("stroke", "#ffffff")
 		.attr("stroke-width", 2)
@@ -194,7 +194,7 @@ export const drawLegend = function (svg, data, width) {
 		const defs = distanceColor.append("defs");
 
 		const linearGradient = defs.append("linearGradient")
-		.attr("id", "linear-gradient");
+			.attr("id", "linear-gradient");
 
 		linearGradient.selectAll("stop")
 			.data(colorScale.ticks().map((t, i, n) => ({ 

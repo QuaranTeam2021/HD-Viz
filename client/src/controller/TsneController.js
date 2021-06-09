@@ -15,9 +15,9 @@ export default class TsneController extends StandardGraphController {
         this.metric = null;
     }
 
-    createGraph(graphId, type, features, grouper) {
+    createGraph(graphId, type, features, grouper, normalize = true) {
         let parameters = new TsneParameters(this._dimensions, this._perplexity, this._epsilon, this._metric);
-        let reducedData = this.store.calculateReduction(features, this.tsne, parameters);
+        let reducedData = this.store.calculateReduction(features, this.tsne, parameters, normalize);
         let grouperCol = this.store.calculateSelectedData(grouper).flat();
         for (let i = 0; i < reducedData.length; ++i) {
             reducedData[i].push(grouperCol[i]);

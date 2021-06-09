@@ -108,6 +108,7 @@ export const linearProjection = function (data, cols, grouper, idBox) {
                 .attr("y2", d => 0.5 + yScale(d))
                 .attr("x1", 0)
                 .attr("x2", width));
+                
 
     const palette = d3.scaleOrdinal(d3.schemeCategory10).domain(new Set(notNullData.map(d => d[newGrouper])));
     const svg = d3.select(`#${idBox}`)
@@ -125,8 +126,9 @@ export const linearProjection = function (data, cols, grouper, idBox) {
     const gridHandler = svg.append("g");
     const contentHandler = svg.append("g");
     contentHandler.classed("contentHandler", true);
-  
+
     const categories = [...new Set(notNullData.map(item => item[newGrouper]))]; 
+
 
     updateColumns(cols);
 	function updateColumns(columns) {
@@ -182,9 +184,9 @@ export const linearProjection = function (data, cols, grouper, idBox) {
         svg.selectAll(".legend").remove();
         svg.selectAll(".grid-lines").remove();
         contentHandler.selectAll("*").remove();
-    
-        const filteredcols = columns.filter(itm => itm !== newGrouper);
 
+
+        const filteredcols = columns.filter(itm => itm !== newGrouper);
         let rawData = notNullData.map(d => filteredcols.map(dim => d[dim]));
         rawData = scale(rawData, true, true);
         let eigvecs = getEigenvalues(rawData, 2);

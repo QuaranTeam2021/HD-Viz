@@ -26,7 +26,7 @@ export default class LocalLoaderController {
                             if (result.data.length === 0) {
                                 reject("Il file caricato è vuoto");
                             }
-                            if (result.data.length > 2000) {
+                            else if (result.data.length > 2000) {
                                 reject("Il file caricato è troppo grande");
                             }
                             else {
@@ -41,6 +41,9 @@ export default class LocalLoaderController {
                     reader.readAsText(file, "utf-8");
                 })
             }
+        }
+        else {
+            return Promise.reject("Il file caricato è troppo grande");
         }
     }
 

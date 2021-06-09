@@ -14,29 +14,29 @@ const useStyles = makeStyles(() => ({
 export default function ForceFieldOptions({ position, graphViz, buttonRef, currentOptions, setCurrentOptions }) {
   const classes = useStyles();
 
-  const [distanceMin, setDistanceMin] = React.useState(0);
-  const [distanceMax, setDistanceMax] = React.useState(0);
-  const [maxDistanceMax, setMaxDistanceMax] = React.useState(200);
-  const [maxDistanceMin, setMaxDistanceMin] = React.useState(200);
+  const [minDist, setMinDist] = React.useState(0);
+  const [maxDist, setMaxDist] = React.useState(200);
+  const [minForDistances, setMinForDistances] = React.useState(0);
+  const [maxForDistances, setMaxForDistances] = React.useState(200);
   const [strength, setStrength] = React.useState(-30);
 
   const commitChanges = useCallback(() => {
     
-    if (currentOptions.oldDisMax !== distanceMax ||
-        currentOptions.oldDisMin !== distanceMin ||
+    if (currentOptions.oldDisMax !== maxDist ||
+        currentOptions.oldDisMin !== minDist ||
         currentOptions.oldStr !== strength) {
-      graphViz.updateDistStr(distanceMin, distanceMax, strength);
+      graphViz.updateDistStr(minDist, maxDist, strength);
     } 
     /* else {
          graphViz.updateStrength(strength);
        } */
 
     setCurrentOptions({
-      oldDisMax: distanceMax,
-      oldDisMin: distanceMin,
+      oldDisMax: maxDist,
+      oldDisMin: minDist,
       oldStr: strength,
     });
-  }, [currentOptions, distanceMax, distanceMin, graphViz, setCurrentOptions, strength]);
+  }, [currentOptions, maxDist, minDist, graphViz, setCurrentOptions, strength]);
 
   useEffect(() => {
     buttonRef.current.onclick = commitChanges;
@@ -44,26 +44,16 @@ export default function ForceFieldOptions({ position, graphViz, buttonRef, curre
       const disMax = graphViz.getMax();
       const disMin = graphViz.getMin();
 
-      setMaxDistanceMax(disMax);
-      setMaxDistanceMin(disMax);
-
-      marks.distanceMax[0].label = disMin.toString();
-      marks.distanceMax[0].value = disMin;
-      marks.distanceMin[0].label = disMin.toString();
-      marks.distanceMin[0].value = disMin;
-      marks.distanceMax[1].label = disMax.toString();
-      marks.distanceMax[1].value = disMax;
-      marks.distanceMin[1].label = disMax.toString();
-      marks.distanceMin[1].value = disMax;
-
+      setMaxForDistances(disMax);
+      setMinForDistances(disMin);
     }
   }, [buttonRef, commitChanges, graphViz]);
 
   // css nel caso sia verticale o orrizzontale (up, down => orrizzontale; left, right => verticale)
   classes.direction = ["up", "down"].includes(position) ? classes.column : classes.row;
 
-  const onChangeDistanceMax = (_e, v) => setDistanceMax(v);
-  const onChangeDistanceMin = (_e, v) => setDistanceMin(v);
+  const onChangeDistanceMax = (_e, v) => setMaxDist(v);
+  const onChangeDistanceMin = (_e, v) => setMinDist(v);
   const onChangeStrength = (_e, v) => setStrength(v);
 
   return (
@@ -73,11 +63,16 @@ export default function ForceFieldOptions({ position, graphViz, buttonRef, curre
         <Slider id="frfd-maxDistance-slider"
           aria-labelledby="frfd-maxDistance-slider-label"
           valueLabelDisplay="auto"
-          step={10 ** Math.floor(Math.log(maxDistanceMax / 10) / Math.LN10)}
-          marks={marks.distanceMax}
-          min={0}
-          max={maxDistanceMax}
-          value={distanceMax}
+          step={0.5 * (10 ** Math.floor(Math.log(maxForDistances / 10) / Math.LN10))}
+          marks={[
+              {label: minForDistances,
+                value: minForDistances},
+              {label: maxForDistances,
+                value: maxForDistances}
+            ]}
+          min={minForDistances}
+          max={maxForDistances}
+          value={maxDist}
           onChange={onChangeDistanceMax}
         />
       </div>
@@ -86,11 +81,16 @@ export default function ForceFieldOptions({ position, graphViz, buttonRef, curre
         <Slider id="frfd-minDistance-slider"
           aria-labelledby="frfd-minDistance-slider-label"
           valueLabelDisplay="auto"
-          step={10 ** Math.floor(Math.log(maxDistanceMax / 10) / Math.LN10)}
-          marks={marks.distanceMin}
-          min={0}
-          max={maxDistanceMin}
-          value={distanceMin}
+          step={0.5 * (10 ** Math.floor(Math.log(maxForDistances / 10) / Math.LN10))}
+          marks={[
+              {label: minForDistances,
+                value: minForDistances},
+              {label: maxForDistances,
+                value: maxForDistances}
+            ]}
+          min={minForDistances}
+          max={maxForDistances}
+          value={minDist}
           onChange={onChangeDistanceMin}
         />
       </div>
@@ -112,26 +112,6 @@ export default function ForceFieldOptions({ position, graphViz, buttonRef, curre
 }
 
 const marks = {
-  distanceMax: [
-    {
-      label: '0',
-      value: 0,
-    },
-    {
-      label: '200',
-      value: 200,
-    }
-  ],
-  distanceMin: [
-    {
-      label: '0',
-      value: 0,
-    },
-    {
-      label: '200',
-      value: 200,
-    }
-  ],
   strength: [
     {
       label: '-150',

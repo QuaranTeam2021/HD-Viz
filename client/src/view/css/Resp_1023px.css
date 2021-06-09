@@ -6,4 +6,9 @@
   .visualization {
     grid-template-columns: auto;
   }
+
+  #datasets-container {
+  grid-template-columns: auto auto;
+  }
+
 }

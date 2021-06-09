@@ -43,18 +43,19 @@ export default function ModalDb({onSubmit}) {
       setDbError(null);
     } catch (err) {
       setDatasetsDb([]);
-      setDbError(err);
+      setDbError(err.message ? err.message : err);
     }
   }
 
   const getColsNames = async table => {
     try {
-      const cols = await tablesController.getTableColumnsNames(table);
-      setTableColumnsDb(typeof cols === "string" ? [] : cols);
-      // setSelectedColumns(typeof cols === "string" ? [] : cols);
+      let cols = await tablesController.getTableColumnsNames(table);
+      cols = typeof cols === "string" ? [] : cols;
+      setTableColumnsDb(cols);
+      setSelectedColumns(cols);
       setDbError(null);
     } catch (err) {
-      setDbError(err);
+      setDbError(err.message ? err.message : err);
       setSelectedColumns([]);
     }
   }
@@ -129,7 +130,7 @@ export default function ModalDb({onSubmit}) {
         <Card variant="elevation" className="message" id="modaldb-info">
           <CardContent>
             <InfoIcon fontSize="small"/>
-            Con nessuna colonna specificata verranno selezionate tutte le colonne nel db
+            Con nessuna colonna specificata verranno selezionate tutte le colonne nel dataset.
           </CardContent>
         </Card>
         <ButtonConfirmDb onClick={onClickConfirm} disabled={!confirmDb} />

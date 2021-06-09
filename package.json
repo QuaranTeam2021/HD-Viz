@@ -13,7 +13,8 @@
     "start": "npm run build-client && npm run start-server",
     "dev": "concurrently \"npm run dev-server\" \"npm run start-client\"",
     "test": "cd client && npm test",
-    "lint": "npm run lint-server && npm run lint-client"
+    "lint": "npm run lint-server && npm run lint-client",
+    "install-client": "cd client && npm install"
   },
   "author": "QuaranTeam",
   "license": "MIT",
