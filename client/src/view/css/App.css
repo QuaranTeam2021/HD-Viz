@@ -144,12 +144,13 @@ body {
   padding-inline-start: 0px;
 }
 
-.main_menu > li {
-  display: inline-block;
+.main_menu li {
+  display: block;
+  margin: 0.7em;
   padding: 0.5em;
 }
 
-.main_menu > li a {
+.main_menu li a {
   background-color: rgb(101, 101, 187);
   color: white;
   padding: 10px 20px;
@@ -157,7 +158,7 @@ body {
   border-radius: 10px;
 }
 
-.main_menu > li a:hover {
+.main_menu li a:hover {
   background-color: rgb(144, 169, 223);
 }
 
@@ -166,9 +167,13 @@ body {
   color: white;
 }
 
-.main_menu > li a:focus {
+.main_menu li a:focus {
   background-color: rgb(109, 47, 109);
   color: white;
+}
+
+.main_menu.not_home ul li {
+  display: inline-block;
 }
 
 .button {
