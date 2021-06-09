@@ -1,11 +1,11 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import SelectVizColumns from './database/SelectVizColumns';
 
 
 export default function SCPMOptions({ graphViz, buttonRef, currentOptions, setCurrentOptions, setDisabled }) {
 
-  const [allCols, setAllCols] = useState([]);
-  const [selected, setSelected] = useState([]);
+  const [allCols, setAllCols] = React.useState([]);
+  const [selected, setSelected] = React.useState([]);
 
 
   const commitChanges = useCallback(() => {
@@ -19,13 +19,11 @@ export default function SCPMOptions({ graphViz, buttonRef, currentOptions, setCu
   useEffect(() => {
     buttonRef.current.onclick = commitChanges;
     if (graphViz !== null) {
-      console.log("oi");
       setAllCols(graphViz.getAllCols());
     }
   }, [buttonRef, commitChanges, graphViz]);
 
   const onChangeColumns = e => {
-    console.log("ei", e.target.value);
     setSelected(e.target.value);
   };
 
