@@ -58,7 +58,7 @@ describe('Testing FastmapController', () => {
         })
 
         test('Must have correct data', () => {
-            fastmapController.createGraph('testFastmapId', 'scpt', ['sepalLength', 'petalLength', 'petalWidth'], ['species']);
+            fastmapController.createGraph('testFastmapId', 'scpt', ['sepalLength', 'petalLength', 'petalWidth'], ['species'], false);
             const graphs = store.graphs;
             const expected = [
                 {

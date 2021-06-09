@@ -1,3 +1,4 @@
+/* istanbul ignore file */
 /* eslint-disable object-property-newline */
 /* eslint-disable prefer-arrow-callback */
 /* eslint-disable func-names */

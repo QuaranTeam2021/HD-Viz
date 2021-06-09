@@ -59,7 +59,7 @@ describe('Testing lleController', () => {
         })
 
         test('Must have correct data', () => {
-            lleController.createGraph('testLleId', 'scpt', ['sepalLength', 'petalLength', 'petalWidth'], ['species']);
+            lleController.createGraph('testLleId', 'scpt', ['sepalLength', 'petalLength', 'petalWidth'], ['species'], false);
             const graphs = store.graphs;
             const expected = [
                 {

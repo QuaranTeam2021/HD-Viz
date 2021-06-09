@@ -1,3 +1,4 @@
+/* istanbul ignore file */
 /* eslint-disable func-style */
 const d3 = require('d3');
 

@@ -57,7 +57,7 @@ describe('Testing stdCtrl', () => {
         })
 
         test('Must have correct data', () => {
-            stdCtrl.createGraph('testStdId', 'scpt', ['sepalLength', 'petalLength', 'petalWidth'], ['species']);
+            stdCtrl.createGraph('testStdId', 'scpt', ['sepalLength', 'petalLength', 'petalWidth'], ['species'], false);
             const graphs = store.graphs;
             const expected = [
                 {

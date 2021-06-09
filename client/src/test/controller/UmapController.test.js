@@ -58,7 +58,7 @@ describe('Testing umapController', () => {
         })
 
         test('Must have correct data', () => {
-            umapController.createGraph('testUmapId', 'scpt', ['sepalLength', 'petalLength', 'petalWidth'], ['species']);
+            umapController.createGraph('testUmapId', 'scpt', ['sepalLength', 'petalLength', 'petalWidth'], ['species'], false);
             const graphs = store.graphs; 
             const expected = [
                 {

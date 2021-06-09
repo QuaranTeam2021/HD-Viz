@@ -40,18 +40,30 @@ describe('Testing LocalLoaderController', () => {
 
     test('Must not call readAsText', () => {
         const emptyFile = new File([], 'empty.csv', { type: 'test/csv' });
-        loaderCtrl.parse(emptyFile);
+        try {
+            loaderCtrl.parse(emptyFile);
+        } catch (e) {
+            console.log(e.message)
+        }
         expect(readAsTextSpy).toBeCalledTimes(0);
     })
 
     test('Must call readAsText with file of type csv', () => {
-        loaderCtrl.parse(fileCsv);
+        try {
+            loaderCtrl.parse(fileCsv);
+        } catch (e) {
+            console.log(e.message)
+        }
         expect(readAsTextSpy).toBeCalledTimes(1);
         expect(readAsTextSpy).toBeCalledWith(fileCsv, "utf-8");
     })
 
     test('Must call readAsText with file of type json', () => {
-        loaderCtrl.parse(fileJson);
+        try {
+            loaderCtrl.parse(fileJson);
+        } catch (e) {
+            console.log(e.message)
+        }
         expect(readAsTextSpy).toBeCalledWith(fileJson, "utf-8");
     })
 })

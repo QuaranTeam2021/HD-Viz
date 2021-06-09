@@ -60,7 +60,7 @@ describe('Testing tsneController', () => {
         })
 
         test('Must have correct data', () => {
-            tsneController.createGraph('testTsneId', 'scpt', ['sepalLength', 'petalLength', 'petalWidth'], ['species']);
+            tsneController.createGraph('testTsneId', 'scpt', ['sepalLength', 'petalLength', 'petalWidth'], ['species'], false);
             const graphs = store.graphs; 
             const expected = [
                 {

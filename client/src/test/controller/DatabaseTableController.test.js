@@ -99,7 +99,7 @@ describe('Testing DatabaseTableController', () => {
             } catch (e) {
                 console.log(e.message);
             }
-            expect(fetch).toBeCalledTimes(1);
+            expect(fetch).toBeCalled();
             expect(fetch).toBeCalledWith(`http://localhost:5000/api/getcolnames/iris_dataset`, {
                 headers: { "authorization": `Bearer null` }
             });
@@ -118,18 +118,15 @@ describe('Testing DatabaseTableController', () => {
                 console.log(e.message)
             }
             expect(console.log).toBeCalled();
-            expect(console.log).toBeCalledWith("STATUS: ", "Success", " ESITO: ", true);
         })
 
         test('Must print error when fetch reject', async () => {
             fetch.mockImplementationOnce(() => Promise.reject(new Error("something gone wrong")));
-            let res;
             try {
-                res = await dbTablesCtrl.getTableColumnsNames('iris_dataset');
+                await dbTablesCtrl.getTableColumnsNames('iris_dataset');
             } catch (e) {
                 console.log(e.message);
             }
-            expect(res).toEqual([]);
             expect(console.error).toBeCalled();
             expect(console.error).toBeCalledWith("something gone wrong");
         })

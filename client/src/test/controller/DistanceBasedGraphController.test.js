@@ -1,7 +1,6 @@
 /* eslint-disable object-property-newline */
 /* eslint-disable sort-keys */
 import { beforeAll, describe, expect, test } from '@jest/globals';
-import DistanceBasedGraph from '../../store/Graph/DistanceBasedGraph';
 import DistanceBasedGraphController from '../../controller/DistanceBasedGraphController';
 import DistanceData from '../../store/DistanceData';
 import Store from '../../store/Store';
@@ -108,7 +107,7 @@ describe('Testing DistanceBasedGraphController', () => {
         })
 
         test('Must have correct data', () => {
-            controller.createGraph('testId', 'forceField', 'euclidean', ['sepalLength', 'petalLength', 'petalWidth'], ['species']);
+            controller.createGraph('testId', 'forceField', 'euclidean', ['sepalLength', 'petalLength', 'petalWidth'], ['species'], false);
             const graphs = store.graphs;
             const expected = new DistanceData(nodes, links)
             expect(graphs[0].data).toEqual(expected);
