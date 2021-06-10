@@ -11,8 +11,6 @@ import { act } from 'react-dom/test-utils';
 import Insert from '../../../view/components/startUpOptions/chooseDataset/Insert';
 import { MemoryRouter } from 'react-router-dom';
 import { mount } from 'enzyme';
-import RadioAlgorithm from '../../../view/components/algorithms/RadioAlgorithm';
-import RadioDistance from '../../../view/components/startUpOptions/RadioDistance';
 import React from 'react';
 
 describe("BuildGraph component tests", () => {
@@ -154,57 +152,4 @@ describe("BuildGraph component tests", () => {
 			expect(setState).toBeCalled();
 		})
 	})
-
-/*	test('onChangeGraph must call setState', () => {
-		const onChangeGraph = wrapper.find(RadioGraphType).prop('onChange');
-		expect(setState).not.toBeCalled();
-		onChangeGraph('htmp');
-		expect(setState).toBeCalledTimes(1);
-	}) */
-
-	/*	test('onChangeColumns must call setState', () => {
-	}) */
-
-	/*	test('onChangeGrouper must call setState', () => {
-	}) */
-
-/*	test('onChangeAlgorithm must call setState', () => {
-		const onChangeAlgorithm = wrapper.find(RadioAlgorithm).prop('onChange');
-		expect(setState).not.toBeCalled();
-		onChangeAlgorithm('FASTMAP');
-		onChangeAlgorithm('ISOMAP');
-		onChangeAlgorithm('T-SNE');
-		onChangeAlgorithm('LLE');
-		onChangeAlgorithm('UMAP');
-		expect(setState).toBeCalledTimes(5);
-	}) 
-
-	test('onChangeDistanza must call setState', () => {
-		jest.spyOn(React, "useState")
-		.mockImplementationOnce(() => ['htmp', setState])
-		.mockImplementationOnce(() => [{ name: undefined}, setState])
-		.mockImplementationOnce(() => [['testcol1', 'testcol2'], setState])
-		.mockImplementationOnce(() => ['species', setState])
-		.mockImplementationOnce(() => [false, setState])
-		.mockImplementationOnce(val => [val, setState])
-		.mockImplementationOnce(val => [val, setState])
-		.mockImplementationOnce(val => [val, setState])
-		.mockImplementationOnce(val => [val, setState])
-		.mockImplementationOnce(val => [val, setState])
-		.mockImplementationOnce(() => ['FASTMAP', setState])
-		.mockImplementationOnce(() => [true, setState])
-		.mockImplementationOnce(() => [['testcol1', 'testcol2'], setState])
-		.mockImplementationOnce(() => ['', setState])
-		.mockImplementationOnce(val => [val, setState])
-		.mockImplementationOnce(val => [val, setState])
-		.mockImplementationOnce(val => [val, setState])
-		.mockImplementationOnce(val => [val, setState])
-		.mockImplementationOnce(val => [val, setState])
-		wrapper = mount(<MemoryRouter><BuildGraph defineStore={jest.fn(() => true)}/></MemoryRouter>);
-		const onChangeDistanza = wrapper.find(RadioDistance).prop('onChange');
-		setState.mockClear();
-		expect(setState).not.toBeCalled();
-		onChangeDistanza('euclidean');
-		expect(setState).toBeCalledTimes(1);
-	})*/
 });

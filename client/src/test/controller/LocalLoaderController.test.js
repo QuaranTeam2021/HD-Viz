@@ -1,6 +1,5 @@
 import { afterAll, beforeAll, describe, expect, jest, test } from '@jest/globals';
 import LocalLoaderController from '../../controller/LocalLoaderController';
-import Papa from 'papaparse';
 import Store from '../../store/Store';
 
 describe('Testing LocalLoaderController', () => {
@@ -19,19 +18,14 @@ describe('Testing LocalLoaderController', () => {
         fileJson = new File([dataTest.toString()], 'fileTest.json', { type: 'text/json' });
         jest.spyOn(console, 'error').mockImplementation(err => console.error(err));
         readAsTextSpy = jest.spyOn(FileReader.prototype, 'readAsText');
-        jest.spyOn(console, 'log');
-  /*      Object.defineProperty(global, 'Papa', {
-            parse: jest.fn(() => { 
+        Object.defineProperty(global, 'Papa', {
+            parse: jest.fn((data, props) => { 
+                console.log(data);
+                console.log(props);
                 return { data: [['Dimension1', 'species'], [5.1, 'setosa']] }
             }),
             unparse: jest.fn()
-        })*/
-        jest.spyOn(Papa, "parse").mockImplementation(() => { 
-            return {
-                data: [['Dimension1', 'species'], [5.1, 'setosa']]
-            }
         })
-        jest.spyOn(Papa, "unparse").mockImplementation(jest.fn())
     }) 
 
     beforeEach(() => {
@@ -44,34 +38,20 @@ describe('Testing LocalLoaderController', () => {
         readAsTextSpy.mockRestore();
     })
 
-    test('Must not call readAsText', async () => {
+    test('Must not call readAsText', () => {
         const emptyFile = new File([], 'empty.csv', { type: 'test/csv' });
-        try {
-            await loaderCtrl.parse(emptyFile);
-        } catch (e) {
-            console.log(e.message)
-        }
-        expect(readAsTextSpy).not.toBeCalled();
+        loaderCtrl.parse(emptyFile);
+        expect(readAsTextSpy).toBeCalledTimes(0);
     })
 
- /*   test('Must call readAsText with file of type csv', async () => {
-        jest.spyOn(Promise, "resolve").mockImplementationOnce(jest.fn());
-        try {
-            await loaderCtrl.parse(fileCsv);
-        } catch (e) {
-            console.log(e.message)
-        }
-        expect(readAsTextSpy).toBeCalled();
+    test('Must call readAsText with file of type csv', () => {
+        loaderCtrl.parse(fileCsv);
+        expect(readAsTextSpy).toBeCalledTimes(1);
         expect(readAsTextSpy).toBeCalledWith(fileCsv, "utf-8");
     })
 
-    test('Must call readAsText with file of type json', async () => {
-        jest.spyOn(Promise, "resolve").mockImplementationOnce(jest.fn());
-        try {
-            await loaderCtrl.parse(fileJson);
-        } catch (e) {
-            console.log(e.message)
-        }
+    test('Must call readAsText with file of type json', () => {
+        loaderCtrl.parse(fileJson);
         expect(readAsTextSpy).toBeCalledWith(fileJson, "utf-8");
-    })*/
+    })
 })

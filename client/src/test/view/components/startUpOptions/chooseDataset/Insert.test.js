@@ -1,5 +1,4 @@
 import { afterAll, beforeAll, describe, expect, jest, test } from '@jest/globals';
-import Button from '@material-ui/core/Button';
 import Insert from '../../../../../view/components/startUpOptions/chooseDataset/Insert';
 import React from 'react';
 import { shallow } from 'enzyme';

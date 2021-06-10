@@ -1,5 +1,5 @@
 /* eslint-disable sort-keys */
-import {describe, expect, jest, test } from '@jest/globals';
+import {describe, expect, test } from '@jest/globals';
 import StandardGraph from '../../../store/Graph/StandardGraph';
 
 describe('Testing StandardGraph class', () => {

@@ -13,33 +13,31 @@ export default class LocalLoaderController {
         if (file.size > 50000) return Promise.reject("Il file caricato è troppo grande");
         let reader = new FileReader();
         if (file && file.size > 0) {
-            return new Promise((resolve, reject) => {
-                    reader.onload = () => {
-                        let dataString = file.name.split('.')[1] === 'json' ? Papa.unparse(reader.result) : reader.result;
-                        let result = Papa.parse(dataString, {
-                            dynamicTyping: true,
-                            error(error) {
-                                throw new Error(error);
-                            },
-                            skipEmptyLines: true
-                        })
-                        if (result.data.length === 0) {
-                            reject("Il file caricato è vuoto");
-                        }
-                        else if (result.data.length > 2000) {
-                            reject("Il file caricato è troppo grande");
-                        }
-                        else {
-                            this.store.loadData(result.data);     
-                            resolve("Il file è stato caricato correttamente");         
-                        }  
+                reader.onload = () => {
+                    let dataString = file.name.split('.')[1] === 'json' ? Papa.unparse(reader.result) : reader.result;
+                    let result = Papa.parse(dataString, {
+                        dynamicTyping: true,
+                        error(error) {
+                            throw new Error(error);
+                        },
+                        skipEmptyLines: true
+                    })
+                    if (result.data.length === 0) {
+                        Promise.reject("Il file caricato è vuoto");
                     }
-                reader.onerror = () => {
-                    console.error(`Error reading file: ${reader.error}`);
-                    reject(`Errore nella lettura del file: ${reader.error}`);
-                };
-                reader.readAsText(file, "utf-8");
-            })
+                    else if (result.data.length > 2000) {
+                        Promise.reject("Il file caricato è troppo grande");
+                    }
+                    else {
+                        this.store.loadData(result.data);     
+                        Promise.resolve("Il file è stato caricato correttamente");         
+                    }  
+                }
+            reader.onerror = () => {
+                console.error(`Error reading file: ${reader.error}`);
+                Promise.reject(`Errore nella lettura del file: ${reader.error}`);
+            };
+            reader.readAsText(file, "utf-8");
         }
     }
 }
