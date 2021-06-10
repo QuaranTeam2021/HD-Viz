@@ -101,7 +101,6 @@ export default function BuildGraph() {
   }, [allOptionsSelected]);
 
   const onChangeGraph = (_e, v) => {
-    console.log(_e);
     setGraph(v);
     if (needsDistance(v))
       controller.current = distanceBasedGraphController;
@@ -113,6 +112,7 @@ export default function BuildGraph() {
       setInsert(v);
       try {
         await localLoaderController.parse(v);
+        setSelectedColumns([]);
         setParseResult(null);
       } catch (err) {
         setInsert({ name: undefined });
@@ -198,7 +198,7 @@ export default function BuildGraph() {
       {selectedInsert(insert) ? // eslint-disable-line operator-linebreak
         <div id="selezione">
           <div id="impostazioni">
-            <Columns onChangeUploaded={onChangeColumns} onChangeGrouper={onChangeGrouper} selectedColumns={selectedColumns}/>
+            <Columns onChangeUploaded={onChangeColumns} onChangeGrouper={onChangeGrouper} selectedColumns={selectedColumns} />
             {needsDistance(selectedGraph) && <TooltipDistColumns />}
             {needsAlgorithm(selectedGraph) && <TooltipVizColumns />}
             <RadioGraphType onChange={onChangeGraph} />

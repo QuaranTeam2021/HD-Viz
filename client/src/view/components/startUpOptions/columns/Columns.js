@@ -3,7 +3,7 @@ import { autorun } from 'mobx';
 
 import { observer } from 'mobx-react-lite';
 import RadioColumns from './RadioColumns';
-import SelectedColumns from './SelectedColumns';
+import SelectColumns from './SelectColumns';
 import { useStore } from '../../../../store/Store';
 
 const Columns = observer(({ onChangeUploaded, onChangeGrouper, selectedColumns }) => {
@@ -20,7 +20,7 @@ const Columns = observer(({ onChangeUploaded, onChangeGrouper, selectedColumns }
 
   return (
     <div className="colonne">
-        <SelectedColumns selectedColumns={selectedColumns} uploadedColumns={uploadedColumns} onChange={onChangeUploaded} />
+        <SelectColumns selectedColumns={selectedColumns} uploadedColumns={uploadedColumns} onChange={onChangeUploaded} />
         <RadioColumns grouperColumns={grouperColumns} onChange={onChangeGrouper} />
     </div>
   );

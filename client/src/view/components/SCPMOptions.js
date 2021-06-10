@@ -19,15 +19,11 @@ export default function SCPMOptions({ graphViz, buttonRef, currentOptions, setCu
   useEffect(() => {
     buttonRef.current.onclick = commitChanges;
     if (graphViz !== null) {
-      console.log("oi");
       setAllCols(graphViz.getAllCols());
     }
   }, [buttonRef, commitChanges, graphViz]);
 
-  const onChangeColumns = e => {
-    console.log("ei", e.target.value);
-    setSelected(e.target.value);
-  };
+  const onChangeColumns = e => setSelected(e.target.value);
 
   return (
     <div>
