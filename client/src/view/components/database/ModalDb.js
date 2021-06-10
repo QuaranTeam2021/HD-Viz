@@ -14,7 +14,7 @@ import SelectVizColumns from './SelectVizColumns';
 import SelectVizTable from './SelectVizTable';
 import { useStore } from '../../../store/Store';
 
-const useStyles = makeStyles(theme => ({
+export const useStyles = makeStyles(theme => ({
   paper: {
     backgroundColor: theme.palette.background.paper,
     border: '2px solid #000',
@@ -120,7 +120,8 @@ export default function ModalDb({onSubmit}) {
   
   const body = 
     <div id="db-div" className={classes.paper}>
-      <ButtonCloseModalDb onClick={onClose}/> 
+      <ButtonCloseModalDb onClick={onClose} />
+      <h3 id="title">Importa da database</h3>
       <div id="description">
         <SelectVizTable onChange={onChangeTableDb} tables={datasetsDb} selected={selectedTable} />
         <SelectVizColumns onChange={onChangeColumnsDb} columns={tableColumnsDb} selectedColumns={selectedColumns} /> 

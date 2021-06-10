@@ -18,7 +18,7 @@ const useStyles = makeStyles(theme => ({
   },
   formControl: {
     margin: theme.spacing(1),
-    maxWidth: 500,
+    maxWidth: 150,
     minWidth: 120,
   },
  
@@ -39,7 +39,7 @@ const MenuProps = {
 };
 const none = "Nessuna colonna disponibile";
 
-export default function SelectVizColumns({ onChange, columns, selectedColumns }) {
+export default function SelectColumns({onChange, uploadedColumns}) {
   const classes = useStyles();
   
   return (
@@ -49,7 +49,7 @@ export default function SelectVizColumns({ onChange, columns, selectedColumns })
         labelId="columns-select-label"
         id="columns-select"
         multiple
-        value={columns.length > 0 ? selectedColumns : ["none"]}
+        value={[]}
         onChange={onChange}
         input={<Input id="columns-chip" />}
         renderValue={selected => <div className={classes.chips}>
@@ -58,9 +58,48 @@ export default function SelectVizColumns({ onChange, columns, selectedColumns })
         }
         MenuProps={MenuProps}
       >
-        {columns ? columns.map((column, i) => <MenuItem key={i} value={column}> {column} </MenuItem>)
+      {/*   {
+					uploadedColumns && uploadedColumns.map((d, i) => <FormControlLabel key={i} control={<PurpleCheckbox />} onChange={onChange}
+						label={d} value={d}
+					/>)
+				} */}
+		{uploadedColumns ? uploadedColumns.map((column, i) => <MenuItem key={i} value={column}> {column} </MenuItem>)
           : <MenuItem value="none" disabled>{none}</MenuItem>}
       </Select>
     </FormControl>
   );
 }
+
+/* import Checkbox from '@material-ui/core/Checkbox';
+import FormControl from '@material-ui/core/FormControl';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import FormGroup from '@material-ui/core/FormGroup';
+import FormLabel from '@material-ui/core/FormLabel';
+import { purple } from '@material-ui/core/colors';
+import React from 'react';
+import { withStyles } from '@material-ui/core/styles';
+
+const PurpleCheckbox = withStyles({
+	checked: {},
+	root: {
+		'&$checked': {
+			color: purple[600],
+		},
+		color: purple[400],
+	},
+})(props => <Checkbox color="default" {...props} />);
+
+export default function CheckboxColumns({onChange, uploadedColumns}) {
+	return (
+		<FormControl component="fieldset">
+			<FormLabel component="legend">Colonne:</FormLabel>
+			<FormGroup>
+				{
+					uploadedColumns && uploadedColumns.map((d, i) => <FormControlLabel key={i} control={<PurpleCheckbox />} onChange={onChange}
+						label={d} value={d}
+					/>)
+				}
+			</FormGroup>
+		</FormControl>
+	)
+} */

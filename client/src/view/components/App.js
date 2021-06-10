@@ -21,6 +21,7 @@ import BuildGraph from './BuildGraph';
 import Database from './database/Database';
 import { defaultLayoutPlugin } from '@react-pdf-viewer/default-layout';
 import Footer from './Footer';
+import Guide from './Guide';
 import Header from './Header';
 import ManualeUtente from '../../manualeUtente.pdf'
 import { observer } from 'mobx-react-lite';
@@ -41,6 +42,22 @@ const App = () => {
   const defineStore = v => setStoreDefined(v);
   const defaultLayoutPluginInstance = defaultLayoutPlugin();
 
+  const menu =
+    <dl className="main_menu">
+      <dd>Qui puoi creare un nuovo grafico</dd>
+      <dt className="item_home"><Link to="/build">{storeDefined ? 'Aggiungi ' : 'Nuovo '}grafico</Link></dt>
+      {storeDefined && <>
+        <dd>Visualizza i grafici creati in precedenza</dd>
+        <dt className="item_home"><Link to="/visualization">Visualizza grafici</Link></dt>
+      </>}
+      <dd>Aggiungi o rimuovi dei dataset nel database, per poi utilizzarli per creare dei nuovi grafici</dd>
+      <dt className="item_home"><Link to="/dataset">Gestisci database</Link></dt>
+      <dd>Visualizza una breve guida sull&apos;applicazione</dd>
+      <dt className="item_home"><Guide /></dt>
+      <dd>Visualizza il manuale utente per una guida completa dell&apos;applicazione</dd>
+      <dt className="item_home"><Link to="/manual">Manuale utente</Link></dt>
+    </dl>
+
   return (
     <StoreContext.Provider value={store}>
       <LocalLoaderControllerContext.Provider value={localLoaderController}>
@@ -53,16 +70,13 @@ const App = () => {
         <UmapControllerContext.Provider value={umapController}>
           <div className="App">
             <Router>
-              <Header />
-              <div className="menu_div">
-                  <ul className="main_menu">
-                    <li className="item_home"><Link to="/">{storeDefined ? 'Aggiungi ' : 'Nuovo ' }grafico</Link></li>
-                    <li><Link to="/dataset">Gestisci database</Link></li>
-                    <li><Link to="/help">Aiuto</Link></li>
-                  </ul>
-              </div>
+              <Header storeDefined={storeDefined} />
               <Switch>
                 <Route exact path="/">
+                  <h1>Benvenuto in HD-Viz</h1>
+                  {menu}
+                </Route>
+                <Route path="/build">
                   <BuildGraph />
                 </Route>
                 <Route path="/visualization">
@@ -71,7 +85,7 @@ const App = () => {
                 <Route path="/dataset">
                   <Database />
                 </Route>
-                <Route path="/help">
+                <Route path="/manual">
                   <div className="ManUt">
                     <Worker workerUrl="https://unpkg.com/pdfjs-dist@2.6.347/build/pdf.worker.min.js">
                       <Viewer fileUrl={ManualeUtente} plugins={[defaultLayoutPluginInstance]} />

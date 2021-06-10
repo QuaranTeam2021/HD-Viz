@@ -21,7 +21,7 @@ const Dataset = ({ onChange }) => {
   return (
     <div className={classes.root} id="insert-dataset">
       <input
-        accept=".csv, .json, .tsv"
+        accept=".csv, .tsv"
         className={classes.input}
         id="dataset-button"
         type="file"
