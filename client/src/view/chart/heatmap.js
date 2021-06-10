@@ -27,6 +27,8 @@ export const heatmap = function (data, idBox) {
   let nodes = data.nodes;
   let links = data.links;
   let orderMode = "none";
+  let linksOriginalCount = 0;
+
   const c = d3.scaleOrdinal(d3.range(10), d3.schemeCategory10);
 
 	let tooltipDiv = d3.select(`#${idBox}`)
@@ -88,7 +90,8 @@ export const heatmap = function (data, idBox) {
   // eslint-disable-next-line func-style
   function updateData(newData) {
     nodes = newData.nodes;
-		links = newData.links;
+		linksOriginalCount = newData.links.length;
+		links = newData.links.filter(item => !isNaN(item.value));
     const categories = [...new Set(nodes.map(item => item.group))]; 
 		svg.selectAll(".legend").remove();
     const nodeIds = d3.range(nodes.length);
@@ -239,12 +242,16 @@ export const heatmap = function (data, idBox) {
 
   // eslint-disable-next-line func-style
   function updateDist(distMin, distMax, ordering) {
-    console.log(distMin, distMax);
     orderMode = ordering;
     const linksToShow = matrix.filter(l => l[2] >= distMin && l[2] <= distMax || l[0] === l[1])
     legend.clearMessageBoard();
-		legend.displayMessage("# of links in range:");
-		legend.displayMessage(`${(linksToShow.length - nodes.length) / 2}/${links.length}`);
+		if (links.length - linksOriginalCount !== 0) {
+			legend.displayMessage("warn! # NaN links found:");
+			legend.displayMessage(`${linksOriginalCount - links.length}/${linksOriginalCount}`);
+		} else if (links.length	> 0) {
+			legend.displayMessage("# of links in range:");
+			legend.displayMessage(`${linksToShow.length}/${links.length}`);
+		}
     rects = rectHandler
       .selectAll("rect")
       .data(matrix.filter(l => l[2] >= distMin && l[2] <= distMax || l[0] === l[1]))

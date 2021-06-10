@@ -68,8 +68,7 @@ export const drawLegend = function (svg, data, width) {
 		.attr("y", 5)
 		.style("fill", "black")
 		.style("font-size", '14px')
-		.text(d => d === undefined ? "sconosciuto" : String(d))
-		.style("font-style", d => d === undefined ? "italic" : "");
+		.text(d => String(d));
 
 	// top legend label "Categorie"
 	legendCategories.append("text")

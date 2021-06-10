@@ -14,10 +14,10 @@ import { drawLegend} from './drawLegend'
 				to be attached to an element.
  */
 export const forceDirected = function (data, idBox) {
-let nodes = data.nodes;
-let links = data.links;
-	const height = 900;
-	const width = 900;
+	let nodes = data.nodes;
+	let links = data.links;
+	const height = 700;
+	const width = 700;
 	let forceProperties = {
 		distanceMax: 200,
 		distanceMin: 0,
@@ -25,7 +25,7 @@ let links = data.links;
 		strength: -30
 	}
 	const nodeRadius = 5;
-
+	let linksOriginalCount = 0;
 	let tooltipDiv = d3.select(`#${idBox}`)
 		.append("div")
 		.classed("tooltip", true);
@@ -66,7 +66,8 @@ let links = data.links;
 	updateData(data);
 	function updateData(newData) {
 		nodes = newData.nodes;
-		links = newData.links;
+		linksOriginalCount = newData.links.length;
+		links = newData.links.filter(item => !isNaN(item.value));
 		const categories = [...new Set(nodes.map(item => item.group))]; 
 		nodes.forEach(el => {
 			if (typeof el.fx !== "undefined") {
@@ -125,12 +126,16 @@ let links = data.links;
 			.join("line");
 
 		legend.clearMessageBoard();
-		legend.displayMessage("# of links in range:");
-		legend.displayMessage(`${linksToShow.length}/${links.length}`);
-		
+		if (links.length - linksOriginalCount !== 0) {
+			legend.displayMessage("warn! # NaN links found:");
+			legend.displayMessage(`${linksOriginalCount - links.length}/${linksOriginalCount}`);
+		} else if (links.length	> 0) {
+			legend.displayMessage("# of links in range:");
+			legend.displayMessage(`${linksToShow.length}/${links.length}`);
+		}
 		scaleThickness.domain([Math.max(getMin(), distanceMin), Math.min(getMax(), distanceMax)])
 		legend.updateTicks(scaleThickness);
-		link.attr("stroke-width", d => 5.5 - scaleThickness(d.value));
+		link.attr("stroke-width", d => 4.5 - scaleThickness(d.value));
 		if (simulation) {
 			simulation.stop();
 		}
