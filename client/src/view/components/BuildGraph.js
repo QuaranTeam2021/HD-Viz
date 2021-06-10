@@ -16,6 +16,7 @@ import TooltipConfirm from './startUpOptions/TooltipConfirm';
 import TooltipDistColumns from './startUpOptions/columns/TooltipDistColumns';
 import TooltipVizColumns from './startUpOptions/columns/TooltipVizColumns';
 import TSNEfeatures from './algorithms/TSNEfeatures';
+import Typography from '@material-ui/core/Typography';
 import UMAPfeatures from './algorithms/UMAPfeatures';
 import { useDistanceBasedGraphController } from '../../controller/DistanceBasedGraphController';
 import { useFastmapController } from '../../controller/FastmapController';
@@ -151,18 +152,6 @@ export default function BuildGraph() {
     controller.current.metric = v;
   };
 
-  /* const onChangeColumns = e => {
-    let actual = selectedColumns;
-    if (e.target.checked) {
-      actual.push(e.target.value);
-      setSelectedColumns(actual);
-    } else {
-      actual = actual.filter(d => d !== e.target.value);
-      setSelectedColumns(actual);
-    } 
-    allOptionsSelected();
-  }; */
-
   const onChangeColumns = e => {
     setSelectedColumns(e.target.value); }
 
@@ -189,87 +178,93 @@ export default function BuildGraph() {
 
     <div className="BuildGraph" >
       <div id="inserimento">
-        <h2>Importa qui i tuoi dati</h2>
-        <div className="uploadButton">
+        <fieldset className="uploadButton" aria-labelledby="insert-label">
+          <legend className="buildgraph-legend" id="insert-label">Scelta del dataset</legend>
           <Insert onChange={onChangeInsert} fileName={insert.name} />
           <ModalDb onSubmit={insertTab => setInsert(insertTab)} />
-        </div>
+        </fieldset>
       </div>
       {selectedInsert(insert) ? // eslint-disable-line operator-linebreak
         <div id="selezione">
           <div id="impostazioni">
-            <Columns onChangeUploaded={onChangeColumns} onChangeGrouper={onChangeGrouper} selectedColumns={selectedColumns} />
-            {needsDistance(selectedGraph) && <TooltipDistColumns />}
-            {needsAlgorithm(selectedGraph) && <TooltipVizColumns />}
-            <RadioGraphType onChange={onChangeGraph} />
-            {["scptMat", "malp"].includes(selectedGraph) && <RadioAlgorithm onChange={onChangeAlgorithm} />}
-            {needsDistance(selectedGraph) && <RadioDistance onChange={onChangeDistanza} distanza={distanza} />}
-            <div id="FeaturesAlgorithm">
-              <div id="FeaturesAlgorithm2">
-                {needsAlgorithm(selectedGraph) && ["ISOMAP", "LLE"].includes(selectedAlgorithm) && <ISOMAPLLEfeatures attributes={{
-                  d: {
-                    distanza,
-                    onChangeDistanza
-                  },
-                  n: {
-                    neighbours,
-                    onChangeNeighbours
-                  },
-                  s: {
-                    onChangeSize,
-                    size
-                  }
-                }} />}
+            <fieldset aria-labelledby="columns-label">
+              <legend className="buildgraph-legend" id="columns-label">Colonne da utilizzare</legend>
+              <Columns onChangeUploaded={onChangeColumns} onChangeGrouper={onChangeGrouper} selectedColumns={selectedColumns} />
+              {(needsDistance(selectedGraph) || selectedAlgorithm !== "none") && <TooltipDistColumns />}
+              {needsAlgorithm(selectedGraph) && selectedAlgorithm === "none" && <TooltipVizColumns />}
+            </fieldset>
+            <fieldset aria-labelledby="graph-options-label">
+              <legend className="buildgraph-legend" id="graph-option-label">Parametri di visualizzazione</legend>
+              <RadioGraphType onChange={onChangeGraph} />
+              {["scptMat", "malp"].includes(selectedGraph) && <RadioAlgorithm onChange={onChangeAlgorithm} />}
+              {needsDistance(selectedGraph) && <RadioDistance onChange={onChangeDistanza} distanza={distanza} />}
+              <div id="FeaturesAlgorithm">
+                <div id="FeaturesAlgorithm2">
+                  {needsAlgorithm(selectedGraph) && ["ISOMAP", "LLE"].includes(selectedAlgorithm) && <ISOMAPLLEfeatures attributes={{
+                    d: {
+                      distanza,
+                      onChangeDistanza
+                    },
+                    n: {
+                      neighbours,
+                      onChangeNeighbours
+                    },
+                    s: {
+                      onChangeSize,
+                      size
+                    }
+                  }} />}
+                </div>
+                <div id="FeaturesAlgorithm3">
+                  {needsAlgorithm(selectedGraph) && ["FASTMAP"].includes(selectedAlgorithm) && <FASTMAPfeatures attributes={{
+                    d: {
+                      distanza,
+                      onChangeDistanza
+                    },
+                    s: {
+                      onChangeSize,
+                      size
+                    }
+                  }} />}
+                </div>
+                <div id="FeaturesAlgorithm4">
+                  {needsAlgorithm(selectedGraph) && ["T-SNE"].includes(selectedAlgorithm) && <TSNEfeatures attributes={{
+                    d: {
+                      distanza,
+                      onChangeDistanza
+                    },
+                    e: {
+                      epsilon,
+                      onChangeEpsilon
+                    },
+                    n: {
+                      neighbours,
+                      onChangeNeighbours
+                    },
+                    p: {
+                      onChangePerplexity,
+                      perplexity
+                    },
+                    s: {
+                      onChangeSize,
+                      size
+                    }
+                  }} />}
+                </div>
+                <div id="FeaturesAlgorithm5">
+                  {needsAlgorithm(selectedGraph) && ["UMAP"].includes(selectedAlgorithm) && <UMAPfeatures attributes={{
+                    n: {
+                      neighbours,
+                      onChangeNeighbours
+                    },
+                    s: {
+                      onChangeSize,
+                      size
+                    }
+                  }} />}
+                </div>
               </div>
-              <div id="FeaturesAlgorithm3">
-                {needsAlgorithm(selectedGraph) && ["FASTMAP"].includes(selectedAlgorithm) && <FASTMAPfeatures attributes={{
-                  d: {
-                    distanza,
-                    onChangeDistanza
-                  },
-                  s: {
-                    onChangeSize,
-                    size
-                  }
-                }} />}
-              </div>
-              <div id="FeaturesAlgorithm4">
-                {needsAlgorithm(selectedGraph) && ["T-SNE"].includes(selectedAlgorithm) && <TSNEfeatures attributes={{
-                  d: {
-                    distanza,
-                    onChangeDistanza
-                  },
-                  e: {
-                    epsilon,
-                    onChangeEpsilon
-                  },
-                  n: {
-                    neighbours,
-                    onChangeNeighbours
-                  },
-                  p: {
-                    onChangePerplexity,
-                    perplexity
-                  },
-                  s: {
-                    onChangeSize,
-                    size
-                  }
-                }} />}
-              </div>
-              <div id="FeaturesAlgorithm5">
-                {needsAlgorithm(selectedGraph) && ["UMAP"].includes(selectedAlgorithm) && <UMAPfeatures attributes={{
-                  n: {
-                    neighbours,
-                    onChangeNeighbours
-                  },
-                  s: {
-                    onChangeSize,
-                    size
-                  }
-                }} />}
-              </div>
-            </div>
+            </fieldset>
           </div>
             <div id="ButtonConfirm">
               {selectedInsert(insert) && <ButtonConfirm onClick={onClickConfirm} disabled={!confirm} />}
