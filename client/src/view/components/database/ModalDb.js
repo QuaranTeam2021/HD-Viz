@@ -92,7 +92,7 @@ export default function ModalDb({onSubmit}) {
     optionsSelected();
   }, [optionsSelected]); 
 
-  const onClickConfirm = () => {
+  const onClickConfirm = async () => {
     let formData = {
       selectedColumns,
       selectedTable 
@@ -101,13 +101,13 @@ export default function ModalDb({onSubmit}) {
     formData.columns = selectedColumns; 
     if (selectedColumns.length === 0 || selectedColumns.length === tableColumnsDb.length)
       try {
-        loaderController.loadTable(selectedTable);
+        await loaderController.loadTable(selectedTable);
       } catch (e) {
         console.error(e.message)
       }
     else
       try {
-        loaderController.loadTableCols(selectedTable, selectedColumns);
+        await loaderController.loadTableCols(selectedTable, selectedColumns);
       } catch (e) {
         console.error(e.message)
       }
