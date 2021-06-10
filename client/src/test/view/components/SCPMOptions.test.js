@@ -1,10 +1,10 @@
 import { afterAll, beforeAll, describe, expect, jest, test } from '@jest/globals';
-import MALPOptions from '../../../view/components/MALPOptions';
 import { mount } from 'enzyme';
 import React from 'react';
+import SCPMOptions from '../../../view/components/SCPMOptions';
 import SelectVizColumns from '../../../view/components/database/SelectVizColumns';
 
-describe('Testing MALPOptions component', () => {
+describe('Testing SCPMOptions component', () => {
 
     let wrapper;
     const setState = jest.fn();
@@ -20,7 +20,7 @@ describe('Testing MALPOptions component', () => {
                 onClick: jest.fn()
             }
         }
-        wrapper = mount(<MALPOptions graphViz={graphViz} buttonRef={buttonRef} currentOptions={jest.fn()} setCurrentOptions={jest.fn()} />);
+        wrapper = mount(<SCPMOptions graphViz={graphViz} buttonRef={buttonRef} currentOptions={jest.fn()} setCurrentOptions={jest.fn()} />);
     })
 
     afterAll(() => {
