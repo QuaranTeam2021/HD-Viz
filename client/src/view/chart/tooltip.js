@@ -23,7 +23,7 @@ export const tooltip = (selectionGroup, tooltipDiv) => {
 		setContents(d3.select(this).datum());
 		const [mouseX, mouseY] = [event.pageX, event.pageY];
 		// add the left & top margin values to account for the SVG g element transform
-		setPosition(mouseX, mouseY, divHeight);
+		setPosition(mouseX, mouseY);
 	}
 
 	function handleMouseleave() {
