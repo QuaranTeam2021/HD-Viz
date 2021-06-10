@@ -4,6 +4,7 @@ import { action } from 'mobx';
 import ButtonConfirm from './startUpOptions/ButtonConfirm';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
+import CheckboxNormalisation from './startUpOptions/CheckboxNormalisation';
 import Columns from './startUpOptions/columns/Columns';
 import FASTMAPfeatures from './algorithms/FASTMAPfeatures';
 import Insert from './startUpOptions/chooseDataset/Insert';
@@ -16,7 +17,6 @@ import TooltipConfirm from './startUpOptions/TooltipConfirm';
 import TooltipDistColumns from './startUpOptions/columns/TooltipDistColumns';
 import TooltipVizColumns from './startUpOptions/columns/TooltipVizColumns';
 import TSNEfeatures from './algorithms/TSNEfeatures';
-import Typography from '@material-ui/core/Typography';
 import UMAPfeatures from './algorithms/UMAPfeatures';
 import { useDistanceBasedGraphController } from '../../controller/DistanceBasedGraphController';
 import { useFastmapController } from '../../controller/FastmapController';
@@ -43,6 +43,7 @@ export default function BuildGraph() {
   const [neighbours, setNeighbours] = useState(200);
   const [perplexity, setPerplexity] = useState(20);
   const [epsilon, setEpsilon] = useState(20);
+  const [normalisation, setNormalisation] = useState(false);
   const [selectedAlgorithm, setAlgorithm] = useState('');
   const [parseResult, setParseResult] = useState(null);
 
@@ -161,11 +162,13 @@ export default function BuildGraph() {
     return gr;
   });
 
+  const onChangeNormalisation = e => setNormalisation(e.target.checked);
+
   const onClickConfirm = action(() => {
     if (needsDistance(selectedGraph))
-      controller.current.createGraph(`${selectedGraph}-${Math.round(Math.random() * 100)}`, selectedGraph, distanza, selectedColumns, grouper);
+      controller.current.createGraph(`${selectedGraph}-${Math.round(Math.random() * 100)}`, selectedGraph, distanza, selectedColumns, grouper, normalisation);
     if (needsAlgorithm(selectedGraph))
-      controller.current.createGraph(`${selectedGraph}-${Math.round(Math.random() * 100)}`, selectedGraph, selectedColumns, grouper);
+      controller.current.createGraph(`${selectedGraph}-${Math.round(Math.random() * 100)}`, selectedGraph, selectedColumns, grouper, normalisation);
   });
 
   let showDimMode = {};
@@ -190,6 +193,7 @@ export default function BuildGraph() {
             <fieldset aria-labelledby="columns-label">
               <legend className="buildgraph-legend" id="columns-label">Colonne da utilizzare</legend>
               <Columns onChangeUploaded={onChangeColumns} onChangeGrouper={onChangeGrouper} selectedColumns={selectedColumns} />
+              <CheckboxNormalisation onChangeNormalisation={onChangeNormalisation} />
               {(needsDistance(selectedGraph) || selectedAlgorithm !== "none") && <TooltipDistColumns />}
               {needsAlgorithm(selectedGraph) && selectedAlgorithm === "none" && <TooltipVizColumns />}
             </fieldset>
