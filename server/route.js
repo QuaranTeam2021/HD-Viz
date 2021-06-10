@@ -172,7 +172,7 @@ router.post('/upload/:table', upload.single('file'), async (req, res) => {
                             res.status(400).json(`Il file caricato è vuoto`);
                         }
                         if (csvData.length > 2000) {
-                            res.status(400).json(`Il file caricato è troppo grande`);
+                            res.status(400).json(`Il file caricato è troppo grande, deve contenere massimo 2000 righe di dati`);
                         }
                         else {
 
