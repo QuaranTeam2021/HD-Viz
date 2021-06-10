@@ -387,20 +387,18 @@ body {
   background-color: lightcoral;
   color: #750a02;
   border-color: #750a02;
-  width: auto;
-  text-align: center;
-  display: inline-block;
-  font-weight: bold;
-  margin-top: 2em;
 }
 
 .MuiCard-root.success {
   background-color: lightgreen;
   color: #206c45;
   border-color: #206c45;
+}
+
+.MuiCard-root.success, .MuiCard-root.error {
   width: auto;
   text-align: center;
   display: inline-block;
   font-weight: bold;
-  margin-top: 2em;
+  margin: 2em 1em;
 }
