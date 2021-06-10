@@ -151,7 +151,7 @@ export default function BuildGraph() {
     controller.current.metric = v;
   };
 
-  const onChangeColumns = e => {
+  /* const onChangeColumns = e => {
     let actual = selectedColumns;
     if (e.target.checked) {
       actual.push(e.target.value);
@@ -159,9 +159,12 @@ export default function BuildGraph() {
     } else {
       actual = actual.filter(d => d !== e.target.value);
       setSelectedColumns(actual);
-    }
+    } 
     allOptionsSelected();
-  };
+  }; */
+
+  const onChangeColumns = e => {
+    setSelectedColumns(e.target.value); }
 
   const onChangeGrouper = (_e, v) => setGrouper(() => {
     let gr = [];
@@ -195,7 +198,7 @@ export default function BuildGraph() {
       {selectedInsert(insert) ? // eslint-disable-line operator-linebreak
         <div id="selezione">
           <div id="impostazioni">
-            <Columns onChangeUploaded={onChangeColumns} onChangeGrouper={onChangeGrouper} />
+            <Columns onChangeUploaded={onChangeColumns} onChangeGrouper={onChangeGrouper} selectedColumns={selectedColumns}/>
             {needsDistance(selectedGraph) && <TooltipDistColumns />}
             {needsAlgorithm(selectedGraph) && <TooltipVizColumns />}
             <RadioGraphType onChange={onChangeGraph} />

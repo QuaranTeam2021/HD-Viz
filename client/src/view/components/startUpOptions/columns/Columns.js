@@ -6,7 +6,7 @@ import RadioColumns from './RadioColumns';
 import SelectedColumns from './SelectedColumns';
 import { useStore } from '../../../../store/Store';
 
-const Columns = observer(({ onChangeUploaded, onChangeGrouper, }) => {
+const Columns = observer(({ onChangeUploaded, onChangeGrouper, selectedColumns }) => {
 
   const store = useStore();
 
@@ -20,7 +20,7 @@ const Columns = observer(({ onChangeUploaded, onChangeGrouper, }) => {
 
   return (
     <div className="colonne">
-        <SelectedColumns uploadedColumns={uploadedColumns} onChange={onChangeUploaded} />
+        <SelectedColumns selectedColumns={selectedColumns} uploadedColumns={uploadedColumns} onChange={onChangeUploaded} />
         <RadioColumns grouperColumns={grouperColumns} onChange={onChangeGrouper} />
     </div>
   );

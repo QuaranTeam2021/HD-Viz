@@ -7,6 +7,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import React from 'react';
 import Select from '@material-ui/core/Select';
 
+
 const useStyles = makeStyles(theme => ({
  
   chip: {
@@ -39,7 +40,7 @@ const MenuProps = {
 };
 const none = "Nessuna colonna disponibile";
 
-export default function SelectColumns({onChange, uploadedColumns}) {
+export default function SelectColumns({onChange, uploadedColumns, selectedColumns}) {
   const classes = useStyles();
   
   return (
@@ -49,7 +50,7 @@ export default function SelectColumns({onChange, uploadedColumns}) {
         labelId="columns-select-label"
         id="columns-select"
         multiple
-        value={[]}
+        value={uploadedColumns.length > 0 ? selectedColumns : ["none"]}
         onChange={onChange}
         input={<Input id="columns-chip" />}
         renderValue={selected => <div className={classes.chips}>
