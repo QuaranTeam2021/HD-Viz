@@ -18,6 +18,8 @@ export const forceDirected = function (data, idBox) {
 	let links = data.links;
 	const height = 700;
 	const width = 700;
+	let max = -1;
+	let min = Number.MAX_VALUE;
 	let forceProperties = {
 		distanceMax: 200,
 		distanceMin: 0,
@@ -56,11 +58,10 @@ export const forceDirected = function (data, idBox) {
 		.attr("stroke", "#fff")
 		.attr("stroke-width", 1.5);
 
-	const [minDist, maxVal] = [getMin(), getMax()];
 	let legend;
 	const scaleThickness = d3
 			.scaleLinear()
-			.domain([minDist, maxVal])
+			.domain([min, max])
 			.range([0.5, nodeRadius - 1]);
 	
 	updateData(data);
@@ -68,6 +69,8 @@ export const forceDirected = function (data, idBox) {
 		nodes = newData.nodes;
 		linksOriginalCount = newData.links.length;
 		links = newData.links.filter(item => !isNaN(item.value));
+		updateMaxMin();
+
 		const categories = [...new Set(nodes.map(item => item.group))]; 
 		nodes.forEach(el => {
 			if (typeof el.fx !== "undefined") {
@@ -90,13 +93,22 @@ export const forceDirected = function (data, idBox) {
 		updateDistStr(forceProperties.distanceMin, forceProperties.distanceMax, forceProperties.strength);
 
 	}
-
+	function updateMaxMin() {
+		max = Math.ceil(d3.max(links, d => d.value) * 100) / 100;
+		min = Math.floor(d3.min(links, d => d.value) * 100) / 100;
+	}
 	function getMin() {
-		return Math.floor(d3.min(links, d => d.value) * 100) / 100;
+		if (min === Number.MAX_VALUE) {
+			updateMaxMin();
+		}
+		return min;
 	}
 	
 	function getMax() {
-		return Math.ceil(d3.max(links, d => d.value) * 100) / 100;
+		if (max === -1) {
+			updateMaxMin();
+		}
+		return max;
 	}
 	
 	function updateStrength(strength) {
@@ -127,9 +139,10 @@ export const forceDirected = function (data, idBox) {
 
 		legend.clearMessageBoard();
 		if (links.length - linksOriginalCount !== 0) {
-			legend.displayMessage("warn! # NaN links found:");
+			legend.displayMessage("warn! # of NaN links:");
 			legend.displayMessage(`${linksOriginalCount - links.length}/${linksOriginalCount}`);
-		} else if (links.length	> 0) {
+		}
+		if (links.length > 0) {
 			legend.displayMessage("# of links in range:");
 			legend.displayMessage(`${linksToShow.length}/${links.length}`);
 		}

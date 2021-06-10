@@ -99,7 +99,7 @@ export default function ForceFieldOptions({ position, graphViz, buttonRef, curre
         <Slider id="frfd-strength-slider"
           aria-labelledby="frfd-strength-slider-label"
           valueLabelDisplay="auto"
-          step={10}
+          step={1}
           marks={marks.strength}
           min={-150}
           max={50}
