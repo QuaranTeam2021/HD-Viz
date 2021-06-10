@@ -44,18 +44,18 @@ const App = () => {
 
   const menu =
     <dl className="main_menu">
-      <dt className="item_home"><Link to="/build">{storeDefined ? 'Aggiungi ' : 'Nuovo '}grafico</Link></dt>
       <dd>Qui puoi creare un nuovo grafico</dd>
+      <dt className="item_home"><Link to="/build">{storeDefined ? 'Aggiungi ' : 'Nuovo '}grafico</Link></dt>
       {storeDefined && <>
-        <dt className="item_home"><Link to="/visualization">Visualizza grafici</Link></dt>
         <dd>Visualizza i grafici creati in precedenza</dd>
+        <dt className="item_home"><Link to="/visualization">Visualizza grafici</Link></dt>
       </>}
-      <dt className="item_home"><Link to="/dataset">Gestisci database</Link></dt>
       <dd>Aggiungi o rimuovi dei dataset nel database, per poi utilizzarli per creare dei nuovi grafici</dd>
-      <dt className="item_home"><Guide /></dt>
+      <dt className="item_home"><Link to="/dataset">Gestisci database</Link></dt>
       <dd>Visualizza una breve guida sull&apos;applicazione</dd>
-      <dt className="item_home"><Link to="/manual">Manuale utente</Link></dt>
+      <dt className="item_home"><Guide /></dt>
       <dd>Visualizza il manuale utente per una guida completa dell&apos;applicazione</dd>
+      <dt className="item_home"><Link to="/manual">Manuale utente</Link></dt>
     </dl>
 
   return (
@@ -85,7 +85,7 @@ const App = () => {
                 <Route path="/dataset">
                   <Database />
                 </Route>
-                <Route path="/help">
+                <Route path="/manual">
                   <div className="ManUt">
                     <Worker workerUrl="https://unpkg.com/pdfjs-dist@2.6.347/build/pdf.worker.min.js">
                       <Viewer fileUrl={ManualeUtente} plugins={[defaultLayoutPluginInstance]} />

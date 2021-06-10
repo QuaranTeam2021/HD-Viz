@@ -18,7 +18,7 @@ const useStyles = makeStyles(theme => ({
   },
   formControl: {
     margin: theme.spacing(1),
-    maxWidth: 150,
+    maxWidth: 500,
     minWidth: 120,
   },
  
@@ -43,24 +43,26 @@ export default function SelectVizColumns({ onChange, columns, selectedColumns })
   const classes = useStyles();
   
   return (
+    <div>
       <FormControl className={classes.formControl}>
-      <InputLabel id="columns-select-label">Colonne</InputLabel>
-      <Select
-        labelId="columns-select-label"
-        id="columns-select"
-        multiple
-        value={columns.length > 0 ? selectedColumns : ["none"]}
-        onChange={onChange}
-        input={<Input id="columns-chip" />}
-        renderValue={selected => <div className={classes.chips}>
-            {selected.map(value => <Chip key={value} label={value === "none" ? none : value} className={classes.chip} />)}
-          </div>
-        }
-        MenuProps={MenuProps}
-      >
-        {columns ? columns.map((column, i) => <MenuItem key={i} value={column}> {column} </MenuItem>)
-          : <MenuItem value="none" disabled>{none}</MenuItem>}
-      </Select>
-    </FormControl>
+          <InputLabel id="columns-select-label">Colonne</InputLabel>
+          <Select
+            labelId="columns-select-label"
+            id="columns-select"
+            multiple
+            value={columns.length > 0 ? selectedColumns : ["none"]}
+            onChange={onChange}
+            input={<Input id="columns-chip" />}
+            renderValue={selected => <div className={classes.chips}>
+                {selected.map(value => <Chip key={value} label={value === "none" ? none : value} className={classes.chip} />)}
+              </div>
+            }
+            MenuProps={MenuProps}
+          >
+            {columns ? columns.map((column, i) => <MenuItem key={i} value={column}> {column} </MenuItem>)
+              : <MenuItem value="none" disabled>{none}</MenuItem>}
+          </Select>
+      </FormControl>
+    </div>
   );
 }

@@ -150,15 +150,22 @@ body {
   padding: 0.5em;
 }
 
-.main_menu li a {
+.main_menu li a, .main_menu dt a, .item_home button {
   background-color: rgb(101, 101, 187);
   color: white;
   padding: 10px 20px;
   text-decoration: none;
   border-radius: 10px;
+  border: none;
 }
 
-.main_menu li a:hover {
+.item_home button {
+  font-size: 16px;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.main_menu li a:hover, .main_menu dt a:hover, .item_home button:hover {
   background-color: rgb(144, 169, 223);
 }
 
@@ -167,12 +174,11 @@ body {
   color: white;
 }
 
-.main_menu li a:focus {
-  background-color: rgb(109, 47, 109);
-  color: white;
+.main_menu dd {
+  margin: 1.2em;
 }
 
-.main_menu.not_home ul li {
+.menu_div.not_home ul li  {
   display: inline-block;
 }
 
@@ -304,10 +310,11 @@ body {
 }
 
 #db-div {
-  top: 30%;
-  left: 30%;
-  width: 35%;
-  padding: 5px 15px;
+  position: absolute;
+	right: 25%;
+  left: 25%;
+  top: 20%;
+  padding: 5px 20px;
 }
 
 #buttonCloseDb {
@@ -324,14 +331,28 @@ body {
   padding: 0;
 }
 
-/* posizione del box select del db colonne e tab */
-.MuiPaper-root.MuiMenu-paper.MuiPopover-paper.MuiPaper-elevation8.MuiPaper-rounded {
-  margin-left: 9.5em;
-  max-width: auto;
+.MenuBG {
+  display: none;
 }
 
 #button-confirm-db, #button {
   text-align: center;
+}
+
+#button-confirm-db {
+  padding: 0.5em;
+}
+
+#modaldb-info {
+  margin-top: 0.5em;
+}
+
+.MuiCardContent-root {
+  display: flex;
+}
+
+.MuiCardContent-root svg {
+  margin-right: 1em;
 }
 
 .titleGraphdiv {
@@ -366,20 +387,18 @@ body {
   background-color: lightcoral;
   color: #750a02;
   border-color: #750a02;
-  width: auto;
-  text-align: center;
-  display: inline-block;
-  font-weight: bold;
-  margin-top: 2em;
 }
 
 .MuiCard-root.success {
   background-color: lightgreen;
   color: #206c45;
   border-color: #206c45;
+}
+
+.MuiCard-root.success, .MuiCard-root.error {
   width: auto;
   text-align: center;
   display: inline-block;
   font-weight: bold;
-  margin-top: 2em;
+  margin: 2em 1em;
 }
