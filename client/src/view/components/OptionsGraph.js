@@ -83,7 +83,7 @@ export default function OptionsGraph({ onDelete, graphViz, graphId, graphType, g
         </AccordionSummary>
         <AccordionDetails>
           <div id={`${graphId}-options`} className={classes.root}>
-            <RenameTitleGraph title={title} setTitle={setTitleGraph} />
+            <RenameTitleGraph title={title} setTitle={setTitle} />
             {/* <ButtonAnchorOptions optionsPosition={optionsPosition} /> */}
             {switchOptions(graphType, optionsPosition.position, graphViz)}
           </div>
