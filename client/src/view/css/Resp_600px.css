@@ -6,10 +6,6 @@
     #inserimento, .MuiButton-label, #button {
         font-size: 12px;
     }
-    
-    #impostazioni {
-        grid-template-columns: auto;
-    }
 
     .colonne {
         grid-gap: 1em;
