@@ -255,13 +255,14 @@ export const linearProjection = function (data, cols, grouper, idBox) {
                 .attr("stroke-width", 3)
                 .style("stroke", "black")
                 .call(drag());
-            }
+        }
         legend = drawLegend(svg, categories, width);
         if (rawData.length === 0) {
-            legend.displayMessage(`Error: only NaN found`);
+            legend.displayMessage(`warn! only NaN found`);
         }
         else if (nanFound > 0) {
-            legend.displayMessage(`warn: ${nanFound} NaN found`);
+			legend.displayMessage("warn! # of NaN found:");
+			legend.displayMessage(`${nanFound}/${data.length}`);
         }
     }
 

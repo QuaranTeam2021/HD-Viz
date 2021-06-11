@@ -265,7 +265,7 @@ export const heatmap = function (data, idBox) {
 		}
     if (links.length	> 0) {
 			legend.displayMessage("# of links in range:");
-			legend.displayMessage(`${linksToShow.length}/${links.length}`);
+			legend.displayMessage(`${(linksToShow.length - nodes.length) / 2}/${links.length}`);
 		}
     rects = rectHandler
       .selectAll("rect")

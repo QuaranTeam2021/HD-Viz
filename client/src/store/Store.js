@@ -128,8 +128,10 @@ export default class Store {
         let numericData = result.slice(1,);
 
         for (let col = 0; col < cols.length; ++col) {
-            const factor = Math.max(...numericData.map(el => el[col]));
-            if (factor !== 0) {
+
+            // eslint-disable-next-line no-extra-parens
+            const factor = Math.max(...numericData.map(el => (isNaN(el[col]) ? Number.MIN_VALUE : el[col])));
+            if (factor !== 0 && !isNaN(factor) && factor !== undefined && factor !== null) {
                 for (let i = 0; i < numericData.length; ++i) {
                     let row = numericData[i];
                     row[col] = row[col] / factor;
