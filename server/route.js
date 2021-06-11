@@ -134,7 +134,7 @@ async function createTable(header, firstRow, table) {
         for (let i = 0; i < header.length; i++)
             query = query + `${header[i].replace(/[^A-Z0-9]/igu, '_')} ${isNaN(1 * firstRow[i]) ? 'VARCHAR' : 'numeric'}, `;
         query = query.slice(0, -2);
-        await client.query(`CREATE TABLE ${table} ( ${query} );`);
+        await client.query(`CREATE TABLE ${table.replace(/[^A-Z0-9]/igu, '_')} ( ${query} );`);
         return true;
     }
     catch (err) {
