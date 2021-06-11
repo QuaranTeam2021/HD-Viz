@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
 import ButtonCloseModal from './database/ButtonCloseModalDb';
 import Modal from '@material-ui/core/Modal';
+import React from 'react';
 import { useStyles } from './database/ModalDb';
 
 export default function Guide() {
-    const [show, setShow] = useState(false)
+    const [show, setShow] = React.useState(false)
     
     const classes = useStyles();
 
