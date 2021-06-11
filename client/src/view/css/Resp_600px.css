@@ -12,7 +12,7 @@
     }
 
     .colonne {
-        display: contents;
+        grid-gap: 1em;
     }
 
     .main_menu > li a, .makeStyles-root-8 span, #colonne span, #FeaturesAlgoritm span, .MuiFormLabel-root legend, .MuiFormControl-root legend, .MuiFormControlLabel-root span, #FeaturesAlgorithm p, #completeFormInsertDataset p {

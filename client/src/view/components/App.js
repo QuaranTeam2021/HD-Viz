@@ -73,8 +73,10 @@ const App = () => {
               <Header storeDefined={storeDefined} />
               <Switch>
                 <Route exact path="/">
-                  <h1>Benvenuto in HD-Viz</h1>
-                  {menu}
+                  <div className="div-menu-home">
+                    <h1>Benvenuto in HD-Viz</h1>
+                    {menu}
+                  </div> 
                 </Route>
                 <Route path="/build">
                   <BuildGraph />
