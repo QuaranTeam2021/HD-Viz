@@ -125,13 +125,13 @@ export default function Database() {
                 <ButtonAddDb onChange={onChangeInsertDs} />
                 <TextFieldAddDb onChangeName={onChangeName} fileName={parseName(insertDs.name)} nameDs={name} onBlur={onBlurName} disabled={disableName} error={nameError} onSubmit={onClickDs} />
                 {insertDs.name !== undefined && <ButtonConfirmAddDb onClick={onClickDs} fileName={insertDs.name} disabled={nameError[0]} />}
-                {dbStatus.value !== null &&
-                    <Card variant="outlined" className={`${dbStatus.value ? "success" : "error"} message`}>
-                        <CardContent>
-                            {dbStatus.message}
-                        </CardContent>
-                    </Card>}
             </div>
+            {dbStatus.value !== null &&
+                <Card variant="outlined" className={`${dbStatus.value ? "success" : "error"} message`}>
+                    <CardContent>
+                        {dbStatus.message}
+                    </CardContent>
+                </Card>}
             <div>
                 <h3>Elimina dataset</h3>
                 <div id="datasets-container">

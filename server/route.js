@@ -6,15 +6,22 @@ const papa = require('papaparse');
 const upload = multer({ dest: 'tmp/upload/' });
 const router = express.Router();
 
+
+// eslint-disable-next-line func-style
+async function getTablesNames() {
+    const data = await client.query(`
+        SELECT table_name 
+        FROM information_schema.tables 
+        WHERE table_schema='public'
+    `);
+    return data.rows;
+}
+
 // get tables names
 router.get("/tableslist", async (req, res) => {
     try {
-        const data = await client.query(`
-            SELECT table_name 
-            FROM information_schema.tables 
-            WHERE table_schema='public'
-        `);
-        res.json(data.rows);
+       const data = await getTablesNames();
+       res.json(data);
     } 
     catch (err) {
         console.error('tableslist: Server error', err.message);
@@ -120,12 +127,20 @@ router.post("/getselectedcol/:table", async (req, res) => {
     }
 });
 
-const createTable = function(header, firstRow, table) {
-    let query = '  ';
-    for (let i = 0; i < header.length; i++)
-        query = query + `${header[i]} ${isNaN(1 * firstRow[i]) ? 'VARCHAR' : 'numeric'}, `;
-    query = query.slice(0, -2);
-    client.query(`CREATE TABLE ${table} ( ${query} );`);
+// eslint-disable-next-line func-style
+async function createTable(header, firstRow, table) {
+    try {
+        let query = '  ';
+        for (let i = 0; i < header.length; i++)
+            query = query + `${header[i].replace(/[^A-Z0-9]/igu, '_')} ${isNaN(1 * firstRow[i]) ? 'VARCHAR' : 'numeric'}, `;
+        query = query.slice(0, -2);
+        await client.query(`CREATE TABLE ${table} ( ${query} );`);
+        return true;
+    }
+    catch (err) {
+        console.error('upload: createTable: ', err.message);
+        return false;
+    }
 }
 
 router.post('/upload/:table', upload.single('file'), async (req, res) => {
@@ -142,18 +157,16 @@ router.post('/upload/:table', upload.single('file'), async (req, res) => {
             res.status(400).json(`Empty table parameter passed`);
         }
         else { 
+            const namesList = await getTablesNames();
+            let nameAlreadyUsed = false;
 
-            const data = await client.query(`
-                SELECT EXISTS (
-                    SELECT FROM pg_tables
-                    WHERE  schemaname = 'public'
-                    AND    tablename  = '${table}'
-                );
-            `);
-
-            if (data.rows[0].exists) {
+            for (let i=0; i< namesList.length; i++)
+                if (namesList[i].table_name.toUpperCase() == table.toUpperCase())
+                    nameAlreadyUsed = true;
+           
+            if (nameAlreadyUsed) {
                 console.log(`upload: table name already exists`)
-                res.status(400).json(`Table name already exists`);
+                res.status(400).json(`Nome già utilizzato`);
             }
             else {
                 const file = fs.createReadStream(req.file.path);
@@ -179,25 +192,28 @@ router.post('/upload/:table', upload.single('file'), async (req, res) => {
                             const header = csvData[0];
                             const firstRow = csvData[1];
 
-                            createTable(header, firstRow, table);
+                            if (createTable(header, firstRow, table)) {
+                                // remove the first line: header
+                                csvData.shift();
 
-                            // remove the first line: header
-                            csvData.shift();
+                                // Creazione query nella forma `INSERT INTO ${table} VALUES ($1, $2, ...);`
+                                let param = ' ';
+                                for (let j = 1; j <= header.length; j++)
+                                    param = param + ` $${j},`;
+                                param = param.slice(0, -1);
 
-                            // Creazione query nella forma `INSERT INTO ${table} VALUES ($1, $2, ...);`
-                            let param = ' ';
-                            for (let j = 1; j <= header.length; j++)
-                                param = param + ` $${j},`;
-                            param = param.slice(0, -1);
-
-                            csvData.forEach((row) => {
-                                client.query(`INSERT INTO ${table} VALUES ( ${param} );`, row, (err) => {
-                                    if (err) console.log(err.message);
+                                csvData.forEach((row) => {
+                                    client.query(`INSERT INTO ${table} VALUES ( ${param} );`, row, (err) => {
+                                        if (err) console.log(err.message);
+                                    });
                                 });
-                            });
 
-                            console.log(`created table ${table}`);
-                            res.json('table created');
+                                console.log(`created table ${table}`);
+                                res.json('table created');
+                            }
+                            else {
+                                res.status(400).json(`Errore nella creazione della tabella`);
+                            }
                         }
                     }
                 }); 

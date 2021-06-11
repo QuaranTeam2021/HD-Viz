@@ -1,11 +1,12 @@
 import React, { useEffect } from 'react';
 import { autorun } from 'mobx';
-import CheckboxColumns from './CheckboxColumns';
+
 import { observer } from 'mobx-react-lite';
 import RadioColumns from './RadioColumns';
+import SelectColumns from './SelectColumns';
 import { useStore } from '../../../../store/Store';
 
-const Columns = observer(({ onChangeUploaded, onChangeGrouper }) => {
+const Columns = observer(({ onChangeUploaded, onChangeGrouper, selectedColumns }) => {
 
   const store = useStore();
 
@@ -19,7 +20,7 @@ const Columns = observer(({ onChangeUploaded, onChangeGrouper }) => {
 
   return (
     <div className="colonne">
-        <CheckboxColumns uploadedColumns={uploadedColumns} onChange={onChangeUploaded} />
+        <SelectColumns selectedColumns={selectedColumns} uploadedColumns={uploadedColumns} onChange={onChangeUploaded} />
         <RadioColumns grouperColumns={grouperColumns} onChange={onChangeGrouper} />
     </div>
   );

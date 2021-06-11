@@ -20,7 +20,7 @@ export default class DatabaseManagerController {
                     method: "POST"
                 });
                 const jsonData = await response.json();
-                if (response.ok) return Promise.resolve(jsonData);
+                if (response.ok) return Promise.resolve(`Aggiunto dataset ${table}`);
                 return Promise.reject(jsonData);
             } catch (err) {
                 console.error(err.message);
