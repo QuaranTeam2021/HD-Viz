@@ -88,7 +88,7 @@ describe('Testing DatabaseManagerController', () => {
             } catch (e) {
                 console.log(e.message)
             }
-            expect(res).toEqual("File successfully uploaded");
+            expect(res).toEqual("Aggiunto dataset iris_dataset");
         })
     })
 

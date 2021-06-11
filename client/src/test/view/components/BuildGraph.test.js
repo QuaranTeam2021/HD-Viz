@@ -93,6 +93,7 @@ describe("BuildGraph component tests", () => {
 			.mockImplementationOnce(val => [val, setState])
 			.mockImplementationOnce(val => [val, setState])
 			.mockImplementationOnce(val => [val, setState])
+			.mockImplementationOnce(val => [val, setState])
 			.mockImplementationOnce(() => ['FASTMAP', setState])
 			.mockImplementationOnce(val => [val, setState])
 
