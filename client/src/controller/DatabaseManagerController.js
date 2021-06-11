@@ -26,7 +26,7 @@ export default class DatabaseManagerController {
                 return Promise.reject(jsonData);
             } catch (err) {
                 console.error(err.message);
-                err.message = `Si è verificato un errore: ${err.message}`;
+                err.message = `Si è verificato un errore nella connessione al server`;
                 return Promise.reject(err);
             }
         }
@@ -47,7 +47,7 @@ export default class DatabaseManagerController {
             Promise.reject(jsonData);
         } catch (err) {
             console.error(err.message);
-            err.message = `Si è verificato un errore: ${err.message}`;
+            err.message = `Si è verificato un errore nella connessione al server`;
             return Promise.reject(err);
         }
     }

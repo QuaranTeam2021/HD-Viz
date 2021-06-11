@@ -32,7 +32,7 @@ export default class DatabaseLoaderController {
             }
         } catch (err) {
             console.error(err.message);
-            Promise.reject(`Si è verificato un errore: ${err.message}`);
+            Promise.reject(`Si è verificato un errore nella connessione al server`);
         }
     }
 
@@ -71,7 +71,7 @@ export default class DatabaseLoaderController {
         } 
         catch (err) {
             console.error(err.message);
-            Promise.reject(`Si è verificato un errore: ${err.message}`);
+            Promise.reject(`Si è verificato un errore nella connessione al server`);
         }
     }
 
