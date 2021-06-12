@@ -114,7 +114,7 @@ body {
 }
 
 .visualization {
-  display: grid;
+  display: inline-grid;
   grid-template-columns: auto auto;
   margin-bottom: 2em;
   /*display: flex;
@@ -395,6 +395,10 @@ body {
 
 .MuiCardContent-root svg {
   margin-right: 1em;
+}
+
+.graph-title {
+  margin: 0.2em;
 }
 
 .titleGraphdiv {
