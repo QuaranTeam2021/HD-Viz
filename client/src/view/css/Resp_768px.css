@@ -15,4 +15,7 @@
     top: 10%;
   }
 
+  #impostazioni {
+    grid-gap: 1em;
+  }
 }
