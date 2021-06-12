@@ -11,6 +11,9 @@ const useStyles = makeStyles(theme => ({
   formControl: {
     margin: theme.spacing(3),
   },
+  formLabel: {
+    fontWeight: 'bold',
+  },
   root: {
     display: 'flex',
   },
@@ -32,7 +35,7 @@ export default function RadioAlgorithm({ onChange }) {
   return (
     <div className={classes.root} id="algorithm">
       <FormControl component="fieldset" className={classes.formControl}>
-        <FormLabel component="legend" >Algoritmo: </FormLabel>
+        <FormLabel component="legend" className={classes.formLabel}>Algoritmo:</FormLabel>
         <RadioGroup aria-label="position" name="position" onChange={onChange}>
           <FormControlLabel value="none" control={<PurpleRadio color="primary" />} label="Nessuna riduzione" />
           <FormControlLabel value="UMAP" control={<PurpleRadio color="primary" />} label="UMAP" />

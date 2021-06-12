@@ -11,6 +11,9 @@ const useStyles = makeStyles(theme => ({
   formControl: {
     margin: theme.spacing(3),
   },
+  formLabel: {
+    fontWeight: 'bold',
+  },
   root: {
     display: 'flex',
   }
@@ -36,7 +39,7 @@ export default function RadioDistance({ distanza, onChange }) {
   return (
     <div className={classes.root} id="dimensione">
       <FormControl component="fieldset" className={classes.formControl}>
-        <FormLabel component="legend" >Metrica per la distanza: </FormLabel>
+        <FormLabel component="legend" className={classes.formLabel}>Metrica per la distanza: </FormLabel>
         <RadioGroup aria-label="position" name="position" onChange={onChange}>
           <FormControlLabel value="euclidean" control={<PurpleRadio color="primary" />} label="Euclidean" />
           <FormControlLabel value="manhattan" control={<PurpleRadio color="primary" />} label="Manhattan" />
