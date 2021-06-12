@@ -29,14 +29,14 @@ const PurpleRadio = withStyles({
   }
 })(props => <Radio color="default" {...props} />);
 
-export default function RadioAlgorithm({ onChange }) {
+export default function RadioAlgorithm({ onChange, algorithm }) {
   const classes = useStyles();
 
   return (
     <div className={classes.root} id="algorithm">
       <FormControl component="fieldset" className={classes.formControl}>
         <FormLabel component="legend" className={classes.formLabel}>Algoritmo:</FormLabel>
-        <RadioGroup aria-label="position" name="position" onChange={onChange}>
+        <RadioGroup aria-label="position" name="position" onChange={onChange} value={algorithm}>
           <FormControlLabel value="none" control={<PurpleRadio color="primary" />} label="Nessuna riduzione" />
           <FormControlLabel value="UMAP" control={<PurpleRadio color="primary" />} label="UMAP" />
           <FormControlLabel value="FASTMAP" control={<PurpleRadio color="primary" />} label="FASTMAP" />

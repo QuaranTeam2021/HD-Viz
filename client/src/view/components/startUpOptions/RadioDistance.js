@@ -40,7 +40,7 @@ export default function RadioDistance({ distanza, onChange }) {
     <div className={classes.root} id="dimensione">
       <FormControl component="fieldset" className={classes.formControl}>
         <FormLabel component="legend" className={classes.formLabel}>Metrica per la distanza: </FormLabel>
-        <RadioGroup aria-label="position" name="position" onChange={onChange}>
+        <RadioGroup aria-label="position" name="position" onChange={onChange} value={distanza}>
           <FormControlLabel value="euclidean" control={<PurpleRadio color="primary" />} label="Euclidean" />
           <FormControlLabel value="manhattan" control={<PurpleRadio color="primary" />} label="Manhattan" />
           <FormControlLabel value="cosine" control={<PurpleRadio color="primary" />} label="Cosine" />

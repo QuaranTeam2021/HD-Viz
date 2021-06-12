@@ -34,6 +34,7 @@ export default function SliderNeighbours({ neighbours, onChange }) {
         defaultValue={20}
         aria-labelledby="neighbors-slider-label"
         valueLabelDisplay="auto"
+        value={neighbours}
         step={1}
         marks={marks}
         min={10}

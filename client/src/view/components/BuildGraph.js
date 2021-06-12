@@ -202,7 +202,7 @@ export default function BuildGraph() {
             <fieldset className="buildgraph-fieldset" aria-labelledby="graph-options-label">
               <legend className="buildgraph-legend" id="graph-option-label">Parametri di visualizzazione</legend>
               <RadioGraphType onChange={onChangeGraph} />
-              {["scptMat", "malp"].includes(selectedGraph) && <RadioAlgorithm onChange={onChangeAlgorithm} />}
+              {["scptMat", "malp"].includes(selectedGraph) && <RadioAlgorithm onChange={onChangeAlgorithm} algorithm={selectedAlgorithm} />}
               {needsDistance(selectedGraph) && <RadioDistance onChange={onChangeDistanza} distanza={distanza} />}
               <div id="FeaturesAlgorithm">
                 <div id="FeaturesAlgorithm2">
