@@ -289,6 +289,7 @@ body {
 
 #selezione {
   width: 100%;
+  margin-top: 2em;
 }
 
 .buildgraph-fieldset[aria-labelledby=graph-options-label]{
@@ -455,11 +456,11 @@ body {
 
 #guide-div {
   position: absolute;
-	right: 5%;
-  left: 5%;
+	right: 25%;
+  left: 25%;
   top: 12.5%;
   bottom: 12.5%;
-  padding: 5px 20px;
-
+  padding: 5px 25px;
+  width: 50%;
   overflow-y: scroll;
 }

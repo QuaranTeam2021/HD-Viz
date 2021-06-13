@@ -29,7 +29,7 @@ export default function RadioColumns({ grouperColumns, onChange }) {
 	return (
 		<>
 			<FormControl component="fieldset">
-				<FormLabel component="legend" className={classes.formLabel}>Colonna grouper:</FormLabel>
+				<FormLabel component="legend" className={classes.formLabel}>Raggruppamento:</FormLabel>
 				<RadioGroup onChange={onChange}>
 					{
 						grouperColumns && grouperColumns.map((d, i) => <FormControlLabel key={i} control={<PurpleRadio color="primary" />} label={d} value={d}
