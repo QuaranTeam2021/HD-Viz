@@ -33,6 +33,7 @@ export default function SliderEpsilon({ epsilon, onChange }) {
 				defaultValue={10}
 				aria-labelledby="epsilon-slider-label"
 				valueLabelDisplay="auto"
+				value={epsilon}
 				step={1}
 				marks={marks}
 				min={1}

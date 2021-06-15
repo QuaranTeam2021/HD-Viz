@@ -6,7 +6,6 @@ const papa = require('papaparse');
 const upload = multer({ dest: 'tmp/upload/' });
 const router = express.Router();
 
-
 // eslint-disable-next-line func-style
 async function getTablesNames() {
     const data = await client.query(`
@@ -24,7 +23,7 @@ router.get("/tableslist", async (req, res) => {
        res.json(data);
     } 
     catch (err) {
-        console.error('tableslist: Server error', err.message);
+        console.error('tableslist, Server error: ', err.message);
         res.status(500).json(`Server error: ${err.message}`);
     }
 });
@@ -45,7 +44,7 @@ router.get("/getcolnames/:table", async(req, res) => {
                 WHERE table_name = '${table}';
             `);
             if(data.rowCount == 0) {
-                console.log(`getcolnames: Table ${table} doesn't exist => `, data.rows)
+                console.log(`getcolnames: Table ${table} doesn't exist`)
                 res.status(404).json(`Table ${table} doesn't exist`);
             } 
             else
@@ -53,7 +52,7 @@ router.get("/getcolnames/:table", async(req, res) => {
         }
     } 
     catch (err) {
-        console.error('getcolnames: Server error', err.message);
+        console.error('getcolnames, Server error: ', err.message);
         res.status(500).json(`Server error: ${err.message}`);
     }
 });
@@ -73,7 +72,7 @@ router.get("/getcontent/:table", async(req, res) => {
                 FROM ${table}
             `);
             if(data.rowCount == 0) {
-                console.log(`getcontent: table ${table} is empty => `, data.rows)
+                console.log(`getcontent: table ${table} is empty`)
                 res.status(404).json(`Table ${table} is empty`);
             } 
             else
@@ -81,7 +80,7 @@ router.get("/getcontent/:table", async(req, res) => {
         }
     } 
     catch (err) {
-        console.error('getcontent: Server error', err.message);
+        console.error('getcontent, Server error: ', err.message);
         res.status(500).json(`Server error: ${err.message}`);
     }
 });
@@ -122,7 +121,7 @@ router.post("/getselectedcol/:table", async (req, res) => {
         }
     }
     catch (err) {
-        console.error('getselectedcol: Server error', err.message);
+        console.error('getselectedcol, Server error: ', err.message);
         res.status(500).json(`Server error: ${err.message}`);
     }
 });
@@ -134,11 +133,11 @@ async function createTable(header, firstRow, table) {
         for (let i = 0; i < header.length; i++)
             query = query + `${header[i].replace(/[^A-Z0-9]/igu, '_')} ${isNaN(1 * firstRow[i]) ? 'VARCHAR' : 'numeric'}, `;
         query = query.slice(0, -2);
-        await client.query(`CREATE TABLE ${table} ( ${query} );`);
+        await client.query(`CREATE TABLE ${table.replace(/[^A-Z0-9]/igu, '_')} ( ${query} );`);
         return true;
     }
     catch (err) {
-        console.error('upload: createTable: ', err.message);
+        console.error('upload, createTable: ', err.message);
         return false;
     }
 }
@@ -185,6 +184,7 @@ router.post('/upload/:table', upload.single('file'), async (req, res) => {
                             res.status(400).json(`Il file caricato è vuoto`);
                         }
                         if (csvData.length > 2000) {
+                            console.log(`upload: file is too large`)
                             res.status(400).json(`Il file caricato è troppo grande, deve contenere massimo 2000 righe di dati`);
                         }
                         else {
@@ -223,8 +223,8 @@ router.post('/upload/:table', upload.single('file'), async (req, res) => {
     }
     catch (err) {
         fs.unlinkSync(req.file.path);
-        console.error('upload: Server error: catch', err.message);
-        res.status(500).json(`Server error: catch`);
+        console.error('upload, Server error: ', err.message);
+        res.status(500).json(`Server error`);
     }
 });
 

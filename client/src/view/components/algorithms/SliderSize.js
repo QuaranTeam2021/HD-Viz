@@ -34,6 +34,7 @@ export default function SliderSize({ size, onChange }) {
         defaultValue={2}
         aria-labelledby="discrete-slider"
         valueLabelDisplay="auto"
+        value={size}
         step={1}
         marks={marks}
         min={2}

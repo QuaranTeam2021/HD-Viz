@@ -189,17 +189,19 @@ export default function BuildGraph() {
       {selectedInsert(insert) ? // eslint-disable-line operator-linebreak
         <div id="selezione">
           <div id="impostazioni">
-            <fieldset aria-labelledby="columns-label">
+            <fieldset className="buildgraph-fieldset" aria-labelledby="columns-label">
               <legend className="buildgraph-legend" id="columns-label">Colonne da utilizzare</legend>
-              <Columns onChangeUploaded={onChangeColumns} onChangeGrouper={onChangeGrouper} selectedColumns={selectedColumns} />
+              <div className="div-colonne">
+                <Columns onChangeUploaded={onChangeColumns} onChangeGrouper={onChangeGrouper} selectedColumns={selectedColumns} />
+                {(needsDistance(selectedGraph) || selectedAlgorithm !== "none") && <TooltipDistColumns />}
+                {needsAlgorithm(selectedGraph) && selectedAlgorithm === "none" && <TooltipVizColumns />}
+              </div>
               <CheckboxNormalisation onChangeNormalisation={onChangeNormalisation} />
-              {(needsDistance(selectedGraph) || selectedAlgorithm !== "none") && <TooltipDistColumns />}
-              {needsAlgorithm(selectedGraph) && selectedAlgorithm === "none" && <TooltipVizColumns />}
             </fieldset>
-            <fieldset aria-labelledby="graph-options-label">
+            <fieldset className="buildgraph-fieldset" aria-labelledby="graph-options-label">
               <legend className="buildgraph-legend" id="graph-option-label">Parametri di visualizzazione</legend>
               <RadioGraphType onChange={onChangeGraph} />
-              {["scptMat", "malp"].includes(selectedGraph) && <RadioAlgorithm onChange={onChangeAlgorithm} />}
+              {["scptMat", "malp"].includes(selectedGraph) && <RadioAlgorithm onChange={onChangeAlgorithm} algorithm={selectedAlgorithm} />}
               {needsDistance(selectedGraph) && <RadioDistance onChange={onChangeDistanza} distanza={distanza} />}
               <div id="FeaturesAlgorithm">
                 <div id="FeaturesAlgorithm2">

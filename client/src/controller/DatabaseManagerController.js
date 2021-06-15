@@ -13,18 +13,20 @@ export default class DatabaseManagerController {
                 const token = localStorage.getItem('token');
                 const formData = new FormData();
                 formData.append("file", file);
+
+                const tableName = table.replace(/[^A-Z0-9]/igu, '_')
         
-                const response = await fetch(`http://localhost:${this.port}/api/upload/${table}`, {
+                const response = await fetch(`http://localhost:${this.port}/api/upload/${tableName}`, {
                     body: formData,
                     headers: { "authorization": `Bearer ${token}` },
                     method: "POST"
                 });
                 const jsonData = await response.json();
-                if (response.ok) return Promise.resolve(`Aggiunto dataset ${table}`);
+                if (response.ok) return Promise.resolve(`Aggiunto dataset ${tableName}`);
                 return Promise.reject(jsonData);
             } catch (err) {
                 console.error(err.message);
-                err.message = `Si è verificato un errore: ${err.message}`;
+                err.message = `Si è verificato un errore nella connessione al server`;
                 return Promise.reject(err);
             }
         }
@@ -45,7 +47,7 @@ export default class DatabaseManagerController {
             return Promise.reject(jsonData);
         } catch (err) {
             console.error(err.message);
-            err.message = `Si è verificato un errore: ${err.message}`;
+            err.message = `Si è verificato un errore nella connessione al server`;
             return Promise.reject(err);
         }
     }

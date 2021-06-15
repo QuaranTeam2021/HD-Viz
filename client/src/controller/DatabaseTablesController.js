@@ -39,7 +39,7 @@ export default class DatabaseTablesController {
             return tables.length === 0 ? "Il database è vuoto" : tables;
         } catch (err) {
             console.error(err.message);
-            err.message = `Si è verificato un errore: ${err.message}`;
+            err.message = `Si è verificato un errore nella connessione al server`;
             return Promise.reject(err)
         }
     }
@@ -62,7 +62,7 @@ export default class DatabaseTablesController {
             return [];
         } catch (err) {
             console.error(err.message);
-            err.message = `Si è verificato un errore: ${err.message}`;
+            err.message = `Si è verificato un errore nella connessione al server`;
             return Promise.reject(err);
         }
     }
