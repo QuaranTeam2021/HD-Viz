@@ -38,8 +38,13 @@ body {
   height: 40px; 
 }
 
+#push {
+  min-height: 40px;
+  margin: 3em;
+}
+
 .App-footer {
-  max-height: 45px;
+  max-height: 40px;
 }
 
 .App-footer p {
@@ -79,6 +84,14 @@ body {
   padding: 0.6em;
 }
 
+.div-menu-home {
+  padding: 1em 0em 3em 0em;
+}
+
+.div-menu-home h1 {
+  margin: 0;
+}
+
 .App-link {
   color: #61dafb;
 }
@@ -101,7 +114,7 @@ body {
 }
 
 .visualization {
-  display: grid;
+  display: inline-grid;
   grid-template-columns: auto auto;
   margin-bottom: 2em;
   /*display: flex;
@@ -113,6 +126,20 @@ body {
   display: flex;
   flex-direction: row;
   justify-content: center;
+  margin-left: 25%;
+  margin-right: 25%;
+}
+
+.uploadButton, .buildgraph-fieldset {
+  border: 3px solid rgba(0, 0, 0, 0.12);
+  border-radius: 4px;
+  height: fit-content;
+}
+
+#inserimento legend, .buildgraph-legend {
+  border: 3px solid rgba(0, 0, 0, 0.12);
+  border-radius: 1.2em;
+  padding: 0.5em 0.8em; 
 }
 
 .GraphCont {
@@ -178,8 +205,16 @@ body {
   margin: 1.2em;
 }
 
+.menu_div.not_home ul {
+  margin: 0;
+}
+
 .menu_div.not_home ul li  {
   display: inline-block;
+}
+
+.menu_div.not_home {
+  padding: 0.2em;
 }
 
 .button {
@@ -253,25 +288,37 @@ body {
 }
 
 #selezione {
-  padding: 2em;
+  width: 100%;
+  margin-top: 2em;
+}
+
+.buildgraph-fieldset[aria-labelledby=graph-options-label]{
+  display: flex;
 }
 
 /*colonne grid*/ 
 #impostazioni {
   display: inline-grid;
-  grid-template-columns: auto auto auto auto auto;
-  grid-gap: 2em;
+  grid-template-columns: auto auto;
+  grid-gap: 3em;
+  padding-bottom: 2em;
+}
+
+.div-colonne {
+  display: flex;
 }
 
 .colonne {
   display: flex;
-  grid-template-columns: auto auto;
-  grid-gap: 2em;
+  grid-gap: 3em;
+}
+
+.div-colonne button {
+  margin-top: 0.6em;
 }
 
 .colonne fieldset {
-  margin-top: 1.5em;
-  margin-bottom: 0.5em;
+  margin-top: 2em;
 }
 
 /*algoritmi*/ 
@@ -355,6 +402,10 @@ body {
   margin-right: 1em;
 }
 
+.graph-title {
+  margin: 0.2em;
+}
+
 .titleGraphdiv {
   display: inline-flex;
   height: 5em;
@@ -401,4 +452,15 @@ body {
   display: inline-block;
   font-weight: bold;
   margin: 2em 1em;
+}
+
+#guide-div {
+  position: absolute;
+	right: 25%;
+  left: 25%;
+  top: 12.5%;
+  bottom: 12.5%;
+  padding: 5px 25px;
+  width: 50%;
+  overflow-y: scroll;
 }

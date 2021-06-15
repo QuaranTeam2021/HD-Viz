@@ -9,6 +9,9 @@ import Slider from '@material-ui/core/Slider';
 import Typography from '@material-ui/core/Typography';
 
 const useStyles = makeStyles(() => ({
+  inputLabel: {
+    fontWeight: 'bold',
+  },
   root: { // dovrebbe renderlo largo quanto GraphContainer a seconda del grafico
     display: 'flex',
     gridGap: '5em',
@@ -99,7 +102,7 @@ export default function HeatmapOptions({ position, graphViz, buttonRef, currentO
       </div>
       <div className={classes.direction}>
         <FormControl className={classes.formControl}>
-          <InputLabel id="order-select-label">Ordinamento</InputLabel>
+          <InputLabel id="order-select-label" className={classes.inputLabel}>Ordinamento</InputLabel>
           <Select labelId="order-select-label" id="order-select" value={ordinamento} onChange={onChangeOrdinamento}>
             <MenuItem value={'none'}>Originale</MenuItem>
             <MenuItem value={'group'}>Cluster</MenuItem>

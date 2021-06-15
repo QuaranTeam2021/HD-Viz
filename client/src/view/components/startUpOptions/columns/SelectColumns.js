@@ -19,10 +19,12 @@ const useStyles = makeStyles(theme => ({
   },
   formControl: {
     margin: theme.spacing(1),
-    maxWidth: 150,
+    maxWidth: 250,
     minWidth: 120,
   },
-
+  inputLabel: {
+    fontWeight: 'bold',
+  },
   noLabel: {
     marginTop: theme.spacing(3),
   },
@@ -45,7 +47,7 @@ export default function SelectColumns({ onChange, uploadedColumns, selectedColum
 
   return (
     <FormControl className={classes.formControl}>
-      <InputLabel id="columns-select-label">Colonne</InputLabel>
+      <InputLabel id="columns-select-label" className={classes.inputLabel}>Colonne</InputLabel>
       <Select
         labelId="columns-select-label"
         id="columns-select"

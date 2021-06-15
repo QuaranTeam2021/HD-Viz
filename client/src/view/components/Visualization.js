@@ -82,7 +82,7 @@ const Visualization = observer(() => {
 						title = "Force Field";
 						break;
 					case "malp":
-						title = "Multiaxis Linear projection";
+						title = "Proiezione Multiassi";
 						break;
 					default:
 						console.log(`Grafico non supportato ${g.type}`);
