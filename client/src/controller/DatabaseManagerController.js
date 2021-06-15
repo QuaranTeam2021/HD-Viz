@@ -31,7 +31,7 @@ export default class DatabaseManagerController {
             }
         }
         else {
-            return Promise.reject(new Error("Il file è troppo grande"));
+            return Promise.reject(new Error("Il file è troppo grande, deve contenere massimo 2000 righe di dati"));
         }
     }
 
@@ -43,7 +43,7 @@ export default class DatabaseManagerController {
                 method: "DELETE"
             });
             const jsonData = await delTable.json();
-            if (delTable.ok) return Promise.resolve(jsonData);
+            if (delTable.ok) return Promise.resolve(`La tabella ${table} è stata eliminata!`);
             return Promise.reject(jsonData);
         } catch (err) {
             console.error(err.message);
