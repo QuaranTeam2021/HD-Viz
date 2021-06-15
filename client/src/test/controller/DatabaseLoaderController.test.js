@@ -12,6 +12,7 @@ describe('Testing DatabaseLoaderController', () => {
     beforeAll(() => {
         global.fetch = jest.fn();
         jest.spyOn(console, 'error').mockImplementation(err => console.error(err));
+        jest.spyOn(console, 'log');
         Object.defineProperty(global, 'Papa', {
             parse: jest.fn((data, props) => { 
                 console.log(data);
@@ -35,12 +36,20 @@ describe('Testing DatabaseLoaderController', () => {
     describe('Testing loadTable method', () => {
 
         test('Fetch must be called 1 times', async () => {
-            await dbLoaderCtrl.loadTable('iris_dataset');
+            try {
+                await dbLoaderCtrl.loadTable('iris_dataset');
+            } catch (e) {
+                console.log(e.message)
+            }
             expect(fetch).toBeCalledTimes(1);
         })
 
         test('Fetch must be called with correct value', async () => {
-            await dbLoaderCtrl.loadTable('iris_dataset');
+            try {
+                await dbLoaderCtrl.loadTable('iris_dataset');
+            } catch (e) {
+                console.log(e.message)
+            }
             expect(fetch).toBeCalledWith(`http://localhost:5000/api/getcontent/iris_dataset`, {"headers": {"authorization": "Bearer null"}});
         })
 
@@ -56,13 +65,21 @@ describe('Testing DatabaseLoaderController', () => {
                     ])
                 }
             }));
-            await dbLoaderCtrl.loadTable('iris_dataset');
+            try {
+                await dbLoaderCtrl.loadTable('iris_dataset');
+            } catch (e) {
+                console.log(e.message)
+            }            
             expect(store.originalData.matrix).toEqual([['Dimension1', 'Dimension2', 'species'], [0.39819505433801394, 0.6562028224795202, 'setosa']]);
         })
 
         test('Must print error on fetch reject', async () => {
             fetch.mockImplementationOnce(() => Promise.reject(new Error("something gone wrong")));
-            await dbLoaderCtrl.loadTable('fakeTable');
+            try {
+                await dbLoaderCtrl.loadTable('fakeTable');
+            } catch (e) {
+                console.log(e.message)
+            }            
             expect(console.error).toBeCalledTimes(1);
         })
     })
@@ -70,12 +87,20 @@ describe('Testing DatabaseLoaderController', () => {
     describe('Testing loadTableCols method', () => {
 
         test('Fetch must be called 1 times', async () => {
-            await dbLoaderCtrl.loadTableCols('iris_dataset', ['sepalLength', 'sepalWidth']);
+            try {
+                await dbLoaderCtrl.loadTableCols('iris_dataset', ['sepalLength', 'sepalWidth']);
+            } catch (e) {
+                console.log(e.message)
+            }
             expect(fetch).toBeCalledTimes(1);
         })
 
         test('Fetch must be called with correct value', async () => {
-            await dbLoaderCtrl.loadTableCols('iris_dataset', ['sepalLength', 'sepalWidth']);
+            try {
+                await dbLoaderCtrl.loadTableCols('iris_dataset', ['sepalLength', 'sepalWidth']);
+            } catch (e) {
+                console.log(e.message)
+            }
             expect(fetch).toBeCalledWith(`http://localhost:5000/api/getselectedcol/iris_dataset`, {
                 "body": "{\"features\":\"sepalLength,sepalWidth\"}",
                     "headers": {
@@ -87,13 +112,21 @@ describe('Testing DatabaseLoaderController', () => {
         })
 
         test('Must print error if arg1 is not string', async () => {
-            await dbLoaderCtrl.loadTableCols(7, ['sepalLength', 'sepalWidth']);
+            try {
+                await dbLoaderCtrl.loadTableCols(7, ['sepalLength', 'sepalWidth']);
+            } catch (e) {
+                console.log(e.message)
+            }
             expect(console.error).toBeCalled();
             expect(console.error).toBeCalledWith({ error: "select table name and features" });
         })
 
         test('Must print error if arg2 is not an Array', async () => {
-            await dbLoaderCtrl.loadTableCols('iris_dataset', 'sepalLength');
+            try {
+                await dbLoaderCtrl.loadTableCols('iris_dataset', 'sepalLength');
+            } catch (e) {
+                console.log(e.message)
+            }
             expect(console.error).toBeCalled();
             expect(console.error).toBeCalledWith({ error: "select table name and features" });
         })
@@ -104,7 +137,11 @@ describe('Testing DatabaseLoaderController', () => {
                     json: () => Promise.resolve([['Dimension1', 'species'], [5.1, 'setosa'], [4.2, 'setosa']])
                 }
             }));
-            await dbLoaderCtrl.loadTableCols('iris_dataset', ['sepalLenght', 'species']);
+            try {
+                await dbLoaderCtrl.loadTableCols('iris_dataset', ['sepalLenght', 'species']);
+            } catch (e) {
+                console.log(e.message)
+            }
             expect(store.originalData.matrix).toEqual([['Dimension1', 'species'], [5.1, 'setosa'], [4.2, 'setosa']]);
         })
     })

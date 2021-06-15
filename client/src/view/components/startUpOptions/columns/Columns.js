@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { autorun } from 'mobx';
 
 import { observer } from 'mobx-react-lite';
@@ -10,8 +10,8 @@ const Columns = observer(({ onChangeUploaded, onChangeGrouper, selectedColumns }
 
   const store = useStore();
 
-  const [uploadedColumns, setUploadedColumns] = useState([]);
-  const [grouperColumns, setGrouperColumns] = useState([]);
+  const [uploadedColumns, setUploadedColumns] = React.useState([]);
+  const [grouperColumns, setGrouperColumns] = React.useState([]);
 
   useEffect(() => autorun(() => {
     setUploadedColumns(store.getNumericFeatures());

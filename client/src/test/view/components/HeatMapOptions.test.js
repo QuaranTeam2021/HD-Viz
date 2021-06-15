@@ -8,8 +8,6 @@ import { shallow } from 'enzyme';
 import Slider from '@material-ui/core/Slider';
 import Typography from '@material-ui/core/Typography';
 
-
-
 describe('Testing HeatmapOptions component', () => {
 
     let wrapper;
@@ -37,11 +35,11 @@ describe('Testing HeatmapOptions component', () => {
     })
 
     test('Includes one Typography', () => {
-        expect(wrapper.find(Typography).length).toEqual(1);
+        expect(wrapper.find(Typography).length).toEqual(2);
     })
 
     test('Includes one Slider', () => {
-        expect(wrapper.find(Slider).length).toEqual(1);
+        expect(wrapper.find(Slider).length).toEqual(2);
     })
 
     test('Includes one Select', () => {

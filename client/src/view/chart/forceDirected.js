@@ -1,3 +1,4 @@
+/* istanbul ignore file */
 /* eslint-disable func-names */
 /* eslint-disable no-confusing-arrow */
 /* eslint-disable func-style */
@@ -13,10 +14,12 @@ import { drawLegend} from './drawLegend'
 				to be attached to an element.
  */
 export const forceDirected = function (data, idBox) {
-let nodes = data.nodes;
-let links = data.links;
-	const height = 900;
-	const width = 900;
+	let nodes = data.nodes;
+	let links = data.links;
+	const height = 700;
+	const width = 700;
+	let max = -1;
+	let min = Number.MAX_VALUE;
 	let forceProperties = {
 		distanceMax: 200,
 		distanceMin: 0,
@@ -24,7 +27,7 @@ let links = data.links;
 		strength: -30
 	}
 	const nodeRadius = 5;
-
+	let linksOriginalCount = 0;
 	let tooltipDiv = d3.select(`#${idBox}`)
 		.append("div")
 		.classed("tooltip", true);
@@ -55,17 +58,19 @@ let links = data.links;
 		.attr("stroke", "#fff")
 		.attr("stroke-width", 1.5);
 
-	const [minDist, maxVal] = [getMin(), getMax()];
 	let legend;
 	const scaleThickness = d3
 			.scaleLinear()
-			.domain([minDist, maxVal])
+			.domain([min, max])
 			.range([0.5, nodeRadius - 1]);
 	
 	updateData(data);
 	function updateData(newData) {
 		nodes = newData.nodes;
-		links = newData.links;
+		linksOriginalCount = newData.links.length;
+		links = newData.links.filter(item => !isNaN(item.value));
+		updateMaxMin();
+
 		const categories = [...new Set(nodes.map(item => item.group))]; 
 		nodes.forEach(el => {
 			if (typeof el.fx !== "undefined") {
@@ -88,13 +93,22 @@ let links = data.links;
 		updateDistStr(forceProperties.distanceMin, forceProperties.distanceMax, forceProperties.strength);
 
 	}
-
+	function updateMaxMin() {
+		max = Math.ceil(d3.max(links, d => d.value) * 100) / 100;
+		min = Math.floor(d3.min(links, d => d.value) * 100) / 100;
+	}
 	function getMin() {
-		return Math.floor(d3.min(links, d => d.value) * 100) / 100;
+		if (min === Number.MAX_VALUE) {
+			updateMaxMin();
+		}
+		return min;
 	}
 	
 	function getMax() {
-		return Math.ceil(d3.max(links, d => d.value) * 100) / 100;
+		if (max === -1) {
+			updateMaxMin();
+		}
+		return max;
 	}
 	
 	function updateStrength(strength) {
@@ -124,12 +138,17 @@ let links = data.links;
 			.join("line");
 
 		legend.clearMessageBoard();
-		legend.displayMessage("# of links in range:");
-		legend.displayMessage(`${linksToShow.length}/${links.length}`);
-		
+		if (links.length - linksOriginalCount !== 0) {
+			legend.displayMessage("warn! # of NaN links:");
+			legend.displayMessage(`${linksOriginalCount - links.length}/${linksOriginalCount}`);
+		}
+		if (links.length > 0) {
+			legend.displayMessage("# of links in range:");
+			legend.displayMessage(`${linksToShow.length}/${links.length}`);
+		}
 		scaleThickness.domain([Math.max(getMin(), distanceMin), Math.min(getMax(), distanceMax)])
 		legend.updateTicks(scaleThickness);
-		link.attr("stroke-width", d => 5.5 - scaleThickness(d.value));
+		link.attr("stroke-width", d => 4.5 - scaleThickness(d.value));
 		if (simulation) {
 			simulation.stop();
 		}

@@ -69,7 +69,7 @@ export default function HeatmapOptions({ position, graphViz, buttonRef, currentO
         <Slider id="htmp-maxDist-slider"
           aria-labelledby="htmp-maxDist-slider-label"
           valueLabelDisplay="auto"
-          step={0.5 * (10 ** Math.floor(Math.log(maxForDistances / 10) / Math.LN10))}
+          step={10 ** Math.floor(Math.log(maxForDistances / 100) / Math.LN10)}
           marks={[
               {label: minForDistances,
                 value: minForDistances},
@@ -87,7 +87,7 @@ export default function HeatmapOptions({ position, graphViz, buttonRef, currentO
         <Slider id="htmp-minDist-slider"
           aria-labelledby="htmp-minDist-slider-label"
           valueLabelDisplay="auto"
-          step={0.5 * (10 ** Math.floor(Math.log(maxForDistances / 10) / Math.LN10))}
+          step={10 ** Math.floor(Math.log(maxForDistances / 100) / Math.LN10)}
           marks={[
               {label: minForDistances,
                 value: minForDistances},

@@ -18,21 +18,18 @@ export default class DatabaseLoaderController {
             const jsonData = await response.json();
             let dataString = Papa.unparse(jsonData);
             let result = Papa.parse(dataString, {
-                delimiter: ',',
                 dynamicTyping: true,
                 error(error) {
                     console.error(error.message);
                 }
             })
-            if (result.data.length === 0) Promise.reject('La tabella selezionata non contiene dati');
-            if (result.data.length > 2000) Promise.reject('La tabella selezionata è troppo grande');
-            else { 
-                this.store.loadData(result.data);
-                Promise.resolve('Il caricamento è terminato con successo');
-            }
+            if (result.data.length === 0) return Promise.reject('La tabella selezionata non contiene dati');
+            if (result.data.length > 2000) return Promise.reject('La tabella selezionata è troppo grande');
+            this.store.loadData(result.data);
+            return Promise.resolve('Il caricamento è terminato con successo');
         } catch (err) {
             console.error(err.message);
-            Promise.reject(`Si è verificato un errore nella connessione al server`);
+            return Promise.reject(`Si è verificato un errore: ${err.message}`);
         }
     }
 
@@ -56,22 +53,19 @@ export default class DatabaseLoaderController {
             const jsonData = await response.json();
             let dataString = Papa.unparse(jsonData);
             let result = Papa.parse(dataString, {
-                delimiter: ',',
                 dynamicTyping: true,
                 error(error) {
                     console.error(error.message);
                 }
             })
-            if (result.data.length === 0) Promise.reject('La tabella selezionata non contiene dati');
-            if (result.data.length > 2000) Promise.reject('La tabella selezionata è troppo grande');
-            else { 
-                this.store.loadData(result.data);
-                Promise.resolve('Il caricamento è terminato con successo');
-            }
+            if (result.data.length === 0) return Promise.reject('La tabella selezionata non contiene dati');
+            if (result.data.length > 2000) return Promise.reject('La tabella selezionata è troppo grande');
+            this.store.loadData(result.data);
+            return Promise.resolve('Il caricamento è terminato con successo');
         } 
         catch (err) {
             console.error(err.message);
-            Promise.reject(`Si è verificato un errore nella connessione al server`);
+            return Promise.reject(`Si è verificato un errore: ${err.message}`);
         }
     }
 

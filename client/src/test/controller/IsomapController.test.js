@@ -59,7 +59,7 @@ describe('Testing isomapController', () => {
         })
 
         test('Must have correct data', () => {
-            isomapController.createGraph('testIsomapId', 'scpt', ['sepalLength', 'petalLength', 'petalWidth'], ['species']);
+            isomapController.createGraph('testIsomapId', 'scpt', ['sepalLength', 'petalLength', 'petalWidth'], ['species'], false);
             const graphs = store.graphs;
             const expected = [
                 {

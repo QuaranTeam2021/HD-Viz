@@ -43,8 +43,8 @@ export default class DatabaseManagerController {
                 method: "DELETE"
             });
             const jsonData = await delTable.json();
-            if (delTable.ok) return Promise.resolve(`Dataset ${table} eliminato`);
-            Promise.reject(jsonData);
+            if (delTable.ok) return Promise.resolve(jsonData);
+            return Promise.reject(jsonData);
         } catch (err) {
             console.error(err.message);
             err.message = `Si è verificato un errore nella connessione al server`;

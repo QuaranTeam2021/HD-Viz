@@ -1,3 +1,4 @@
+/* istanbul ignore file */
 /* eslint-disable no-confusing-arrow */
 /* eslint-disable func-names */
 /* eslint-disable no-invalid-this */
@@ -67,16 +68,16 @@ export const drawLegend = function (svg, data, width) {
 		.attr("y", 5)
 		.style("fill", "black")
 		.style("font-size", '14px')
-		.text(d => d === undefined ? "sconosciuto" : String(d))
-		.style("font-style", d => d === undefined ? "italic" : "");
-
-	// top legend label "Categorie"
-	legendCategories.append("text")
-		.attr("pointer-events", "none")
-		.style("user-select", "none")
-		.attr("class", "legend-title")
-		.style("font-size", 20)
-		.text("Categorie");
+		.text(d => String(d));
+	if (data.length > 0) {
+		// top legend label "Categorie"
+		legendCategories.append("text")
+			.attr("pointer-events", "none")
+			.style("user-select", "none")
+			.attr("class", "legend-title")
+			.style("font-size", 20)
+			.text("Categorie");
+	}
 
 	// hiding/showing the legend on -/+ button click
 	let legendsOn = true;
@@ -238,7 +239,7 @@ export const drawLegend = function (svg, data, width) {
 	// eslint-disable-next-line func-style
 	function displayMessage(message) {
 		nMessage += 1;
-		updateColorBoard(40);
+		updateColorBoard(35);
 		messageBoard.append("text")
 			.attr("pointer-events", "none")
 			.style("user-select", "none")
@@ -264,7 +265,7 @@ export const drawLegend = function (svg, data, width) {
 	// eslint-disable-next-line func-style
 	function clearMessageBoard() {
 		messageBoard.selectAll("text").remove();
-		const sizeDifference = -nMessage * 35 - 10;
+		const sizeDifference = -nMessage * 35;
 		nMessage = 0;
 		updateSize(sizeDifference);
 	}

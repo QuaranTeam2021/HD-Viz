@@ -1,5 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { action } from 'mobx';
+import React, { useCallback, useEffect } from 'react';
 import ButtonCloseModalDb from './ButtonCloseModalDb';
 import ButtonConfirmDb from './ButtonConfirmDb';
 import Card from '@material-ui/core/Card';
@@ -25,14 +24,14 @@ export const useStyles = makeStyles(theme => ({
 
 export default function ModalDb({onSubmit}) {
   const classes = useStyles();
-  const [open, setOpen] = useState(false);
-  const [selectedColumns, setSelectedColumns] = useState([]);
-  const [selectedTable, setSelectedTable] = useState(''); 
-  const [confirmDb, setConfirmDb] = useState([]); 
+  const [open, setOpen] = React.useState(false);
+  const [selectedColumns, setSelectedColumns] = React.useState([]);
+  const [selectedTable, setSelectedTable] = React.useState(''); 
+  const [confirmDb, setConfirmDb] = React.useState([]); 
 
-  const [datasetsDb, setDatasetsDb] = useState([]);
-  const [tableColumnsDb, setTableColumnsDb] = useState([]);
-  const [dbError, setDbError] = useState(null);
+  const [datasetsDb, setDatasetsDb] = React.useState([]);
+  const [tableColumnsDb, setTableColumnsDb] = React.useState([]);
+  const [dbError, setDbError] = React.useState(null);
   const store = useStore();
   const loaderController = new DatabaseLoaderController(store);
   const tablesController = new DatabaseTablesController();
@@ -80,7 +79,6 @@ export default function ModalDb({onSubmit}) {
   const onChangeTableDb = e => {
     setSelectedTable(e.target.value);
     getColsNames(e.target.value); 
-
   }
   
   const optionsSelected = useCallback(() => {
@@ -102,21 +100,20 @@ export default function ModalDb({onSubmit}) {
     formData.table = selectedTable; 
     formData.columns = selectedColumns; 
     if (selectedColumns.length === 0 || selectedColumns.length === tableColumnsDb.length)
-    try {
-      await loaderController.loadTable(selectedTable);
-    } catch (e) {
-      console.error(e.message)
-    }
-  else
-    try {
-      await loaderController.loadTableCols(selectedTable, selectedColumns);
-    } catch (e) {
-      console.error(e.message)
-    }
+      try {
+        await loaderController.loadTable(selectedTable);
+      } catch (e) {
+        console.error(e.message)
+      }
+    else
+      try {
+        await loaderController.loadTableCols(selectedTable, selectedColumns);
+      } catch (e) {
+        console.error(e.message)
+      }
     onClose(); 
     onSubmit({ name: selectedTable }); 
   };
-  
   
   const body = 
     <div id="db-div" className={classes.paper}>

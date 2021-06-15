@@ -1,5 +1,4 @@
-/* eslint-disable no-extra-parens */
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Slider from '@material-ui/core/Slider';
 import Typography from '@material-ui/core/Typography';
@@ -15,11 +14,11 @@ const useStyles = makeStyles(() => ({
 export default function ForceFieldOptions({ position, graphViz, buttonRef, currentOptions, setCurrentOptions }) {
   const classes = useStyles();
 
-  const [minDist, setMinDist] = useState(0);
-  const [maxDist, setMaxDist] = useState(Number.MAX_VALUE);
-  const [minForDistances, setMinForDistances] = useState(0);
-  const [maxForDistances, setMaxForDistances] = useState(200);
-  const [strength, setStrength] = useState(-30);
+  const [minDist, setMinDist] = React.useState(0);
+  const [maxDist, setMaxDist] = React.useState(Number.MAX_VALUE);
+  const [minForDistances, setMinForDistances] = React.useState(0);
+  const [maxForDistances, setMaxForDistances] = React.useState(200);
+  const [strength, setStrength] = React.useState(-30);
 
   const commitChanges = useCallback(() => {
     
@@ -64,7 +63,7 @@ export default function ForceFieldOptions({ position, graphViz, buttonRef, curre
         <Slider id="frfd-maxDistance-slider"
           aria-labelledby="frfd-maxDistance-slider-label"
           valueLabelDisplay="auto"
-          step={0.5 * (10 ** Math.floor(Math.log(maxForDistances / 10) / Math.LN10))}
+          step={10 ** Math.floor(Math.log(maxForDistances / 100) / Math.LN10)}
           marks={[
               {label: minForDistances,
                 value: minForDistances},
@@ -82,7 +81,7 @@ export default function ForceFieldOptions({ position, graphViz, buttonRef, curre
         <Slider id="frfd-minDistance-slider"
           aria-labelledby="frfd-minDistance-slider-label"
           valueLabelDisplay="auto"
-          step={0.5 * (10 ** Math.floor(Math.log(maxForDistances / 10) / Math.LN10))}
+          step={10 ** Math.floor(Math.log(maxForDistances / 100) / Math.LN10)}
           marks={[
               {label: minForDistances,
                 value: minForDistances},
@@ -100,7 +99,7 @@ export default function ForceFieldOptions({ position, graphViz, buttonRef, curre
         <Slider id="frfd-strength-slider"
           aria-labelledby="frfd-strength-slider-label"
           valueLabelDisplay="auto"
-          step={10}
+          step={1}
           marks={marks.strength}
           min={-150}
           max={50}

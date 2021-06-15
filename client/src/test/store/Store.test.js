@@ -456,7 +456,6 @@ describe('Testing Store class', () => {
                     [4.9, 3, 1.4, 0.2, 'setosa']
                 ];
                 store.loadData(data);
-                console.log(store.normalizeData(['sepalLength', 'sepalWidth', 'petalLength', 'petalWidth']))
                 expect(store.normalizeData(['sepalLength', 'sepalWidth', 'petalLength', 'petalWidth'])).not.toBeUndefined();
             })
 

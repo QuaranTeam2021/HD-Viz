@@ -1,3 +1,4 @@
+/* istanbul ignore file */
 const d3 = require('d3');
 
 /**

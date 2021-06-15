@@ -1,3 +1,4 @@
+/* istanbul ignore file */
 /* eslint-disable max-lines */
 /* eslint-disable camelcase */
 /* eslint-disable no-extra-parens */
@@ -184,76 +185,84 @@ export const linearProjection = function (data, cols, grouper, idBox) {
         svg.selectAll(".grid-lines").remove();
         contentHandler.selectAll("*").remove();
 
-
-        const filteredcols = columns.filter(itm => itm !== newGrouper);
-        let rawData = notNullData.map(d => filteredcols.map(dim => d[dim]));
-        rawData = scale(rawData, true, true);
-        let eigvecs = getEigenvalues(rawData, 2);
-        let initMat = initProjection(rawData, 2);
-        const dims_unfiltered = filteredcols
-            .map((key, i) => ({
-                id: i,
-                pc_1: isNaN(eigvecs[i][0]) ? 0 : eigvecs[i][0] * 4,
-                pc_2: isNaN(eigvecs[i][1]) ? 0 : eigvecs[i][1] * 4,
-                value: key
-            }));
-        selectedCols = dims_unfiltered.filter(p => p.value !== "pc_1" && p.value !== "pc_2")
-        
-        let { max, min } = getMaxMinDots(initMat, eigvecs);
-
-        xScale.domain([1.2 * min, 1.2 * max]).nice();
-        yScale.domain([1.2 * min, 1.2 * max]).nice();
-
-        setDotAttributes(initMat, notNullData);
-
-
         PC1AxisHandler.call(PC1Axis);
         PC2AxisHandler.call(PC2Axis);
         gridHandler.call(grid);
-            
-        contentHandler.selectAll(".dot")
-            .data(notNullData)
-            .join("circle")
-            .attr("class", "dot")
-            .attr("r", 2.5)
-            .style("fill", d => palette(d[newGrouper]));
 
-        drawDots(contentHandler, xScale, yScale);
 
-        contentHandler.selectAll(".line")
-            .data(selectedCols)
-            .join("line")
-            .attr("id", d => `${d.value}_line`)
-            .attr("x1", xScale(0))
-            .attr("y1", yScale(0))
-            .attr("x2", d => xScale(d.pc_1))
-            .attr("y2", d => yScale(d.pc_2))
-            .attr("stroke-width", 3)
-            .style("stroke", "black");
+        const filteredcols = columns.filter(itm => itm !== newGrouper);
+        let eigvecs, 
+            initMat,
+            rawData = notNullData.map(d => filteredcols.map(dim => d[dim]));
+        if (rawData.length !== 0) {
+            rawData = scale(rawData, true, true);
+            eigvecs = getEigenvalues(rawData, 2);
+            initMat = initProjection(rawData, 2);
+            const dims_unfiltered = filteredcols
+                .map((key, i) => ({
+                    id: i,
+                    pc_1: isNaN(eigvecs[i][0]) ? 0 : eigvecs[i][0] * 4,
+                    pc_2: isNaN(eigvecs[i][1]) ? 0 : eigvecs[i][1] * 4,
+                    value: key
+                }));
+            selectedCols = dims_unfiltered.filter(p => p.value !== "pc_1" && p.value !== "pc_2")
             
-        contentHandler.selectAll("text.end-axis")
-            .data(selectedCols)
-            .join("text")
-            .attr("class", "label-end-axis")
-            .attr("id", d => `${d.value}_label`)
-            .attr("x", d => xScale(d.pc_1) + 10)
-            .attr("y", d => yScale(d.pc_2) + 0)
-            .text(d => d.value);
-            
-        contentHandler.selectAll("circle.end-axis")
-            .data(selectedCols)
-            .join("circle")
-            .attr("r", 7)
-            .attr("class", "circle-end-axis")
-            .attr("cx", d => xScale(d.pc_1))
-            .attr("cy", d => yScale(d.pc_2))
-            .style("fill", "red")
-            .attr("stroke-width", 3)
-            .style("stroke", "black")
-            .call(drag());
+            let { max, min } = getMaxMinDots(initMat, eigvecs);
+
+            xScale.domain([1.2 * min, 1.2 * max]).nice();
+            yScale.domain([1.2 * min, 1.2 * max]).nice();
+
+            setDotAttributes(initMat, notNullData);
+
+                
+            contentHandler.selectAll(".dot")
+                .data(notNullData)
+                .join("circle")
+                .attr("class", "dot")
+                .attr("r", 2.5)
+                .style("fill", d => palette(d[newGrouper]));
+
+            drawDots(contentHandler, xScale, yScale);
+
+            contentHandler.selectAll(".line")
+                .data(selectedCols)
+                .join("line")
+                .attr("id", d => `${d.value}_line`)
+                .attr("x1", xScale(0))
+                .attr("y1", yScale(0))
+                .attr("x2", d => xScale(d.pc_1))
+                .attr("y2", d => yScale(d.pc_2))
+                .attr("stroke-width", 3)
+                .style("stroke", "black");
+                
+            contentHandler.selectAll("text.end-axis")
+                .data(selectedCols)
+                .join("text")
+                .attr("class", "label-end-axis")
+                .attr("id", d => `${d.value}_label`)
+                .attr("x", d => xScale(d.pc_1) + 10)
+                .attr("y", d => yScale(d.pc_2) + 0)
+                .text(d => d.value);
+                
+            contentHandler.selectAll("circle.end-axis")
+                .data(selectedCols)
+                .join("circle")
+                .attr("r", 7)
+                .attr("class", "circle-end-axis")
+                .attr("cx", d => xScale(d.pc_1))
+                .attr("cy", d => yScale(d.pc_2))
+                .style("fill", "red")
+                .attr("stroke-width", 3)
+                .style("stroke", "black")
+                .call(drag());
+        }
         legend = drawLegend(svg, categories, width);
-        if (nanFound > 0) {
-            legend.displayMessage(`warn: ${nanFound} NaN found`);
+        if (rawData.length === 0) {
+            legend.displayMessage(`warn! only NaN found`);
+        }
+        else if (nanFound > 0) {
+			legend.displayMessage("warn! # of NaN found:");
+			legend.displayMessage(`${nanFound}/${data.length}`);
         }
     }
 

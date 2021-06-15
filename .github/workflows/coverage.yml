@@ -1,0 +1,34 @@
+name: CI - Code Coverage
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+  workflow_dispatch:
+  
+jobs:
+  coverage-client:
+    name: Test client
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v2
+        
+      - name: Install server modules
+        run: npm ci
+        
+      - name: Install client modules
+        run: |
+          cd client/
+          npm ci
+          
+      - name: Run Jest
+        run: |
+          cd client/
+          npm test -- --coverage   
+        
+      - name: Upload Code Coverage in Codecov
+        uses: codecov/codecov-action@v1
+        with:
+          directory: ./client

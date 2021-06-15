@@ -1,3 +1,4 @@
+/* istanbul ignore file */
 /* eslint-disable no-mixed-operators */
 /* eslint-disable no-invalid-this */
 /* eslint-disable prefer-arrow-callback */
@@ -205,8 +206,9 @@ export const scpMatrix = function(data, cols, grouper, idBox) {
 		});
 		legend = drawLegend(svg, categories, width);
         if (nanFound > 0) {
-            legend.displayMessage(`warn: ${nanFound} NaN found`);
-        }
+			legend.displayMessage("warn! # of NaN found:");
+			legend.displayMessage(`${nanFound}/${data.length}`);
+		}
 	}
 	
 	/**

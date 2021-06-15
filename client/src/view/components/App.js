@@ -115,7 +115,7 @@ const App = () => {
 };
 
 // Forces update of App component to redirect when the store is empty
-const StoreObserver = observer(({ defineStore }) => {
+export const StoreObserver = observer(({ defineStore }) => {
   const str = useStore();
 
   useEffect(() => autorun(() => {

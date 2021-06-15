@@ -1,7 +1,6 @@
 /* eslint-disable object-property-newline */
 /* eslint-disable sort-keys */
 import { beforeAll, describe, expect, test } from '@jest/globals';
-import DistanceBasedGraph from '../../store/Graph/DistanceBasedGraph';
 import DistanceBasedGraphController from '../../controller/DistanceBasedGraphController';
 import DistanceData from '../../store/DistanceData';
 import Store from '../../store/Store';
@@ -108,86 +107,10 @@ describe('Testing DistanceBasedGraphController', () => {
         })
 
         test('Must have correct data', () => {
-            controller.createGraph('testId', 'forceField', 'euclidean', ['sepalLength', 'petalLength', 'petalWidth'], ['species']);
+            controller.createGraph('testId', 'forceField', 'euclidean', ['sepalLength', 'petalLength', 'petalWidth'], ['species'], false);
             const graphs = store.graphs;
             const expected = new DistanceData(nodes, links)
             expect(graphs[0].data).toEqual(expected);
         })
-    })
-
-    describe('Testing changeDistance method', () => {
-
-        beforeEach(() => {
-            store.reset();
-            store.loadData(dataTest);
-            const graphTest = new DistanceBasedGraph('testId', 'forceField', ['species'], new DistanceData(nodes, links));
-            store.addGraph(graphTest);
-        })
-
-        test('Must not be undefined', () => {
-            controller.changeDistance('testId', ['manhattan'], ['sepalLength', 'petalLength', 'petalWidth'], ['species']);
-            expect(store.graphs).not.toBeUndefined();
-        })
-
-        test('Store must contain 1 graph', () => {
-            controller.changeDistance('testId', ['cosine'], ['sepalLength', 'petalLength', 'petalWidth'], ['species']);
-            expect(store.graphs.length).toEqual(1);
-        })
-  
-        test('Must have correct data', () => {
-            controller.changeDistance('testId', ['cosine'], ['sepalLength', 'petalLength', 'petalWidth'], ['species']);
-            const graphs = store.graphs;
-            const nodeExp = [
-                {
-                  sepalLength: 5.1,
-                  petalLength: 1.4,
-                  petalWidth: 0.2,
-                  id: 'nodo_1',
-                  group: 'setosa'
-                },
-                {
-                  sepalLength: 4.9,
-                  petalLength: 1.4,
-                  petalWidth: 0.2,
-                  id: 'nodo_2',
-                  group: 'setosa'
-                },
-                {
-                  sepalLength: 4.7,
-                  petalLength: 1.3,
-                  petalWidth: 0.2,
-                  id: 'nodo_3',
-                  group: 'setosa'
-                },
-                {
-                  sepalLength: 4.6,
-                  petalLength: 1.5,
-                  petalWidth: 0.2,
-                  id: 'nodo_4',
-                  group: 'setosa'
-                },
-                {
-                  sepalLength: 5,
-                  petalLength: 1.4,
-                  petalWidth: 0.2,
-                  id: 'nodo_5',
-                  group: 'setosa'
-                }
-            ];
-            const linksExp = [
-                { source: 'nodo_1', target: 'nodo_2', value: 0.010479153729599375 },
-                { source: 'nodo_1', target: 'nodo_3', value: 0.0037334904969018355 },
-                { source: 'nodo_1', target: 'nodo_4', value: 0.0473976743349866 },
-                { source: 'nodo_1', target: 'nodo_5', value: 0.005142549438814706 },
-                { source: 'nodo_2', target: 'nodo_3', value: 0.008626106067853604 },
-                { source: 'nodo_2', target: 'nodo_4', value: 0.03694408868863787 },
-                { source: 'nodo_2', target: 'nodo_5', value: 0.005336604290815666 },
-                { source: 'nodo_3', target: 'nodo_4', value: 0.04532827637660326 },
-                { source: 'nodo_3', target: 'nodo_5', value: 0.004021287088774651 },
-                { source: 'nodo_4', target: 'nodo_5', value: 0.042266090837841275 }
-            ];
-            const expected = new DistanceData(nodeExp, linksExp);
-            expect(graphs[0].data).toEqual(expected);
-        })        
     })
 })

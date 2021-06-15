@@ -1,0 +1,30 @@
+name: CI - Build
+
+on:
+  push:
+    branches: [main]
+    
+  pull_request:
+    branches: [main]
+    
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v2
+      
+      - name: Install server modules
+        run: npm ci
+        
+      - name: Install client modules
+        run: |
+          cd client/
+          npm ci
+                    
+      - name: Build
+        run: |
+          cd client/
+          npm test

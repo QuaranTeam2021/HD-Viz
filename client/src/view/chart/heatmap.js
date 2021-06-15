@@ -1,3 +1,4 @@
+/* istanbul ignore file */
 /* eslint-disable object-property-newline */
 /* eslint-disable prefer-arrow-callback */
 /* eslint-disable func-names */
@@ -26,6 +27,10 @@ export const heatmap = function (data, idBox) {
   let nodes = data.nodes;
   let links = data.links;
   let orderMode = "none";
+  let linksOriginalCount = 0;
+  let max = -1;
+	let min = Number.MAX_VALUE;
+
   const c = d3.scaleOrdinal(d3.range(10), d3.schemeCategory10);
 
 	let tooltipDiv = d3.select(`#${idBox}`)
@@ -87,7 +92,9 @@ export const heatmap = function (data, idBox) {
   // eslint-disable-next-line func-style
   function updateData(newData) {
     nodes = newData.nodes;
-		links = newData.links;
+		linksOriginalCount = newData.links.length;
+		links = newData.links.filter(item => !isNaN(item.value));
+    updateMaxMin();
     const categories = [...new Set(nodes.map(item => item.group))]; 
 		svg.selectAll(".legend").remove();
     const nodeIds = d3.range(nodes.length);
@@ -226,24 +233,40 @@ export const heatmap = function (data, idBox) {
        prev = permutation; */
     return permutation;
   }
-
-  // eslint-disable-next-line func-style
-  function getMin() {
-		return Math.floor(d3.min(links, d => d.value) * 100) / 100;
+	// eslint-disable-next-line func-style
+	function updateMaxMin() {
+		max = Math.ceil(d3.max(links, d => d.value) * 100) / 100;
+		min = Math.floor(d3.min(links, d => d.value) * 100) / 100;
 	}
 	// eslint-disable-next-line func-style
+	function getMin() {
+		if (min === Number.MAX_VALUE) {
+			updateMaxMin();
+		}
+		return min;
+	}
+	
+	// eslint-disable-next-line func-style
 	function getMax() {
-		return Math.ceil(d3.max(links, d => d.value) * 100) / 100;
+		if (max === -1) {
+			updateMaxMin();
+		}
+		return max;
 	}
 
   // eslint-disable-next-line func-style
   function updateDist(distMin, distMax, ordering) {
-    console.log(distMin, distMax);
     orderMode = ordering;
     const linksToShow = matrix.filter(l => l[2] >= distMin && l[2] <= distMax || l[0] === l[1])
     legend.clearMessageBoard();
-		legend.displayMessage("# of links in range:");
-		legend.displayMessage(`${(linksToShow.length - nodes.length) / 2}/${links.length}`);
+		if (links.length - linksOriginalCount !== 0) {
+			legend.displayMessage("warn! # NaN links found:");
+			legend.displayMessage(`${linksOriginalCount - links.length}/${linksOriginalCount}`);
+		}
+    if (links.length	> 0) {
+			legend.displayMessage("# of links in range:");
+			legend.displayMessage(`${(linksToShow.length - nodes.length) / 2}/${links.length}`);
+		}
     rects = rectHandler
       .selectAll("rect")
       .data(matrix.filter(l => l[2] >= distMin && l[2] <= distMax || l[0] === l[1]))
