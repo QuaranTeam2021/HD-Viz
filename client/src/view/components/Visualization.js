@@ -85,11 +85,10 @@ const Visualization = observer(() => {
 						title = "Proiezione Multiassi";
 						break;
 					default:
-						console.log(`Grafico non supportato ${g.type}`);
+						// console.log(`Grafico non supportato ${g.type}`);
 						title = `Graph ${g.graphId}`;
 						break;
 				}
-				console.log("viz");
 
 				return <GraphContainer key={g.graphId} graphId={g.graphId} graphTitle={title} onDelete={id => store.removeGraph(id)} switchGraph={switchGraph} switchArguments={switchArguments} />;
 			})}
