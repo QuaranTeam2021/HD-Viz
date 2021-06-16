@@ -21,9 +21,7 @@ export default function SCPMOptions({ graphViz, buttonRef, currentOptions, setCu
     }
   }, [buttonRef, commitChanges, graphViz]);
 
-  const onChangeColumns = e => {
-    setSelected(e.target.value);
-  };
+  const onChangeColumns = e => setSelected(e.target.value);
 
   return (
     <div>

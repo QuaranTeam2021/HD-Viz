@@ -17,6 +17,7 @@ describe('Testing Columns component', () => {
                 getStringFeatures: jest.fn()
             }
         });
+        jest.spyOn(React, "useState").mockImplementation(val => [val, jest.fn()]);
         wrapper = mount(<Columns onChangeUploaded={onChangeUploaded} onChangeGrouper={onChangeGrouper} />);
     })
 

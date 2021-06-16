@@ -34,6 +34,7 @@ export default function SliderPerplexity({ perplexity, onChange }) {
         defaultValue={50}
         aria-labelledby="perplexity-slider-label"
         valueLabelDisplay="auto"
+        value={perplexity}
         step={1}
         marks={marks}
         min={2}

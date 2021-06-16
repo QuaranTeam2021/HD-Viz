@@ -1,17 +1,23 @@
-import { afterAll, beforeAll, describe, expect, test } from '@jest/globals';
+import { afterAll, beforeAll, describe, expect, jest, test } from '@jest/globals';
 import Header from '../../../view/components/Header';
+import { MemoryRouter } from 'react-router-dom';
+import { mount } from 'enzyme';
 import React from 'react';
-import { shallow } from 'enzyme';
 
 describe("Header component tests", () => {
 
 	let wrapper;
 
 	beforeAll(() => {
-		wrapper = shallow(<Header />);
+		wrapper = mount(<MemoryRouter><Header storeDefined={jest.fn()}/></MemoryRouter>);
+	})
+
+	beforeEach(() => {
+		jest.clearAllMocks();
 	})
 
 	afterAll(() => {
+		jest.resetAllMocks();
 		wrapper.unmount();
 	})
 

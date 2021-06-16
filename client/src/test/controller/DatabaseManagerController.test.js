@@ -88,7 +88,7 @@ describe('Testing DatabaseManagerController', () => {
             } catch (e) {
                 console.log(e.message)
             }
-            expect(res).toEqual("File successfully uploaded");
+            expect(res).toEqual("Aggiunto dataset iris_dataset");
         })
     })
 
@@ -127,7 +127,7 @@ describe('Testing DatabaseManagerController', () => {
 
         test('deleteTable must return', async () => {
             fetch.mockImplementationOnce(() => Promise.resolve({
-                json: () => Promise.resolve("The table iris_dataset was successfully deleted"),
+                json: () => Promise.resolve("La tabella iris_dataset è stata eliminata!"),
                 ok: true
             }));
             let res;
@@ -136,7 +136,7 @@ describe('Testing DatabaseManagerController', () => {
             } catch (e) {
                 console.log(e.message)
             }
-            expect(res).toEqual("The table iris_dataset was successfully deleted");
+            expect(res).toEqual("La tabella iris_dataset è stata eliminata!");
         })
     })
 })

@@ -38,20 +38,14 @@ describe('Testing LocalLoaderController', () => {
         readAsTextSpy.mockRestore();
     })
 
-    test('Must not call readAsText', () => {
+    test('Must not call readAsText', async () => {
         const emptyFile = new File([], 'empty.csv', { type: 'test/csv' });
-        loaderCtrl.parse(emptyFile);
-        expect(readAsTextSpy).toBeCalledTimes(0);
-    })
-
-    test('Must call readAsText with file of type csv', () => {
-        loaderCtrl.parse(fileCsv);
-        expect(readAsTextSpy).toBeCalledTimes(1);
-        expect(readAsTextSpy).toBeCalledWith(fileCsv, "utf-8");
-    })
-
-    test('Must call readAsText with file of type json', () => {
-        loaderCtrl.parse(fileJson);
-        expect(readAsTextSpy).toBeCalledWith(fileJson, "utf-8");
+        try {
+            await loaderCtrl.parse(emptyFile);
+        } catch (e) {
+            console.log(e)
+        } finally {
+            expect(readAsTextSpy).toBeCalledTimes(0);
+        }
     })
 })

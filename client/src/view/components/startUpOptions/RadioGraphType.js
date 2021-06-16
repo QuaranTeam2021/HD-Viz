@@ -11,6 +11,9 @@ const useStyles = makeStyles(theme => ({
   formControl: {
     margin: theme.spacing(3),
   },
+  formLabel: {
+    fontWeight: 'bold',
+  },
   root: {
     display: 'flex',
   }
@@ -32,7 +35,7 @@ export default function RadioGraphType({ onChange }) {
   return (
     <div className={classes.root} id="graph">
       <FormControl component="fieldset" className={classes.formControl}>
-        <FormLabel component="legend" >Grafico: </FormLabel>
+        <FormLabel component="legend" className={classes.formLabel}>Grafico: </FormLabel>
         <RadioGroup aria-label="position" name="position" position="left" onChange={onChange}>
           <FormControlLabel value="scptMat" control={<PurpleRadio color="primary" />} label="Scatterplot Matrix" />
           <FormControlLabel value="htmp" control={<PurpleRadio color="primary" />} label="HeatMap" />
