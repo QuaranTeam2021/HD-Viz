@@ -27,7 +27,7 @@ export default class LocalLoaderController {
                                 reject("Il file caricato è vuoto");
                             }
                             else if (result.data.length > 2000) {
-                                reject("Il file caricato è troppo grande");
+                                reject("Il file caricato è troppo grande, deve contenere massimo 2000 righe");
                             }
                             else {
                                 this.store.loadData(result.data);     
@@ -43,7 +43,7 @@ export default class LocalLoaderController {
             }
         } else {
             if (file.size <= 0) return Promise.reject("File undefined");
-            return Promise.reject("Il file caricato è troppo grande");
+            return Promise.reject("Il file caricato è troppo grande, deve contenere massimo 2000 righe");
         }
     }
 
