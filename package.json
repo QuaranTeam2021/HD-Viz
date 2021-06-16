@@ -1,6 +1,6 @@
 {
   "name": "hdviz",
-  "version": "0.8.0",
+  "version": "1.0.0",
   "description": "Progetto di Ingegneria del Software 2020/2021, HD-Viz, proposto da Zucchetti S.p.A.",
   "main": "server/server.js",
   "scripts": {

@@ -56,7 +56,7 @@ export default class DatabaseTablesController {
                 let columns = [];
                 jsonData.forEach(el => columns.push(el.column_name));
                 if (columns.length !== 0) columns = columns.flat();
-                console.log(columns)
+                // console.log(columns)
                 return columns.length === 0 ? "La tabella selezionata non contiene colonne" : columns;
             }
             return [];

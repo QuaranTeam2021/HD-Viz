@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 
 export default function Graph({ graphId }) {
 	useEffect(() => {
-		console.log(`Render graph component ${graphId}`);
+		// console.log(`Render graph component ${graphId}`);
 	}, [graphId])
 
 	return (

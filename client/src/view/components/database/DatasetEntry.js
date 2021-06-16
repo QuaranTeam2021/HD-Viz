@@ -14,7 +14,7 @@ const useStyles = makeStyles(theme => ({
 export default function DatasetEntry({ dsName, onClickDelete }) {
 	const classes = useStyles();
 	return (
-		<Card variant="outlined" elevation="0">
+		<Card variant="outlined" elevation={0}>
 			<CardContent className={classes.content}>
 				{dsName}
 			</CardContent>

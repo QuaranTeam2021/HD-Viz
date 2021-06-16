@@ -83,7 +83,7 @@ export default function Database() {
     const onChangeName = e => {
         let n = e.target.value;
         let parsedN = parseName(n);
-        console.log(parsedN)
+        // console.log(parsedN)
         if (n === parsedN) {
             setName(n);
             setTableName(n);
