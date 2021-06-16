@@ -82,7 +82,7 @@ const App = () => {
                   <BuildGraph />
                 </Route>
                 <Route path="/visualization">
-                  {storeDefined ? <Visualization /> : <Redirect to="/" /> }
+                  {storeDefined ? <Visualization /> : <Redirect to="/build" /> }
                 </Route>
                 <Route path="/dataset">
                   <Database />
